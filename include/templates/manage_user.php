@@ -25,8 +25,6 @@ $mastermodule    = '';
 $company_creation      = '';
 $branch_creation = '';
 $loan_category ='';
-$loan_calculation   = '';
-$loan_scheme   = '';
 $area_creation        = '';
 $area_mapping        = '';
 $area_status        = '';
@@ -165,8 +163,6 @@ if($idupd>0)
 			$company_creation          		     = $getUser['company_creation'];
 			$branch_creation          		     = $getUser['branch_creation'];
 			$loan_category          		     = $getUser['loan_category'];
-			$loan_calculation          		     = $getUser['loan_calculation'];
-			$loan_scheme          		     = $getUser['loan_scheme'];
 			$area_creation          		     = $getUser['area_creation'];
 			$area_mapping          		     = $getUser['area_mapping'];
 			$area_status          		     = $getUser['area_approval'];
@@ -368,7 +364,6 @@ if($idupd>0)
 												<thead>
 													<tr>
 														<th>Loan Category</th>
-														<th>Sub Category</th>
 														<th>Scheme</th>
 														<th>Loan Payment</th>
 														<th>Responsible</th>
@@ -580,18 +575,6 @@ if($idupd>0)
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($loan_calculation==0){ echo'checked'; }} ?> tabindex="15" class=" master-checkbox" id="loan_calculation" name="loan_calculation" disabled >&nbsp;&nbsp;
-                                <label class="custom-control-label" for="loan_calculation">Loan Calculation</label>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($loan_scheme==0){ echo'checked'; }} ?> tabindex="16" class=" master-checkbox" id="loan_scheme" name="loan_scheme" disabled >&nbsp;&nbsp;
-                                <label class="custom-control-label" for="loan_scheme">Loan Scheme</label>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                            <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($area_creation==0){ echo'checked'; }} ?> tabindex="17" class=" master-checkbox" id="area_creation" name="area_creation" disabled >&nbsp;&nbsp;
                                 <label class="custom-control-label" for="area_creation">Area Creation</label>
                             </div>
@@ -650,12 +633,6 @@ if($idupd>0)
                                 <label class="custom-control-label" for="bank_creation">Bank Creation</label>
                             </div>
                         </div>
-                        <!-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($doc_mapping==0){ echo'checked'; }} ?> tabindex="24" class=" admin-checkbox" id="doc_mapping" name="doc_mapping" disabled>&nbsp;&nbsp;
-                                <label class="custom-control-label" for="doc_mapping">Documentation Mapping</label>
-                            </div>
-                        </div> -->
 					</div>
 
 					<hr>
@@ -814,30 +791,6 @@ if($idupd>0)
                         </div>
 					</div>
 					
-					<!--<hr>
-
-					 <div class="custom-control custom-checkbox">
-						<input type="checkbox" value="Yes" <?php if($idupd > 0){ if($doctrackmodule==0){ echo'checked'; }} ?> tabindex="25" class="" id="doctrackmodule" name="doctrackmodule" >&nbsp;&nbsp;
-						<label class="custom-control-label" for="doctrackmodule">
-							<h5>Document Track</h5>
-						</label>
-					</div>
-					<br>
-					<div class="row">
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($doctrack==0){ echo'checked'; }} ?> tabindex="25" class="doctrack-checkbox" id="doctrack" name="doctrack" disabled>&nbsp;&nbsp;
-                                <label class="custom-control-label" for="doctrack">Document Track</label>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($doc_rec_access==0){ echo'checked'; }} ?> tabindex="25" class="doctrack-checkbox" id="doc_rec_access" name="doc_rec_access" disabled>&nbsp;&nbsp;
-                                <label class="custom-control-label" for="doc_rec_access">Document Receive Access</label>
-                            </div>
-                        </div>
-					</div> -->
-
 					<hr>
 
 					<div class="custom-control custom-checkbox">

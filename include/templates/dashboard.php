@@ -35,7 +35,7 @@ $getValues = $userObj->getDataForDashboard($mysqli, $userid);
 <div class="main-container">
 	<!--form start-->
 	<form id="dashboard_form" name="dashboard_form" action="" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="sub_area_list" id="sub_area_list" value=''>
+		<input type="hidden" name="area_list" id="area_list" value=''>
 		<?php if ($userRole == 2) { ?>
 			<!-- Row start -->
 			<p class="heading-list wow fadeInUp">Request</p>

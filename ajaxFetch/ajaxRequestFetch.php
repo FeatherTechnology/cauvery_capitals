@@ -23,9 +23,7 @@ $column = array(
     'ag.group_name',
     'alm.line_name',
     'a.area_name',
-    'sa.sub_area_name',
     'lcc.loan_category_creation_name',
-    'rc.sub_category',
     'rc.loan_amt',
     'rc.user_type',
     'rc.user_name',
@@ -36,25 +34,23 @@ $column = array(
     'rc.status'
 );
 
-$query = "SELECT rc.*, a.area_name, sa.sub_area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
+$query = "SELECT rc.*, a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
     FROM request_creation rc
     JOIN area_list_creation a ON rc.area = a.area_id
-    JOIN sub_area_list_creation sa ON rc.sub_area = sa.sub_area_id
-    JOIN area_group_mapping ag ON FIND_IN_SET(sa.sub_area_id, ag.sub_area_id)
+    JOIN area_group_mapping ag ON FIND_IN_SET(a.area_id, ag.area_id)
     JOIN branch_creation bc ON ag.branch_id = bc.branch_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(sa.sub_area_id, alm.sub_area_id)
+    JOIN area_line_mapping alm ON FIND_IN_SET(a.area_id, alm.area_id)
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = rc.loan_category
     WHERE rc.status = 0 
     AND (rc.cus_status NOT IN (4, 5, 6, 7, 8, 9) AND rc.cus_status < 14) 
     AND rc.insert_login_id = '$userid' "; //hide if issued or revoked(after issued cus_status = 7 , request revoked = 8, verification revoked = 9)
 if ($userid == 1 or $request_list_access == 0) { //if request_list_access is granted to the current user
-    $query = "SELECT rc.*, a.area_name, sa.sub_area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
+    $query = "SELECT rc.*, a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
     FROM request_creation rc
     JOIN area_list_creation a ON rc.area = a.area_id
-    JOIN sub_area_list_creation sa ON rc.sub_area = sa.sub_area_id
-    JOIN area_group_mapping ag ON FIND_IN_SET(sa.sub_area_id, ag.sub_area_id)
+    JOIN area_group_mapping ag ON FIND_IN_SET(a.area_id, ag.area_id)
     JOIN branch_creation bc ON ag.branch_id = bc.branch_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(sa.sub_area_id, alm.sub_area_id)
+    JOIN area_line_mapping alm ON FIND_IN_SET(a.area_id, alm.area_id)
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = rc.loan_category
     WHERE rc.status = 0 
     AND (rc.cus_status NOT IN (4, 5, 6, 7, 8, 9) AND rc.cus_status < 14) ";
@@ -68,14 +64,11 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
             OR ag.group_name LIKE '%" . $_POST['search'] . "%'
             OR alm.line_name LIKE '%" . $_POST['search'] . "%'
             OR a.area_name LIKE '%" . $_POST['search'] . "%'
-            OR sa.sub_area_name LIKE '%" . $_POST['search'] . "%'
             OR lcc.loan_category_creation_name LIKE '%" . $_POST['search'] . "%'
-            OR rc.sub_category LIKE '%" . $_POST['search'] . "%'
             OR rc.loan_amt LIKE '%" . $_POST['search'] . "%'
             OR rc.user_type LIKE '%" . $_POST['search'] . "%'
             OR rc.responsible LIKE '%" . $_POST['search'] . "%'
-            OR rc.cus_data LIKE '%" . $_POST['search'] . "%')  ";
-    // OR rc.user_name LIKE '%" . $_POST['search'] . "%' 
+            OR rc.cus_data LIKE '%" . $_POST['search'] . "%')  "; 
 }
 // print_r($query);die;
 if (isset($_POST['order'])) {
@@ -119,9 +112,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['line_name'];
     $sub_array[] = $row['mobile1'];
     $sub_array[] = $row['area_name'];
-    $sub_array[] = $row['sub_area_name'];
     $sub_array[] = $row["loan_category_creation_name"];
-    $sub_array[] = $row['sub_category'];
 
     $sub_array[] = moneyFormatIndia($row['loan_amt']);
     $sub_array[] = $row['user_type'];

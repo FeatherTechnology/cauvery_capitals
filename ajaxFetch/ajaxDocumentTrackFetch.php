@@ -19,7 +19,6 @@ $column = array(
     'cr.customer_name',
     'bc.branch_name',
     'al.area_name',
-    'sal.sub_area_name',
     'agm.group_name',
     'alm.line_name',
     'dt.id',
@@ -28,14 +27,13 @@ $column = array(
 );
 
 // Base query
-$query = "SELECT dt.*, cr.customer_name, bc.branch_name, al.area_name, sal.sub_area_name, agm.group_name, alm.line_name, cr.sub_area
+$query = "SELECT dt.*, cr.customer_name, bc.branch_name, al.area_name, agm.group_name, alm.line_name
         FROM document_track dt
         JOIN customer_register cr ON dt.cus_id = cr.cus_id
         JOIN area_list_creation al ON cr.area = al.area_id
-        JOIN sub_area_list_creation sal ON cr.sub_area = sal.sub_area_id
-        LEFT JOIN area_group_mapping agm ON FIND_IN_SET(cr.sub_area, agm.sub_area_id)
+        LEFT JOIN area_group_mapping agm ON FIND_IN_SET(al.area_id, agm.area_id)
         LEFT OUTER JOIN branch_creation bc ON agm.branch_id = bc.branch_id
-        LEFT OUTER JOIN area_line_mapping alm ON FIND_IN_SET(cr.sub_area, alm.sub_area_id)
+        LEFT OUTER JOIN area_line_mapping alm ON FIND_IN_SET(cr.area, alm.area_id)
         WHERE dt.track_status != 5";
 
 // Apply user-specific filter
@@ -88,7 +86,6 @@ foreach ($result as $row) {
     $sub_array[] = $cus_name; //cus name column
     $sub_array[] = $row['branch_name']; //Branch name column
     $sub_array[] = $row['area_name']; //area name column
-    $sub_array[] = $row['sub_area_name']; //sub area name column
     $sub_array[] = $row['group_name']; //group name column
     $sub_array[] = $row['line_name']; //line name column
 
@@ -121,7 +118,7 @@ foreach ($result as $row) {
 
     } elseif ($track_status == '4') {
 
-        $branchqry = $connect->query("SELECT bc.branch_name FROM area_line_mapping lm JOIN branch_creation bc ON lm.branch_id = bc.branch_id where FIND_IN_SET('" . $row['sub_area'] . "' , lm.sub_area_id) ");
+        $branchqry = $connect->query("SELECT bc.branch_name FROM area_line_mapping lm JOIN branch_creation bc ON lm.branch_id = bc.branch_id where FIND_IN_SET('" . $row['area'] . "' , lm.area_id) ");
         $sub_array[] = $branchqry->fetch()['branch_name'] . " Branch"; //document keeper column
 
     }

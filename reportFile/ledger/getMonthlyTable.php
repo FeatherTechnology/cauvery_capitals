@@ -20,20 +20,20 @@ if ($userid != 1) {
     
     if ($report_access == '1') { //Report access individual.
         $line_id = explode(',', $line_id);
-        $sub_area_list = array();
+        $area_list = array();
         foreach ($line_id as $line) {
             $lineQry = $connect->query("SELECT * FROM area_line_mapping where map_id = $line ");
             $row_sub = $lineQry->fetch();
-            $sub_area_list[] = $row_sub['sub_area_id'];
+            $area_list[] = $row_sub['area_id'];
         }
-        $sub_area_ids = array();
-        foreach ($sub_area_list as $subarray) {
-            $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
+        $area_ids = array();
+        foreach ($area_list as $subarray) {
+            $area_ids = array_merge($area_ids, explode(',', $subarray));
         }
-        $sub_area_list = array();
-        $sub_area_list = implode(',', $sub_area_ids);
+        $area_list = array();
+        $area_list = implode(',', $area_ids);
 
-        $user_based = " AND (select area_confirm_subarea from customer_profile where req_id = cp.req_id) IN ($sub_area_list) AND cp.insert_login_id = '$userid' ";
+        $user_based = " AND (select area_confirm_area from customer_profile where req_id = cp.req_id) IN ($area_list) AND cp.insert_login_id = '$userid' ";
     }
 }
 
@@ -49,17 +49,14 @@ $qry = $connect->query("
         cp.req_id,
         cp.cus_name,
         cp.area_confirm_area as area_id,
-        cp.area_confirm_subarea as sub_area_id,
         ii.updated_date as loan_date,
         lc.maturity_month as maturity_date,
         lc.loan_category as loan_cat_id,
-        lc.sub_category,
         lc.due_amt_cal as due_amt,
         lc.int_amt_cal as int_amt,
         lc.tot_amt_cal,
         lc.principal_amt_cal,
         al.area_name,
-        sal.sub_area_name,
         lcc.loan_category_creation_name,
         (SELECT sum(due_amt_track) as due_amt_track FROM collection where req_id = cp.req_id) as total_paid,
         (SELECT bal_amt - due_amt_track as bal_amt FROM collection where req_id = cp.req_id and (month(date(coll_date)) <= month('$monthly_date') 
@@ -70,7 +67,6 @@ $qry = $connect->query("
         JOIN loan_issue li ON cp.req_id = li.req_id
         JOIN in_issue ii ON cp.req_id = ii.req_id  
         JOIN area_list_creation al ON cp.area_confirm_area = al.area_id
-        JOIN sub_area_list_creation sal ON cp.area_confirm_subarea = sal.sub_area_id
         JOIN loan_category_creation lcc ON lc.loan_category = lcc.loan_category_creation_id
     WHERE 
         (ii.cus_status >= 14 && ii.cus_status < 20) 
@@ -122,11 +118,8 @@ $months = generateMonths($startDate, $endDate);
         <th>S.No</th>
         <th>Customer Name</th>
         <th>Area</th>
-        <th>Sub Area</th>
         <th>Loan Date</th>
         <th>Maturity Date</th>
-        <th>Loan Category</th>
-        <th>Sub Category</th>
         <th>Due Amount</th>
         <th>Opening Balance</th>
         <?php
@@ -153,11 +146,9 @@ $months = generateMonths($startDate, $endDate);
                     <td><?php echo $i++; ?></td>
                     <td><?php echo $row['cus_name']; ?></td>
                     <td><?php echo $row['area_name']; ?></td>
-                    <td><?php echo $row['sub_area_name']; ?></td>
                     <td><?php echo date('d-m-Y', strtotime($row['loan_date'])); ?></td>
                     <td><?php echo date('d-m-Y', strtotime($row['maturity_date'])); ?></td>
                     <td><?php echo $row['loan_category_creation_name']; ?></td>
-                    <td><?php echo $row['sub_category']; ?></td>
                     <!-- used ternary operator cause monthly loans may not have due amt for interest loans, so showed interest amt instead due amt -->
                     <td><?php echo moneyFormatIndia($row['due_amt'] != '' ? $row['due_amt'] : $row['int_amt']); ?></td>
                     <td>
@@ -201,7 +192,7 @@ $months = generateMonths($startDate, $endDate);
     </tbody>
     <tfoot>
         <?php
-        $tfoot = "<tr><td colspan='8'><b>Total</b></td><td><b>" . moneyFormatIndia($due_amt_sum) . "</b></td><td><b>" . moneyFormatIndia($opening_balance_sum) . "</b></td><td colspan=".$total_months."></td><td><b>" . moneyFormatIndia($total_paid_sum) . "</b></td><td><b>" . moneyFormatIndia($closing_balance_sum) . "</b></td></tr>";
+        $tfoot = "<tr><td colspan='5'><b>Total</b></td><td><b>" . moneyFormatIndia($due_amt_sum) . "</b></td><td><b>" . moneyFormatIndia($opening_balance_sum) . "</b></td><td colspan=".$total_months."></td><td><b>" . moneyFormatIndia($total_paid_sum) . "</b></td><td><b>" . moneyFormatIndia($closing_balance_sum) . "</b></td></tr>";
         echo $tfoot;
         ?>
     </tfoot>

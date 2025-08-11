@@ -616,7 +616,7 @@ function getAgentDetails(ag_id) {
             $('#userInfoTable').append(`<tbody><tr><td>` + response[0]['ag_code'] + `</td><td>` + response[0]['ag_name'] + `</td><td>` + response[0]['mail'] + `</td></tr></tbody>`);
 
             $('#conditionalInfo tbody').empty();
-            $('#conditionalInfo').append(`<tbody><tr><td>` + response[0]['loan_category'] + `</td><td>` + response[0]['sub_category'] + `</td>
+            $('#conditionalInfo').append(`<tbody><tr><td>` + response[0]['loan_category'] + `</td>
             <td>`+ response[0]['scheme'] + `</td><td>` + response[0]['loan_payment'] + `</td><td>` + response[0]['responsible'] + `</td><td>` + response[0]['collection_point'] + `</td></tr></tbody>`);
 
             if (response[0]['collection_point'] == 'Yes') {

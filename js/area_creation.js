@@ -1,15 +1,16 @@
 //Sub Area Multi select initialization
-const intance = new Choices('#sub_area1', {
-    removeItemButton: true,
-    noChoicesText: 'Select Sub Area',
-    allowHTML: true
-});
+// const intance = new Choices('#sub_area1', {
+//     removeItemButton: true,
+//     noChoicesText: 'Select Sub Area',
+//     allowHTML: true
+// });
 
 // Document is ready
 $(document).ready(function () {
 
     $("#state").change(function () {
         var StateSelected = $(this).val();
+        console.log("stats",StateSelected)
         getDistrictDropdown(StateSelected);
     });
 
@@ -26,27 +27,12 @@ $(document).ready(function () {
         resetAreaTable(talukselected);
     })
 
-    $('#area').change(function () {
-        var areaselected = $('#area').val();
-        getAreaBasedSubArea(areaselected);
-        resetSubAreaTable(areaselected);
-    })
-
     $('#add_area').click(function () {
         var taluk = $('#taluk1').val();
         if (taluk == '') {
             alert('Please Select Taluk Name');
         } else {
             $('#add_area').attr({ "data-toggle": "modal", "data-target": ".add_area" });
-        }
-    })
-
-    $('#add_sub_area').click(function () {
-        var area = $('#area').val();
-        if (area == '') {
-            alert('Please Select Area Name');
-        } else {
-            $('#add_sub_area').attr({ "data-toggle": "modal", "data-target": ".add_sub_area" });
         }
     })
 
@@ -100,10 +86,9 @@ $(document).ready(function () {
 
     //on submit add sub area list to hidden input
     $('#submit_area_creation').click(function () {
-        var sub_area_list = intance.getValue();
         //Validation
         var state = $('#state').val(); var district = $('#district').val(); var taluk = $('#taluk').val(); var area = $('#area').val();
-        if (state == '' || district == '' || taluk == '' || area == '' || sub_area_list.length == 0) {
+        if (state == '' || district == '' || taluk == '' || area == '') {
             Swal.fire({
                 timerProgressBar: true,
                 timer: 2000,
@@ -114,16 +99,6 @@ $(document).ready(function () {
             });
             return false;
         }
-
-        var sub_area_list = intance.getValue();
-        var sub_area = '';
-        for (var i = 0; i < sub_area_list.length; i++) {
-            if (i > 0) {
-                sub_area += ',';
-            }
-            sub_area += sub_area_list[i].value;
-        }
-        $('#sub_area').val(sub_area);
 
     })
 
@@ -145,8 +120,6 @@ $(function () {
         getTalukBasedArea(taluk_upd);
         resetAreaTable(taluk_upd);
 
-        getAreaBasedSubArea(area_upd);
-        resetSubAreaTable(area_upd);
     }
 })
 
@@ -410,47 +383,6 @@ function getTalukBasedArea(talukselected) {
                 }));
                 $("#area").prepend(firstOption);
             }
-        }
-    });
-}
-//Get Area Based Sub Area
-function getAreaBasedSubArea(area) {
-    var sub_area_upd = $('#sub_area_upd').val();
-    var values = sub_area_upd.split(',');
-
-    $.ajax({
-        url: 'areaCreation/ajaxGetSubAreaName.php',
-        type: 'post',
-        data: { 'area': area },
-        dataType: 'json',
-        success: function (response) {
-
-            var len = response.length;
-            intance.clearStore();
-            for (var i = 0; i < len; i++) {
-                var sub_area_id = response[i]['sub_area_id'];
-                var sub_area_name = response[i]['sub_area_name'];
-                var checked = response[i]['disabled'];
-                var selected = '';
-                if (sub_area_upd != '' && values.includes(sub_area_id.toString())) {
-                    selected = 'selected';
-                    checked = false;
-                }
-                var items = [
-                    {
-                        value: sub_area_id,
-                        label: sub_area_name,
-                        selected: selected,
-                        disabled: checked,
-                    }
-                ];
-
-                intance.setChoices(items);
-                intance.init();
-            }
-
-            $("#sub_area_name").val('');
-            $("#sub_area_id").val('');
         }
     });
 }
@@ -761,8 +693,4 @@ function getAreaBasedSubArea(area) {
         });
     });
 
-    function closeSubModal() {
-        var area = $('#area').val();
-        getAreaBasedSubArea(area)
-    }
 }

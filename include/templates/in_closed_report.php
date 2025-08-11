@@ -32,9 +32,7 @@
 									<th>Cust. ID</th>
 									<th>Cust. Name</th>
 									<th>Area</th>
-									<th>Sub Area</th>
 									<th>Loan Category</th>
-									<th>Sub Category</th>
 									<th>Agent Name</th>
 									<th>Loan Amount</th>
 									<th>Maturity Date</th>
@@ -44,9 +42,9 @@
 								<tbody></tbody>
 								<tfoot>
 									<tr>
-										<td colspan="12"></td>
+										<td colspan="10"></td>
 										<td></td>
-										<td colspan="3"></td>
+										<td colspan="1"></td>
 									</tr>
 								</tfoot>
 							</table>

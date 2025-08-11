@@ -1,12 +1,12 @@
 <?php
 require '../ajaxconfig.php';
 
-if (isset($_POST['loan_sub_id'])) {
-    $sub_category = $_POST['loan_sub_id'];
+if (isset($_POST['loan_category'])) {
+    $loan_category = $_POST['loan_category'];
 }
 
 $limit = array();
-$loanLimit = $connect->query("SELECT loan_limit FROM `loan_calculation` WHERE sub_category = '" . strip_tags($sub_category) . "' ");
+$loanLimit = $connect->query("SELECT loan_limit FROM `loan_calculation` WHERE loan_category = '" . strip_tags($loan_category) . "' ");
 $cnt = $loanLimit->rowCount();
 if ($cnt > 0) {
     while ($amnt = $loanLimit->fetch()) {

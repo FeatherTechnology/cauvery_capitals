@@ -10,18 +10,18 @@ if ($user_id != '') { //to get user's sub area id based on user's branch assigne
         $group_id = $rowuser['group_id'];
     }
     $group_id = explode(',', $group_id);
-    $sub_area_list = array();
+    $area_list = array();
     foreach ($group_id as $group) {
-        $groupQry = $connect->query("SELECT sub_area_id FROM area_group_mapping where map_id = $group ");
+        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping where map_id = $group ");
         $row_sub = $groupQry->fetch();
-        $sub_area_list[] = $row_sub['sub_area_id'];
+        $area_list[] = $row_sub['area_id'];
     }
-    $sub_area_ids = array();
-    foreach ($sub_area_list as $subarray) {
-        $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
+    $area_ids = array();
+    foreach ($area_list as $subarray) {
+        $area_ids = array_merge($area_ids, explode(',', $subarray));
     }
-    $sub_area_list = array();
-    $sub_area_list = implode(',', $sub_area_ids);
+    $area_list = array();
+    $area_list = implode(',', $area_ids);
 }
 
 
@@ -56,7 +56,7 @@ if ($type == 'today') {
     
 }
 
-$condition = ($user_id != '') ? " and FIND_IN_SET(iv.sub_area ,'" . $sub_area_list . "') " : ''; //this condition will check user based request ids in in_verification table
+$condition = ($user_id != '') ? " and FIND_IN_SET(iv.area ,'" . $area_list . "') " : ''; //this condition will check user based request ids in in_verification table
 getDetials($connect, $condition, $where, $coll_where);
 
 

@@ -60,13 +60,13 @@ function callOnClickEvents() {
                         $('#cusHistoryTable').empty();
                         $('#cusHistoryTable').html(response);
                         $('#cusHistoryTable tbody tr').each(function () {
-                            var val = $(this).find('td:nth-child(6)').html();
+                            var val = $(this).find('td:nth-child(5)').html();
                             if (['Request', 'Verification', 'Approval', 'Acknowledgement', 'Issue'].includes(val)) {
-                                $(this).find('td:nth-child(6)').css({ 'backgroundColor': 'rgba(240, 0, 0, 0.8)', 'color': 'white', 'fontWeight': 'Bolder' });
+                                $(this).find('td:nth-child(5)').css({ 'backgroundColor': 'rgba(240, 0, 0, 0.8)', 'color': 'white', 'fontWeight': 'Bolder' });
                             } else if (val == 'Present') {
-                                $(this).find('td:nth-child(6)').css({ 'backgroundColor': 'rgba(0, 160, 0, 0.8)', 'color': 'white', 'fontWeight': 'Bolder' });
+                                $(this).find('td:nth-child(5)').css({ 'backgroundColor': 'rgba(0, 160, 0, 0.8)', 'color': 'white', 'fontWeight': 'Bolder' });
                             } else if (val == 'Closed') {
-                                $(this).find('td:nth-child(6)').css({ 'backgroundColor': 'rgba(0, 0, 255, 0.8)', 'color': 'white', 'fontWeight': 'Bolder' });
+                                $(this).find('td:nth-child(5)').css({ 'backgroundColor': 'rgba(0, 0, 255, 0.8)', 'color': 'white', 'fontWeight': 'Bolder' });
                             }
 
                         });

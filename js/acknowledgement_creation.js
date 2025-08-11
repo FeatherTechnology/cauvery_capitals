@@ -50,12 +50,12 @@ $(document).ready(function () {
             onLoadEditFunction();
             getUserBasedLoanCategory().then(function () {
                 var loan_category = $('#loan_category').val(); // Get the selected loan category
-                return getSubCategory(loan_category); // Return the promise from getSubCategory
+                return ; // Return the promise from getSubCategory
             }).then(function () {
                 // After both functions are executed
-                var sub_cat_id = $('#sub_category').val();
+                var loan_category = $('#loan_category').val();
                 getCategoryInfo();
-                getLoaninfo(sub_cat_id);
+                getLoaninfo(loan_category);
                 profitCalculationInfo();
             });
 
@@ -1050,10 +1050,6 @@ $(function () {
     if (taluk_upd != '') {
         getTalukBasedArea(taluk_upd);
     }
-    var area_upd = $('#area_upd').val();
-    if (area_upd != '') {
-        getAreaBasedSubArea(area_upd);
-    }
 
 
     $('.modalTable').DataTable({
@@ -1626,29 +1622,6 @@ function getTalukBasedArea(talukselected) {
                     return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
                 }));
                 $("#area").prepend(firstOption);
-            }
-        }
-    });
-}
-
-//Get Area Based Sub Area
-function getAreaBasedSubArea(area) {
-    var sub_area_upd = $('#sub_area_upd').val();
-    $.ajax({
-        url: 'requestFile/ajaxGetEnabledSubArea.php',
-        type: 'post',
-        data: { 'area': area },
-        dataType: 'json',
-        success: function (response) {
-
-            $('#sub_area').empty();
-            $('#sub_area').append("<option value='' >Select Sub Area</option>");
-            for (var i = 0; i < response.length; i++) {
-                var selected = '';
-                if (sub_area_upd != undefined && sub_area_upd != '' && sub_area_upd == response[i]['sub_area_id']) {
-                    selected = 'selected';
-                }
-                $('#sub_area').append("<option value='" + response[i]['sub_area_id'] + "' " + selected + ">" + response[i]['sub_area_name'] + " </option>");
             }
         }
     });
@@ -2478,7 +2451,7 @@ $('#submit_documentation').click(function () {
 });
 
 function doc_submit_validation(submit_btn) {
-
+ 
     var cus_id_doc = $('#cus_id_doc').val(); var mortgage_process = $('#mortgage_process').val(); var Propertyholder_type = $('#Propertyholder_type').val(); var doc_property_pype = $('#doc_property_pype').val(); var doc_property_measurement = $('#doc_property_measurement').val(); var doc_property_location = $('#doc_property_location').val(); var doc_property_value = $('#doc_property_value').val();
     var endorsement_process = $('#endorsement_process').val(); var owner_type = $('#owner_type').val(); var vehicle_type = $('#vehicle_type').val(); var vehicle_process = $('#vehicle_process').val();
     var en_Company = $('#en_Company').val(); var en_Model = $('#en_Model').val();
@@ -2491,8 +2464,6 @@ function doc_submit_validation(submit_btn) {
 
     var vehicle_reg_no = $('#vehicle_reg_no').val();
     var endorsement_name = $('#endorsement_name').val(); var en_RC = $('#en_RC').val(); var en_Key = $('#en_Key').val();
-
-    // var fingerprint = $('#fingerprint').val(); var submitted = $('#submitted').val();
 
     if (cus_id_doc == '') {
         Swal.fire({
@@ -2725,10 +2696,10 @@ $('#Communitcation_to_cus').change(function () {
     }
 })
 
-$('#loan_category').change(function () {
-    var loan_cat = $(this).val();
-    getSubCategory(loan_cat);
-})
+// $('#loan_category').change(function () {
+//     var loan_cat = $(this).val();
+//     getSubCategory(loan_cat);
+// })
 
 $('#refresh_cal').click(function () {
     performLoanCalculation();
@@ -2841,13 +2812,13 @@ function getUserBasedLoanCategory() {
                     if (loan_category != undefined && loan_category != '' && loan_category == response[i]['loan_category_id']) {
                         selected = 'selected';
                         $('#loan_category_ack').val(response[i]['loan_category_id']);
-                        getSubCategory(response[i]['loan_category_id']);
+                        // getSubCategory(response[i]['loan_category_id']);
                     }
                 } else {
                     if (loan_category_upd != undefined && loan_category_upd != '' && loan_category_upd == response[i]['loan_category_id']) {
                         selected = 'selected';
                         $('#loan_category_ack').val(response[i]['loan_category_id']);
-                        getSubCategory(response[i]['loan_category_id']);
+                        // getSubCategory(response[i]['loan_category_id']);
                     }
                 }
 
@@ -2893,12 +2864,10 @@ function getSubCategory(loan_cat) {
 
 //Get Category info From Request
 function getCategoryInfo() {
-    var sub_category_upd = $('#sub_category_upd').val();
-    var sub_cat = $('#sub_category').val();
     var loan_category = $('#loan_category_load').val();
     $.ajax({
         url: 'requestFile/getCategoryInfo.php',
-        data: { 'sub_cat': sub_cat,'loan_category':loan_category },
+        data: { 'loan_category':loan_category },
         dataType: 'json',
         type: 'post',
         cache: false,
@@ -2921,7 +2890,7 @@ function getCategoryInfo() {
                 var category_content = $('#moduleTable tbody tr').html(); //To get the appended category list
 
                 var category_count = $('#moduleTable tbody tr').find('td').length - 2;//To find input fields count
-                getCategoryInputs(category_count, category_content, sub_category_upd);
+                getCategoryInputs(category_count, category_content ,loan_category);
 
                 $(document).on('click', '.add_category_info', function () {
                     $('#moduleTable tbody').append('<tr>' + category_content + '</tr>');
@@ -2940,12 +2909,12 @@ function getCategoryInfo() {
     });
 
 
-    function getCategoryInputs(category_count, category_content, sub_category_upd) {
+    function getCategoryInputs(category_count, category_content ,loan_category) {
 
         var req_id = $('#req_id').val();
         $.ajax({
             url: 'verificationFile/LoanCalculation/getCategoryInfoForAck.php',
-            data: { 'req_id': req_id, 'sub_category_upd': sub_category_upd },
+            data: { 'req_id': req_id ,'loan_category' : loan_category },
             dataType: 'json',
             type: 'post',
             cache: false,
@@ -2967,64 +2936,12 @@ function getCategoryInfo() {
 
 }
 
-//Get New Category Info
-$('#sub_category').change(function () {
-    var sub_cat = $(this).val();
-    var loan_category = $('#loan_category_load').val();
-    $.ajax({
-        url: 'requestFile/getCategoryInfo.php',
-        data: { 'sub_cat': sub_cat ,'loan_category':loan_category},
-        dataType: 'json',
-        type: 'post',
-        cache: false,
-        success: function (response) {
-            $('#moduleTable').empty();
-            $('#moduleTable').prepend('<tbody><tr>');
-            if (response.length != 0) {
-                var tb = 35;
-                for (var i = 0; i < response.length; i++) {
-                    $('#moduleTable tbody tr').append(`<td><label for="disabledInput">` + response[i]['loan_category_ref_name'] + `</label><span class="required">&nbsp;*</span><input type="text" class="form-control" id="category_info" name="category_info[]" 
-                    value='' tabindex='`+ tb + `' required placeholder='Enter ` + response[i]['loan_category_ref_name'] + `'></td>`);
-                    $('.category_info').show();
-                    tb++;
-
-
-                }
-                $('#moduleTable tbody tr').append(`<td><button type="button" tabindex='` + tb + `' id="add_category_info[]" name="add_category_info" 
-                class="btn btn-primary add_category_info">Add</button> </td><td><span class='icon-trash-2 deleterow' id='deleterow' tabindex='`+ tb + `'></span></td>
-                </tr></tbody>`);
-
-                category_content = $('#moduleTable tbody').html(); //To get the appended category list
-
-                // unbind the event handler
-                $(document).off('click', '.add_category_info');
-                $(document).on('click', '.add_category_info', function () {
-                    $('#moduleTable tbody').append(category_content);
-                });
-
-                // remove delete option for last child
-                $('#deleterow:last').filter(':last').removeClass('deleterow');
-
-                // unbind the event handler
-                $(document).off('click', '.deleterow');
-                $(document).on('click', '.deleterow', function () {
-                    $(this).parent().parent().remove();
-                });
-            } else {
-                $('.category_info').hide();
-            }
-        }
-    })
-    $('#tot_value').val(''); $('#ad_amt').val(''); $('#loan_amt').val('');
-    getLoaninfo(sub_cat);
-})
-
 //Fetch loan Details based on category select
-function getLoaninfo(sub_cat_id) {
+function getLoaninfo(loan_category) {
     let cus_id = $('#cus_id_loan').val();
     $.ajax({
         url: 'requestFile/getLoanInfo.php',
-        data: { 'sub_cat_id': sub_cat_id ,"cus_id":cus_id},
+        data: { 'loan_category_upd': loan_category ,"cus_id":cus_id},
         dataType: 'json',
         type: 'post',
         cache: false,
@@ -3076,15 +2993,11 @@ function getLoaninfo(sub_cat_id) {
 
 //to fetch Calculation based inputs
 function profitCalculationInfo() {
-    var sub_cat = $('#sub_category').val();
     var profit_type = $('#profit_type').val();
     var due_method = $('#due_method_scheme').val();
     var loan_cat = $('#loan_category').val();
     if (profit_type != '') { //Call only if profit type autamatically set
-        profitCalAjax(profit_type, sub_cat,loan_cat); //Call for edit
-    }
-    if (due_method != '') {//Call only if due method autamatically set
-        schemeAjax(due_method, sub_cat); //Call for edit
+        profitCalAjax(profit_type, loan_cat); //Call for edit
     }
     setTimeout(function () {
         var scheme_name = $('#scheme_upd').val();
@@ -3119,9 +3032,8 @@ function profitCalculationInfo() {
         $('#maturity_month').val('');
 
         var profit_type = $(this).val();
-        var sub_cat = $('#sub_category').val();
         var loan_cat = $('#loan_category').val();
-        profitCalAjax(profit_type, sub_cat,loan_cat)
+        profitCalAjax(profit_type, loan_cat)
 
     });//Profit Type change event end
 
@@ -3133,9 +3045,6 @@ function profitCalculationInfo() {
         } else {
             $('.day_scheme').hide();
         }
-
-        var sub_cat = $('#sub_category').val();
-        schemeAjax(due_method, sub_cat);
 
         $('#int_rate').val(''); $('#int_rate').attr('readonly', false);
         $('#due_period').val(''); $('#due_period').attr('readonly', false);
@@ -3156,7 +3065,7 @@ function profitCalculationInfo() {
 }
 
 //
-function profitCalAjax(profit_type, sub_cat,loan_cat) {
+function profitCalAjax(profit_type,loan_cat) {
     var profit_method_upd = $('#profit_method_upd').val()
     if ($('#int_rate_upd').val()) { var int_rate_upd = $('#int_rate_upd').val(); } else { var int_rate_upd = ''; }
     if ($('#due_period_upd').val()) { var due_period_upd = $('#due_period_upd').val(); } else { var due_period_upd = ''; }
@@ -3168,7 +3077,7 @@ function profitCalAjax(profit_type, sub_cat,loan_cat) {
         $('.scheme-calculation').hide();
         $.ajax({ // To show profit calculation infos based on sub category
             url: 'verificationFile/LoanCalculation/getProfitCalculationInfo.php',
-            data: { 'sub_cat': sub_cat ,'loan_cat':loan_cat},
+            data: { 'loan_cat':loan_cat},
             dataType: 'json',
             type: 'post',
             cache: false,
@@ -3292,31 +3201,7 @@ function profitCalAjax(profit_type, sub_cat,loan_cat) {
         $('.scheme-calculation').hide();
     }
 }
-//
-function schemeAjax(due_method, sub_cat) {
-    var scheme_upd = $('#scheme_upd').val();
-    $.ajax({ //To show scheme names based on sub category
-        url: 'verificationFile/LoanCalculation/getSchemeNames.php',
-        data: { 'sub_cat': sub_cat, 'due_method': due_method },
-        dataType: 'json',
-        type: 'post',
-        cache: false,
-        success: function (response) {
-            $('#scheme_name').empty();
-            $('#scheme_name').append(`<option value=''>Select Scheme Name</option>`);
-            for (var i = 0; i < response.length; i++) {
-                var selected = '';
-                if (scheme_upd != '' && scheme_upd != undefined && scheme_upd == response[i]['scheme_id']) {
-                    selected = 'selected';
-                    $('#scheme_name_ack').val(response[i]['scheme_id']);
-                }
-                $('#scheme_name').append(`<option value='` + response[i]['scheme_id'] + `' ` + selected + `>` + response[i]['scheme_name'] + `</option>`);
-            }
-        }
-    });
-}
 
-//
 function schemeCalAjax(scheme_id) {
     if (scheme_id != '') {
         if ($('#int_rate_upd').val()) { var int_rate_upd = $('#int_rate_upd').val(); } else { var int_rate_upd = ''; }
@@ -3998,7 +3883,7 @@ function loan_calc_validation(submit_btn) {
     let isValid = true;
 
     var cus_id_loan = $('#cus_id_loan').val(); //if this is empty means , customer profile is not submitted yet
-    var loan_category = $('#loan_category').val(); var sub_category = $('#sub_category').val(); var tot_value = $('#tot_value').val(); var ad_amt = $('#ad_amt').val();
+    var loan_category = $('#loan_category').val();  var tot_value = $('#tot_value').val(); var ad_amt = $('#ad_amt').val();
     var loan_amt = $('#loan_amt').val(); var due_type = $('#due_type').val();
     var profit_type = $('#profit_type').val(); var due_method_scheme = $('#due_method_scheme').val(); var day_scheme = $('#day_scheme').val(); var scheme_name = $('#scheme_name').val();
     var profit_method = $('#profit_method').val(); var int_rate = $('#int_rate').val(); var due_period = $('#due_period').val(); var doc_charge = $('#doc_charge').val();
@@ -4023,12 +3908,6 @@ function loan_calc_validation(submit_btn) {
         $('#loancategoryCheck').hide();
     }
 
-    if (sub_category == '') {
-        $('#subcategoryCheck').show();
-        isValid = false;
-    } else {
-        $('#subcategoryCheck').hide();
-    }
 
     if (tot_value == '' && $('.advance_yes').css('display') != "none") {
         $('#total_valueCheck').show();

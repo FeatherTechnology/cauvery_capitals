@@ -9,7 +9,6 @@ if(isset($_SESSION["userid"])){
 $column = array(
     'doc_map_id',
     'loan_category',
-    'sub_category',
     'doc_creation',
     'status'
 );
@@ -33,7 +32,6 @@ if($_POST['search']!="")
             $query .= "WHERE
             doc_map_id LIKE  '%".$_POST['search']."%'
             OR loan_category LIKE '%".$_POST['search']."%'
-            OR sub_category LIKE '%".$_POST['search']."%'
             OR doc_creation LIKE '%".$_POST['search']."%' ";
         }
     }
@@ -77,9 +75,7 @@ foreach ($result as $row) {
     {
         $sub_array[] = $row1["loan_category_creation_name"];        
     }
-    
-    $sub_array[] = $row['sub_category'];
-    
+        
     $doc_creation = explode(',',$row['doc_creation']);
     $doc_list = '';
     for($i=0;$i<sizeof($doc_creation);$i++){

@@ -20,7 +20,6 @@ $columns = [
     'rc.cus_id',
     'rc.cus_name',
     'alc.area_name',
-    'salc.sub_area_name',
     'bc.branch_name',
     'agm.group_name',
     'alm.line_name',
@@ -39,18 +38,20 @@ if ($userid != 1) {
         $group_id = $rowuser['group_id'];
     
     $group_id = explode(',', $group_id);
-    $sub_area_list = array();
+    $area_list = array();
     foreach ($group_id as $group) {
-        $groupQry = $connect->query("SELECT sub_area_id FROM area_group_mapping where map_id = $group ");
+        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping where map_id = $group ");
         $row_sub = $groupQry->fetch();
-        $sub_area_list[] = $row_sub['sub_area_id'];
+         if ($row_sub !== false) {
+        $area_list[] = $row_sub['area_id'];
+         }
     }
-    $sub_area_ids = array();
-    foreach ($sub_area_list as $subarray) {
-        $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
+    $area_ids = array();
+    foreach ($area_list as $subarray) {
+        $area_ids = array_merge($area_ids, explode(',', $subarray));
     }
-    $sub_area_list = array();
-    $sub_area_list = implode(',', $sub_area_ids);
+    $area_list = array();
+    $area_list = implode(',', $area_ids);
 }
 
 $searchQuery = "";
@@ -58,7 +59,6 @@ if ($searchValue != '') {
     $searchQuery = " AND (rc.cus_id LIKE '%" . $searchValue . "%' 
                     OR rc.cus_name LIKE '%" . $searchValue . "%' 
                     OR alc.area_name LIKE '%" . $searchValue . "%'
-                    OR salc.sub_area_name LIKE '%" . $searchValue . "%'
                     OR bc.branch_name LIKE '%" . $searchValue . "%'
                     OR agm.group_name LIKE '%" . $searchValue . "%'
                     OR alm.line_name LIKE '%" . $searchValue . "%'
@@ -70,7 +70,6 @@ $orderQuery = " ORDER BY " . $columns[$orderColumnIndex] . " " . $orderDir;
 $sql = "SELECT 
     rc.*,
     alc.area_name,
-    salc.sub_area_name,
     lcc.loan_category_creation_name,
     ac.ag_name,
     bc.branch_name,
@@ -83,19 +82,17 @@ JOIN
 LEFT JOIN 
     area_list_creation alc ON rc.area = alc.area_id
 LEFT JOIN 
-    sub_area_list_creation salc ON rc.sub_area = salc.sub_area_id
-LEFT JOIN 
     loan_category_creation lcc ON rc.loan_category = lcc.loan_category_creation_id
 LEFT JOIN 
     agent_creation ac ON rc.agent_id = ac.ag_id
 LEFT JOIN 
-    area_group_mapping agm ON FIND_IN_SET(rc.sub_area, agm.sub_area_id)
+    area_group_mapping agm ON FIND_IN_SET(alc.area_id, agm.area_id)
 LEFT JOIN 
     branch_creation bc ON agm.branch_id = bc.branch_id
 LEFT JOIN 
-    area_line_mapping alm ON FIND_IN_SET(rc.sub_area, alm.sub_area_id)
+    area_line_mapping alm ON FIND_IN_SET(alc.area_id, alm.area_id)
 WHERE 
-    rc.cus_status >= 14 AND acp.area_confirm_subarea IN ($sub_area_list) AND NOT EXISTS (SELECT 1 FROM confirmation_followup cf WHERE cf.req_id = rc.req_id AND cf.remove_status = 1) $searchQuery $orderQuery ";
+    rc.cus_status >= 14 AND acp.area_confirm_area IN ($area_list) AND NOT EXISTS (SELECT 1 FROM confirmation_followup cf WHERE cf.req_id = rc.req_id AND cf.remove_status = 1) $searchQuery $orderQuery ";
 
 // Count query for filtered rows
 $num_qry = $connect->query($sql);
@@ -139,7 +136,6 @@ while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             $row['cus_id'],
             $row['cus_name'],
             $row['area_name'],
-            $row['sub_area_name'],
             $row['branch_name'],
             $row['group_name'],
             $row['line_name'],

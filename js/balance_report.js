@@ -15,14 +15,14 @@ $(document).ready(function () {
         if(reportType =='1'){//Balance
             url = 'reportFile/balance/getBalanceReport.php';
             tid = 'balance_report_table';
-            colArr = [13, 14, 16, 17, 19, 20];
+            colArr = [11, 12, 14, 15, 16, 18];
             $('#balance_table_div').show();
             $('#princ_intrst_table_div').hide();
 
         }else if(reportType =='2'){ //Priciple / Interest
             url = 'reportFile/principal_interest/getBalPrincipalinterest.php';
             tid = 'princ_intrst_table';
-            colArr = [13, 14, 16, 17, 18, 19, 21, 22];
+            colArr = [11, 12, 14, 15, 16, 17, 19, 20];
             $('#balance_table_div').hide();
             $('#princ_intrst_table_div').show();
 

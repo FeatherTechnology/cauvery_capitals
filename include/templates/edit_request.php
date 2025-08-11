@@ -71,9 +71,7 @@
 								<th>Line</th>
 								<th>Mobile</th>
 								<th>Area</th>
-								<th>Sub Area</th>
 								<th>Loan Category</th>
-								<th>Sub Category</th>
 								<th>Loan Amount</th>
 								<th>User Type</th>
 								<th>User</th>
@@ -128,7 +126,6 @@
 								<th width="25">S. No</th>
 								<th>Date</th>
 								<th>Loan Category</th>
-								<th>Sub Category</th>
 								<th>Amount</th>
 								<th>Status</th>
 								<th>Sub Status</th>

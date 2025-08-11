@@ -55,7 +55,6 @@
 								<th>Place</th>
 								<th>District</th>
 								<th>Loan Category</th>
-								<th>Sub Category</th>
 								<th>Status</th>
 								<th>Action</th>
 							</tr>

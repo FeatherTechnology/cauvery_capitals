@@ -6,12 +6,12 @@ if(isset($_POST['req_id'])){
     $req_id = $_POST['req_id'];
 }
 
-if(isset($_POST['sub_category_upd'])){
-    $sub_category_upd = $_POST['sub_category_upd'];
+if(isset($_POST['loan_category'])){
+    $loan_category = $_POST['loan_category'];
 }
 $detailrecords = array();
 
-if($sub_category_upd == ''){
+if($loan_category == ''){
     
     $result=$connect->query("SELECT * FROM request_category_info where req_ref_id = $req_id ");
     $i=0;

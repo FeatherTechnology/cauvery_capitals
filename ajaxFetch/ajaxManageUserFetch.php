@@ -97,7 +97,9 @@ foreach ($result as $row) {
         $getQry = "SELECT * from staff_type_creation where staff_type_id = '" . $role_type_id . "' and status = 0 ";
         $res = $connect->query($getQry);
         $row1 = $res->fetch();
+        if ($row1 !== false) {
         $sub_array[] = $row1["staff_type_name"];
+    }
     }
 
     $sub_array[] = $row['fullname'];

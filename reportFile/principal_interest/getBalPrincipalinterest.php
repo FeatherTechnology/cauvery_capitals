@@ -6,7 +6,7 @@ include '../../ajaxconfig.php';
 $userid = $_SESSION["userid"] ?? null;
 $report_access = '2'; //if super Admin login use need to show overall.
 
-$sub_area_list = '';
+$area_list = '';
 $user_based = '';
 
 if ($userid && $userid != 1) {
@@ -16,16 +16,16 @@ if ($userid && $userid != 1) {
 
     if ($report_access =='1') {
         $line_id = explode(',', $user['line_id']);
-        $sub_area_list = [];
+        $area_list = [];
         foreach ($line_id as $line) {
-            $lineQry = $connect->query("SELECT sub_area_id FROM area_line_mapping WHERE map_id = $line");
+            $lineQry = $connect->query("SELECT area_id FROM area_line_mapping WHERE map_id = $line");
             while ($row = $lineQry->fetch()) {
-                $sub_area_list = array_merge($sub_area_list, explode(',', $row['sub_area_id']));
+                $area_list = array_merge($area_list, explode(',', $row['area_id']));
             }
         }
-        $sub_area_list = implode(',', array_unique($sub_area_list));
+        $area_list = implode(',', array_unique($area_list));
 
-        $user_based = " AND cp.area_confirm_subarea IN ($sub_area_list) AND req.insert_login_id = '$userid' ";
+        $user_based = " AND cp.area_confirm_area IN ($area_list) AND req.insert_login_id = '$userid' ";
         
     }
 }
@@ -50,9 +50,7 @@ $column = [
     'cp.cus_id',
     'cp.cus_name',
     'al.area_name',
-    'sal.sub_area_name',
     'lc.loan_cal_id',
-    'lc.sub_category',
     'lc.loan_cal_id',
     'lc.loan_cal_id',
     'lc.loan_cal_id',
@@ -93,9 +91,7 @@ $query = "SELECT
             cp.req_id,
             cp.cus_name,
             al.area_name,
-            sal.sub_area_name,
             lcc.loan_category_creation_name AS loan_cat_name,
-            lc.sub_category,
             ac.ag_name,
             lc.loan_amt_cal,
             lc.due_amt_cal,
@@ -131,9 +127,7 @@ $query = "SELECT
         JOIN 
             area_list_creation al ON cp.area_confirm_area = al.area_id
         JOIN 
-            sub_area_list_creation sal ON cp.area_confirm_subarea = sal.sub_area_id
-        JOIN 
-            area_line_mapping alm ON FIND_IN_SET(sal.sub_area_id, alm.sub_area_id)
+            area_line_mapping alm ON FIND_IN_SET(al.area_id, alm.area_id)
         JOIN 
             in_verification iv ON lc.req_id = iv.req_id
         JOIN 
@@ -184,8 +178,7 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
         lc.maturity_month LIKE '%$search%' OR
         cp.cus_id LIKE '%$search%' OR
         cp.cus_name LIKE '%$search%' OR
-        al.area_name LIKE '%$search%' OR
-        sal.sub_area_name LIKE '%$search%'
+        al.area_name LIKE '%$search%' 
     )";
 }
 
@@ -267,9 +260,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['cus_id'];
     $sub_array[] = $row['cus_name'];
     $sub_array[] = $row['area_name'];
-    $sub_array[] = $row['sub_area_name'];
     $sub_array[] = $row['loan_cat_name'];
-    $sub_array[] = $row['sub_category'];
     $sub_array[] = $row['ag_name'];
     $sub_array[] = moneyFormatIndia($row['loan_amt_cal']);
     $sub_array[] = moneyFormatIndia($row['due_amt_cal']);

@@ -45,7 +45,6 @@ if (sizeof($getCustomerReg) > 0) {
 		$district				= $getCustomerReg['district'];
 		$taluk					= $getCustomerReg['taluk'];
 		$area					= $getCustomerReg['area'];
-		$sub_area				= $getCustomerReg['sub_area'];
 		$address				= $getCustomerReg['address'];
 		$mobile1				= $getCustomerReg['mobile1'];
 		$mobile2				= $getCustomerReg['mobile2'];
@@ -82,13 +81,10 @@ if (sizeof($getCustomerReg) > 0) {
 		$area_confirm_district 		= $getCustomerReg['area_confirm_district'];
 		$area_confirm_taluk 		= $getCustomerReg['area_confirm_taluk'];
 		$area_confirm_area 			= $getCustomerReg['area_confirm_area'];
-		$area_confirm_subarea 		= $getCustomerReg['area_confirm_subarea'];
 		$latlong 		= $getCustomerReg['latlong'];
 		$area_group 				= $getCustomerReg['area_group'];
 		$area_line 					= $getCustomerReg['area_line'];
 		$area_name 					= $getCustomerReg['area_name'];
-		$sub_area_name 					= $getCustomerReg['sub_area_name'];
-		// $request_id 					= $getCustomerReg['request_id'];
 	}
 }
 ?>
@@ -179,9 +175,7 @@ if (sizeof($getCustomerReg) > 0) {
 		,&nbsp;&nbsp;Area - <?php if (isset($area_name)) {
 								echo $area_name;
 							} ?>
-		,&nbsp;&nbsp;Sub Area - <?php if (isset($sub_area_name)) {
-									echo $sub_area_name;
-								} ?>
+		,&nbsp;&nbsp;
 	</div>
 </div><br>
 <div class="text-right" style="margin-right: 25px;">
@@ -236,9 +230,6 @@ if (sizeof($getCustomerReg) > 0) {
 			<input type="hidden" name="area_upd" id="area_upd" value="<?php if (isset($area)) {
 																			echo $area;
 																		} ?>" />
-			<input type="hidden" name="sub_area_upd" id="sub_area_upd" value="<?php if (isset($sub_area)) {
-																					echo $sub_area;
-																				} ?>" />
 			<input type="hidden" name="guarentor_name_upd" id="guarentor_name_upd" value="" />
 
 			<input type="hidden" name="area_state_upd" id="area_state_upd" value="<?php if (isset($area_confirm_state)) {
@@ -252,9 +243,6 @@ if (sizeof($getCustomerReg) > 0) {
 																					} ?>" />
 			<input type="hidden" name="area_confirm_area" id="area_confirm_area" value="<?php if (isset($area_confirm_area)) {
 																							echo $area_confirm_area;
-																						} ?>" />
-			<input type="hidden" name="sub_area_confirm" id="sub_area_confirm" value="<?php if (isset($area_confirm_subarea)) {
-																							echo $area_confirm_subarea;
 																						} ?>" />
 
 			<input type="hidden" class="form-control" value="<?php if (isset($marital)) echo $marital; ?>" id="marital_upd" name="marital_upd">
@@ -358,15 +346,6 @@ if (sizeof($getCustomerReg) > 0) {
 
 												</select>
 												<span class="text-danger" style='display:none' id='areaCheck'>Please Select Area</span>
-											</div>
-										</div>
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
-											<div class="form-group">
-												<label for="sub_area">Sub Area</label>&nbsp;<span class="text-danger">*</span>
-												<select tabindex="10" type="text" class="form-control" id="sub_area" name="sub_area">
-													<option value=''>Select Sub Area</option>
-												</select>
-												<span class="text-danger" style='display:none' id='subareaCheck'>Please Select Sub Area</span>
 											</div>
 										</div>
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
@@ -749,15 +728,6 @@ if (sizeof($getCustomerReg) > 0) {
 										</select>
 									</div>
 								</div>
-
-								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-									<div class="form-group">
-										<label for="area_sub_area">Sub Area</label>&nbsp;<span class="text-danger">*</span>
-										<select tabindex="40" type="text" class="form-control" id="area_sub_area" name="area_sub_area">
-											<option value=''>Select Sub Area</option>
-										</select>
-									</div>
-								</div>
 								<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
 									<div class="form-group">
 										<label for="latlong">Location</label>
@@ -1131,14 +1101,6 @@ if (sizeof($getCustomerReg) > 0) {
 									<input tabindex="3" type="text" class="form-control" id="doc_area" name="doc_area" value="<?php if (isset($area_name)) echo $area_name; ?>" readonly>
 								</div>
 							</div>
-
-							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-								<div class="form-group">
-									<label for="doc_Sub_Area"> Sub Area </label> <span class="required"> * </span>
-									<input type="text" class="form-control" id="doc_Sub_Area" name="doc_Sub_Area" value='<?php if (isset($sub_area_name)) echo $sub_area_name; ?>' readonly tabindex="4">
-								</div>
-							</div>
-
 
 						</div>
 					</div>
@@ -2995,24 +2957,9 @@ if (sizeof($getCustomerReg) > 0) {
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 							<div class="form-group">
-								<label for="sub_area_old">Sub Area</label><span class="required">&nbsp;*</span>
-								<input type="text" class="form-control" id="sub_area_old" name="sub_area_old" value="<?php //echo $sub_area_name;
-																														?>" placeholder="Enter Sub Area Name" tabindex="1">
-								<span class="text-danger" id="sub_area_oldCheck" style='display:none'> Please Enter Sub Area Name </span>
-							</div>
-						</div>
-						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-							<div class="form-group">
 								<label for="loan_cat_old">Loan Category</label><span class="required">&nbsp;*</span>
 								<input type="text" class="form-control" id="loan_cat_old" name="loan_cat_old" placeholder="Enter Loan Category" tabindex="1">
 								<span class="text-danger" id="loan_cat_oldCheck" style='display:none'> Please Enter Loan Category </span>
-							</div>
-						</div>
-						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-							<div class="form-group">
-								<label for="sub_cat_old">Sub Category</label><span class="required">&nbsp;*</span>
-								<input type="text" class="form-control" id="sub_cat_old" name="sub_cat_old" placeholder="Enter Sub Category" tabindex="1">
-								<span class="text-danger" id="sub_cat_oldCheck" style='display:none'> Please Enter Sub Category </span>
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">

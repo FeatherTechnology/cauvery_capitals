@@ -61,7 +61,6 @@ if ($idupd > 0) {
 			$place     			     = $getAgentCreation['place'];
 			$pincode        		     = $getAgentCreation['pincode'];
 			$loan_category          		     = $getAgentCreation['loan_category'];
-			$sub_category          		     = $getAgentCreation['sub_category'];
 			$scheme          		     = $getAgentCreation['scheme'];
 			$loan_payment          		     = $getAgentCreation['loan_payment'];
 			$responsible          		     = $getAgentCreation['responsible'];
@@ -111,7 +110,6 @@ if ($idupd > 0) {
 		<input type="hidden" class="form-control" value="<?php if (isset($district)) echo $district; ?>" id="district_upd" name="district_upd">
 		<input type="hidden" class="form-control" value="<?php if (isset($taluk)) echo $taluk; ?>" id="taluk_upd" name="taluk_upd">
 		<input type="hidden" class="form-control" value="<?php if (isset($loan_category)) echo $loan_category; ?>" id="loan_category_upd" name="loan_category_upd">
-		<input type="hidden" class="form-control" value="<?php if (isset($sub_category)) echo $sub_category; ?>" id="sub_category_upd" name="sub_category_upd">
 		<!-- Row start -->
 		<div class="row gutters">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -317,15 +315,6 @@ if ($idupd > 0) {
 											<input type="hidden" class="form-control" id="loan_category" name="loan_category" value='<?php if (isset($loan_category)) echo $loan_category; ?>'>
 											<select tabindex="101" type="text" class="form-control" id="loan_category1" name="loan_category1" multiple>
 												<option value="">Select Loan Category</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="disabledInput">Sub Category</label>&nbsp;<span class="text-danger">*</span>
-											<input type="hidden" class="form-control" id="sub_category" name="sub_category" value='<?php if (isset($sub_category)) echo $sub_category; ?>'>
-											<select tabindex="102" type="text" class="form-control" id="sub_category1" name="sub_category1" multiple>
-												<option value="">Select Sub Category</option>
 											</select>
 										</div>
 									</div>

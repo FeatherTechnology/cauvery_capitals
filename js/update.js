@@ -60,8 +60,7 @@ $(document).ready(function () {
 
     $('#area').change(function () {
         var areaselected = $('#area').val();
-        var sub_area_upd = '';
-        getAreaBasedSubArea(areaselected, sub_area_upd, '#sub_area');
+         getGroupandLine(areaselected)
     })
 
     //Area Confirm Card.
@@ -87,14 +86,15 @@ $(document).ready(function () {
 
     $('#area_confirm').change(function () {
         var areaselected = $(this).val();
-        var sub_area_upd = '';
-        getAreaBasedSubArea(areaselected, sub_area_upd, '#area_sub_area');
+        // var sub_area_upd = '';
+        // getAreaBasedSubArea(areaselected, sub_area_upd, '#area_sub_area');
+        getGroupandLine(areaselected)
     })
 
-    $('#area_sub_area').change(function () {
-        var sub_area_id = $(this).val();
-        getGroupandLine(sub_area_id);
-    })
+    // $('#area_sub_area').change(function () {
+    //     var sub_area_id = $(this).val();
+    //     getGroupandLine(sub_area_id);
+    // })
 
     $('#getlatlong').click(function () {
         event.preventDefault();
@@ -751,7 +751,7 @@ function callCustomerProfileFunctn(){
     var area_upd = $('#area_upd').val();
     if (area_upd != '') {
         var sub_area_upd = $('#sub_area_upd').val();
-        getAreaBasedSubArea(area_upd, sub_area_upd, '#sub_area');
+        getGroupandLine(area_upd)
     }
 
     //Area Confirm Details.
@@ -775,8 +775,7 @@ function callCustomerProfileFunctn(){
 
     var area_confirm_area = $('#area_confirm_area').val();
     if (area_confirm_area != '') {
-        var sub_area_upd = $('#sub_area_confirm').val();
-        getAreaBasedSubArea(area_confirm_area, sub_area_upd, '#area_sub_area');
+        getGroupandLine(area_confirm_area)
     }
 
     var marital_upd = $('#marital_upd').val();
@@ -2188,34 +2187,11 @@ function getTalukBasedArea(talukselected, area_upd, area) {
     });
 }
 
-//Get Area Based Sub Area
-function getAreaBasedSubArea(area, sub_area_upd, sub_area) {
-
-    $.ajax({
-        url: 'requestFile/ajaxGetEnabledSubArea.php',
-        type: 'post',
-        data: { 'area': area },
-        dataType: 'json',
-        success: function (response) {
-
-            $(sub_area).empty();
-            $(sub_area).append("<option value='' >Select Sub Area</option>");
-            for (var i = 0; i < response.length; i++) {
-                var selected = '';
-                if (sub_area_upd != undefined && sub_area_upd != '' && sub_area_upd == response[i]['sub_area_id']) {
-                    selected = 'selected';
-                }
-                $(sub_area).append("<option value='" + response[i]['sub_area_id'] + "' " + selected + ">" + response[i]['sub_area_name'] + " </option>");
-            }
-        }
-    });
-}
-
-function getGroupandLine(sub_area_id) {
+function getGroupandLine(area_id) {
 
     $.ajax({
         url: 'verificationFile/getGroupandLine.php',
-        data: { 'sub_area_id': sub_area_id },
+        data: { 'area_id': area_id },
         dataType: 'json',
         type: 'post',
         cache: false,
@@ -2228,12 +2204,12 @@ function getGroupandLine(sub_area_id) {
 
 $('#cus_loan_limit').change(function () { /// Loan Limit will Check the Loan Amount in Request Loan Category./////
     let loanLimit = parseInt($(this).val());
-    let loanSubCat = $('#loan_sub_cat').val();
+    let loan_category = $('#loan_cat_old').val();
 
     $.ajax({
         type: 'POST',
         url: 'verificationFile/check_loan_limit.php',
-        data: { 'loan_sub_id': loanSubCat },
+        data: { 'loan_category': loan_category },
         dataType: 'json',
         success: function (response) {
             if (loanLimit > parseInt(response)) {
@@ -2392,7 +2368,7 @@ $('#submit_update_cus_profile').click(function () {
 function validation() {
     var cus_id = $('#cus_id').val(); var cus_name = $('#cus_name').val(); var dob = $('#dob').val(); var gender = $('#gender').val(); var state = $('#state').val();
     var cus_image = $('#cus_image').val(); var pic = $('#pic').val();
-    var district = $('#district1').val(); var taluk = $('#taluk1').val(); var area = $('#area').val(); var sub_area = $('#sub_area').val(); var cus_address = $('#cus_address').val();
+    var district = $('#district1').val(); var taluk = $('#taluk1').val(); var area = $('#area').val(); var cus_address = $('#cus_address').val();
     var mobile1 = $('#mobile1').val(); var mobile2 = $('#mobile2').val(); var father_name = $('#father_name').val(); var mother_name = $('#mother_name').val(); var marital = $('#marital').val();
     var occupation_type = $('#occupation_type').val(); var occupation = $('#occupation').val(); var area_cnfrm = $('#area_cnfrm').val(); var cus_res_type = $('#cus_res_type').val();
     var cus_res_details = $('#cus_res_details').val(); var cus_res_address = $('#cus_res_address').val(); var cus_res_native = $('#cus_res_native').val();
@@ -2448,12 +2424,12 @@ function validation() {
     } else {
         $('#areaCheck').hide();
     }
-    if (sub_area == '') {
-        event.preventDefault();
-        $('#subareaCheck').show();
-    } else {
-        $('#subareaCheck').hide();
-    }
+    // if (sub_area == '') {
+    //     event.preventDefault();
+    //     $('#subareaCheck').show();
+    // } else {
+    //     $('#subareaCheck').hide();
+    // }
     if (cus_address == '') {
         event.preventDefault();
         $('#addressCheck').show();
@@ -4374,13 +4350,11 @@ function submitDocument(req_id, cus_id) {
 
 function OldCusValidation() {
     let response = true;
-    let mobile_old = $('#mobile_old').val(); let area_old = $('#area_old').val(); let sub_area_old = $('#sub_area_old').val(); let loan_cat_old = $('#loan_cat_old').val(); let sub_cat_old = $('#sub_cat_old').val();
+    let mobile_old = $('#mobile_old').val(); let area_old = $('#area_old').val();  let loan_cat_old = $('#loan_cat_old').val();
     let loan_amt_old = $('#loan_amt_old').val(); let due_chart_old = $('#due_chart_old').val();
 
     validateField(area_old, "area_old");
-    validateField(sub_area_old, "sub_area_old");
     validateField(loan_cat_old, "loan_cat_old");
-    validateField(sub_cat_old, "sub_cat_old");
     validateField(loan_amt_old, "loan_amt_old");
     validateField(due_chart_old, "due_chart_old");
 

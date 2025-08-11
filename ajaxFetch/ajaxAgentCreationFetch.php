@@ -10,7 +10,6 @@ $column = array(
     'ac.place',
     'ac.district',
     'ac.ag_id',
-    'ac.sub_category',
     'ac.status',
     'ac.ag_id',
 );
@@ -31,8 +30,7 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
                 WHERE FIND_IN_SET(lcc.loan_category_creation_id,ac.loan_category) and lcc.status = 0) LIKE '%" . $_POST['search'] . "%'
                 OR ac.place LIKE '%" . $_POST['search'] . "%'
                 OR ac.district LIKE '%" . $_POST['search'] . "%'
-                OR ac.loan_category LIKE '%" . $_POST['search'] . "%'
-                OR ac.sub_category LIKE '%" . $_POST['search'] . "%') ";
+                OR ac.loan_category LIKE '%" . $_POST['search'] . "%') ";
 }
 if (isset($_POST['order'])) {
     $query .= 'ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
@@ -73,7 +71,6 @@ foreach ($result as $row) {
 
     $sub_array[] = $row['loan_category'];
 
-    $sub_array[] = $row["sub_category"];
 
     $status      = $row['status'];
 

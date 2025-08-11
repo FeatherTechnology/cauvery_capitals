@@ -32,7 +32,7 @@ if($userid != 1){
 }
 
 $loandate = date('Y-m-01');
-$query = "SELECT alc.cus_id_loan as cp_cus_id, alc.cus_name_loan,alc.sub_category,alc.mobile_loan, ii.cus_id as ii_cus_id, ii.req_id
+$query = "SELECT alc.cus_id_loan as cp_cus_id, alc.cus_name_loan,alc.mobile_loan, ii.cus_id as ii_cus_id, ii.req_id
 FROM acknowlegement_loan_calculation alc 
 JOIN in_issue ii ON alc.cus_id_loan = ii.cus_id
 JOIN customer_register cr ON alc.cus_id_loan = cr.cus_id
@@ -63,7 +63,6 @@ $result = $statement->fetchAll();
             <th>Customer ID</th>
             <th>Customer Name</th>
             <th>Mobile No</th>
-            <th>Loan Sub category</th>
             <th>Due Amount</th>
         </tr>
     </thead>
@@ -78,7 +77,6 @@ $result = $statement->fetchAll();
             <td> <?php echo $row['cp_cus_id']; ?> </td>
             <td> <input type="text" class="m_cusName" name="m_cus_name[]" value="<?php echo $row['cus_name_loan']; ?>" style="border: none; outline: 0; background: inherit;" readonly> </td>
             <td> <input type="text" name="m_cus_no[]" value="<?php echo $row['mobile_loan']; ?>" style="border: none; outline: 0; background: inherit;" readonly> </td>
-            <td> <?php echo $row['sub_category']; ?> </td>
             <td> <?php $obj = new GetLoanDetails($connect, $row['req_id'], date('Y-m-d'),''); ?>
                 <input type="text" name="m_cus_due[]" value="<?php echo $obj->response['due_amt']; ?>" style="border: none; outline: 0; background: inherit;" readonly> 
             </td>
@@ -109,14 +107,13 @@ $result = $statement->fetchAll();
             <th>Customer ID</th>
             <th>Customer Name</th>
             <th>Mobile No</th>
-            <th>Loan Sub category</th>
             <th>Due Amount</th>
         </tr>
     </thead>
     <tbody>
 
     <?php
-    $getSchemeMonthlyQry = "SELECT alc.cus_id_loan as cp_cus_id, alc.cus_name_loan,alc.sub_category,alc.mobile_loan, ii.cus_id as ii_cus_id, ii.req_id
+    $getSchemeMonthlyQry = "SELECT alc.cus_id_loan as cp_cus_id, alc.cus_name_loan,alc.mobile_loan, ii.cus_id as ii_cus_id, ii.req_id
     FROM acknowlegement_loan_calculation alc 
     JOIN in_issue ii ON alc.cus_id_loan = ii.cus_id
     JOIN customer_register cr ON alc.cus_id_loan = cr.cus_id
@@ -137,7 +134,6 @@ $result = $statement->fetchAll();
             <td> <?php echo $schemeMonthlyRow['cp_cus_id']; ?> </td>
             <td> <input type="text" class="sm_cusName" name="m_cus_name[]" value="<?php echo $schemeMonthlyRow['cus_name_loan']; ?>" style="border: none; outline: 0; background: inherit;" readonly> </td>
             <td> <input type="text" name="m_cus_no[]" value="<?php echo $schemeMonthlyRow['mobile_loan']; ?>" style="border: none; outline: 0; background: inherit;" readonly> </td>
-            <td> <?php echo $schemeMonthlyRow['sub_category']; ?> </td>
             <td> <?php $obj = new GetLoanDetails($connect, $schemeMonthlyRow['req_id'], date('Y-m-d'),''); ?> 
                 <input type="text" name="m_cus_due[]" value="<?php echo $obj->response['due_amt']; ?>" style="border: none; outline: 0; background: inherit;" readonly>
             </td>
@@ -168,14 +164,13 @@ $result = $statement->fetchAll();
             <th>Customer ID</th>
             <th>Customer Name</th>
             <th>Mobile No</th>
-            <th>Loan Sub category</th>
             <th>Due Amount</th>
         </tr>
     </thead>
     <tbody>
 
     <?php
-    $getSchemeWeeklyQry = "SELECT alc.cus_id_loan as cp_cus_id, alc.cus_name_loan,alc.sub_category,alc.mobile_loan, ii.cus_id as ii_cus_id, ii.req_id
+    $getSchemeWeeklyQry = "SELECT alc.cus_id_loan as cp_cus_id, alc.cus_name_loan,alc.mobile_loan, ii.cus_id as ii_cus_id, ii.req_id
     FROM acknowlegement_loan_calculation alc 
     JOIN in_issue ii ON alc.cus_id_loan = ii.cus_id
     JOIN customer_register cr ON alc.cus_id_loan = cr.cus_id
@@ -196,7 +191,6 @@ $result = $statement->fetchAll();
             <td> <?php echo $schemeWeeklyRow['cp_cus_id']; ?> </td>
             <td> <input type="text" class="sw_cusName" name="m_cus_name[]" value="<?php echo $schemeWeeklyRow['cus_name_loan']; ?>" style="border: none; outline: 0; background: inherit;" readonly> </td>
             <td> <input type="text" name="m_cus_no[]" value="<?php echo $schemeWeeklyRow['mobile_loan']; ?>" style="border: none; outline: 0; background: inherit;" readonly> </td>
-            <td> <?php echo $schemeWeeklyRow['sub_category']; ?> </td>
             <td> <?php $obj = new GetLoanDetails($connect, $schemeWeeklyRow['req_id'], date('Y-m-d'),''); ?> 
                 <input type="text" name="m_cus_due[]" value="<?php echo $obj->response['due_amt']; ?>" style="border: none; outline: 0; background: inherit;" readonly>
             </td>
@@ -227,14 +221,13 @@ $result = $statement->fetchAll();
             <th>Customer ID</th>
             <th>Customer Name</th>
             <th>Mobile No</th>
-            <th>Loan Sub category</th>
             <th>Due Amount</th>
         </tr>
     </thead>
     <tbody>
 
     <?php
-    $getSchemeDailyQry = "SELECT alc.cus_id_loan as cp_cus_id, alc.cus_name_loan,alc.sub_category,alc.mobile_loan, ii.cus_id as ii_cus_id, ii.req_id
+    $getSchemeDailyQry = "SELECT alc.cus_id_loan as cp_cus_id, alc.cus_name_loan,alc.mobile_loan, ii.cus_id as ii_cus_id, ii.req_id
     FROM acknowlegement_loan_calculation alc 
     JOIN in_issue ii ON alc.cus_id_loan = ii.cus_id
     JOIN customer_register cr ON alc.cus_id_loan = cr.cus_id
@@ -254,7 +247,6 @@ $result = $statement->fetchAll();
             <td> <?php echo $schemeDailyRow['cp_cus_id']; ?> </td>
             <td> <input type="text" class="sd_cusName" name="m_cus_name[]" value="<?php echo $schemeDailyRow['cus_name_loan']; ?>" style="border: none; outline: 0; background: inherit;" readonly> </td>
             <td> <input type="text" name="m_cus_no[]" value="<?php echo $schemeDailyRow['mobile_loan']; ?>" style="border: none; outline: 0; background: inherit;" readonly> </td>
-            <td> <?php echo $schemeDailyRow['sub_category']; ?> </td>
             <td> <?php $obj = new GetLoanDetails($connect, $schemeDailyRow['req_id'], date('Y-m-d'),'');?>
                 <input type="text" name="m_cus_due[]" value="<?php echo $obj->response['due_amt']; ?>" style="border: none; outline: 0; background: inherit;" readonly> 
             </td>

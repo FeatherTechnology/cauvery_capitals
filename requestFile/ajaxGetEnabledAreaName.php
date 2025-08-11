@@ -15,16 +15,19 @@ $loan_category_arr = array();
 
 $user_area = array();
 
-$Qry = $connect->query("SELECT * FROM user where status=0 and user_id= '" . $userid . "'"); //fetching group of current staff
+$Qry = $connect->query("SELECT * FROM user where status=0 and user_id= '" . $userid . "'");
 $run = $Qry->fetch();
-$user_group = explode(',', $run['group_id']);
-
-foreach ($user_group as $group_id) {
-
-    $Qry = $connect->query("SELECT * FROM area_group_mapping where status =0  and map_id = $group_id "); //fetching area id from group
-    $run = $Qry->fetch();
-    $user_area[] = explode(',', $run['area_id']);
+if ($run) {
+    $user_group = explode(',', $run['group_id']);
+    foreach ($user_group as $group_id) {
+        $Qry = $connect->query("SELECT * FROM area_group_mapping where status =0 and map_id = $group_id ");
+        $run = $Qry->fetch();
+        if ($run) {
+            $user_area[] = explode(',', $run['area_id']);
+        }
+    }
 }
+
 
 $result = $connect->query("SELECT * FROM area_list_creation where taluk LIKE '%" . $taluk . "%' and status=0 and area_enable = 0");
 

@@ -51,7 +51,6 @@ if (sizeof($getUser) > 0) {
 									<th>Area</th>
 									<th>Sub Area</th>
 									<th>Loan Category</th>
-									<th>Sub Category</th>
 									<th>Agent</th>
 									<th>Branch</th>
 									<th>Group</th>

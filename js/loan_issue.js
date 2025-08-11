@@ -751,12 +751,10 @@ function getLc() {
     })
 }
 function getCategoryInfo() {
-    var sub_category_upd = $('#sub_category_upd').val();
-    var sub_cat = $('#sub_category').val();
     var loan_category = $('#loan_category_lc').val();
     $.ajax({
         url: 'requestFile/getCategoryInfo.php',
-        data: { 'sub_cat': sub_cat, 'loan_category': loan_category },
+        data: { 'loan_category': loan_category },
         dataType: 'json',
         type: 'post',
         cache: false,
@@ -776,19 +774,19 @@ function getCategoryInfo() {
                 var category_content = $('#moduleTable tbody tr').html(); //To get the appended category list
 
                 var category_count = $('#moduleTable tbody tr').find('td').length;//To find input fields count
-                getCategoryInputs(category_count, category_content, sub_category_upd);
+                getCategoryInputs(category_count, category_content);
 
             }
         }
     });
 
 
-    function getCategoryInputs(category_count, category_content, sub_category_upd) {
+    function getCategoryInputs(category_count, category_content) {
 
         var req_id = $('#req_id').val();
         $.ajax({
             url: 'loanIssueFile/getCategoryInfoForIssue.php',
-            data: { 'req_id': req_id, 'sub_category_upd': sub_category_upd },
+            data: { 'req_id': req_id },
             dataType: 'json',
             type: 'post',
             cache: false,
@@ -811,15 +809,14 @@ function getCategoryInfo() {
 }
 //Get Category info From Request
 function profitCalculationInfo() {
-    var sub_cat = $('#sub_category').val();
     var profit_type = $('#profit_type').val();
     var due_method = $('#due_method_scheme').val();
     var loan_cat = $('#loan_category').val();
     if (profit_type != '') { //Call only if profit type autamatically set
-        profitCalAjax(profit_type, sub_cat, loan_cat); //Call for edit
+        profitCalAjax(profit_type,  loan_cat); //Call for edit
     }
     if (due_method != '') {//Call only if due method autamatically set
-        schemeAjax(due_method, sub_cat); //Call for edit
+        schemeAjax(due_method, loan_cat); //Call for edit
     }
     setTimeout(function () {
         var scheme_name = $('#scheme_upd').val();
@@ -854,9 +851,8 @@ function profitCalculationInfo() {
         $('#maturity_month').val('');
 
         var profit_type = $(this).val();
-        var sub_cat = $('#sub_category').val();
         var loan_cat = $('#loan_category').val();
-        profitCalAjax(profit_type, sub_cat, loan_cat)
+        profitCalAjax(profit_type, loan_cat)
 
     });//Profit Type change event end
 
@@ -869,8 +865,9 @@ function profitCalculationInfo() {
             $('.day_scheme').hide();
         }
 
-        var sub_cat = $('#sub_category').val();
-        schemeAjax(due_method, sub_cat);
+        var loan_cat = $('#loan_category').val();
+
+        schemeAjax(due_method, loan_cat);
 
         $('#int_rate').val(''); $('#int_rate').attr('readonly', false);
         $('#due_period').val(''); $('#due_period').attr('readonly', false);
@@ -891,7 +888,7 @@ function profitCalculationInfo() {
 }
 
 //
-function profitCalAjax(profit_type, sub_cat, loan_cat) {
+function profitCalAjax(profit_type,  loan_cat) {
     var profit_method_upd = $('#profit_method_upd').val()
     if ($('#int_rate_upd').val()) { var int_rate_upd = $('#int_rate_upd').val(); } else { var int_rate_upd = ''; }
     if ($('#due_period_upd').val()) { var due_period_upd = $('#due_period_upd').val(); } else { var due_period_upd = ''; }
@@ -903,7 +900,7 @@ function profitCalAjax(profit_type, sub_cat, loan_cat) {
         $('.scheme-calculation').hide();
         $.ajax({ // To show profit calculation infos based on sub category
             url: 'verificationFile/LoanCalculation/getProfitCalculationInfo.php',
-            data: { 'sub_cat': sub_cat, 'loan_cat': loan_cat },
+            data: { 'loan_cat': loan_cat },
             dataType: 'json',
             type: 'post',
             cache: false,
@@ -1028,11 +1025,11 @@ function profitCalAjax(profit_type, sub_cat, loan_cat) {
     }
 }
 //
-function schemeAjax(due_method, sub_cat) {
+function schemeAjax(due_method, loan_cat) {
     var scheme_upd = $('#scheme_upd').val();
     $.ajax({ //To show scheme names based on sub category
         url: 'verificationFile/LoanCalculation/getSchemeNames.php',
-        data: { 'sub_cat': sub_cat, 'due_method': due_method },
+        data: { 'loan_cat': loan_cat, 'due_method': due_method },
         dataType: 'json',
         type: 'post',
         cache: false,

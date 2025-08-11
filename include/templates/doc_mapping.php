@@ -49,7 +49,6 @@ if($idupd>0)
         for($i=0;$i<sizeof($getDocumentMapping);$i++)  {			
 			$doc_map_id						= $getDocumentMapping['doc_map_id'];
 			$loan_category					= $getDocumentMapping['loan_category'];
-			$sub_category					= $getDocumentMapping['sub_category'];
 			$doc_creation					= $getDocumentMapping['doc_creation'];
 		}
 	}
@@ -79,7 +78,6 @@ if($idupd>0)
 		<input type="hidden" class="form-control" value="<?php if(isset($idupd)) echo $idupd; ?>"  id="id" name="id" aria-describedby="id" placeholder="Enter id">
 		<input type="hidden" class="form-control" value="<?php if(isset($doc_map_id)) echo $doc_map_id; ?>"  id="doc_map_id_upd" name="doc_map_id_upd" aria-describedby="id" placeholder="Enter id">
 		<input type="hidden" class="form-control" value="<?php if(isset($loan_category)) echo $loan_category; ?>"  id="loan_category_upd" name="loan_category_upd" aria-describedby="id" placeholder="Enter id">
-		<input type="hidden" class="form-control" value="<?php if(isset($sub_category)) echo $sub_category; ?>"  id="sub_category_upd" name="sub_category_upd" aria-describedby="id" placeholder="Enter id">
 		<input type="hidden" class="form-control" value="<?php if(isset($doc_creation)) echo $doc_creation; ?>"  id="doc_creation_upd" name="doc_creation_upd" aria-describedby="id" placeholder="Enter id">
 		<!-- Row start -->
 		<div class="row gutters">
@@ -103,14 +101,6 @@ if($idupd>0)
 															<option <?php if(isset($loan_category)) { if($loanCategoryList[$j]['loan_category_name_id'] == $loan_category )  echo 'selected'; }  ?> value="<?php echo $loanCategoryList[$j]['loan_category_name_id']; ?>">
 															<?php echo $loanCategoryList[$j]['loan_category_name'];?></option>
 														<?php }} ?>  
-												</select> 
-										</div>
-									</div>
-									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="disabledInput">Sub Category</label><span class="required">&nbsp;*</span>
-											<select tabindex="2" type="text" class="form-control" id="sub_category" name="sub_category" >
-												<option value="">Select Sub Category</option> 
 												</select> 
 										</div>
 									</div>

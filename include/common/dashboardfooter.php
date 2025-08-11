@@ -1126,17 +1126,7 @@
         <script src="js/loan_category.js"></script>
     <?php }
 
-    if ($current_page == 'loan_calculation') { ?>
-        <script src="js/loan_calculation.js"></script>
-    <?php }
-
-    if ($current_page == 'loan_scheme') { ?>
-        <script src="js/loan_scheme.js"></script>
-    <?php }
-    if ($current_page == 'edit_loan_scheme') { ?>
-        <script src="js/edit_loan_scheme.js"></script>
-    <?php }
-
+   
     if ($current_page == 'area_creation') { ?>
         <script src="js/area_creation.js"></script>
     <?php }

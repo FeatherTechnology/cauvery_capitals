@@ -7,7 +7,7 @@ if (isset($_POST['cus_id'])) {
 
 $records = array();
 
-$result = $connect->query("SELECT req_id, dor, loan_category, sub_category, loan_amt, prompt_remark, cus_status FROM request_creation where cus_id = '" . strip_tags($cus_id) . "' and cus_status <= 22 ORDER BY created_date DESC ");
+$result = $connect->query("SELECT req_id, dor, loan_category,  loan_amt, prompt_remark, cus_status FROM request_creation where cus_id = '" . strip_tags($cus_id) . "' and cus_status <= 22 ORDER BY created_date DESC ");
 
 if ($result->rowCount() > 0) {
     $i = 0;
@@ -21,7 +21,6 @@ if ($result->rowCount() > 0) {
         $row1 = $qry->fetch();
         $records[$i]['loan_category'] = $row1['loan_category_creation_name'];
 
-        $records[$i]['sub_category'] = $row['sub_category'];
         $records[$i]['loan_amt'] = $row['loan_amt'];
         $records[$i]['remark'] = $row['prompt_remark'] ?? '';
         $cus_status = $row['cus_status'];
@@ -105,7 +104,6 @@ if ($result->rowCount() > 0) {
         <th width="25">S. No</th>
         <th>Date</th>
         <th>Loan Category</th>
-        <th>Sub Category</th>
         <th>Amount</th>
         <th>Status</th>
         <th>Sub Status</th>
@@ -118,7 +116,6 @@ if ($result->rowCount() > 0) {
             <td><?php echo $i + 1; ?></td>
             <td><?php echo $records[$i]['dor']; ?></td>
             <td><?php echo $records[$i]['loan_category']; ?></td>
-            <td><?php echo $records[$i]['sub_category']; ?></td>
             <td><?php echo $records[$i]['loan_amt']; ?></td>
             <td><?php echo $records[$i]['status']; ?></td>
             <td><?php echo $records[$i]['sub_status']; ?></td>

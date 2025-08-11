@@ -13,7 +13,7 @@ class NocClass
         $response = array();
         $today = date('Y-m-d');
         $month = (isset($_POST['month']) || $_POST['month'] != '') ? date('Y-m-01', strtotime($_POST['month'])) : date('Y-m-01');
-        $sub_area_list = $_POST['sub_area_list'];
+        $area_list = $_POST['area_list'];
 
         $tot_noc = "SELECT COUNT(*) as tot_noc FROM request_creation req JOIN acknowlegement_customer_profile cp ON cp.req_id = req.req_id WHERE req.cus_status >= 21 ";
         $noc_issueqry = "SELECT req.req_id FROM request_creation req JOIN acknowlegement_customer_profile cp ON cp.req_id = req.req_id WHERE req.cus_status = 21 ";
@@ -23,17 +23,17 @@ class NocClass
         $today_noc = "SELECT COUNT(*) as today_noc FROM request_creation req JOIN acknowlegement_customer_profile cp ON cp.req_id = req.req_id WHERE req.cus_status >= 21 AND date(req.updated_date) = '$month' ";
         $today_noc_issueqry = "SELECT req.req_id FROM request_creation req JOIN acknowlegement_customer_profile cp ON cp.req_id = req.req_id WHERE req.cus_status = 21  ";
 
-        if (empty($sub_area_list)) {
-            $sub_area_list = $this->getUserGroupBasedSubArea($connect, $this->user_id);
+        if (empty($area_list)) {
+            $area_list = $this->getUserGroupBasedSubArea($connect, $this->user_id);
         }
 
-        $tot_noc .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END ) ";
-        $noc_issueqry .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END ) ";
-        $month_noc .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END ) ";
-        $month_noc_bal .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END ) ";
-        $month_noc_issueqry .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END ) ";
-        $today_noc .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END ) ";
-        $today_noc_issueqry .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END ) ";
+        $tot_noc .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END ) ";
+        $noc_issueqry .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END ) ";
+        $month_noc .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END ) ";
+        $month_noc_bal .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END ) ";
+        $month_noc_issueqry .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END ) ";
+        $today_noc .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END ) ";
+        $today_noc_issueqry .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END ) ";
 
 
         $tot_nocQry = $connect->query($tot_noc);
@@ -193,26 +193,33 @@ class NocClass
         return $nocstatus;
     }
     private function getUserGroupBasedSubArea($connect, $user_id)
-    {
-        $sub_area_list = array();
+{
+    $area_ids = [];
 
-        $userQry = $connect->query("SELECT * FROM USER WHERE user_id = $user_id ");
-        while ($rowuser = $userQry->fetch()) {
-            $group_id = $rowuser['group_id'];
-        }
-        $group_id = explode(',', $group_id);
-        foreach ($group_id as $group) {
-            $groupQry = $connect->query("SELECT * FROM area_group_mapping where map_id = $group ");
-            $row_sub = $groupQry->fetch();
-            $sub_area_list[] = $row_sub['sub_area_id'];
-        }
-        $sub_area_ids = array();
-        foreach ($sub_area_list as $subarray) {
-            $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
-        }
-        $sub_area_list = array();
-        $sub_area_list = implode(',', $sub_area_ids);
-
-        return $sub_area_list;
+    // Step 1: Fetch group_id from USER table
+    $userQry = $connect->query("SELECT group_id FROM USER WHERE user_id = $user_id");
+    if ($userQry && $rowuser = $userQry->fetch()) {
+        $group_ids = explode(',', $rowuser['group_id']);
+    } else {
+        // Return empty if no group_id found or query fails
+        return '';
     }
+
+    // Step 2: Fetch area_id(s) for each group
+    foreach ($group_ids as $group) {
+        $group = intval($group); // Sanitize for safety
+
+        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping WHERE map_id = $group");
+        if ($groupQry && $row_sub = $groupQry->fetch()) {
+            if (!empty($row_sub['area_id'])) {
+                $area_ids = array_merge($area_ids, explode(',', $row_sub['area_id']));
+            }
+        }
+        // else: skip this group if query failed
+    }
+
+    // Step 3: Remove duplicates and format
+    $area_ids = array_unique(array_map('intval', $area_ids));
+    return implode(',', $area_ids);
+}
 }

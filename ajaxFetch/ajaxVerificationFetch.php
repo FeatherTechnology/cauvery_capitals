@@ -13,23 +13,25 @@ if (isset($_SESSION["userid"])) {
 if ($userid != 1) {
 
     $userQry = $connect->query("SELECT group_id, loan_cat FROM USER WHERE user_id = $userid ");
-    $rowuser = $userQry->fetch();
+    $rowuser = $userQry->fetch(); 
         $group_id = $rowuser['group_id'];
         $loan_cat = $rowuser['loan_cat'];
     
     $group_id = explode(',', $group_id);
-    $sub_area_list = array();
+    $area_list = array();
     foreach ($group_id as $group) {
-        $groupQry = $connect->query("SELECT sub_area_id FROM area_group_mapping where map_id = $group ");
+        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping where map_id = $group ");
         $row_sub = $groupQry->fetch();
-        $sub_area_list[] = $row_sub['sub_area_id'];
+        if ($row_sub !== false) {  // check if fetch was successful
+        $area_list[] = $row_sub['area_id'];
     }
-    $sub_area_ids = array();
-    foreach ($sub_area_list as $subarray) {
-        $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
     }
-    $sub_area_list = array();
-    $sub_area_list = implode(',', $sub_area_ids);
+    $area_ids = array();
+    foreach ($area_list as $subarray) {
+        $area_ids = array_merge($area_ids, explode(',', $subarray));
+    }
+    $area_list = array();
+    $area_list = implode(',', $area_ids);
 
     if ($loan_cat == null) {
         $loan_cat = '';
@@ -49,7 +51,6 @@ $column = array(
     'a.area_name',
     'sa.sub_area_name',
     'lcc.loan_category_creation_name',
-    'v.sub_category',
     'v.loan_amt',
     'v.user_type',
     'v.user_name',
@@ -64,25 +65,23 @@ $column = array(
 
 
 if ($userid == 1) {
-    $query = "SELECT v.*,a.area_name, sa.sub_area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
+    $query = "SELECT v.*,a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
     FROM in_verification v
     JOIN area_list_creation a ON v.area = a.area_id
-    JOIN sub_area_list_creation sa ON v.sub_area = sa.sub_area_id
-    JOIN area_group_mapping ag ON FIND_IN_SET(sa.sub_area_id, ag.sub_area_id)
+    JOIN area_group_mapping ag ON FIND_IN_SET(a.area_id, ag.area_id)
     JOIN branch_creation bc ON ag.branch_id = bc.branch_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(sa.sub_area_id, alm.sub_area_id)
+    JOIN area_line_mapping alm ON FIND_IN_SET(a.area_id, alm.area_id)
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = v.loan_category
     WHERE v.status = 0 and (v.cus_status NOT IN(4, 5, 6, 7, 8, 9) and v.cus_status < 14) "; //  < 14 means issued
 } else {
-    $query = "SELECT v.*,a.area_name, sa.sub_area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
+    $query = "SELECT v.*,a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
     FROM in_verification v
     JOIN area_list_creation a ON v.area = a.area_id
-    JOIN sub_area_list_creation sa ON v.sub_area = sa.sub_area_id
-    JOIN area_group_mapping ag ON FIND_IN_SET(sa.sub_area_id, ag.sub_area_id)
+    JOIN area_group_mapping ag ON FIND_IN_SET(a.area_id, ag.area_id)
     JOIN branch_creation bc ON ag.branch_id = bc.branch_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(sa.sub_area_id, alm.sub_area_id)
+    JOIN area_line_mapping alm ON FIND_IN_SET(a.area_id, alm.area_id)
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = v.loan_category
-    WHERE v.status = 0 and (v.cus_status NOT IN(4, 5, 6, 7, 8, 9) and v.cus_status < 14) AND v.sub_area IN ($sub_area_list) "; //show only moved to verification list and cancelled at verification 
+    WHERE v.status = 0 and (v.cus_status NOT IN(4, 5, 6, 7, 8, 9) and v.cus_status < 14) AND v.area IN ($area_list) "; //show only moved to verification list and cancelled at verification 
 
     if ($loan_cat != null and $loan_cat != '') {
         $query .= "and v.loan_category IN ($loan_cat)"; // show only user's loan cat allocation
@@ -98,9 +97,7 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
             OR alm.line_name LIKE '%" . $_POST['search'] . "%'
             OR v.mobile1 LIKE '%" . $_POST['search'] . "%'
             OR a.area_name LIKE '%" . $_POST['search'] . "%'
-            OR sa.sub_area_name LIKE '%" . $_POST['search'] . "%'
             OR lcc.loan_category_creation_name LIKE '%" . $_POST['search'] . "%'
-            OR v.sub_category LIKE '%" . $_POST['search'] . "%'
             OR v.loan_amt LIKE '%" . $_POST['search'] . "%'
             OR v.user_type LIKE '%" . $_POST['search'] . "%'
             OR v.responsible LIKE '%" . $_POST['search'] . "%'
@@ -149,9 +146,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['line_name'];
     $sub_array[] = $row['mobile1'];
     $sub_array[] = $row['area_name'];
-    $sub_array[] = $row['sub_area_name'];
     $sub_array[] = $row["loan_category_creation_name"];
-    $sub_array[] = $row['sub_category'];
 
     $sub_array[] = moneyFormatIndia($row['loan_amt']);
     $sub_array[] = $row['user_type'];

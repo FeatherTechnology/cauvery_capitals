@@ -14,7 +14,6 @@ if ($res->rowCount()>0)
         // $loan_categoryId[$i]      = $row['loan_category_id']; 
         $detailrecords[$i]['loan_category_id']      = $row['loan_category_id']; 
         $detailrecords[$i]['loan_category_name_id']    = $row['loan_category_name'];
-        $detailrecords[$i]['sub_category_name']    = $row['sub_category_name']; 
         
         //For getting loan category name
         $Qry = "SELECT * FROM loan_category_creation WHERE loan_category_creation_id= '".$detailrecords[$i]['loan_category_name_id']."' and status = 0 "; 

@@ -68,7 +68,7 @@ function requestReportTable(){
             };
 
             // Array of column indices to sum
-            var columnsToSum = [9];
+            var columnsToSum = [7];
 
             // Loop through each column index
             columnsToSum.forEach(function (colIndex) {

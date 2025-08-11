@@ -9,7 +9,6 @@ if (isset($_SESSION["userid"])) {
 $column = array(
     'ac.area_creation_id',
     'alc.area_name',
-    'ac.sub_area',
     'ac.taluk',
     'ac.district',
     'ac.state',
@@ -23,7 +22,6 @@ JOIN area_list_creation alc ON alc.area_id = ac.area_name_id WHERE 1 ";
 if (isset($_POST['search']) && $_POST['search'] != "") {
 
     $query .= "and (alc.area_name LIKE '%" . $_POST['search'] . "%' 
-            OR ac.sub_area LIKE '%" . $_POST['search'] . "%' 
             OR ac.taluk LIKE '%" . $_POST['search'] . "%' 
             OR ac.district LIKE '%" . $_POST['search'] . "%' 
             OR ac.state LIKE '%" . $_POST['search'] . "%' 
@@ -54,18 +52,6 @@ foreach ($result as $row) {
 
     $sub_array[] = $sno;
     $sub_array[] = $row["area_name"];
-
-    $sub_area_id = explode(',', $row['sub_area']);
-    $sub_area_name = '';
-    foreach ($sub_area_id as $id) {
-        $getsubareaQry = "SELECT * from sub_area_list_creation where sub_area_id = '" . $id . "' and status = 0 ";
-        $res = $connect->query($getsubareaQry);
-        $row1 = $res->fetch();
-        $sub_area_name .= $row1["sub_area_name"] . ', ';
-    }
-    $sub_area_name = rtrim($sub_area_name, ' , '); // will remove the last comma from string
-
-    $sub_array[] = $sub_area_name;
     $sub_array[] = $row['taluk'];
     $sub_array[] = $row['district'];
     $sub_array[] = $row['state'];

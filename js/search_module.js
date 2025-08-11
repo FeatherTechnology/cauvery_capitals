@@ -24,7 +24,6 @@ $(document).ready(function () {
                                 <td>${val.cus_id}</td>
                                 <td>${val.cus_name}</td>
                                 <td>${val.area}</td>
-                                <td>${val.sub_area}</td>
                                 <td>${val.branch}</td>
                                 <td>${val.line}</td>
                                 <td>${val.group}</td>

@@ -16,12 +16,6 @@ $(document).ready(function () {
         $("#loan_category").prepend(firstOption);
     }
 
-    //change sub category based on Loan category
-    $('#loan_category').change(function () {
-        var loan_cat = $('#loan_category').val();
-        getSubCategory(loan_cat);
-    })
-
     $('#doc_creation1').change(function () {
         var doc_creation1 = docMultiselect.getValue();
         var doc_creation = '';
@@ -40,8 +34,8 @@ $(document).ready(function () {
 
     $('#submit_doc_mapping').click(function () {
         //Validations
-        var loan_category = $('#loan_category').val(); var sub_category = $('#sub_category').val(); var doc_creation = docMultiselect.getValue();
-        if (loan_category === '' || sub_category === '' || doc_creation.length == 0) {
+        var loan_category = $('#loan_category').val(); var doc_creation = docMultiselect.getValue();
+        if (loan_category === '' || doc_creation.length == 0) {
             Swal.fire({
                 timerProgressBar: true,
                 timer: 2000,
@@ -60,46 +54,9 @@ $(document).ready(function () {
 
 $(function () {
     getDocumentCreationDropdown();
-    var doc_map_id_upd = $('#doc_map_id_upd').val();
-    if (doc_map_id_upd > 0) {
-        var loan_category_upd = $('#loan_category_upd').val()
-        getSubCategory(loan_category_upd);
-    } else {
-    }
 })
 
-//Fetch Sub Category Based on loan category
-function getSubCategory(loan_cat) {
-    var sub_category_upd = $('#sub_category_upd').val()
-    $.ajax({
-        url: 'loanCalculationFile/getLoanSubCategory.php',
-        type: 'POST',
-        dataType: 'json',
-        cache: false,
-        data: { 'loan_cat': loan_cat },
-        success: function (response) {
-            $('#sub_category').empty();
-            $('#sub_category').append(`<option value=''>Select Sub Category</option>`);
-            for (var i = 0; i < response.length; i++) {
-                if (response[i]['sub_category_name'] != '' && response[i]['sub_category_name'] != null) {
-                    var selected = '';
-                    if (sub_category_upd == response[i]['sub_category_name']) {
-                        selected = 'selected';
-                        response[i]['disabled'] = '';
-                    }
-                    $('#sub_category').append("<option value= '" + response[i]['sub_category_name'] + "' " + selected + " " + response[i]['disabled'] + " > " + response[i]['sub_category_name'] + " </option>")
-                }
-            }
-            {//To Order sub_category Alphabetically
-                var firstOption = $("#sub_category option:first-child");
-                $("#sub_category").html($("#sub_category option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#sub_category").prepend(firstOption);
-            }
-        }
-    })
-}
+
 
 function getDocumentCreationDropdown() {
     var doc_creation_upd = $('#doc_creation_upd').val().split(',');

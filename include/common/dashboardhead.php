@@ -43,9 +43,6 @@
 
 	<link rel="stylesheet" type="text/css" href="cssd/datatables.min.css" />
 
-	<!-- angular page -->
-	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script> -->
-
 	<style>
 		.dataTables_length {
 			margin-bottom: 30px;

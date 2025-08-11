@@ -5,8 +5,8 @@ include('../../ajaxconfig.php');
 // if(isset($_SESSION['userid'])){
 //     $userid = $_SESSION['userid'];
 // }
-if(isset($_POST['sub_cat'])){
-    $sub_cat = $_POST['sub_cat'];
+if(isset($_POST['loan_cat'])){
+    $loan_cat = $_POST['loan_cat'];
 }
 if(isset($_POST['due_method'])){
     $due_method = $_POST['due_method'];
@@ -18,7 +18,7 @@ if(isset($_POST['due_method'])){
 $detailrecords = array();
 
 //Fetched where selected sub category and due method matches
-$result=$connect->query(" SELECT * FROM loan_scheme WHERE FIND_IN_SET('".strip_tags($sub_cat)."', sub_category) AND due_method = '".strip_tags($due_method)."' "); 
+$result=$connect->query(" SELECT * FROM loan_scheme WHERE FIND_IN_SET('".strip_tags($loan_cat)."', loan_category) AND due_method = '".strip_tags($due_method)."' "); 
 $i=0;
 while($row = $result->fetch()){
     $detailrecords[$i]['scheme_id'] = $row['scheme_id'];

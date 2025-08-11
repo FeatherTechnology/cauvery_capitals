@@ -195,9 +195,9 @@ function calculateOthers($loan_arr, $response, $connect, $req_id)
                 $penalty_raised_date  = $start_date_obj->format('Y-m');
                 // If due month exceeded
                 if ($loan_arr['scheme_name'] == '' || $loan_arr['scheme_name'] == null) {
-                    $result = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '" . $loan_arr['loan_category'] . "' and sub_category = '" . $loan_arr['sub_category'] . "' ");
+                    $result = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '" . $loan_arr['loan_category'] . "' ");
                 } else {
-                    $result = $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "' AND FIND_IN_SET('" . $loan_arr['sub_category'] . "', sub_category)");
+                    $result = $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "'");
                 }
                 $row = $result->fetch();
                 $penalty_per = $row['overdue']; //get penalty percentage to insert
@@ -279,9 +279,9 @@ function calculateOthers($loan_arr, $response, $connect, $req_id)
 
                 // If due month exceeded
                 if ($loan_arr['scheme_name'] == '' || $loan_arr['scheme_name'] == null) {
-                    $result = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '" . $loan_arr['loan_category'] . "' and sub_category = '" . $loan_arr['sub_category'] . "' ");
+                    $result = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '" . $loan_arr['loan_category'] . "' ");
                 } else {
-                    $result = $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "' AND FIND_IN_SET('" . $loan_arr['sub_category'] . "', sub_category)");
+                    $result = $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "' ");
                 }
                 $row = $result->fetch();
                 $penalty_per = number_format($row['overdue'] * $count); //Count represents how many months are exceeded//Number format if percentage exeeded decimals then pernalty may increase
@@ -330,9 +330,9 @@ function calculateOthers($loan_arr, $response, $connect, $req_id)
             $penalty_raised_date  = $start_date_obj->format('Y-m-d');
             // If due month exceeded
             if ($loan_arr['scheme_name'] == '' || $loan_arr['scheme_name'] == null) {
-                $result = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '" . $loan_arr['loan_category'] . "' and sub_category = '" . $loan_arr['sub_category'] . "' ");
+                $result = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '" . $loan_arr['loan_category'] . "' ");
             } else {
-                $result = $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "' and sub_category = '" . $loan_arr['sub_category'] . "' ");
+                $result = $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "' ");
             }
             $row = $result->fetch();
             $penalty_per = $row['overdue']; //get penalty percentage to insert
@@ -411,9 +411,9 @@ function calculateOthers($loan_arr, $response, $connect, $req_id)
 
             // If due month exceeded
             if ($loan_arr['scheme_name'] == '' || $loan_arr['scheme_name'] == null) {
-                $result = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '" . $loan_arr['loan_category'] . "' and sub_category = '" . $loan_arr['sub_category'] . "' ");
+                $result = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '" . $loan_arr['loan_category'] . "' ");
             } else {
-                $result = $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "' and sub_category = '" . $loan_arr['sub_category'] . "' ");
+                $result = $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "' ");
             }
             $row = $result->fetch();
             $penalty_per = number_format($row['overdue'] * $count); //Count represents how many months are exceeded//Number format if percentage exeeded decimals then pernalty may increase
@@ -453,9 +453,9 @@ function calculateOthers($loan_arr, $response, $connect, $req_id)
             $penalty_raised_date  = $start_date_obj->format('Y-m-d');
             // If due month exceeded
             if ($loan_arr['scheme_name'] == '' || $loan_arr['scheme_name'] == null) {
-                $result = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '" . $loan_arr['loan_category'] . "' and sub_category = '" . $loan_arr['sub_category'] . "' ");
+                $result = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '" . $loan_arr['loan_category'] . "' ");
             } else {
-                $result = $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "' and sub_category = '" . $loan_arr['sub_category'] . "' ");
+                $result = $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "' ");
             }
             $row = $result->fetch();
             $penalty_per = $row['overdue']; //get penalty percentage to insert
@@ -532,9 +532,9 @@ function calculateOthers($loan_arr, $response, $connect, $req_id)
 
             // If due month exceeded
             if ($loan_arr['scheme_name'] == '' || $loan_arr['scheme_name'] == null) {
-                $result = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '" . $loan_arr['loan_category'] . "' and sub_category = '" . $loan_arr['sub_category'] . "' ");
+                $result = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '" . $loan_arr['loan_category'] . "' ");
             } else {
-                $result = $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "' and sub_category = '" . $loan_arr['sub_category'] . "' ");
+                $result = $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "'");
             }
             $row = $result->fetch();
             $penalty_per = number_format($row['overdue'] * $count); //Count represents how many months are exceeded//Number format if percentage exeeded decimals then pernalty may increase
@@ -729,7 +729,6 @@ function dueAmtCalculation($connect, $start_date, $end_date, $due_amt, $loan_arr
     $int_rate = $loan_arr['int_rate'];
     $scheme_name = $loan_arr['scheme_name'];
     $loan_category = $loan_arr['loan_category'];
-    $sub_category = $loan_arr['sub_category'];
 
     $result = 0;
     $qry = $connect->query("SELECT princ_amt_track FROM `collection` WHERE req_id = '" . $req_id . "' and princ_amt_track != '' ORDER BY coll_date ASC ");
@@ -798,10 +797,10 @@ function dueAmtCalculation($connect, $start_date, $end_date, $due_amt, $loan_arr
             if ($status == 'pending') { //raising penalty if loops for looping month
 
                 if ($scheme_name == '' || $scheme_name == null) {
-                    $ovqry = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '$loan_category' and sub_category = '$sub_category' ");
+                    $ovqry = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '$loan_category'");
                 } else {
 
-                    $ovqry = $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "' AND FIND_IN_SET('" . $loan_arr['sub_category'] . "', sub_category)");
+                    $ovqry = $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "'");
                 }
                 $row = $ovqry->fetch();
                 $penalty_per = $row['overdue']; //get penalty percentage to insert
@@ -858,9 +857,9 @@ function dueAmtCalculation($connect, $start_date, $end_date, $due_amt, $loan_arr
             if ($status == 'pending') { //raising penalty if loops for looping month
 
                 if ($scheme_name == '' || $scheme_name == null) {
-                    $ovqry = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '$loan_category' and sub_category = '$sub_category' ");
+                    $ovqry = $connect->query("SELECT overdue FROM `loan_calculation` WHERE loan_category = '$loan_category' ");
                 } else {
-                    $ovqry =  $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "' AND FIND_IN_SET('" . $loan_arr['sub_category'] . "', sub_category)");
+                    $ovqry =  $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "'");
                 }
                 $row = $ovqry->fetch();
                 $penalty_per = $row['overdue']; //get penalty percentage to insert

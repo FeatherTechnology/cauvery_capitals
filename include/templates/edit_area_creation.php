@@ -51,7 +51,6 @@
 							<tr>
 								<th>S. No.</th>
 								<th>Area Name</th>
-								<th>Sub Area</th>
 								<th>Taluk</th>
 								<th>District</th>
 								<th>State</th>

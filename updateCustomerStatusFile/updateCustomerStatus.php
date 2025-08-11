@@ -1,5 +1,5 @@
 <?php
-include 'C:/xampp/htdocs/marudham_capitals/ajaxconfig.php';
+include '../ajaxconfig.php';
 session_start();
 if (isset($_POST['userid'])) {
     $userid = $_POST['userid'];

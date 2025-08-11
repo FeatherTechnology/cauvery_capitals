@@ -9,7 +9,6 @@ if (isset($_SESSION["userid"])) {
 $column = array(
     'lc.loan_category_id',
     'lc.loan_category_name',
-    'lc.sub_category_name',
     'lc.loan_limit',
     'lc.status',
     'lc.status'
@@ -20,7 +19,6 @@ $query = "SELECT lc.*,lcc.loan_category_creation_name FROM loan_category lc JOIN
 if (isset($_POST['search']) && $_POST['search'] != "") {
 
     $query .= "and (lcc.loan_category_creation_name LIKE '%" . $_POST['search'] . "%'
-            OR lc.sub_category_name LIKE  '%" . $_POST['search'] . "%'
             OR lc.loan_limit LIKE  '%" . $_POST['search'] . "%') ";
 }
 
@@ -53,7 +51,6 @@ foreach ($result as $row) {
     }
 
     $sub_array[] = $row["loan_category_creation_name"];
-    $sub_array[] = $row['sub_category_name'];
     $sub_array[] = moneyFormatIndia($row['loan_limit']);
     $status      = $row['status'];
 

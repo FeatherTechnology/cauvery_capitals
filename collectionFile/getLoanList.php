@@ -59,7 +59,6 @@ function moneyFormatIndia($num)
         <tr>
             <th width="50">Loan ID</th>
             <th>Loan Category</th>
-            <th>Sub Category</th>
             <th>Agent</th>
             <th>Loan date</th>
             <th>Loan Amount</th>
@@ -77,7 +76,7 @@ function moneyFormatIndia($num)
         <?php
         $req_id = $_POST['req_id'];
         $cus_id = $_POST['cus_id'];
-        $run = $connect->query("SELECT lc.due_start_from,lc.loan_category,lc.sub_category,lc.loan_amt_cal,lc.due_amt_cal,lc.net_cash_cal,lc.collection_method,ii.loan_id,ii.req_id,ii.updated_date,ii.cus_status,
+        $run = $connect->query("SELECT lc.due_start_from,lc.loan_category,lc.loan_amt_cal,lc.due_amt_cal,lc.net_cash_cal,lc.collection_method,ii.loan_id,ii.req_id,ii.updated_date,ii.cus_status,
         rc.agent_id,lcc.loan_category_creation_name as loan_catrgory_name, us.collection_access
         from acknowlegement_loan_calculation lc 
         LEFT JOIN in_issue ii ON lc.req_id = ii.req_id 
@@ -95,7 +94,6 @@ function moneyFormatIndia($num)
             <tr>
                 <td><?php echo $row['loan_id']; ?></td>
                 <td><?php echo $row["loan_catrgory_name"]; ?></td>
-                <td><?php echo $row["sub_category"]; ?></td>
                 <td>
                     <?php
                     if ($row["agent_id"] != '' || $row["agent_id"] != NULL) {

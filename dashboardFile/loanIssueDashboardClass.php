@@ -14,7 +14,7 @@ class LoanIssueClass
         $response = array();
         $today = date('Y-m-d');
         $month = (isset($_POST['month']) && $_POST['month'] != '') ? date('Y-m-01', strtotime($_POST['month'])) : date('Y-m-01');
-        $sub_area_list = $_POST['sub_area_list'];
+        $area_list = $_POST['area_list'];
 
         $tot_li = "SELECT COUNT(*) as tot_li FROM request_creation where cus_status >= 13 and month(updated_date) = month('$month') and year(updated_date) = year('$month') ";
         $today_li = "SELECT COUNT(*) as today_li FROM request_creation where cus_status = 13 and date(updated_date) = '$today' ";
@@ -35,28 +35,28 @@ class LoanIssueClass
         $today_li_amt = "SELECT COALESCE(SUM(lc.net_cash_cal),0) as today_li_amt FROM request_creation req JOIN acknowlegement_loan_calculation lc ON lc.req_id = req.req_id LEFT JOIN acknowlegement_customer_profile cp ON cp.req_id = req.req_id WHERE req.cus_status = 13 and date(req.updated_date) = '$today' ";
         $today_issued_amt = "SELECT COALESCE(SUM(li.cash + li.cheque_value + li.transaction_value),0) as today_issued_amt from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id where date(li.created_date) = '$today' ";
 
-        if (empty($sub_area_list)) {
-            $sub_area_list = $this->getUserGroupBasedSubArea($connect, $this->user_id);
+        if (empty($area_list)) {
+            $area_list = $this->getUserGroupBasedSubArea($connect, $this->user_id);
         }
 
-        $tot_li .= " AND sub_area IN ($sub_area_list) ";
-        $today_li .= " AND sub_area IN ($sub_area_list) ";
-        $tot_li_issue .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-        $today_li_issue .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-        $tot_li_bal .= " AND sub_area IN ($sub_area_list) ";
-        $today_li_bal .= " AND sub_area IN ($sub_area_list) ";
-        $tot_new .= " AND sub_area IN ($sub_area_list) ";
-        $tot_cash .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-        $today_cash .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-        $tot_cheque .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-        $today_cheque .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-        $tot_transaction .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-        $today_transaction .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-        $today_new .= " AND sub_area IN ($sub_area_list) ";
-        $tot_existing .= " AND sub_area IN ($sub_area_list) ";
-        $today_existing .= " AND sub_area IN ($sub_area_list) ";
-        $today_li_amt .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-        $today_issued_amt .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
+        $tot_li .= " AND area IN ($area_list) ";
+        $today_li .= " AND area IN ($area_list) ";
+        $tot_li_issue .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+        $today_li_issue .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+        $tot_li_bal .= " AND area IN ($area_list) ";
+        $today_li_bal .= " AND area IN ($area_list) ";
+        $tot_new .= " AND area IN ($area_list) ";
+        $tot_cash .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+        $today_cash .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+        $tot_cheque .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+        $today_cheque .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+        $tot_transaction .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+        $today_transaction .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+        $today_new .= " AND area IN ($area_list) ";
+        $tot_existing .= " AND area IN ($area_list) ";
+        $today_existing .= " AND area IN ($area_list) ";
+        $today_li_amt .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+        $today_issued_amt .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
 
 
         $tot_liQry = $connect->query($tot_li);
@@ -103,28 +103,38 @@ class LoanIssueClass
 
 
         return $response;
-    }
-    function getUserGroupBasedSubArea($connect, $user_id)
-    {
-        $sub_area_list = array();
+    }function getUserGroupBasedSubArea($connect, $user_id)
+{
+    $area_ids = [];
 
-        $userQry = $connect->query("SELECT * FROM USER WHERE user_id = $user_id ");
-        while ($rowuser = $userQry->fetch()) {
-            $group_id = $rowuser['group_id'];
-        }
-        $group_id = explode(',', $group_id);
-        foreach ($group_id as $group) {
-            $groupQry = $connect->query("SELECT * FROM area_group_mapping where map_id = $group ");
-            $row_sub = $groupQry->fetch();
-            $sub_area_list[] = $row_sub['sub_area_id'];
-        }
-        $sub_area_ids = array();
-        foreach ($sub_area_list as $subarray) {
-            $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
-        }
-        $sub_area_list = array();
-        $sub_area_list = implode(',', $sub_area_ids);
-
-        return $sub_area_list;
+    // Get group_id from USER table
+    $userQry = $connect->query("SELECT group_id FROM USER WHERE user_id = $user_id");
+    if ($userQry && $rowuser = $userQry->fetch()) {
+        $group_ids = explode(',', $rowuser['group_id']);
+    } else {
+        // No user or failed query
+        return '';
     }
+
+    // Loop through group IDs to fetch area IDs
+    foreach ($group_ids as $group) {
+        $group = intval($group); // safety cast
+
+        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping WHERE map_id = $group");
+        if ($groupQry && $row_sub = $groupQry->fetch()) {
+            if (!empty($row_sub['area_id'])) {
+                $area_list = explode(',', $row_sub['area_id']);
+                $area_ids = array_merge($area_ids, $area_list);
+            }
+        }
+        // if query fails or no area_id found, skip silently
+    }
+
+    // Remove duplicates and sanitize
+    $area_ids = array_unique(array_map('intval', $area_ids));
+
+    // Return as comma-separated string
+    return implode(',', $area_ids);
+}
+
 }

@@ -18,9 +18,7 @@ if (isset($_POST['cus_name'])) {
 if (isset($_POST['area_id'])) {
     $area_id =  $_POST['area_id'];
 }
-if (isset($_POST['sub_area_id'])) {
-    $sub_area_id = $_POST['sub_area_id'];
-}
+
 if (isset($_POST['branch_id'])) {
     $branch_id = $_POST['branch_id'];
 }
@@ -36,9 +34,7 @@ if (isset($_POST['cus_image'])) {
 if (isset($_POST['loan_category_id'])) {
     $loan_category_id = $_POST['loan_category_id'];
 }
-if (isset($_POST['sub_category_id'])) {
-    $sub_category_id = $_POST['sub_category_id'];
-}
+
 if (isset($_POST['status'])) {
     $status = $_POST['status'];
 }
@@ -148,12 +144,12 @@ try{
         $coll_code = $myStr."-101";
     }
 
-    $insertQry = "INSERT INTO `collection`(  `coll_code`, `req_id`, `cus_id`, `cus_name`, `branch`, `area`, `sub_area`, `line`, `loan_category`, `sub_category`, `coll_status`, 
+    $insertQry = "INSERT INTO `collection`(  `coll_code`, `req_id`, `cus_id`, `cus_name`, `branch`, `area`,  `line`, `loan_category`, `coll_status`, 
         `coll_sub_status`, `tot_amt`, `paid_amt`, `bal_amt`, `due_amt`, `pending_amt`, `payable_amt`, `penalty`, `coll_charge`, `coll_mode`, `bank_id`, `cheque_no`, `trans_id`, `trans_date`, 
         `coll_location`, `coll_date`, `due_amt_track`,`princ_amt_track`,`int_amt_track`, `penalty_track`, `coll_charge_track`, `total_paid_track`, `pre_close_waiver`, `penalty_waiver`, `coll_charge_waiver`, 
         `total_waiver`, `insert_login_id`,`created_date`)  VALUES('" . strip_tags($coll_code) . "','" . strip_tags($req_id) . "','" . strip_tags($cus_id) . "','" . strip_tags($cus_name) . "',
-        '" . strip_tags($branch_id) . "', '" . strip_tags($area_id) . "', '" . strip_tags($sub_area_id) . "', '" . strip_tags($line_id) . "','" . strip_tags($loan_category_id) . "',
-        '" . strip_tags($sub_category_id) . "','" . strip_tags($status) . "','" . strip_tags($sub_status) . "', '" . strip_tags($tot_amt) . "', '" . strip_tags($paid_amt) . "', 
+        '" . strip_tags($branch_id) . "', '" . strip_tags($area_id) . "', '" . strip_tags($line_id) . "','" . strip_tags($loan_category_id) . "',
+        '" . strip_tags($status) . "','" . strip_tags($sub_status) . "', '" . strip_tags($tot_amt) . "', '" . strip_tags($paid_amt) . "', 
         '" . strip_tags($bal_amt) . "','" . strip_tags($due_amt) . "','" . strip_tags($pending_amt) . "','" . strip_tags($payable_amt) . "','" . strip_tags($penalty) . "','" . strip_tags($coll_charge) . "',
         '" . strip_tags($collection_mode) . "','" . strip_tags($bank_id) . "','" . strip_tags($cheque_no) . "','" . strip_tags($trans_id) . "','" . strip_tags($trans_date) . "','" . strip_tags($collection_loc) . "',
         '" . strip_tags($collection_date) . "','" . strip_tags($due_amt_track) . "','" . strip_tags($princ_amt_track) . "','" . strip_tags($int_amt_track) . "','" . strip_tags($penalty_track) . "','" . strip_tags($coll_charge_track) . "','" . strip_tags($total_paid_track) . "',
@@ -277,26 +273,6 @@ try{
     
     $query = $connect->query("UPDATE `customer_status` SET `cus_id`='$cus_id',`sub_status`='$substs',`payable_amnt` = '$payable_amnts', `bal_amnt`='$bal_amnts', `last_paid_date`= '$lpd', `current_month_paid`='1', `insert_login_id`='$userid',`created_date`='$cur_date' WHERE `req_id`='$req_id' ");
     
-
-    // $qry = $connect->query("SELECT customer_name, mobile1 from customer_register where req_ref_id = '$req_id' ");
-    // $row = $qry->fetch_assoc();
-    // $customer_name = $row['customer_name'];
-    // $cus_mobile1 = $row['mobile1'];
-
-    // $message = "";
-    // $templateid	= ''; //FROM DLT PORTAL.
-    // // Account details
-    // $apiKey = '';
-    // // Message details
-    // $sender = '';
-    // // Prepare data for POST request
-    // $data = 'access_token='.$apiKey.'&to='.$cus_mobile1.'&message='.$message.'&service=T&sender='.$sender.'&template_id='.$templateid;
-    // // Send the GET request with cURL
-    // $url = 'https://sms.messagewall.in/api/v2/sms/send?'.$data; 
-    // $response = file_get_contents($url);  
-    // // Process your response here
-    // return $response; 
-
     // Commit the transaction
     $connect->commit();
 

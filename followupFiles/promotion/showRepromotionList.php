@@ -7,14 +7,13 @@ $follow_up_date = '';
 
 $sno = 1;
 $Obj = new promotionListClass($connect);
-$sub_area_list = $Obj->sub_area_list;
+$area_list = $Obj->area_list;
 
 $column = array(
     'cp.cus_reg_id',                  
     'cp.cus_id',              
     'cp.customer_name',            
-    'al.area_name',           
-    'sl.sub_area_name',       
+    'al.area_name',       
     'bc.branch_name',         
     'agm.group_name',                   
     'alm.line_name',           
@@ -30,7 +29,7 @@ $column = array(
 
 $search = '';
 if (isset($_POST['search']) && $_POST['search'] != "") {
-    $search = " and (cp.cus_id LIKE '%" . $_POST['search'] . "%' or cp.customer_name LIKE '%" . $_POST['search'] . "%' or al.area_name LIKE '%" . $_POST['search'] . "%' or sl.sub_area_name LIKE '%" . $_POST['search'] . "%' or bc.branch_name LIKE '%" . $_POST['search'] . "%' or agm.group_name LIKE '%" . $_POST['search'] . "%' or alm.line_name LIKE '%" . $_POST['search'] . "%' or cp.mobile1 LIKE '%" . $_POST['search'] . "%' or np.status LIKE '%" . $_POST['search'] . "%' ) ";
+    $search = " and (cp.cus_id LIKE '%" . $_POST['search'] . "%' or cp.customer_name LIKE '%" . $_POST['search'] . "%' or al.area_name LIKE '%" . $_POST['search'] . "%'  or bc.branch_name LIKE '%" . $_POST['search'] . "%' or agm.group_name LIKE '%" . $_POST['search'] . "%' or alm.line_name LIKE '%" . $_POST['search'] . "%' or cp.mobile1 LIKE '%" . $_POST['search'] . "%' or np.status LIKE '%" . $_POST['search'] . "%' ) ";
 }
 
 $order = '';
@@ -38,7 +37,7 @@ if (isset($_POST['order'])) {
     $order = ' ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
 }
 
-    $qry = "SELECT req.req_id, req.cus_data, req.cus_id, cp.customer_name, al.area_name, sl.sub_area_name, bc.branch_name, agm.group_name, alm.line_name, cp.mobile1, req.cus_status AS consider_level, req.updated_date, np.status AS followup_sts, np.follow_date 
+    $qry = "SELECT req.req_id, req.cus_data, req.cus_id, cp.customer_name, al.area_name, bc.branch_name, agm.group_name, alm.line_name, cp.mobile1, req.cus_status AS consider_level, req.updated_date, np.status AS followup_sts, np.follow_date 
     FROM request_creation req 
     LEFT JOIN customer_register cp ON req.cus_id = cp.cus_id 
     LEFT JOIN (
@@ -48,13 +47,12 @@ if (isset($_POST['order'])) {
         AND cus_status < 20 
     ) rc ON req.cus_id = rc.cus_id 
     LEFT JOIN area_list_creation al ON al.area_id = CASE WHEN req.cus_status IN (6, 7) THEN cp.area_confirm_area ELSE cp.area END
-    LEFT JOIN sub_area_list_creation sl ON sl.sub_area_id = CASE WHEN req.cus_status IN (6, 7) THEN cp.area_confirm_subarea ELSE cp.sub_area END
-    LEFT JOIN area_group_mapping agm ON FIND_IN_SET(sl.sub_area_id, agm.sub_area_id) 
-    LEFT JOIN area_line_mapping alm ON FIND_IN_SET(sl.sub_area_id, alm.sub_area_id) 
+    LEFT JOIN area_group_mapping agm ON FIND_IN_SET(al.area_id, agm.area_id) 
+    LEFT JOIN area_line_mapping alm ON FIND_IN_SET(al.area_id, alm.area_id) 
     LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id 
     LEFT JOIN ( SELECT cus_id, MAX(follow_date) AS follow_date, status FROM new_promotion GROUP BY cus_id ) np ON req.cus_id = np.cus_id
     WHERE req.cus_status BETWEEN 4 AND 9 
-    AND CASE WHEN req.cus_status IN (6, 7) THEN cp.area_confirm_subarea ELSE cp.sub_area END IN  ($sub_area_list) AND rc.cus_id IS NULL ";
+    AND CASE WHEN req.cus_status IN (6,7) THEN cp.area_confirm_subarea ELSE cp.area END IN  ($area_list) AND rc.cus_id IS NULL ";
 
     if($_POST['followUpSts']){
         $follow_up_sts = $_POST['followUpSts'];
@@ -96,7 +94,6 @@ while ($row = $sql->fetch()) {
     $sub_array[] = $row['cus_id'];
     $sub_array[] = $row['customer_name'];
     $sub_array[] = $row['area_name'];
-    $sub_array[] = $row['sub_area_name'];
     $sub_array[] = $row['branch_name'];
     $sub_array[] = $row['group_name'];
     $sub_array[] = $row['line_name'];

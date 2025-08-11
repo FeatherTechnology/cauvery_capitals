@@ -77,31 +77,31 @@ class branchProcess
         return $response;
     }
 
-    public function getSubAreaList($branch_id, $user_id)
+    public function getAreaList($branch_id, $user_id)
     {
-        $sub_area_list = array();
+        $area_list = array();
 
         if ($branch_id == 0) {
             $branch_list = $this->getBranchList($user_id);
             foreach ($branch_list as $branch) {
-                $qry = $this->connect->query("SELECT sub_area_id FROM area_group_mapping WHERE branch_id = '" . $branch['branch_id'] . "'");
+                $qry = $this->connect->query("SELECT area_id FROM area_group_mapping WHERE branch_id = '" . $branch['branch_id'] . "'");
                 while ($row = $qry->fetch()) {
-                    $sub_area_list[] = $row['sub_area_id'];
+                    $area_list[] = $row['area_id'];
                 }
             }
         } else {
-            $qry = $this->connect->query("SELECT sub_area_id FROM area_group_mapping WHERE branch_id = $branch_id");
+            $qry = $this->connect->query("SELECT area_id FROM area_group_mapping WHERE branch_id = $branch_id");
             while ($row = $qry->fetch()) {
-                $sub_area_list[] = $row['sub_area_id'];
+                $area_list[] = $row['area_id'];
             }
         }
 
-        $sub_area_ids = array();
-        foreach ($sub_area_list as $subarray) {
-            $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
+        $area_ids = array();
+        foreach ($area_list as $subarray) {
+            $area_ids = array_merge($area_ids, explode(',', $subarray));
         }
-        $sub_area_list = implode(',', $sub_area_ids);
+        $area_list = implode(',', $area_ids);
 
-        return !empty($sub_area_list) ? $sub_area_list : 'Error';
+        return !empty($area_list) ? $area_list : 'Error';
     }
 }

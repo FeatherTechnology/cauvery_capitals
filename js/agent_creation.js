@@ -4,11 +4,6 @@ const loanCatMultiselect = new Choices('#loan_category1', {
     noChoicesText: 'Select Loan Category',
     allowHTML: true
 });
-const subCatMultiselect = new Choices('#sub_category1', {
-    removeItemButton: true,
-    noChoicesText: 'Select Sub Category',
-    allowHTML: true
-});
 const schemeMultiselect = new Choices('#scheme1', {
     removeItemButton: true,
     noChoicesText: 'Select Scheme Name',
@@ -60,26 +55,7 @@ $(document).ready(function () {
         $('#loan_category').val(sortedStr);
         var loanselected = $('#loan_category').val();
 
-        getSubCategory(loanselected);
-    })
-
-    $('#sub_category1').change(function () {
-        //Sub category select store
-        var subCatList = subCatMultiselect.getValue();
-        var subcat = '';
-        for (var i = 0; i < subCatList.length; i++) {
-            if (i > 0) {
-                subcat += ',';
-            }
-            subcat += subCatList[i].value;
-        }
-        var arr = subcat.split(",");
-        arr.sort(function (a, b) { return a - b });
-        var sortedStr = arr.join(",");
-        $('#sub_category').val(sortedStr);
-
-        var subselected = $('#sub_category').val();
-        getSchemeValues(subselected);
+        getSchemeValues(loanselected);
     })
 
     //store scheme when selected
@@ -105,10 +81,10 @@ $(document).ready(function () {
         //Validation
         var ag_name = $('#ag_name').val(); var ag_group = $('#ag_group').val(); var company_id = $('#company_id').val();/*var branch_id = $('#branch_id').val();*/var state = $('#state').val(); var district = $('#district1').val(); var taluk = $('#taluk1').val(); var place = $('#place').val(); var pincode = $('#pincode').val();
         var name = $('#name').val(); var designation = $('#designation').val(); var mobile = $('#mobile').val(); var whatsapp = $('#whatsapp').val(); var loan_category = $('#loan_category').val();
-        var subCat = subCatMultiselect.getValue(); var loan_pay = $('input[name=loan_pay]:checked').val(); var responsible = $('input[name=responsible]:checked').val(); var coll_point = $('input[name=coll_point]:checked').val(); var bank_name = $('#bank_name').val();
+        var loan_pay = $('input[name=loan_pay]:checked').val(); var responsible = $('input[name=responsible]:checked').val(); var coll_point = $('input[name=coll_point]:checked').val(); var bank_name = $('#bank_name').val();
         var branch_name = $('#bank_branch_name').val(); var acc_no = $('#acc_no').val(); var ifsc = $('#ifsc').val(); var holder_name = $('#holder_name').val();
         if (ag_name === '' || ag_group == '' || state === '' || district === '' || taluk === '' || place === '' || pincode === '' || name === '' ||
-            designation === '' || mobile === '' || whatsapp === '' || loan_category === '' || subCat.length == 0 || loan_pay == undefined || responsible == undefined ||
+            designation === '' || mobile === '' || whatsapp === '' || loan_category === '' || loan_pay == undefined || responsible == undefined ||
             coll_point == undefined || bank_name === '' || branch_name === '' || acc_no === '' || ifsc === '' || holder_name === '') {
             Swal.fire({
                 timerProgressBar: true,
@@ -133,12 +109,10 @@ $(function () {
         var state_upd = $('#state_upd').val();
         var district_upd = $('#district_upd').val();
         var loan_cat_upd = $('#loan_category_upd').val();
-        var sub_category_upd = $('#sub_category_upd').val();
         getBranchDropdown(company_id_upd);
         getDistrictDropdown(state_upd);
         getTalukDropdown(district_upd);
-        getSchemeValues(sub_category_upd);
-        getSubCategory(loan_cat_upd);
+        getSchemeValues(loan_cat_upd);
     } else {
         getAgentCode();//auto call for agent code
     }
@@ -413,7 +387,8 @@ function getLoanCategory() {
                 var loan_category_name_id = response[i]['loan_category_name_id'];
                 var loan_category_name = response[i]['loan_category_name'];
                 var selected = '';
-                if (loan_category_upd != '' && values.includes(loan_category_name_id)) {
+                if (loan_category_upd !== '' && values.includes(String(loan_category_name_id))) {
+
                     selected = 'selected';
                 }
                 var items = [
@@ -430,53 +405,16 @@ function getLoanCategory() {
         }
     });
 }
-//Fetch Sub Category Based on loan category
-function getSubCategory(loan_cat) {
-    var sub_category_upd = $('#sub_category_upd').val();
-    var values = sub_category_upd.split(',');
-    $.ajax({
-        url: 'agentCreationFile/getSubCategory.php',
-        type: 'POST',
-        dataType: 'json',
-        cache: false,
-        data: { 'loan_cat': loan_cat },
-        success: function (response) {
-
-            subCatMultiselect.clearStore();
-            for (var i = 0; i < response.length; i++) {
-                for (var j = 0; j < response[i].length; j++) {
-                    var sub_category_name = response[i][j]['sub_category_name'];
-
-                    var selected = '';
-                    if (sub_category_upd != '' && values.includes(sub_category_name)) {
-                        selected = 'selected';
-                    }
-                    var items = [
-                        {
-                            value: sub_category_name,
-                            label: sub_category_name,
-                            selected: selected,
-                        }
-                    ];
-                    subCatMultiselect.setChoices(items);
-                    subCatMultiselect.init();
-                }
-            }
-
-
-        }
-    })
-}
-
 //Get Scheme Values selected using Choices plugin
-function getSchemeValues(sub_cat) {
+function getSchemeValues(loan_cat) {
 
     var scheme_upd = $('#scheme_upd').val();
     var values = scheme_upd.split(',');
+    console.log("scheme",values);
     $.ajax({
         url: 'agentCreationFile/ajaxGetSchemeValues.php',
         type: 'post',
-        data: { 'sub_cat': sub_cat },
+        data: { 'loan_cat': loan_cat },
         dataType: 'json',
         success: function (response) {
 
@@ -486,7 +424,7 @@ function getSchemeValues(sub_cat) {
                     var scheme_id = response[i][j]['scheme_id'];
                     var scheme_name = response[i][j]['scheme_name'];
                     var selected = '';
-                    if (scheme_upd != '' && values.includes(scheme_id)) {
+                    if (scheme_upd != '' && values.includes(String(scheme_id))) {
                         selected = 'selected';
                     }
                     var items = [

@@ -431,9 +431,7 @@ function OnLoadFunctions(req_id, cus_id) {
             cache: false,
             success: function (response) {
               var loan_category_id = response["loan_category"];
-              var sub_category_id = response["sub_category"];
               $("#loan_category_id").val(loan_category_id);
-              $("#sub_category_id").val(sub_category_id);
             },
           });
           var loan_category = $(this)
@@ -448,23 +446,11 @@ function OnLoadFunctions(req_id, cus_id) {
             .prev()
             .prev()
             .text();
-          var sub_category = $(this)
-            .parent()
-            .prev()
-            .prev()
-            .prev()
-            .prev()
-            .prev()
-            .prev()
-            .prev()
-            .prev()
-            .text();
           var status = $(this).parent().prev().prev().text();
           var sub_status = $(this).parent().prev().text();
 
           $("#req_id").val(req_id);
           $("#loan_category").val(loan_category);
-          $("#sub_category").val(sub_category);
           $("#status").val(status);
           $("#sub_status").val(sub_status);
 

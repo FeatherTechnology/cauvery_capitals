@@ -50,7 +50,6 @@
 							<tr>
 								<th width="50">S.No.</th>
 								<th>Loan Category Name</th>
-								<th>Sub Category Name</th>
 								<th>Loan Limit</th>
 								<th>Status</th>
 								<th>Action</th>

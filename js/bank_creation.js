@@ -33,20 +33,12 @@ $(document).ready(function () {
 
 })//Document ready END
 
-//Auto call function
-$(function () {
-    var idupd = $('#idupd').val();
-    if (idupd > 0) {
-        var company_id = $('#company').val();
-        getBranchDropdown(company_id);
-    }
-})
-
 
 //Get BranchDropdown Based on Company id
 function getBranchDropdown(company_id) {
     var branch_id_upd = $('#under_branch_upd').val();
-    var values = branch_id_upd.split(',');
+    var values = branch_id_upd ? branch_id_upd.split(',') : [];
+
     $.ajax({
         url: 'areaMapping/getBranchDropdown.php',
         type: 'post',
@@ -54,28 +46,21 @@ function getBranchDropdown(company_id) {
         data: { 'company_id': company_id },
         cache: false,
         success: function (response) {
-            branchMultiselect.clearStore();
-            for (var i = 0; i < response.length; i++) {
-
-                var branch_id = response[i]['branch_id'];
-                var branch_name = response[i]['branch_name'];
-                var selected = '';
-                if (branch_id_upd != '' && values.includes(branch_id)) {
-                    selected = 'selected';
-                    // checked = false;
-                }
-                var items = [
-                    {
-                        value: branch_id,
-                        label: branch_name,
-                        selected: selected,
-                    }
-                ];
-                branchMultiselect.setChoices(items);
-                branchMultiselect.init();
-            }
+            console.log("branch_id_upd:", branch_id_upd);
+            console.log("AJAX response:", response);
+            branchMultiselect.clearChoices();
+            values = values.map(String);
+            const items = response.map(item => ({
+                value: item.branch_id,
+                label: item.branch_name,
+                selected: values.includes(String(item.branch_id)) // ✅ String comparison
+            }));
+            branchMultiselect.setChoices(items, 'value', 'label', true);
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error:", status, error);
         }
-    })
+    });
 }
 
 

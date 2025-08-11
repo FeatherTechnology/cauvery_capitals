@@ -12,7 +12,7 @@ class acknowledgmentClass
         $response = array();
         $today = date('Y-m-d');
         $month = (isset($_POST['month']) && $_POST['month'] != '') ? date('Y-m-01', strtotime($_POST['month'])) : date('Y-m-01');
-        $sub_area_list = $_POST['sub_area_list'];
+        $area_list = $_POST['area_list'];
 
         $tot_in_ack = "SELECT COUNT(*) as tot_in_ack FROM request_creation where ( cus_status >= 3 and cus_status NOT IN(4, 5, 6, 8, 9, 10, 11, 12) ) and month(updated_date) = month('$month') and year(updated_date) = year('$month')";
         $today_in_ack = "SELECT COUNT(*) as today_in_ack FROM request_creation where cus_status = 3 and date(updated_date) = '$today' ";
@@ -27,22 +27,22 @@ class acknowledgmentClass
         $tot_existing = "SELECT COUNT(*) as tot_existing from request_creation where (cus_status < 14 and cus_status >= 3 and cus_status NOT IN(4, 5, 6, 7, 8, 9, 10, 11, 12) ) and cus_data = 'Existing' and month(updated_date) = month('$month') and year(updated_date) = year('$month')";
         $today_existing = "SELECT COUNT(*) as today_existing from request_creation where cus_status = 3 and cus_data = 'Existing' and date(updated_date) = '$today' ";
 
-        if (empty($sub_area_list)) {
-            $sub_area_list = $this->getUserGroupBasedSubArea($connect, $this->user_id);
+        if (empty($area_list)) {
+            $area_list = $this->getUserGroupBasedSubArea($connect, $this->user_id);
         }
 
-        $tot_in_ack .= " AND sub_area IN ($sub_area_list) ";
-        $today_in_ack .= " AND sub_area IN ($sub_area_list) ";
-        $tot_issue .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-        $today_issue .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-        $tot_ack_bal .= " AND sub_area IN ($sub_area_list) ";
-        $today_ack_bal .= " AND sub_area IN ($sub_area_list) ";
-        $tot_cancel .= " AND sub_area IN ($sub_area_list) ";
-        $today_cancel .= " AND sub_area IN ($sub_area_list) ";
-        $tot_new .= " AND sub_area IN ($sub_area_list) ";
-        $today_new .= " AND sub_area IN ($sub_area_list) ";
-        $tot_existing .= " AND sub_area IN ($sub_area_list) ";
-        $today_existing .= " AND sub_area IN ($sub_area_list) ";
+        $tot_in_ack .= " AND area IN ($area_list) ";
+        $today_in_ack .= " AND area IN ($area_list) ";
+        $tot_issue .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+        $today_issue .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+        $tot_ack_bal .= " AND area IN ($area_list) ";
+        $today_ack_bal .= " AND area IN ($area_list) ";
+        $tot_cancel .= " AND area IN ($area_list) ";
+        $today_cancel .= " AND area IN ($area_list) ";
+        $tot_new .= " AND area IN ($area_list) ";
+        $today_new .= " AND area IN ($area_list) ";
+        $tot_existing .= " AND area IN ($area_list) ";
+        $today_existing .= " AND area IN ($area_list) ";
 
 
         $tot_in_ackQry = $connect->query($tot_in_ack);
@@ -78,27 +78,37 @@ class acknowledgmentClass
         return $response;
     }
 
-    function getUserGroupBasedSubArea($connect, $user_id)
-    {
-        $sub_area_list = array();
+function getUserGroupBasedSubArea($connect, $user_id)
+{
+    $area_ids = [];
 
-        $userQry = $connect->query("SELECT * FROM USER WHERE user_id = $user_id ");
-        while ($rowuser = $userQry->fetch()) {
-            $group_id = $rowuser['group_id'];
-        }
-        $group_id = explode(',', $group_id);
-        foreach ($group_id as $group) {
-            $groupQry = $connect->query("SELECT * FROM area_group_mapping where map_id = $group ");
-            $row_sub = $groupQry->fetch();
-            $sub_area_list[] = $row_sub['sub_area_id'];
-        }
-        $sub_area_ids = array();
-        foreach ($sub_area_list as $subarray) {
-            $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
-        }
-        $sub_area_list = array();
-        $sub_area_list = implode(',', $sub_area_ids);
-
-        return $sub_area_list;
+    // Step 1: Get the group_id(s) from USER table
+    $userQry = $connect->query("SELECT group_id FROM USER WHERE user_id = $user_id");
+    if ($userQry && $rowuser = $userQry->fetch()) {
+        $group_ids = explode(',', $rowuser['group_id']);
+    } else {
+        // No user or group ID found
+        return '';
     }
+
+    // Step 2: For each group_id, get the corresponding area_id(s)
+    foreach ($group_ids as $group) {
+        $group = intval($group); // sanitize to avoid injection
+
+        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping WHERE map_id = $group");
+        if ($groupQry && $row_sub = $groupQry->fetch()) {
+            if (!empty($row_sub['area_id'])) {
+                $areas = explode(',', $row_sub['area_id']);
+                $area_ids = array_merge($area_ids, $areas);
+            }
+        }
+        // else skip silently if no mapping or query fails
+    }
+
+    // Step 3: Remove duplicates and return as comma-separated string
+    $area_ids = array_unique($area_ids);
+    $area_ids = array_map('intval', $area_ids); // sanitize all to int
+    return implode(',', $area_ids);
+}
+
 }

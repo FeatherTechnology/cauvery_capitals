@@ -68,7 +68,6 @@ if (sizeof($getRequestData) > 0) {
 		$occupation					= $getRequestData['occupation'];
 		$pic					= $getRequestData['pic'];
 		$loan_category					= $getRequestData['loan_category'];
-		$sub_category					= $getRequestData['sub_category'];
 		$tot_value					= $getRequestData['tot_value'];
 		$ad_amt					= $getRequestData['ad_amt'];
 		$ad_perc					= $getRequestData['ad_perc'];
@@ -235,7 +234,6 @@ if (sizeof($getLoanCalculation) > 0) {
 		$mobile_loan = $getLoanCalculation['mobile_loan'];
 		$pic_loan = $getLoanCalculation['pic_loan'];
 		$loan_category_lc = $getLoanCalculation['loan_category'];
-		$sub_category_lc = $getLoanCalculation['sub_category'];
 		$tot_value_lc = $getLoanCalculation['tot_value'];
 		$ad_amt_lc = $getLoanCalculation['ad_amt'];
 		$loan_amt_lc = $getLoanCalculation['loan_amt'];
@@ -380,9 +378,6 @@ if (sizeof($getLoanCalculation) > 0) {
 			<input type="hidden" name="req_id" id="req_id" value="<?php if (isset($req_id)) {
 																		echo $req_id;
 																	} ?>" />
-			<input type="hidden" name="loan_sub_cat" id="loan_sub_cat" value="<?php if (isset($sub_category)) {
-																					echo $sub_category;
-																				} ?>" />
 			<input type="hidden" name="guarentor_name_upd" id="guarentor_name_upd" value="<?php if (isset($guarentor_name)) {
 																								echo $guarentor_name;
 																							} ?>" />
@@ -409,9 +404,6 @@ if (sizeof($getLoanCalculation) > 0) {
 																			} ?>" />
 			<input type="hidden" name="loan_category_lc" id="loan_category_lc" value="<?php if (isset($loan_category_lc)) {
 																							echo $loan_category_lc;
-																						} ?>" />
-			<input type="hidden" name="sub_category_upd" id="sub_category_upd" value="<?php if (isset($sub_category_lc)) {
-																							echo $sub_category_lc;
 																						} ?>" />
 			<input type="hidden" name="profit_type_upd" id="profit_type_upd" value="<?php if (isset($profit_type_lc)) {
 																						echo $profit_type_lc;
@@ -548,7 +540,7 @@ if (sizeof($getLoanCalculation) > 0) {
 											<input type="hidden" name="cus_image" id="cus_image" value="<?php if (isset($cp_cus_pic)) {
 																											echo $cp_cus_pic;
 																										} ?>">
-											<img id='imgshow' class="img_show" src='' />
+											<img id='imgshow' class="img_show"  />
 										</div>
 									</div>
 								</div>
@@ -617,14 +609,6 @@ if (sizeof($getLoanCalculation) > 0) {
 									</div>
 								</div>
 
-								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-									<div class="form-group">
-										<label for="Subcategory"> Sub category </label>
-										<input type="text" class="form-control" id="sub_category" name="sub_category" value="<?php if (isset($sub_category_lc)) {
-																																	echo $sub_category_lc;
-																																} ?>" readonly tabindex='13'>
-									</div>
-								</div>
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
