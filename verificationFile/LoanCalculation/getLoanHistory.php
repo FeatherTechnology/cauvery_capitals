@@ -48,7 +48,6 @@ function moneyFormatIndia($num)
         <tr>
             <th>Loan ID</th>
             <th>Loan Category</th>
-            <th>Sub Category</th>
             <th>Agent</th>
             <th>Loan date</th>
             <th>Loan Amount</th>
@@ -63,7 +62,7 @@ function moneyFormatIndia($num)
         <?php
         $req_id = $_POST['req_id'];
         $cus_id = $_POST['cus_id'];
-        $run = $connect->query("SELECT ii.req_id, ii.loan_id, lcc.loan_category_creation_name as loan_catrgory_name, lc.sub_category, rc.agent_id, ii.updated_date, lc.loan_amt_cal, ii.cus_status, lc.due_start_from
+        $run = $connect->query("SELECT ii.req_id, ii.loan_id, lcc.loan_category_creation_name as loan_catrgory_name,  rc.agent_id, ii.updated_date, lc.loan_amt_cal, ii.cus_status, lc.due_start_from
         from acknowlegement_loan_calculation lc JOIN in_issue ii ON lc.req_id = ii.req_id JOIN request_creation rc ON ii.req_id = rc.req_id 
         JOIN loan_category_creation lcc ON lc.loan_category = lcc.loan_category_creation_id JOIN user us ON us.user_id = $user_id
         WHERE lc.cus_id_loan = $cus_id and (ii.cus_status >= 14 and ii.cus_status <= 22) ORDER BY CAST(ii.req_id AS UNSIGNED) ASC "); //Customer status greater than or equal to 14 because, after issued data only we need  
@@ -81,7 +80,6 @@ function moneyFormatIndia($num)
             <tr>
                 <td><?php echo $row['loan_id']; ?></td> <!-- id -->
                 <td><?php echo $row["loan_catrgory_name"]; ?></td> <!-- Loan Cat -->
-                <td><?php echo $row["sub_category"]; ?></td> <!-- Loan Sub Cat -->
                 <td>
                     <?php
                     if ($row["agent_id"] != '' || $row["agent_id"] != NULL) {

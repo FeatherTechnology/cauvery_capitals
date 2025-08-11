@@ -14,8 +14,11 @@ $i = 0;
 foreach ($agent_ids as $ag) {
     $qry = $connect->query("SELECT * From agent_creation where ag_id = '" . $ag . "' ");
     $row = $qry->fetch();
-    $detailrecords[$i]['ag_id'] = $row['ag_id'];
-    $detailrecords[$i]['ag_name'] = $row['ag_name'];
+    if ($row) { // ✅ Only process if result is found
+        $detailrecords[$i]['ag_id'] = $row['ag_id'];
+        $detailrecords[$i]['ag_name'] = $row['ag_name'];
+
+    }
     $i++;
 }
 

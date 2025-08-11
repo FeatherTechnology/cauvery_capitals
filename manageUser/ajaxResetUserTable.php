@@ -18,7 +18,6 @@ while ($row = $result->fetch()) {
         $loan_category[] = $row1['loan_category_creation_name'];
     }
     $loan_category_name = implode(',', $loan_category);
-    $sub_category = $row['sub_category'];
     $scheme = array();
     if ($row['scheme'] != '') {
         $scheme = explode(',', $row['scheme']);
@@ -62,7 +61,6 @@ while ($row = $result->fetch()) {
         "ag_name" => $ag_name,
         "mail" => $mail,
         'loan_category' => $loan_category_name,
-        'sub_category' => $sub_category,
         'scheme' => $scheme_name,
         'loan_payment' => $loan_payment,
         'responsible' => $responsible,

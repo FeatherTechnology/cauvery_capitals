@@ -17,23 +17,23 @@ if ($userid != 1) {
     
     if($report_access =='1'){ //Report access individual.
         $group_id = explode(',', $group_id);
-        $sub_area_list = array();
+        $area_list = array();
         foreach ($group_id as $group) {
-            $groupQry = $connect->query("SELECT sub_area_id FROM area_group_mapping WHERE map_id = $group ");
+            $groupQry = $connect->query("SELECT area_id FROM area_group_mapping WHERE map_id = $group ");
             $row_sub = $groupQry->fetch();
-            $sub_area_list[] = $row_sub['sub_area_id'];
+            $area_list[] = $row_sub['area_id'];
         }
-        $sub_area_ids = array();
-        foreach ($sub_area_list as $subarray) {
-            $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
+        $area_ids = array();
+        foreach ($area_list as $subarray) {
+            $area_ids = array_merge($area_ids, explode(',', $subarray));
         }
-        $sub_area_list = array();
-        $sub_area_list = implode(',', $sub_area_ids);
+        $area_list = array();
+        $area_list = implode(',', $area_ids);
 
         $user_based = " AND (
-            (req.cus_status >= 10 AND cp.area_confirm_subarea IN ($sub_area_list))
+            (req.cus_status >= 10 AND cp.area_confirm_area IN ($area_list))
             OR 
-            (req.cus_status < 10 AND req.sub_area IN ($sub_area_list))
+            (req.cus_status < 10 AND req.area IN ($area_list))
         ) AND req.insert_login_id = '$userid' ";
     }
 }
@@ -69,6 +69,7 @@ $statusLabels = [
     '17' => 'Present',
     '20' => 'Closed',
     '21' => 'NOC',
+    '22' => 'NOC Completed',
 ];
 
 $column = array(
@@ -78,9 +79,7 @@ $column = array(
     'req.cus_id',
     'req.cus_name',
     'al.area_name',
-    'sal.sub_area_name',
     'lcc.loan_category_creation_name',
-    'req.sub_category',
     'req.loan_amt',
     'req.user_type',
     'req.user_name',
@@ -92,15 +91,12 @@ $column = array(
 $query = "SELECT 
     req.*,
     al.area_name,
-    sal.sub_area_name,
     lcc.loan_category_creation_name,
     ag.ag_name
 FROM 
     request_creation req 
 JOIN 
     area_list_creation al ON req.area = al.area_id
-JOIN 
-    sub_area_list_creation sal ON req.sub_area = sal.sub_area_id
 JOIN 
     loan_category_creation lcc ON req.loan_category = lcc.loan_category_creation_id
 LEFT JOIN 
@@ -156,9 +152,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['cus_id'];
     $sub_array[] = $row['cus_name'];
     $sub_array[] = $row['area_name'];
-    $sub_array[] = $row['sub_area_name'];
     $sub_array[] = $row['loan_category_creation_name'];
-    $sub_array[] = $row['sub_category'];
     $sub_array[] = moneyFormatIndia($row['loan_amt']);
     $sub_array[] = $row['user_type'];
     $sub_array[] = $row['user_name'];

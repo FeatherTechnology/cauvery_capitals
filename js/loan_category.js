@@ -1,3 +1,9 @@
+const scheme_choices = new Choices('#scheme_name', {
+    removeItemButton: true,
+    noChoicesText: 'Select Scheme Name',
+    allowHTML: true
+});
+
 // Document is ready
 $(document).ready(function () {
 
@@ -132,6 +138,7 @@ $(document).ready(function () {
     }
 
     $(function () {
+        getSchemeDropdown();
         $('#coursecategoryTable').DataTable({
             'processing': true,
             'iDisplayLength': 5,
@@ -207,21 +214,175 @@ $(document).ready(function () {
 
     // Submit Button 
     $('#submitLoanCategory').click(function () {
+        event.preventDefault();
+        console.log("#loan_category_name: " + $('#loan_category_name').val());
+console.log("#loan_id_upd: " + $('#loan_id_upd').val());
+console.log("#loan_limit: " + $('#loan_limit').val());
+console.log("#loan_category_ref_name: " + $('#loan_category_ref_name').val());
+console.log("#monthly_due_method: " + $('#monthly_due_method').val());
+console.log("#monthly_due_type: " + $('#monthly_due_type').val());
+console.log("#monthly_profit_method: " + $('#monthly_profit_method').val());
+console.log("#monthly_intrests_rate_min: " + $('#monthly_intrests_rate_min').val());
+console.log("#monthly_intrest_rate_max: " + $('#monthly_intrests_rate_max').val());
+console.log("#monthly_due_period_min: " + $('#monthly_due_periods_min').val());
+console.log("#monthly_due_period_max: " + $('#monthly_due_periods_max').val());
+console.log("#monthly_doc_charges_type: " + $('#monthly_doc_charges_type').val());
+console.log("#monthly_document_charge_min: " + $('#monthly_document_charge_min').val());
+console.log("#monthly_document_charge_max: " + $('#monthly_document_charge_max').val());
+console.log("#proc_fees_type: " + $('#proc_fees_type').val());
+console.log("#monthly_processing_fee_min: " + $('#monthly_processing_fee_min').val());
+console.log("#monthly_processing_fee_max: " + $('#monthly_processing_fee_max').val());
+console.log("#monthly_overdues: " + $('#monthly_overdues').val());
+console.log("#monthly_collection_info: " + $('#monthly_collection_info').val());
+console.log("#userid: " + $('#userid').val());
 
-        validation(); validateLoanCategoryTable();
+
+        // validation(); validateLoanCategoryTable();
+        // validateLoanCalculationInputs();
     });
+    $('#scheme_name').change(function () {
+        getSchemeListTable($(this).val());
+        console.log("asdjh",$(this).val());
+    });
+    $('#scheme_due_method').change(function () {
+        if($(this).val()=='monthly'){
+            $(".total_due").show();
+            $(".advance_due").show();
+             $('#due_period').prop('readonly', true);
+        }else{
+             $(".total_due").hide();
+            $(".advance_due").hide();
+            $('#due_period').prop('readonly', false);
+        }
+    });
+    //Validation on submit
+    $('#submit_loan_scheme').click(function () {
+   event.preventDefault();
+        
+      var dataToSend = {
+        scheme_id: $('#scheme_id').val(),
+        add_scheme_name: $('#add_scheme_name').val(),
+        scheme_short: $('#scheme_short').val(),
+        scheme_due_method: $('#scheme_due_method').val(),
+        profit_methods: $('#profit_methods option:selected').val(),
+        total_due: $('#total_due').val(),
+        advance_due: $('#advance_due').val(),
+        due_period: $('#due_period').val(),
+        intreset_type: $('input[name="intreset_type"]:checked').val(),
+        intreset_min: $('#intreset_min').val(),
+        intreset_max: $('#intreset_max').val(),
+        doc_charge_type: $('input[name="doc_charge_type"]:checked').val(),
+        doc_charge_min: $('#doc_charge_min').val(),
+        doc_charge_max: $('#doc_charge_max').val(),
+        proc_fee_type: $('input[name="proc_fee_type"]:checked').val(),
+        proc_fee_min: $('#proc_fee_min').val(),
+        proc_fee_max: $('#proc_fee_max').val(),
+        overdue: $('#overdue').val()
+    };
+
+    let scheme_name = dataToSend.add_scheme_name;
+    let scheme_id = dataToSend.scheme_id;
+    let scheme_short = dataToSend.scheme_short;
+    let scheme_due_method = dataToSend.scheme_due_method;
+    let profit_method = dataToSend.profit_methods;
+    let total_due = dataToSend.total_due;
+    let advance_due = dataToSend.advance_due;
+    let due_period = dataToSend.due_period;
+    let intreset_type = dataToSend.intreset_type;
+    let intreset_min = dataToSend.intreset_min;
+    let intreset_max = dataToSend.intreset_max;
+    let doc_charge_type = dataToSend.doc_charge_type;
+    let doc_charge_min = dataToSend.doc_charge_min;
+    let doc_charge_max = dataToSend.doc_charge_max;
+    let proc_fee_type = dataToSend.proc_fee_type;
+    let proc_fee_min = dataToSend.proc_fee_min;
+    let proc_fee_max = dataToSend.proc_fee_max;
+    let overdue = dataToSend.overdue;
+    if (
+        scheme_due_method != '' && scheme_short != '' && due_period != '' && scheme_name != '' &&
+        intreset_type != '' && intreset_min != '' && intreset_max != '' &&
+        doc_charge_type != '' && doc_charge_min != '' && doc_charge_max != '' &&
+        proc_fee_type != '' && proc_fee_min != '' && proc_fee_max != '' &&
+        overdue != '' && profit_method != '' && profit_method != null &&
+        (scheme_due_method != 'monthly' || (total_due != '' && advance_due != ''))
+    ) {
+        submitScheme(dataToSend);
+        // return true;
+    } else {
+            Swal.fire({
+                timerProgressBar: true,
+                timer: 2000,
+                title: 'Please Fill out Mandatory fields!',
+                icon: 'error',
+                showConfirmButton: true,
+                confirmButtonColor: '#0c70ab'
+            });
+            return false;
+        }
+
+    });
+       //Due period calculation
+    $('#advance_due ,#total_due').keyup(function () {
+        var total_due = $('#total_due').val();
+        var advance_due = $('#advance_due').val();
+        if (total_due != '' && advance_due == '') {
+            $('#due_period').val(total_due);
+        } else if (total_due != '' && advance_due != '') {
+            var due_period = total_due - advance_due; console.log(due_period)
+            $('#due_period').val(due_period);
+        } else if (total_due == '' && advance_due == '') {
+            $('#due_period').val('');
+        } else if (total_due == '' && advance_due != '') {
+            $('#due_period').val(advance_due);
+        }
+    })
+    
+    // Amount or percentage change on fields
+    $('#docamt,#docpercentage').click(function () {
+        var doc_charge_type = $('input[name=doc_charge_type]:checked').val();
+        if (doc_charge_type == 'amt') {
+            changeAmtinput('docmin', 'docmax', 'doc_charge_min', 'doc_charge_max');
+        }
+        if (doc_charge_type == 'percentage') {
+            changePercentinput('docmin', 'docmax', 'doc_charge_min', 'doc_charge_max');
+        }
+    })
+
+    // Amount or percentage change on fields
+    $('#procamt,#procpercentage').click(function () {
+        var proc_fee_type = $('input[name=proc_fee_type]:checked').val();
+        if (proc_fee_type == 'amt') {
+            changeAmtinput('procmin', 'procmax', 'proc_fee_min', 'proc_fee_max');
+        }
+        if (proc_fee_type == 'percentage') {
+            changePercentinput('procmin', 'procmax', 'proc_fee_min', 'proc_fee_max');
+        }
+    })
+    $('#interestamt,#interestpercentage').click(function () {
+        var intreset_type = $('input[name=intreset_type]:checked').val();
+        if (intreset_type == 'amt') {
+            changeAmtinput('intresetmin', 'intersetmax', 'intreset_min', 'intreset_max');
+        }
+        if (intreset_type == 'percentage') {
+            changePercentinput('intresetmin', 'intersetmax', 'intreset_min', 'intreset_max');
+        }
+    })
+   $(document).on('click', '.edit_loan_scheme', function (e) {
+    e.preventDefault(); 
+    var id = $(this).data('id');
+    getSchemeDetails(id);
+});
+   $(document).on('click', '.delete_scheme', function (e) {
+    e.preventDefault(); 
+    var id = $(this).data('id');
+    ChangeSchemStatus(id);
+});
+
 
 });
 
 function validation() {
-    let sub_category_name = $('#sub_category_name').val(); let loancategoryValue = $('#loan_category_name').val(); let loanlimit = $('#loan_limit').val();
-    if (sub_category_name.length == '') {
-        $('#subCategoryCheck').show();
-        event.preventDefault();
-    }
-    else {
-        $('#subCategoryCheck').hide();
-    }
+     let loancategoryValue = $('#loan_category_name').val(); let loanlimit = $('#loan_limit').val();
 
     if (loancategoryValue.length == '') {
         $('#loanCategoryCheck').show();
@@ -269,3 +430,339 @@ function DropDownCourse() {
         }
     });
 }
+function getSchemeTable() {
+    
+    var table = $('#loan_scheme_inner_table').DataTable();
+    table.destroy();
+
+    $('#loan_scheme_inner_table').DataTable({
+        "order": [[0, "desc"]],
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        'ajax': {
+            'url': 'loancategoryFile/getSchemeList.php',
+            'data': function (data) {
+                var search = $('input[type=search]').val();
+                data.search = search;
+            }
+        },
+        dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'excel',
+                title: "Loan Scheme List"
+            },
+            {
+                extend: 'colvis',
+                collectionLayout: 'fixed four-column',
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+        "drawCallback": function () {
+            searchFunction('loan_scheme_inner_table');
+            paginationFunction('loan_scheme_inner_table');
+        }
+    });
+}
+function getSchemeDropdown() {
+    $.post('loancategoryFile/getSchemeList.php', { action: 'dropdown' }, function (response) {
+        scheme_choices.clearStore();
+        let selectedSchemeId = [];
+
+        let schemename2 = ($('#scheme_name2').val() || '')
+            .split(',')
+            .map(s => s.trim());
+
+        $.each(response, function (index, val) {
+            let selected = '';
+
+            if (schemename2.includes(val.id.toString())) {
+                selected = 'selected';
+                selectedSchemeId.push(val.id);
+            }
+
+            let items = [{
+                value: val.id,
+                label: val.scheme_name,
+                selected: selected
+            }];
+            scheme_choices.setChoices(items);
+        });
+if(selectedSchemeId !=''){
+        getSchemeListTable(selectedSchemeId);
+
+}
+    }, 'json');
+}
+
+
+function getSchemeListTable(scheme_id) {
+    if (!Array.isArray(scheme_id)) {
+        scheme_id = (scheme_id || '').split(',').map(id => id.trim());
+    }
+    console.log("fsdf",scheme_id);
+
+    var table = $('#loan_scheme_outer_table').DataTable();
+    table.destroy();
+
+    $('#loan_scheme_outer_table').DataTable({
+        "order": [[0, "desc"]],
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        'ajax': {
+            'url': 'loancategoryFile/getSchemeDropDown.php',
+            'data': function (data) {
+                data.scheme_id =  scheme_id.length > 0 ? scheme_id : null;; // Send as array
+                data.search = $('#search').val(); // Optional: pass manual search text
+            }
+        },
+        dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'excel',
+                title: "Loan Scheme List"
+            },
+            {
+                extend: 'colvis',
+                collectionLayout: 'fixed four-column',
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+        "drawCallback": function () {
+            searchFunction('loan_scheme_outer_table');
+            paginationFunction('loan_scheme_outer_table');
+        }
+    });
+}
+//Change Document charge & Processing fee input field not readonly
+function changeAmtinput(docmin, docmax, doc_charge_min, doc_charge_max) {
+    $('#' + docmin).text('Min ₹');
+    $('#' + docmax).text('Max ₹');
+    $('#' + doc_charge_min).attr('readonly', false);
+    $('#' + doc_charge_max).attr('readonly', false);
+}
+//Change Document charge & Processing fee input field not readonly
+function changePercentinput(docmin, docmax, doc_charge_min, doc_charge_max) {
+    $('#' + docmin).text('Min %');
+    $('#' + docmax).text('Max %');
+    $('#' + doc_charge_min).attr('readonly', false);
+    $('#' + doc_charge_max).attr('readonly', false);
+}
+function getSchemeDetails(id) {
+   $.ajax({
+        url: 'loancategoryFile/ajaxGetSchemeDetails.php',
+        type: 'post',
+        data: {id},
+        dataType: 'json',
+        success: function (response) {
+    if (response) {
+        $('#scheme_id').val(response.scheme_id);
+        $('#add_scheme_name').val(response.scheme_name);
+        $('#scheme_short').val(response.short_name);
+        $('#scheme_due_method').val(response.due_method);
+        $('#due_period').val(response.due_period);
+        $('#profit_methods').val(response.profit_method);
+        $('#intreset_min').val(response.intreset_min);
+        $('#intreset_max').val(response.intreset_max);
+        $('#doc_charge_min').val(response.doc_charge_min);
+        $('#doc_charge_max').val(response.doc_charge_max);
+        $('#proc_fee_min').val(response.proc_fee_min);
+        $('#proc_fee_max').val(response.proc_fee_max);
+        $('#overdue').val(response.overdue);
+
+        // Set Interest Type radio
+        if (response.intreset_type === 'amt') {
+            $('#interestamt').prop('checked', true);
+        } else if (response.intreset_type === 'percentage') {
+            $('#interestpercentage').prop('checked', true);
+        }
+
+        // Set Document Charge Type radio
+        if (response.doc_charge_type === 'amt') {
+            $('#docamt').prop('checked', true);
+        } else if (response.doc_charge_type === 'percentage') {
+            $('#docpercentage').prop('checked', true);
+        }
+
+        // Set Processing Fee Type radio
+        if (response.proc_fee_type === 'amt') {
+            $('#procamt').prop('checked', true);
+        } else if (response.proc_fee_type === 'percentage') {
+            $('#procpercentage').prop('checked', true);
+        }
+
+        // Handle Due Method visibility logic
+        if (response.due_method === 'monthly') {
+            $('#total_due').val(response.total_due);
+            $('#advance_due').val(response.advance_due);
+            $('.total_due, .advance_due').show();
+
+            $('#due_period').val(response.due_period).prop('readonly', true);
+        } else {
+            $('.total_due, .advance_due').hide();
+
+            $('#total_due').val('');
+            $('#advance_due').val('');
+
+            $('#due_period').val(response.due_period).prop('readonly', false);
+        }
+    }
+}
+
+    });
+}
+function ChangeSchemStatus(id) {
+   $.ajax({
+        url: 'loancategoryFile/SchemeStatusChange.php',
+        type: 'post',
+        data: {id},
+        dataType: 'json',
+    success: function (response) {
+            if (response == 0) {
+                Swal.fire({
+                timerProgressBar: true,
+                timer: 2000,
+                title: 'Scheme deleted successfully.',
+                icon: 'success',
+                showConfirmButton: true,
+                confirmButtonColor: '#0c70ab'
+                });
+                getSchemeTable();
+            } else {
+                Swal.fire({
+                timerProgressBar: true,
+                timer: 2000,
+                title: 'Failed to delete scheme.',
+                icon: 'error',
+                showConfirmButton: true,
+                confirmButtonColor: '#0c70ab'
+                });
+            }
+            
+        },
+        error: function () {
+            alert("AJAX error occurred.");
+        }
+
+    });
+}
+function validateLoanCalculationInputs() {
+    let isAnyFilled = false;
+    let isAllFilled = true;
+
+    const inputIds = [
+        '#monthly_intrests_rate_min',
+        '#monthly_intrests_rate_max',
+        '#monthly_due_periods_min',
+        '#monthly_due_periods_max',
+        '#monthly_document_charges_min',
+        '#monthly_document_charges_max',
+        '#monthly_processing_fees_min',
+        '#monthly_processing_fees_max',
+        '#monthly_overdues'
+    ];
+
+    inputIds.forEach(function (selector) {
+        const value = $(selector).val().trim();
+        if (value !== "") {
+            isAnyFilled = true;
+        } else {
+            isAllFilled = false;
+        }
+    });
+
+    // Check multiselect
+    const profitMethod = $('#monthly_profit_method').val();
+    if (profitMethod && profitMethod.length > 0) {
+        isAnyFilled = true;
+    } else {
+        isAllFilled = false;
+    }
+
+    // Check radio buttons
+    const docType = $('input[name="monthly_doc_charges_type"]:checked').length > 0;
+    const procType = $('input[name="proc_fees_type"]:checked').length > 0;
+    const advance = $('input[name="monthly_collection_info"]:checked').length > 0;
+
+    if (docType || procType || advance) {
+        isAnyFilled = true;
+    }
+    if (!docType || !procType || !advance) {
+        isAllFilled = false;
+    }
+
+    // If nothing is filled, allow
+    if (!isAnyFilled) {
+        return true;
+    }
+
+    // If something is filled but not all, block
+    if (!isAllFilled) {
+        return false;
+    }
+
+    return true;
+}
+
+function submitScheme(data) {
+    $.ajax({
+        url: 'loancategoryFile/submitLoanScheme.php',
+        method: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function (response) {
+        
+
+        if (response == 1) {
+            alert("Scheme Updated !");
+        } else if (response == 2) {
+            alert("Scheme Submitted !");
+        }
+
+        $('#scheme_id').val('');
+        $('#add_scheme_name').val('');
+        $('#scheme_short').val('');
+        $('#total_due').val('');
+        $('#advance_due').val('');
+        $('#due_period').val('');
+        $('#intreset_min').val('');
+        $('#intreset_max').val('');
+        $('#doc_charge_min').val('');
+        $('#doc_charge_max').val('');
+        $('#proc_fee_min').val('');
+        $('#proc_fee_max').val('');
+        $('#overdue').val('');
+        $('#add_scheme_id').val('');
+
+        // Deselect radio buttons by name
+        $('input[name="intreset_type"]').prop('checked', false);
+        $('input[name="doc_charge_type"]').prop('checked', false);
+        $('input[name="proc_fee_type"]').prop('checked', false);
+
+        // Reset select dropdowns and trigger change (for Choices.js or Select2)
+        $('#scheme_due_method').val('').trigger('change');
+        $('#profit_methods').val('').trigger('change');
+
+        // Hide sections
+        $('.total_due').hide();
+        $('.advance_due').hide();
+
+        // Refresh table
+        getSchemeTable();
+    },
+    error: function(xhr, status, error) {
+        alert("AJAX Error: " + error);
+    }
+    });
+}
+
+
+

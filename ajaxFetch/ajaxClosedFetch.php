@@ -14,18 +14,20 @@ if ($userid != 1) {
     }
 
     $line_id = explode(',', $line_id);
-    $sub_area_list = array();
+    $area_list = array();
     foreach ($line_id as $line) {
         $lineQry = $connect->query("SELECT * FROM area_line_mapping where map_id = $line ");
         $row_sub = $lineQry->fetch();
-        $sub_area_list[] = $row_sub['sub_area_id'];
+         if ($row_sub !== false) {
+        $area_list[] = $row_sub['area_id'];
+         }
     }
-    $sub_area_ids = array();
-    foreach ($sub_area_list as $subarray) {
-        $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
+    $area_ids = array();
+    foreach ($area_list as $subarray) {
+        $area_ids = array_merge($area_ids, explode(',', $subarray));
     }
-    $sub_area_list = array();
-    $sub_area_list = implode(',', $sub_area_ids);
+    $area_list = array();
+    $area_list = implode(',', $area_ids);
 }
 
 $column = array(
@@ -33,7 +35,6 @@ $column = array(
     'cp.cus_id',
     'cp.cus_name',
     'ac.area_name',
-    'sa.sub_area_name',
     'bc.branch_name',
     'al.line_name',
     'cp.mobile1',
@@ -41,37 +42,35 @@ $column = array(
 );
 
 if ($userid == 1) {
-    $query = 'SELECT cp.cus_id as cp_cus_id,cp.cus_name,ac.area_name, sa.sub_area_name, al.line_name, bc.branch_name,cp.mobile1, ii.cus_id as ii_cus_id, ii.req_id 
+    $query = 'SELECT cp.cus_id as cp_cus_id,cp.cus_name,ac.area_name, al.line_name, bc.branch_name,cp.mobile1, ii.cus_id as ii_cus_id, ii.req_id 
     FROM acknowlegement_customer_profile cp 
     JOIN in_issue ii ON cp.cus_id = ii.cus_id
     JOIN area_list_creation ac ON cp.area_confirm_area = ac.area_id
-    JOIN sub_area_list_creation sa ON cp.area_confirm_subarea = sa.sub_area_id
     JOIN (
     SELECT DISTINCT 
-      sub_area_id, 
+      area_id, 
       line_name,
     branch_id
     FROM 
       area_line_mapping
-  ) al ON FIND_IN_SET(sa.sub_area_id, al.sub_area_id)
+  ) al ON FIND_IN_SET(ac.area_id, al.area_id)
     JOIN branch_creation bc ON al.branch_id = bc.branch_id
     where ii.status = 0 and ii.cus_status = 20 '; // Only Issued and all lines not relying on sub area
 } else {
-    $query = "SELECT cp.cus_id as cp_cus_id,cp.cus_name,ac.area_name, sa.sub_area_name, al.line_name, bc.branch_name,cp.mobile1, ii.cus_id as ii_cus_id, ii.req_id 
+    $query = "SELECT cp.cus_id as cp_cus_id,cp.cus_name,ac.area_name, al.line_name, bc.branch_name,cp.mobile1, ii.cus_id as ii_cus_id, ii.req_id 
     FROM acknowlegement_customer_profile cp 
     JOIN in_issue ii ON cp.cus_id = ii.cus_id
     JOIN area_list_creation ac ON cp.area_confirm_area = ac.area_id
-    JOIN sub_area_list_creation sa ON cp.area_confirm_subarea = sa.sub_area_id
     JOIN (
     SELECT DISTINCT 
-      sub_area_id, 
+      area_id, 
       line_name,
     branch_id
     FROM 
       area_line_mapping
-  ) al ON FIND_IN_SET(sa.sub_area_id, al.sub_area_id)
+  ) al ON FIND_IN_SET(ac.area_id, al.area_id)
     JOIN branch_creation bc ON al.branch_id = bc.branch_id
-    where ii.status = 0 and ii.cus_status = 20 and cp.area_confirm_subarea IN ($sub_area_list) "; //show only issued customers within the same lines of user. 
+    where ii.status = 0 and ii.cus_status = 20 and cp.area_confirm_area IN ($area_list) "; //show only issued customers within the same lines of user. 
 }
 
 
@@ -80,7 +79,6 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
     $query .= " AND(cp.cus_id LIKE '%" . $_POST['search'] . "%'
             OR cp.cus_name LIKE '%" . $_POST['search'] . "%'
             OR ac.area_name LIKE '%" . $_POST['search'] . "%'
-            OR sa.sub_area_name LIKE '%" . $_POST['search'] . "%'
             OR bc.branch_name LIKE '%" . $_POST['search'] . "%'
             OR al.line_name LIKE '%" . $_POST['search'] . "%'
             OR cp.mobile1 LIKE '%" . $_POST['search'] . "%') ";
@@ -116,7 +114,6 @@ foreach ($result as $row) {
     $sub_array[] = $row['cus_name'];
 
     $sub_array[] = $row['area_name'];
-    $sub_array[] = $row['sub_area_name'];
     $sub_array[] = $row["branch_name"];
     $sub_array[] = $row['line_name'];
 
@@ -148,7 +145,7 @@ foreach ($result as $row) {
 
 function count_all_data($connect)
 {
-    $query     = "SELECT cp.cus_id as cp_cus_id,cp.cus_name,cp.area_confirm_area,cp.area_confirm_subarea,cp.area_line,cp.mobile1, ii.cus_id as ii_cus_id, ii.req_id FROM 
+    $query     = "SELECT cp.cus_id as cp_cus_id,cp.cus_name,cp.area_confirm_area,cp.area_line,cp.mobile1, ii.cus_id as ii_cus_id, ii.req_id FROM 
     acknowlegement_customer_profile cp JOIN in_issue ii ON cp.cus_id = ii.cus_id
     where ii.status = 0 and ii.cus_status = 20 GROUP BY ii.cus_id ";
     $statement = $connect->prepare($query);

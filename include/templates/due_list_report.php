@@ -35,9 +35,7 @@
                                 <th>Customer Name</th>
                                 <th>Mobile Number</th>
                                 <th>Area</th>
-                                <th>Sub Area</th>
                                 <th>Loan Category</th>
-                                <th>Sub Category</th>
                                 <th>Agent</th>
                                 <th>Responsible</th>
                                 <th>Guarantor Name</th>

@@ -31,9 +31,7 @@
 									<th>Cust. ID</th>
 									<th>Cust. Name</th>
 									<th>Area</th>
-									<th>Sub Area</th>
 									<th>Loan Category</th>
-									<th>Sub Category</th>
 									<th>Agent</th>
 									<th>User Type</th>
 									<th>User</th>
@@ -43,8 +41,6 @@
 									<th>Bank Name</th>
 									<th>Transaction Date</th>
 									<th>Due Amount</th>
-									<!-- <th>Principal Amount</th>
-									<th>Interest Amount</th> -->
 									<th>Penalty</th>
 									<th>Fine</th>
 									<th>Total Paid</th>
@@ -55,7 +51,7 @@
 								</tbody>
 								<tfoot>
 									<tr>
-										<td colspan="14"></td>
+										<td colspan="12"></td>
 										<td></td>
 										<td></td>
 										<td></td>
@@ -64,7 +60,7 @@
 										<td></td>
 										<td></td>
 										<td></td>
-										<td colspan="2"></td>
+										<td></td>
 									</tr>
 								</tfoot>
 							</table>

@@ -53,7 +53,6 @@
 							<tr>
 								<th width="50">S.No.</th>
 								<th>Loan Category</th>
-								<th>Sub Category</th>
 								<th>Documentations</th>
 								<th>Status</th>
 								<th>Action</th>

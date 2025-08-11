@@ -12,7 +12,7 @@ class collectionClass
         $response = array();
         $today = date('Y-m-d');
         $month = (isset($_POST['month']) && $_POST['month'] != '') ? date('Y-m-01', strtotime($_POST['month'])) : date('Y-m-01');
-        $sub_area_list = $_POST['sub_area_list'];
+        $area_list = $_POST['area_list'];
 
         $total_paid = "SELECT COALESCE(sum(c.due_amt_track +  c.princ_amt_track + c.int_amt_track ),0) as paid from `collection` c JOIN acknowlegement_customer_profile cp ON cp.req_id = c.req_id where ( ( MONTH(coll_date)= MONTH('$month') && YEAR(coll_date)= YEAR('$month') ) || ( MONTH(trans_date)= MONTH('$month') && YEAR(trans_date)= YEAR('$month') ) ) ";
         $total_penalty = "SELECT COALESCE(sum(c.penalty_track), 0) as penalty from `collection` c JOIN acknowlegement_customer_profile cp ON cp.req_id = c.req_id where ( ( MONTH(coll_date)= MONTH('$month') && YEAR(coll_date)= YEAR('$month') ) || ( MONTH(trans_date)= MONTH('$month') && YEAR(trans_date)= YEAR('$month') ) ) ";
@@ -24,15 +24,15 @@ class collectionClass
         $today_handcash = "SELECT COALESCE(sum(c.due_amt_track + c.penalty_track + c.coll_charge_track), 0) as today_hand_paid from `collection` c  where date(c.coll_date) = '$today' AND ( c.trans_date ='0000-00-00' )";
         $today_bankcash = "SELECT COALESCE(sum(c.due_amt_track + c.penalty_track + c.coll_charge_track), 0) as today_bank_paid from `collection` c  where date(c.coll_date) = '$today' AND ( c.trans_date !='0000-00-00' )";
 
-        if (!empty($sub_area_list)) {
-            $total_paid .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-            $total_penalty .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-            $total_fine .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-            $today_paid .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-            $today_penalty .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-            $today_fine .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-            $today_handcash .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
-            $today_bankcash .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
+        if (!empty($area_list)) {
+            $total_paid .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+            $total_penalty .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+            $total_fine .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+            $today_paid .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+            $today_penalty .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+            $today_fine .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+            $today_handcash .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
+            $today_bankcash .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
         } else {
             $total_paid .= " AND c.insert_login_id = '$this->user_id' ";
             $total_penalty .= " AND c.insert_login_id = '$this->user_id' ";
@@ -76,7 +76,7 @@ class collectionClass
 
         $response = array();
         $today = date('Y-m-d');
-        $sub_area_list = $_POST['sub_area_list'];
+        $area_list = $_POST['area_list'];
         $pid = $_POST['pid'];
 
         $split_arr = ['tot_col_paid' => 'Total Paid Split', 'today_col_paid' => 'Today Paid Split', 'tot_col_pen' => 'Total Penalty Split', 'today_col_pen' => 'Today Penalty Split', 'tot_col_fine' => 'Total Fine Split', 'today_col_fine' => 'Today Fine Split'];
@@ -106,8 +106,8 @@ class collectionClass
             $qry .= " ( ( MONTH(coll_date)= MONTH('$today') && YEAR(coll_date)= YEAR('$today') ) || ( MONTH(trans_date)= MONTH('$today') && YEAR(trans_date)= YEAR('$today') ) ) ";
         }
 
-        if (!empty($sub_area_list)) {
-            $qry .= " AND ( CASE WHEN cp.area_confirm_subarea IS NOT NULL THEN cp.area_confirm_subarea IN ($sub_area_list) ELSE TRUE END )";
+        if (!empty($area_list)) {
+            $qry .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
         } else {
             $qry .= " AND c.insert_login_id = '$this->user_id' ";
         }

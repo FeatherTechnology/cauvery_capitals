@@ -19,11 +19,14 @@ $run = $Qry->fetch();
 $user_group = explode(',', $run['group_id']);
 
 foreach ($user_group as $group_id) {
-
-    $Qry = $connect->query("SELECT * FROM area_group_mapping where status =0  and map_id = $group_id "); //fetching area id from group
+    $Qry = $connect->query("SELECT * FROM area_group_mapping where status =0 and map_id = $group_id");
     $run = $Qry->fetch();
-    $user_sub_area[] = explode(',', $run['sub_area_id']);
+    
+    if ($run) { // ✅ Only proceed if a row was fetched
+        $user_sub_area[] = explode(',', $run['sub_area_id']);
+    }
 }
+
 
 
 $result = $connect->query("SELECT * FROM sub_area_list_creation where area_id_ref='" . $area . "' and status=0 and sub_area_enable = 0");

@@ -1,14 +1,14 @@
 <?php
 include('../ajaxconfig.php');
-if (isset($_POST['sub_cat_id'])) {
-    $sub_cat_id = $_POST['sub_cat_id'];
+if (isset($_POST['loan_category_upd'])) {
+    $loan_category_upd = $_POST['loan_category_upd'];
 }
 if (isset($_POST['cus_id'])) {
     $cus_id = preg_replace('/\D/', '', $_POST['cus_id']);
 }
 
 $response = array();
-$result = $connect->query("SELECT lc.collection_info,lcat.loan_limit FROM loan_calculation lc JOIN loan_category lcat ON lcat.sub_category_name = lc.sub_category where lc.status=0 and lc.sub_category = '" . strip_tags($sub_cat_id) . "' ");
+$result = $connect->query("SELECT lc.collection_info,lcat.loan_limit FROM loan_calculation lc JOIN loan_category lcat ON lcat.loan_category_name = lc.loan_category where lc.status=0 and lc.loan_category = '" . strip_tags($loan_category_upd) . "' ");
 if ($result->rowCount() > 0) {
 
     $row = $result->fetch();

@@ -36,9 +36,7 @@
 									<th>Cust. ID</th>
 									<th>Cust. Name</th>
 									<th>Area</th>
-									<th>Sub Area</th>
 									<th>Loan Category</th>
-									<th>Sub Category</th>
 									<th>Loan Amount</th>
 									<th>User Type</th>
 									<th>User Name</th>
@@ -50,9 +48,9 @@
 								<tbody></tbody>
 								<tfoot>
 									<tr>
-										<td colspan="9"></td>
+										<td colspan="7"></td>
 										<td></td>
-										<td colspan="6"></td>
+										<td colspan="4"></td>
 									</tr>
 								</tfoot>
 							</table>

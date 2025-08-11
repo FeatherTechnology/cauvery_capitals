@@ -21,7 +21,7 @@ if ($type == 'today') {
     
 }
 
-$condition = getSubareaList($connect, $user_id); //condition will be returned if user id selected
+$condition = getAreaList($connect, $user_id); //condition will be returned if user id selected
 getDetials($connect, $where, $condition);
 
 function getDetials($connect, $where, $condition)
@@ -46,7 +46,7 @@ function getDetials($connect, $where, $condition)
     echo json_encode($response);
 }
 
-function getSubareaList($connect, $user_id)
+function getAreaList($connect, $user_id)
 {
 
     if ($user_id != '') { //to get user's sub area id based on user's branch assigned
@@ -56,22 +56,22 @@ function getSubareaList($connect, $user_id)
             $line_id = $rowuser['line_id'];
         }
         $line_id = explode(',', $line_id);
-        $sub_area_list = array();
+        $area_list = array();
         foreach ($line_id as $line) {
-            $groupQry = $connect->query("SELECT sub_area_id FROM area_line_mapping where map_id = $line ");
+            $groupQry = $connect->query("SELECT area_id FROM area_line_mapping where map_id = $line ");
             $row_sub = $groupQry->fetch();
-            $sub_area_list[] = $row_sub['sub_area_id'];
+            $area_list[] = $row_sub['area_id'];
         }
-        $sub_area_ids = array();
-        foreach ($sub_area_list as $subarray) {
-            $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
+        $area_ids = array();
+        foreach ($area_list as $subarray) {
+            $area_ids = array_merge($area_ids, explode(',', $subarray));
         }
-        $sub_area_list = array();
-        $sub_area_list = implode(',', $sub_area_ids);
+        $area_list = array();
+        $area_list = implode(',', $area_ids);
     } else {
-        $sub_area_list = '';
+        $area_list = '';
     }
-    $condition = ($sub_area_list != '') ? " and FIND_IN_SET(iv.sub_area ,'" . $sub_area_list . "')" : '';
+    $condition = ($area_list != '') ? " and FIND_IN_SET(iv.area ,'" . $area_list . "')" : '';
     return $condition;
 }
 

@@ -17,18 +17,20 @@ if ($userid != 1) {
         $group_id = $rowuser['group_id'];
     }
     $group_id = explode(',', $group_id);
-    $sub_area_list = array();
+    $area_list = array();
     foreach ($group_id as $group) {
         $groupQry = $connect->query("SELECT * FROM area_group_mapping where map_id = $group ");
         $row_sub = $groupQry->fetch();
-        $sub_area_list[] = $row_sub['sub_area_id'];
+         if ($row_sub !== false) {
+        $area_list[] = $row_sub['area_id'];
+         }
     }
-    $sub_area_ids = array();
-    foreach ($sub_area_list as $subarray) {
-        $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
+    $area_ids = array();
+    foreach ($area_list as $subarray) {
+        $area_ids = array_merge($area_ids, explode(',', $subarray));
     }
-    $sub_area_list = array();
-    $sub_area_list = implode(',', $sub_area_ids);
+    $area_list = array();
+    $area_list = implode(',', $area_ids);
 }
 
 $column = array(
@@ -40,7 +42,6 @@ $column = array(
     'ag.group_name',
     'alm.line_name',
     'a.area_name',
-    'sa.sub_area_name',
     'lcc.loan_category_creation_name',
     'b.loan_amt',
     'a.user_type',
@@ -52,28 +53,26 @@ $column = array(
     'a.req_id'
 );
 if ($userid == 1) {
-    $query = "SELECT a.dor,a.cus_id,a.cus_name,a.user_type,a.user_name,a.agent_id,a.responsible,a.cus_data,a.req_id,a.cus_status,a.req_id,b.sub_category,b.loan_amt,ac.area_name, sa.sub_area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name 
+    $query = "SELECT a.dor,a.cus_id,a.cus_name,a.user_type,a.user_name,a.agent_id,a.responsible,a.cus_data,a.req_id,a.cus_status,a.req_id,b.loan_amt,ac.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name 
     FROM in_verification a 
     JOIN acknowlegement_loan_calculation b on a.req_id=b.req_id 
     JOIN acknowlegement_loan_calculation b on a.req_id=b.req_id 
     JOIN area_list_creation ac ON a.area = ac.area_id
-    JOIN sub_area_list_creation sa ON a.sub_area = sa.sub_area_id
-    JOIN area_group_mapping ag ON FIND_IN_SET(sa.sub_area_id, ag.sub_area_id)
+    JOIN area_group_mapping ag ON FIND_IN_SET(ac.area_id, ag.area_id)
     JOIN branch_creation bc ON ag.branch_id = bc.branch_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(sa.sub_area_id, alm.sub_area_id)
+    JOIN area_line_mapping alm ON FIND_IN_SET(ac.area_id, alm.area_id)
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = b.loan_category
     WHERE a.status = 0 and (a.cus_status = 13) and (a.issue_by = 2) "; // Move To Issue
 } else {
-    $query = "SELECT a.dor,a.cus_id,a.cus_name,a.user_type,a.user_name,a.agent_id,a.responsible,a.cus_data,a.req_id,a.cus_status,a.req_id,b.sub_category,b.loan_amt,ac.area_name, sa.sub_area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name 
+    $query = "SELECT a.dor,a.cus_id,a.cus_name,a.user_type,a.user_name,a.agent_id,a.responsible,a.cus_data,a.req_id,a.cus_status,a.req_id,b.loan_amt,ac.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name 
     FROM in_verification a 
     JOIN acknowlegement_loan_calculation b on a.req_id=b.req_id 
     JOIN area_list_creation ac ON a.area = ac.area_id
-    JOIN sub_area_list_creation sa ON a.sub_area = sa.sub_area_id
-    JOIN area_group_mapping ag ON FIND_IN_SET(sa.sub_area_id, ag.sub_area_id)
+    JOIN area_group_mapping ag ON FIND_IN_SET(ac.area_id, ag.area_id)
     JOIN branch_creation bc ON ag.branch_id = bc.branch_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(sa.sub_area_id, alm.sub_area_id)
+    JOIN area_line_mapping alm ON FIND_IN_SET(ac.area_id, alm.area_id)
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = b.loan_category
-    WHERE a.status = 0 and (a.cus_status = 13) and (a.issue_by = 2) and a.sub_area IN ($sub_area_list) ";  //show only Approved Verification in Acknowledgement. // 13 Move to Issue. // 14 Move To Collection.
+    WHERE a.status = 0 and (a.cus_status = 13) and (a.issue_by = 2) and a.area IN ($area_list) ";  //show only Approved Verification in Acknowledgement. // 13 Move to Issue. // 14 Move To Collection.
 }
 
 if (isset($_POST['search']) && $_POST['search'] != "") {
@@ -85,7 +84,6 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
             OR ag.group_name LIKE '%" . $_POST['search'] . "%'
             OR alm.line_name LIKE '%" . $_POST['search'] . "%'
             OR ac.area_name LIKE '%" . $_POST['search'] . "%'
-            OR sa.sub_area_name LIKE '%" . $_POST['search'] . "%'
             OR lcc.loan_category_creation_name LIKE '%" . $_POST['search'] . "%'
             OR a.cus_data LIKE '%" . $_POST['search'] . "%' ) ";
 }
@@ -128,9 +126,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['group_name'];
     $sub_array[] = $row['line_name'];
     $sub_array[] = $row['area_name'];
-    $sub_array[] = $row['sub_area_name'];
     $sub_array[] = $row["loan_category_creation_name"];
-    $sub_array[] = $row['sub_category'];
 
     $sub_array[] = moneyFormatIndia($row['loan_amt']);
     $sub_array[] = $row['user_type'];
@@ -192,14 +188,8 @@ foreach ($result as $row) {
     if ($cus_status == '13' and empty($ag_id)) { // check whether agent id is empty, if yes then show edit button, so that only 'issued to customer' entries only can edit
         $action .= "<a href='accounts_loan_issue&upd=$id' class='customer_profile' value='$id' > Edit Loan Issue </a>";
     } 
-    // else if ($cus_status == '14') {
-    //     $action .= "<a href=''class='iss-remove' data-value='$id' > Remove </a>";
-    // }
+    
     $action .= "<a href='#' class='move_customer' data-id='$id'> Move to Loan Issue</a>";
-    // if ($login_user_type == 0 or $userid == 1) {
-    //     $action .= "<a href='' data-value ='" . $cus_id . "' data-value1 = '$id' class='customer-status' data-toggle='modal' data-target='.customerstatus'>Customer Status</a>";
-    // }
-
 
     $action .= "</div></div>";
 

@@ -28,17 +28,7 @@ if (isset($getuserdetails['download_access'])) {
 <!-- end customer excel div -->
 
 <!-- Important -->
-<?php if ($current_page != 'vendorcreation' and $current_page != 'auction_details') { ?>
 	<?php include "include/common/dashboardhead.php" ?>
-<?php  } ?>
-
-
-<?php if ($current_page == 'vendorcreation') { ?>
-	<?php include "include/common/dashboardfinancedatatablehead.php" ?>
-<?php } ?>
-<?php if ($current_page == 'auction_details') { ?>
-	<?php include "include/common/dashboardfinancedatatablehead.php" ?>
-<?php } ?>
 
 <body>
 	<!-- Page wrapper start -->
@@ -89,8 +79,7 @@ if (isset($getuserdetails['download_access'])) {
 						<li class="dropdown">
 							<a href="#" id="notifications" data-toggle="dropdown" aria-haspopup="true">
 								<i class="icon-bell"></i>
-								<span class="count-label"><?php //echo count($notification); // count($notificationmax); 
-															?></span>
+								<span class="count-label"></span>
 							</a>
 							<div class="dropdown-menu dropdown-menu-right lrg" aria-labelledby="notifications">
 								<div class="dropdown-menu-header">
@@ -118,7 +107,6 @@ if (isset($getuserdetails['download_access'])) {
 										<h5><?php echo $fullname; ?></h5>
 										<p><?php echo $fullname; ?></p>
 									</div>
-									<!-- <a href="#"><i class="icon-user1"></i> My Profile</a> -->
 									<a href="logout.php" class="logout-link"><i class="icon-log-out1"></i>Log Out</a>
 								</div>
 							</div>
@@ -157,23 +145,7 @@ if (isset($getuserdetails['download_access'])) {
 			<?php if ($current_page == 'edit_loan_category') { ?>
 				<?php include "include/templates/edit_loan_category.php" ?>
 			<?php } else ?>
-
-			<?php if ($current_page == 'loan_calculation') { ?>
-				<?php include "include/templates/loan_calculation.php" ?>
-			<?php } else ?>
-
-			<?php if ($current_page == 'edit_loan_calculation') { ?>
-				<?php include "include/templates/edit_loan_calculation.php" ?>
-			<?php } else ?>
-
-			<?php if ($current_page == 'loan_scheme') { ?>
-				<?php include "include/templates/loan_scheme.php" ?>
-			<?php } else ?>
-
-			<?php if ($current_page == 'edit_loan_scheme') { ?>
-				<?php include "include/templates/edit_loan_scheme.php" ?>
-			<?php } else ?>
-
+			
 			<?php if ($current_page == 'area_creation') { ?>
 				<?php include "include/templates/area_creation.php" ?>
 			<?php } else ?>
@@ -523,22 +495,9 @@ if (isset($getuserdetails['download_access'])) {
 
 	<!-- Important -->
 	<!-- This the important section for download excel file and script adding with our screen -->
-	<?php if ($current_page != 'vendorcreation') { ?>
 		<?php include "include/common/dashboardfooter.php" ?>
-	<?php } ?>
-
-	<?php
-	if ($current_page == 'vendorcreation') { ?>
-		<?php include "include/common/dashboardfinancedatatablefooter.php" ?>
-	<?php } ?>
-
-
-
-
 </body>
-
 </html>
-
 
 <script>
 	$('#search_input_').keyup(function() {

@@ -17,20 +17,20 @@ if ($userid != 1) {
     
     if($report_access =='1'){
         $group_id = explode(',', $group_id);
-        $sub_area_list = array();
+        $area_list = array();
         foreach ($group_id as $group) {
-            $groupQry = $connect->query("SELECT sub_area_id FROM area_group_mapping WHERE map_id = $group ");
+            $groupQry = $connect->query("SELECT area_id FROM area_group_mapping WHERE map_id = $group ");
             $row_sub = $groupQry->fetch();
-            $sub_area_list[] = $row_sub['sub_area_id'];
+            $area_list[] = $row_sub['area_id'];
         }
-        $sub_area_ids = array();
-        foreach ($sub_area_list as $subarray) {
-            $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
+        $area_ids = array();
+        foreach ($area_list as $subarray) {
+            $area_ids = array_merge($area_ids, explode(',', $subarray));
         }
-        $sub_area_list = array();
-        $sub_area_list = implode(',', $sub_area_ids);
+        $area_list = array();
+        $area_list = implode(',', $area_ids);
 
-        $user_based = "WHERE cp.area_confirm_subarea IN ($sub_area_list) AND cp.insert_login_id = '$userid' ";
+        $user_based = "WHERE cp.area_confirm_area IN ($area_list) AND cp.insert_login_id = '$userid' ";
     }
 }
 
@@ -117,7 +117,6 @@ $query = "SELECT
             fam.famname,
             fam.relationship,
             al.area_name,
-            sal.sub_area_name,
             reg.loan_limit,
             reg.how_to_know,
             reg.travel_with_company,
@@ -127,7 +126,6 @@ $query = "SELECT
             FROM customer_profile cp
             JOIN verification_family_info fam ON cp.guarentor_name = fam.id
             JOIN area_list_creation al ON cp.area_confirm_area = al.area_id
-            JOIN sub_area_list_creation sal ON cp.area_confirm_subarea = sal.sub_area_id
             JOIN area_line_mapping alm ON FIND_IN_SET(al.area_id, alm.area_id)
             JOIN area_group_mapping agm ON FIND_IN_SET(al.area_id, agm.area_id)
             JOIN customer_register reg ON cp.cus_id = reg.cus_id
@@ -181,7 +179,6 @@ foreach ($result as $row) {
     $sub_array[] = $row['famname'];
     $sub_array[] = $row['relationship'];
     $sub_array[] = $row['area_name'];
-    $sub_array[] = $row['sub_area_name'];
     $sub_array[] = $row['mobile1'];
     $sub_array[] = moneyFormatIndia($row['loan_limit']);
     $sub_array[] = $row['line_name'];

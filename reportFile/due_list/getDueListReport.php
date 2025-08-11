@@ -17,20 +17,20 @@ if ($userid != 1) {
 
     if ($report_access == '1') { //Report access individual.
         $line_id = explode(',', $line_id);
-        $sub_area_list = array();
+        $area_list = array();
         foreach ($line_id as $line) {
-            $lineQry = $connect->query("SELECT sub_area_id FROM area_line_mapping WHERE map_id = $line ");
+            $lineQry = $connect->query("SELECT area_id FROM area_line_mapping WHERE map_id = $line ");
             $row_sub = $lineQry->fetch();
-            $sub_area_list[] = $row_sub['sub_area_id'];
+            $area_list[] = $row_sub['area_id'];
         }
-        $sub_area_ids = array();
-        foreach ($sub_area_list as $subarray) {
-            $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
+        $area_ids = array();
+        foreach ($area_list as $subarray) {
+            $area_ids = array_merge($area_ids, explode(',', $subarray));
         }
-        $sub_area_list = array();
-        $sub_area_list = implode(',', $sub_area_ids);
+        $area_list = array();
+        $area_list = implode(',', $area_ids);
 
-        $user_based = " AND cp.area_confirm_subarea IN ($sub_area_list) AND coll.insert_login_id = '$userid' ";
+        $user_based = " AND cp.area_confirm_area IN ($area_list) AND coll.insert_login_id = '$userid' ";
     }
 }
 
@@ -67,9 +67,7 @@ if (isset($_POST['to_date']) && $_POST['to_date'] != '') {
         'lc.cus_name_loan',
         'cp.mobile1',
         'al.area_name',
-        'sal.sub_area_name',
         'lcc.loan_category_creation_name',
-        'lc.sub_category',
         'ac.ag_name',
         'iv.responsible',
         'vfi.famname',
@@ -115,7 +113,6 @@ $req_id_list = implode(',', $req_id_list);
     lc.due_amt_cal,
     lc.due_period,
     lc.tot_amt_cal,
-    lc.sub_category,
     lc.due_start_from,
     lc.due_method_scheme,
     lc.due_method_calc,
@@ -123,7 +120,6 @@ $req_id_list = implode(',', $req_id_list);
     alm.line_name AS line,
     ii.loan_id,
     al.area_name,
-    sal.sub_area_name,
     lcc.loan_category_creation_name AS loan_cat_name,
     ac.ag_name,
     iv.responsible,
@@ -154,9 +150,7 @@ JOIN
 JOIN 
     area_list_creation al ON cp.area_confirm_area = al.area_id
 JOIN 
-    sub_area_list_creation sal ON cp.area_confirm_subarea = sal.sub_area_id
-JOIN 
-    area_line_mapping alm ON FIND_IN_SET( sal.sub_area_id, alm.sub_area_id )
+    area_line_mapping alm ON FIND_IN_SET( al.area_id, alm.area_id )
 JOIN 
     in_verification iv ON lc.req_id = iv.req_id
 JOIN 
@@ -197,8 +191,6 @@ if (isset($_POST['search'])) {
                         OR lc.cus_name_loan LIKE '%" . $_POST['search'] . "%'
                         OR cp.mobile1 LIKE '%" . $_POST['search'] . "%'
                         OR al.area_name LIKE '%" . $_POST['search'] . "%'
-                        OR sal.sub_area_name LIKE '%" . $_POST['search'] . "%'
-                        OR lc.sub_category LIKE '%" . $_POST['search'] . "%'
                         OR ac.ag_name LIKE '%" . $_POST['search'] . "%'
                         OR iv.responsible LIKE '%" . $_POST['search'] . "%'
                         OR vfi.famname LIKE '%" . $_POST['search'] . "%'
@@ -281,9 +273,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['cus_name_loan'];
     $sub_array[] = $row['mobile1'];
     $sub_array[] = $row['area_name'];
-    $sub_array[] = $row['sub_area_name'];
     $sub_array[] = $row['loan_cat_name'];
-    $sub_array[] = $row['sub_category'];
     $sub_array[] = $row['ag_name'];
     $sub_array[] = (!empty($row['ag_name'])) ? (($row['responsible'] == '0') ? 'Yes': 'No') : '';
     $sub_array[] = $row['famname'];

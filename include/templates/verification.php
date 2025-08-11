@@ -94,7 +94,6 @@ if (sizeof($getRequestData) > 0) {
 		$district					= $getRequestData['district'];
 		$taluk					= $getRequestData['taluk'];
 		$area					= $getRequestData['area'];
-		$sub_area					= $getRequestData['sub_area'];
 		$address					= $getRequestData['address'];
 		$mobile1					= $getRequestData['mobile1'];
 		$mobile2					= $getRequestData['mobile2'];
@@ -106,7 +105,6 @@ if (sizeof($getRequestData) > 0) {
 		$occupation					= $getRequestData['occupation'];
 		$pic					= $getRequestData['pic'];
 		$loan_category					= $getRequestData['loan_category'];
-		$sub_category					= $getRequestData['sub_category'];
 		$tot_value					= $getRequestData['tot_value'];
 		$ad_amt					= $getRequestData['ad_amt'];
 		$ad_perc					= $getRequestData['ad_perc'];
@@ -116,7 +114,6 @@ if (sizeof($getRequestData) > 0) {
 		$due_period					= $getRequestData['due_period'];
 		$cus_status					= $getRequestData['cus_status'];
 		$area_nameforhead 					= $getRequestData['area_name'];
-		$sub_area_nameforhead 					= $getRequestData['sub_area_name'];
 		$agent_name 					= $getRequestData['agent_name'];
 	}
 }
@@ -152,12 +149,10 @@ if (sizeof($getCustomerReg) > 0) {
 		$area_confirm_district 		= $getCustomerReg['area_confirm_district'];
 		$area_confirm_taluk 		= $getCustomerReg['area_confirm_taluk'];
 		$area_confirm_area 			= $getCustomerReg['area_confirm_area'];
-		$area_confirm_subarea 		= $getCustomerReg['area_confirm_subarea'];
 		$latlong 				= $getCustomerReg['latlong'];
 		$area_group 				= $getCustomerReg['area_group'];
 		$area_line 					= $getCustomerReg['area_line'];
 		$area_name 					= $getCustomerReg['area_name'];
-		$sub_area_name 					= $getCustomerReg['sub_area_name'];
 	}
 }
 
@@ -200,7 +195,7 @@ if (sizeof($getcusInfoForDoc) > 0) {
 	$doc_cus_id = $getcusInfoForDoc['cus_id'];
 	$doc_cus_name = $getcusInfoForDoc['cus_name'];
 	$doc_area_name = $getcusInfoForDoc['area_name'];
-	$doc_sub_area_name = $getcusInfoForDoc['sub_area_name'];
+	// $doc_sub_area_name = $getcusInfoForDoc['sub_area_name'];
 	$customer_profile_sts = $getcusInfoForDoc['cus_status'];
 }
 
@@ -260,7 +255,6 @@ if (sizeof($getLoanCalculation) > 0) {
 		$mobile_loan = $getLoanCalculation['mobile_loan'];
 		$pic_loan = $getLoanCalculation['pic_loan'];
 		$loan_category_lc = $getLoanCalculation['loan_category'];
-		$sub_category_lc = $getLoanCalculation['sub_category'];
 		$tot_value_lc = $getLoanCalculation['tot_value'];
 		$ad_amt_lc = $getLoanCalculation['ad_amt'];
 		$loan_amt_lc = $getLoanCalculation['loan_amt'];
@@ -307,7 +301,7 @@ if (sizeof($getLoanCalculation) > 0) {
 ///////// Loan Calculation End ///////////////
 
 $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_nameforhead;
-$sub_area_topbar = isset($sub_area_name) && $sub_area_name != '' ? $sub_area_name : $sub_area_nameforhead;
+// $sub_area_topbar = isset($sub_area_name) && $sub_area_name != '' ? $sub_area_name : $sub_area_nameforhead;
 
 ?>
 
@@ -335,7 +329,6 @@ $sub_area_topbar = isset($sub_area_name) && $sub_area_name != '' ? $sub_area_nam
 							echo $cus_name;
 						} ?>
 		,&nbsp;&nbsp;Area - <?php echo $area_topbar; ?>
-		,&nbsp;&nbsp;Sub Area - <?php echo $sub_area_topbar; ?>
 	</div>
 </div><br>
 <div class="text-right" style="margin-right: 25px;">
@@ -375,9 +368,6 @@ $sub_area_topbar = isset($sub_area_name) && $sub_area_name != '' ? $sub_area_nam
 			<input type="hidden" name="cus_id_load" id="cus_id_load" value="<?php if (isset($cus_id)) {
 																				echo $cus_id;
 																			} ?>" />
-			<input type="hidden" name="loan_sub_cat" id="loan_sub_cat" value="<?php if (isset($sub_category)) {
-																					echo $sub_category;
-																				} ?>" />
 			<input type="hidden" name="guarentor_name_upd" id="guarentor_name_upd" value="<?php if (isset($guarentor_name)) {
 																								echo $guarentor_name;
 																							} ?>" />
@@ -1006,7 +996,7 @@ $sub_area_topbar = isset($sub_area_name) && $sub_area_name != '' ? $sub_area_nam
 									</div>
 								</div>
 
-								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+								<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="sub_area">Sub Area</label>&nbsp;<span class="text-danger">*</span>
 										<select tabindex="45" type="text" class="form-control" id="sub_area" name="sub_area">
@@ -1014,7 +1004,7 @@ $sub_area_topbar = isset($sub_area_name) && $sub_area_name != '' ? $sub_area_nam
 										</select>
 										<span class="text-danger" style='display:none' id='subareaCheck'>Please Select Sub Area</span>
 									</div>
-								</div>
+								</div> -->
 								<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
 									<div class="form-group">
 										<label for="latlong">Location</label>
@@ -1424,12 +1414,12 @@ $sub_area_topbar = isset($sub_area_name) && $sub_area_name != '' ? $sub_area_nam
 									</div>
 								</div>
 
-								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+								<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="doc_Sub_Area"> Sub Area </label> <span class="required"> * </span>
 										<input type="text" class="form-control" id="doc_Sub_Area" name="doc_Sub_Area" value='<?php if (isset($doc_sub_area_name)) echo $doc_sub_area_name; ?>' readonly tabindex="7">
 									</div>
-								</div>
+								</div> -->
 
 								<!-- doc id is generate in acknowledgement documentation, so removing here.<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
@@ -1882,14 +1872,8 @@ $sub_area_topbar = isset($sub_area_name) && $sub_area_name != '' ? $sub_area_nam
 			<input type="hidden" name="loan_category_load" id="loan_category_load" value="<?php if (isset($loan_category)) {
 																								echo $loan_category;
 																							} ?>" />
-			<input type="hidden" name="sub_category_load" id="sub_category_load" value="<?php if (isset($sub_category)) {
-																							echo $sub_category;
-																						} ?>" />
 			<input type="hidden" name="loan_category_upd" id="loan_category_upd" value="<?php if (isset($loan_category_lc)) {
 																							echo $loan_category_lc;
-																						} ?>" />
-			<input type="hidden" name="sub_category_upd" id="sub_category_upd" value="<?php if (isset($sub_category_lc)) {
-																							echo $sub_category_lc;
 																						} ?>" />
 			<input type="hidden" name="profit_type_upd" id="profit_type_upd" value="<?php if (isset($profit_type_lc)) {
 																						echo $profit_type_lc;
@@ -1973,13 +1957,6 @@ $sub_area_topbar = isset($sub_area_name) && $sub_area_name != '' ? $sub_area_nam
 									<div class="form-group">
 										<label for="doc_area"> Area </label> <span class="required"> * </span>
 										<input tabindex="5" type="text" class="form-control" id="doc_area" name="doc_area" value="<?php if (isset($doc_area_name)) echo $doc_area_name; ?>" readonly>
-									</div>
-								</div>
-
-								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-									<div class="form-group">
-										<label for="doc_Sub_Area"> Sub Area </label> <span class="required"> * </span>
-										<input type="text" class="form-control" id="doc_Sub_Area" name="doc_Sub_Area" value='<?php if (isset($doc_sub_area_name)) echo $doc_sub_area_name; ?>' readonly tabindex="6">
 									</div>
 								</div>
 
@@ -2245,15 +2222,6 @@ $sub_area_topbar = isset($sub_area_name) && $sub_area_name != '' ? $sub_area_nam
 													<option value="">Select Loan Category</option>
 												</select>
 												<span class="text-danger" style='display:none' id='loancategoryCheck'>Please Select Loan Category</span>
-											</div>
-										</div>
-										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-											<div class="form-group">
-												<label for="sub_category">Sub Category</label>&nbsp;<span class="text-danger">*</span>
-												<select tabindex="18" type="text" class="form-control" id="sub_category" name="sub_category">
-													<option value="">Select Sub Category</option>
-												</select>
-												<span class="text-danger" style='display:none' id='subcategoryCheck'>Please Select Sub Category</span>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12"></div>

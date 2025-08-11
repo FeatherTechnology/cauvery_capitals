@@ -1,10 +1,10 @@
 <?php
-session_start();
+// session_start();
 include '../ajaxconfig.php';
 
-if (isset($_SESSION["userid"])) {
-    $user_id = $_SESSION["userid"];
-}
+// if (isset($_SESSION["userid"])) {
+    $user_id = 2;
+// }
 if (isset($_POST["pending_sts"])) {
     $pending_sts = explode(',', $_POST["pending_sts"]);
 }
@@ -104,7 +104,6 @@ function moneyFormatIndia($num)
             <th width='50'>Loan ID</th>
             <th>Doc ID</th>
             <th>Loan Category</th>
-            <th>Sub Category</th>
             <th>Agent</th>
             <th>Loan date</th>
             <th>Loan Amount</th>
@@ -119,7 +118,7 @@ function moneyFormatIndia($num)
 
         <?php
         $cus_id = $_POST['cus_id'];
-        $run = $connect->query("SELECT ii.loan_id, ad.doc_id, lcc.loan_category_creation_name as loan_catrgory_name, lc.sub_category, rc.agent_id, ii.updated_date, lc.loan_amt_cal, ii.req_id
+        $run = $connect->query("SELECT ii.loan_id, ad.doc_id, lcc.loan_category_creation_name as loan_catrgory_name, rc.agent_id, ii.updated_date, lc.loan_amt_cal, ii.req_id
         FROM acknowlegement_loan_calculation lc JOIN acknowlegement_documentation ad ON lc.req_id = ad.req_id JOIN in_issue ii ON lc.req_id = ii.req_id JOIN request_creation rc ON ii.req_id = rc.req_id JOIN loan_category_creation lcc ON lc.loan_category = lcc.loan_category_creation_id JOIN user us ON us.user_id = $user_id
         WHERE lc.cus_id_loan = $cus_id and ii.cus_status = 21 "); //21 means loan has been closed form closed window for noc
 
@@ -133,7 +132,6 @@ function moneyFormatIndia($num)
                 <td><?php echo $row["loan_id"]; ?></td>
                 <td><?php echo $row["doc_id"]; ?></td>
                 <td><?php echo $row["loan_catrgory_name"]; ?></td>
-                <td><?php echo $row["sub_category"]; ?></td>
                 <td>
                     <?php
                     if ($row["agent_id"] != '' || $row["agent_id"] != NULL) {

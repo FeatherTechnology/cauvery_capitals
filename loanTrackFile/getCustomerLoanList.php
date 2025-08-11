@@ -14,7 +14,6 @@ $result = $connect->query("SELECT req.req_id,req.prompt_remark,req.cus_status,
     CASE WHEN req.cus_status >= 14 THEN ii.updated_date ELSE req.dor END AS `updated_date`,
     CASE WHEN req.cus_status >= 14 THEN ii.loan_id ELSE req.req_code END AS `code`,
     CASE WHEN req.cus_status IN (12,2,6,7) THEN vlc.loan_category WHEN req.cus_status IN (3,13,14,15,16,17,20,21) THEN alc.loan_category ELSE req.loan_category END AS loan_category,
-    CASE WHEN req.cus_status IN (12,2,6,7) THEN vlc.sub_category WHEN req.cus_status IN (3,13,14,15,16,17,20,21) THEN alc.sub_category ELSE req.sub_category END AS sub_category,
     CASE WHEN req.cus_status IN (12,2,6,7) THEN vlc.loan_amt WHEN req.cus_status IN (3,13,14,15,16,17,20,21) THEN alc.loan_amt ELSE req.loan_amt END AS loan_amt,
     CASE WHEN req.cus_status IN (12,2,6,7,3,13,14,15,16,17,20,21) THEN cp.cus_name ELSE req.cus_name END AS cus_name
     FROM request_creation req
@@ -40,7 +39,6 @@ if ($result->rowCount() > 0) {
         $row1 = $qry->fetch();
         $records[$i]['loan_category'] = $row1['loan_category_creation_name'];
 
-        $records[$i]['sub_category'] = $row['sub_category'];
         $records[$i]['loan_amt'] = $row['loan_amt'];
         $cus_status = $row['cus_status'];
 
@@ -67,7 +65,6 @@ if ($result->rowCount() > 0) {
         <th>Date</th>
         <th>Req ID/Loan ID</th>
         <th>Loan Category</th>
-        <th>Sub Category</th>
         <th>Loan Amount</th>
         <th>Chart</th>
         <th>Track Loan</th>
@@ -79,7 +76,6 @@ if ($result->rowCount() > 0) {
                 <td><?php echo $records[$i]['updated_date']; ?></td>
                 <td><?php echo $records[$i]['code']; ?></td>
                 <td><?php echo $records[$i]['loan_category']; ?></td>
-                <td><?php echo $records[$i]['sub_category']; ?></td>
                 <td><?php echo $records[$i]['loan_amt']; ?></td>
                 <td><?php echo $records[$i]['chart_action']; ?></td>
                 <td><button class="btn btn-primary track-btn" data-req_id='<?php echo $records[$i]['req_id']; ?>' onclick="event.preventDefault()">Track</button></td>

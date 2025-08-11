@@ -28,19 +28,19 @@ class getTrackTableDetails
         if ($cus_status != '') {
 
             // Request
-            $qry = $connect->query("SELECT cus_id,sub_area,insert_login_id,created_date from request_creation where req_id = $req_id");
+            $qry = $connect->query("SELECT cus_id,area,insert_login_id,created_date from request_creation where req_id = $req_id");
             if ($qry->rowCount() > 0) {
                 $row = $qry->fetch();
                 $cus_id = $row['cus_id'];
-                $branch = $this->getBranchName($connect, $row['sub_area'], 'group');
+                $branch = $this->getBranchName($connect, $row['area'], 'group');
                 $data[] = $this->getTrackDetails($connect, 'Request', $row['created_date'], $row['insert_login_id'], $branch);
             }
 
             // Customer Profile
-            $qry = $connect->query("SELECT area_confirm_subarea as sub_area,insert_login_id,created_date from customer_profile where req_id = $req_id");
+            $qry = $connect->query("SELECT area_confirm_area as area,insert_login_id,created_date from customer_profile where req_id = $req_id");
             if ($qry->rowCount() > 0) {
                 $row = $qry->fetch();
-                $branch = $this->getBranchName($connect, $row['sub_area'], 'group');
+                $branch = $this->getBranchName($connect, $row['area'], 'group');
                 $data[] = $this->getTrackDetails($connect, 'Customer Profile', $row['created_date'], $row['insert_login_id'], $branch);
             }
 
@@ -69,9 +69,9 @@ class getTrackTableDetails
             $qry = $connect->query("SELECT inserted_user,inserted_date from in_issue where req_id = $req_id");
             if ($qry->rowCount() > 0) {
                 $row = $qry->fetch();
-                $qry1 = $connect->query("SELECT area_confirm_subarea as sub_area from acknowlegement_customer_profile where req_id = $req_id");
-                $sub_area_id = $qry1->fetch()['sub_area'];
-                $branch = $this->getBranchName($connect, $sub_area_id, 'group');
+                $qry1 = $connect->query("SELECT area_confirm_area as area from acknowlegement_customer_profile where req_id = $req_id");
+                $area_id = $qry1->fetch()['area'];
+                $branch = $this->getBranchName($connect, $area_id, 'group');
                 $data[] = $this->getTrackDetails($connect, 'Acknowledgment', $row['inserted_date'], $row['inserted_user'], $branch);
             }
 
@@ -86,7 +86,7 @@ class getTrackTableDetails
             $qry = $connect->query("SELECT insert_login_id,created_date from closed_status where req_id = $req_id");
             if ($qry->rowCount() > 0) {
                 $row = $qry->fetch();
-                $branch = $this->getBranchName($connect, $sub_area_id, 'line');
+                $branch = $this->getBranchName($connect, $area_id, 'line');
                 $data[] = $this->getTrackDetails($connect, 'Closed', $row['created_date'], $row['insert_login_id'], $branch);
             }
 
@@ -161,12 +161,12 @@ class getTrackTableDetails
         }
         return $response;
     }
-    public function getBranchName($connect, $sub_area, $type)
+    public function getBranchName($connect, $area, $type)
     {
         if ($type == 'group') {
-            $qry = $connect->query("SELECT bc.branch_name from area_group_mapping agm LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id where FIND_IN_SET($sub_area,agm.sub_area_id)");
+            $qry = $connect->query("SELECT bc.branch_name from area_group_mapping agm LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id where FIND_IN_SET($area,agm.area_id)");
         } else if ($type == 'line') {
-            $qry = $connect->query("SELECT bc.branch_name from area_line_mapping alm LEFT JOIN branch_creation bc ON alm.branch_id = bc.branch_id where FIND_IN_SET($sub_area,alm.sub_area_id)");
+            $qry = $connect->query("SELECT bc.branch_name from area_line_mapping alm LEFT JOIN branch_creation bc ON alm.branch_id = bc.branch_id where FIND_IN_SET($area,alm.area_id)");
         }
         $branch_name = $qry->fetch()['branch_name'];
         return $branch_name;

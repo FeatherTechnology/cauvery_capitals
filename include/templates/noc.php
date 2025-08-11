@@ -18,8 +18,6 @@ if (sizeof($getLoanList) > 0) {
 		$cus_name					= $getLoanList['cus_name'];
 		$area_id					= $getLoanList['area_confirm_area'];
 		$area_name					= $getLoanList['area_name'];
-		$sub_area_id				= $getLoanList['area_confirm_subarea'];
-		$sub_area_name				= $getLoanList['sub_area_name'];
 		$branch_id					= $getLoanList['branch_id'];
 		$branch_name				= $getLoanList['branch_name'];
 		$line_id					= $getLoanList['line_id'];
@@ -128,13 +126,6 @@ if (sizeof($documentationInfo) > 0) {
 										</div>
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="form-group">
-												<label for="sub_area"> Sub Area </label> <span class="required"> * </span>
-												<input type="hidden" id='sub_area_id' name='sub_area_id' value='<?php if (isset($sub_area_id)) echo $sub_area_id; ?>'>
-												<input type="text" class="form-control" id="sub_area" name="sub_area" value='<?php if (isset($sub_area_name)) echo $sub_area_name; ?>' readonly tabindex='4'>
-											</div>
-										</div>
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
 												<label for="branch"> Branch </label> <span class="required"> * </span>
 												<input type="hidden" id='branch_id' name='branch_id' value='<?php if (isset($branch_id)) echo $branch_id; ?>'>
 												<input type="text" class="form-control" id="branch" name="branch" value='<?php if (isset($branch_name)) echo $branch_name; ?>' readonly tabindex='5'>
@@ -166,8 +157,7 @@ if (sizeof($documentationInfo) > 0) {
 											<input type="hidden" name="cus_pic" id="cus_pic" value="<?php if (isset($cus_pic)) {
 																										echo $cus_pic;
 																									} ?>">
-											<img id='imgshow' class="img_show" src=<?php //if (isset($cus_pic)) {echo 'uploads/request/customer/'.$cus_pic;}else{echo 'img/avatar.png';} 
-																					?> />
+											<img id='imgshow' class="img_show"  />
 										</div>
 									</div>
 								</div>
@@ -195,7 +185,6 @@ if (sizeof($documentationInfo) > 0) {
 														<tr>
 															<th>Loan ID</th>
 															<th>Loan Category</th>
-															<th>Sub Category</th>
 															<th>Agent</th>
 															<th>Loan date</th>
 															<th>Loan Amount</th>

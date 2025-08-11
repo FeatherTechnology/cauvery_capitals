@@ -114,7 +114,6 @@ if ($idupd > 0) {
 				$map_id                 	 = $getAreaMappingLine['map_id'];
 				$line_name          		     = $getAreaMappingLine['line_name'];
 				$area_id          		     = $getAreaMappingLine['area_id'];
-				$sub_area_id      			     = $getAreaMappingLine['sub_area_id'];
 				$company_id      			 = $getAreaMappingLine['company_id'];
 				$branch_id      			 = $getAreaMappingLine['branch_id'];
 			}
@@ -128,7 +127,6 @@ if ($idupd > 0) {
 				$map_id1                	 = $getAreaMappingGroup['map_id'];
 				$group_name          		     = $getAreaMappingGroup['group_name'];
 				$area_id1         		     = $getAreaMappingGroup['area_id'];
-				$sub_area_id1      			     = $getAreaMappingGroup['sub_area_id'];
 				$company_id1     			 = $getAreaMappingGroup['company_id'];
 				$branch_id1      			 = $getAreaMappingGroup['branch_id'];
 			}
@@ -193,8 +191,6 @@ if (isset($_GET['type'])) {
 		<input type="hidden" value="<?php if (isset($area_id)) echo $area_id; ?>" id="area_id_upd" name="area_id_upd">
 		<input type="hidden" value="<?php if (isset($area_id1)) echo $area_id1; ?>" id="area_id1_upd" name="area_id1_upd">
 		<input type="hidden" value="<?php if (isset($area_id2)) echo $area_id2; ?>" id="area_id2_upd" name="area_id2_upd">
-		<input type="hidden" value="<?php if (isset($sub_area_id)) echo $sub_area_id; ?>" id="sub_area_upd" name="sub_area_upd">
-		<input type="hidden" value="<?php if (isset($sub_area_id1)) echo $sub_area_id1; ?>" id="sub_area_upd1" name="sub_area_upd1">
 		<input type="hidden" value="<?php if (isset($cus_sts)) echo $cus_sts; ?>" id="cus_sts" name="cus_sts">
 		<input type="hidden" value="<?php if (isset($due_line_name)) echo $due_line_name; ?>" id="due_line_name" name="due_line_name">
 		<input type="hidden" value="<?php if(isset($loan_category_id)) echo $loan_category_id; ?>" id="loan_cat_upd" name="loan_cat_upd">
@@ -245,16 +241,6 @@ if (isset($_GET['type'])) {
 											</select>
 										</div>
 									</div>
-									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="disabledInput">Sub Area</label>&nbsp;<span class="text-danger">*</span>
-											<input type="hidden" id="sub_area" name="sub_area" value="">
-											<select type="text" class="form-control" id="sub_area_dummy" name="sub_area_dummy" multiple tabindex='5'>
-
-											</select>
-										</div>
-									</div>
-
 								</div>
 							</div>
 						</div>
@@ -318,16 +304,6 @@ if (isset($_GET['type'])) {
 											</select>
 										</div>
 									</div>
-									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="disabledInput">Sub Area</label>&nbsp;<span class="text-danger">*</span>
-											<input type="hidden" id="sub_area1" name="sub_area1" value="">
-											<select tabindex="4" type="text" class="form-control" id="sub_area_dummy1" name="sub_area_dummy1" multiple>
-
-											</select>
-										</div>
-									</div>
-
 								</div>
 							</div>
 						</div>
@@ -411,16 +387,6 @@ if (isset($_GET['type'])) {
 											<span class="text-danger" style='display:none' id='dueAreaCheck'>Please select Area</span>
 										</div>
 									</div>
-									<!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="sub_area_dummy2">Sub Area</label>&nbsp;<span class="text-danger">*</span>
-											<input type="hidden" id="sub_area2" name="sub_area2" value="">
-											<select type="text" class="form-control" id="sub_area_dummy2" name="sub_area_dummy2" multiple tabindex='6'>
-
-											</select>
-											<span class="text-danger" style='display:none' id='dueSubAreaCheck'>Please select Sub Area</span>
-										</div>
-									</div> -->
 									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="cus_count">Customer Count</label>&nbsp;<span class="text-danger">*</span>

@@ -15,7 +15,6 @@ $qry = $connect->query("SELECT * From cus_old_data where cus_id = '" . $_POST['c
             <th> Area </th>
             <th> Sub Area </th>
             <th> Loan Category </th>
-            <th> Sub Category </th>
             <th> Loan Amount</th>
             <th> Due Chart</th>
         </tr>
@@ -35,7 +34,6 @@ $qry = $connect->query("SELECT * From cus_old_data where cus_id = '" . $_POST['c
                 <td><?php echo $row['area']; ?></td>
                 <td><?php echo $row['sub_area']; ?></td>
                 <td><?php echo $row['loan_cat']; ?></td>
-                <td><?php echo $row['sub_cat']; ?></td>
                 <td><?php echo moneyFormatIndia($row['loan_amt']); ?></td>
                 <td><a href="uploads/updateFile/cus_data_old/<?php echo $row['due_chart_file']; ?>" target="_blank">Show File</a></td>
             </tr>

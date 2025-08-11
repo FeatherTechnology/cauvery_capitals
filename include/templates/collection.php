@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 if (isset($_SESSION['userid'])) {
 	$userid = $_SESSION['userid'];
 }
@@ -18,8 +18,6 @@ if ($idupd > 0) {
 		$cus_name					= $getLoanList['cus_name'];
 		$area_id					= $getLoanList['area_confirm_area'];
 		$area_name					= $getLoanList['area_name'];
-		$sub_area_id				= $getLoanList['area_confirm_subarea'];
-		$sub_area_name				= $getLoanList['sub_area_name'];
 		$branch_id					= $getLoanList['branch_id'];
 		$branch_name				= $getLoanList['branch_name'];
 		$line_id					= $getLoanList['line_id'];
@@ -92,15 +90,12 @@ if ($idupd > 0) {
 		,&nbsp;&nbsp;Area - <?php if (isset($area_name)) {
 								echo $area_name;
 							} ?>
-		,&nbsp;&nbsp;Sub Area - <?php if (isset($sub_area_name)) {
-									echo $sub_area_name;
-								} ?>
 	</div>
 </div>
 <br>
 <div class="text-right" style="margin-right: 25px;">
 	<a href="edit_collection<?php if(isset($_GET['duestatus'])){echo '&duestatus='.$_GET['duestatus']; }?>">
-		<button type="button" class="btn btn-primary back-button"><span class="icon-arrow-left"></span>&nbsp; Back</button>
+		<button type="button" class="btn btn-primary back-button" data-id="<?php echo $userid ; ?>"><span class="icon-arrow-left"></span>&nbsp; Back</button>
 	</a>
 	<button class="btn btn-primary" id='close_collection_card'>&times;&nbsp;&nbsp;Cancel</button>
 </div><br><br>
@@ -173,15 +168,6 @@ if ($idupd > 0) {
 											<input type="text" class="form-control" id="area_name" name="area_name" value="<?php if (isset($area_name)) echo $area_name; ?>" readonly tabindex='3'>
 										</div>
 									</div>
-
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="sub_area"> Sub Area </label>
-											<input type="hidden" class="form-control" id="sub_area_id" name="sub_area_id" value="<?php if (isset($sub_area_id)) echo $sub_area_id; ?>" readonly>
-											<input type="text" class="form-control" id="sub_area_name" name="sub_area_name" value='<?php if (isset($sub_area_name)) echo $sub_area_name; ?>' readonly tabindex='4'>
-										</div>
-									</div>
-
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 										<div class="form-group">
 											<label for="branch"> Branch </label>
@@ -225,8 +211,7 @@ if ($idupd > 0) {
 										<input type="hidden" name="cus_image" id="cus_image" value="<?php if (isset($cus_pic)) {
 																										echo $cus_pic;
 																									} ?>">
-										<img id='imgshow' class="img_show" src=<?php //if (isset($cus_pic)){echo 'uploads/request/customer/'.$cus_pic ;}else{ echo 'img/avatar.png'; }
-																				?> />
+										<img id='imgshow' class="img_show"  />
 									</div>
 								</div>
 							</div>
@@ -254,7 +239,6 @@ if ($idupd > 0) {
 													<tr>
 														<th width="50">Loan ID</th>
 														<th>Loan Category</th>
-														<th>Sub Category</th>
 														<th>Agent</th>
 														<th>Loan date</th>
 														<th>Loan Amount</th>
@@ -279,114 +263,18 @@ if ($idupd > 0) {
 				</div>
 				<!-- Loan List End -->
 
-				<!-- Collection window Start -->
-				<!-- <div class="card collection_card">
-					<div class="card-header">
-						<div class="card-title">Personal Info</div>
-					</div>
-					<div class="card-body">
-						<div class="row ">
-							<div class="col-md-12 ">
-								<div class="row">
-									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8">
-										<div class="form-group">
-											<label for="cus_id">Customer ID</label>
-											<input type="text" class="form-control" id="cus_id" name="cus_id" value='<?php if (isset($cus_id)) {
-																															echo $cus_id;
-																														} ?>' readonly>
-										</div>
-									</div>
-
-									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8">
-										<div class="form-group">
-											<label for="cus_name">Customer Name</label>
-											<input type="text" class="form-control" id="cus_name" name="cus_name" value='<?php if (isset($cus_name)) {
-																																echo $cus_name;
-																															} ?>' readonly >
-										</div>
-									</div>
-
-									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8">
-										<div class="form-group">
-											<label for="branch"> Branch </label>
-											<input type="hidden" class="form-control" name="branch_id" id="branch_id" value="<?php if (isset($branch_id)) {
-																																	echo $branch_id;
-																																} ?>">
-											<input type="text" class="form-control" name="branch_name" id="branch_name" value="<?php if (isset($branch_name)) {
-																																	echo $branch_name;
-																																} ?>" readonly>
-										</div>
-									</div>
-									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-										<div class="form-group">
-											<label for="area"> Area </label>
-											<input  type="hidden" class="form-control" id="area_id" name="area_id" value="<?php if (isset($area_id)) echo $area_id; ?>" readonly>
-											<input  type="text" class="form-control" id="area_name" name="area_name" value="<?php if (isset($area_name)) echo $area_name; ?>" readonly>
-										</div>
-									</div>
-
-									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-										<div class="form-group">
-											<label for="sub_area"> Sub Area </label>
-											<input  type="hidden" class="form-control" id="sub_area_id" name="sub_area_id" value="<?php if (isset($sub_area_id)) echo $sub_area_id; ?>" readonly>
-											<input type="text" class="form-control" id="sub_area_name" name="sub_area_name" value='<?php if (isset($sub_area_name)) echo $sub_area_name; ?>' readonly>
-										</div>
-									</div>
-									
-									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8">
-										<div class="form-group">
-											<label for="line_name"> Line </label>
-											<input type="hidden" class="form-control" name="line_id" id="line_id" value="<?php if (isset($line_id)) {
-																																echo $line_id;
-																															} ?>">
-											<input type="text" class="form-control" name="line_name" id="line_name" value="<?php if (isset($line_name)) {
-																																echo $line_name;
-																															} ?>" readonly>
-										</div>
-									</div>
-									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8">
-										<div class="form-group">
-											<label for="loan_category"> Loan Category </label>-->
 				<input type="hidden" class="form-control" name="loan_category_id" id="loan_category_id" value="<?php if (isset($loan_category_id)) {
 																													echo $loan_category_id;
 																												} ?>">
-				<!--<input type="text" class="form-control" name="loan_category" id="loan_category" value="<?php if (isset($loan_category)) {
-																												echo $loan_category;
-																											} ?>" readonly>
-										</div>
-									</div>
-									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8">
-										<div class="form-group">
-											<label for="sub_category"> Sub Category </label>-->
-				<input type="hidden" class="form-control" name="sub_category_id" id="sub_category_id" value="<?php if (isset($sub_category_id)) {
-																													echo $sub_category_id;
-																												} ?>">
-				<!--<input type="text" class="form-control" name="sub_category" id="sub_category" value="<?php if (isset($sub_category)) {
-																												echo $sub_category;
-																											} ?>" readonly>
-										</div>
-									</div>
-									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8">
-										<div class="form-group">
-											<label for="status"> Status</label>-->
+			
+			
 				<input type="hidden" class="form-control" name="status" id="status" value="<?php if (isset($status)) {
 																								echo $status;
 																							} ?>" readonly>
-				<!--</div>
-									</div>
-									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8">
-										<div class="form-group">
-											<label for="sub_status"> Sub Status</label>-->
+				
 				<input type="hidden" class="form-control" name="sub_status" id="sub_status" value="<?php if (isset($sub_status)) {
 																										echo $sub_status;
 																									} ?>" readonly>
-				<!--</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div> -->
 				<!-- Request Info Start -->
 				<div class="card collection_card">
 					<div class="card-header">Request Info <span style="font-weight:bold" class=""></span></div>

@@ -1,5 +1,5 @@
 <?php
-@session_start();
+session_start();
 include('..\ajaxconfig.php');
 
 if (isset($_SESSION["userid"])) {
@@ -16,20 +16,20 @@ if ($userid != 1) {
     }
 
     $line_id = explode(',', $line_id);
-    $sub_area_list = array();
+    $area_list = array();
     foreach ($line_id as $line) {
-        $lineQry = $connect->query("SELECT sub_area_id FROM area_line_mapping where map_id = $line ");
+        $lineQry = $connect->query("SELECT area_id FROM area_line_mapping where map_id = $line ");
         if ($lineQry->rowCount() > 0) {
             $row_sub = $lineQry->fetch();
-            $sub_area_list[] = $row_sub['sub_area_id'];
+            $area_list[] = $row_sub['area_id'];
         }
     }
-    $sub_area_ids = array();
-    foreach ($sub_area_list as $subarray) {
-        $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
+    $area_ids = array();
+    foreach ($area_list as $subarray) {
+        $area_ids = array_merge($area_ids, explode(',', $subarray));
     }
-    $sub_area_list = array();
-    $sub_area_list = implode(',', $sub_area_ids);
+    $area_list = array();
+    $area_list = implode(',', $area_ids);
 }
 
 $column = array(
@@ -47,13 +47,12 @@ $column = array(
 //$cus_sts = implode(',', $_POST['Customer_status']);
 
 if ($userid == 1) {
-    $query = "SELECT cp.cus_id AS cp_cus_id, cp.cus_name, alc.area_name, salc.sub_area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
+    $query = "SELECT cp.cus_id AS cp_cus_id, cp.cus_name, alc.area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
     FROM acknowlegement_customer_profile cp 
     JOIN in_issue ii ON cp.cus_id = ii.cus_id 
     JOIN customer_status cs ON cp.req_id = cs.req_id 
     JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id
-    JOIN sub_area_list_creation salc ON cp.area_confirm_subarea = salc.sub_area_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(salc.sub_area_id, alm.sub_area_id)
+    JOIN area_line_mapping alm ON FIND_IN_SET(alc.area_id, alm.area_id)
     JOIN branch_creation b ON b.branch_id = alm.branch_id
     WHERE ii.status = 0 AND (ii.cus_status >= 14 AND ii.cus_status <= 17)"; // Only Issued and all lines not relying on sub area// 14 and 17 means collection entries, 17 removed from issue list
 
@@ -61,27 +60,25 @@ if ($userid == 1) {
 
     if ($role != '2') {
         //show only issued customers within the same lines of user. // 14 and 17 means collection entries, 17 removed from issue list
-        $query = "SELECT cp.cus_id AS cp_cus_id, cp.cus_name, alc.area_name, salc.sub_area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
+        $query = "SELECT cp.cus_id AS cp_cus_id, cp.cus_name, alc.area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
         FROM acknowlegement_customer_profile cp 
         JOIN in_issue ii ON cp.cus_id = ii.cus_id 
         JOIN customer_status cs ON cp.req_id = cs.req_id 
         JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id
-        JOIN sub_area_list_creation salc ON cp.area_confirm_subarea = salc.sub_area_id
-        JOIN area_line_mapping alm ON FIND_IN_SET(salc.sub_area_id, alm.sub_area_id)
+        JOIN area_line_mapping alm ON FIND_IN_SET(alc.area_id, alm.area_id)
         JOIN branch_creation b ON b.branch_id = alm.branch_id
         left JOIN request_creation rc ON ii.req_id = rc.req_id 
-        WHERE ii.status = 0 AND (ii.cus_status >= 14 AND ii.cus_status <= 17) AND cp.area_confirm_subarea IN ($sub_area_list) ";
+        WHERE ii.status = 0 AND (ii.cus_status >= 14 AND ii.cus_status <= 17) AND cp.area_confirm_area IN ($area_list) ";
     } else { // if agent then check the possibilities
-        $query = "SELECT cp.cus_id AS cp_cus_id, cp.cus_name, alc.area_name, salc.sub_area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
+        $query = "SELECT cp.cus_id AS cp_cus_id, cp.cus_name, alc.area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
         FROM acknowlegement_customer_profile cp 
         JOIN in_issue ii ON cp.cus_id = ii.cus_id 
         JOIN request_creation rc ON ii.req_id = rc.req_id 
         JOIN customer_status cs ON cp.req_id = cs.req_id 
         JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id
-        JOIN sub_area_list_creation salc ON cp.area_confirm_subarea = salc.sub_area_id
-        JOIN area_line_mapping alm ON FIND_IN_SET(salc.sub_area_id, alm.sub_area_id)
+        JOIN area_line_mapping alm ON FIND_IN_SET(alc.area_id, alm.area_id)
         JOIN branch_creation b ON b.branch_id = alm.branch_id
-        WHERE ii.status = 0 AND (ii.cus_status >= 14 AND ii.cus_status <= 17) AND (rc.user_type = 'Agent' OR (rc.agent_id != '' OR rc.agent_id != null)  OR rc.insert_login_id = '$userid' ) AND cp.area_confirm_subarea IN ($sub_area_list) and rc.agent_id = $ag_id "; // 14 and 17 means collection entries, 17 removed from issue list
+        WHERE ii.status = 0 AND (ii.cus_status >= 14 AND ii.cus_status <= 17) AND (rc.user_type = 'Agent' OR (rc.agent_id != '' OR rc.agent_id != null)  OR rc.insert_login_id = '$userid' ) AND cp.area_confirm_area IN ($area_list) and rc.agent_id = $ag_id "; // 14 and 17 means collection entries, 17 removed from issue list
 
     }
 }
@@ -96,8 +93,7 @@ if (isset($_POST['search'])) {
 
         $query .= " AND (cp.cus_id LIKE '" . $_POST['search'] . "%'
             OR cp.cus_name LIKE '%" . $_POST['search'] . "%' 
-            OR alc.area_name LIKE '%" . $_POST['search'] . "%' 
-            OR salc.sub_area_name LIKE '%" . $_POST['search'] . "%' 
+            OR alc.area_name LIKE '%" . $_POST['search'] . "%'
             OR alm.line_name LIKE '%" . $_POST['search'] . "%' 
             OR cp.mobile1 LIKE '%" . $_POST['search'] . "%' ) ";
     }
@@ -138,7 +134,6 @@ foreach ($result as $row) {
     $sub_array[] = $row['cp_cus_id'];
     $sub_array[] = $row['cus_name'];
     $sub_array[] = $row['area_name'];
-    $sub_array[] = $row['sub_area_name'];
     $sub_array[] = $row['branch_name'];
 
     $sub_array[] = $row['area_line'];

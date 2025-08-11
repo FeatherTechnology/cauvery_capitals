@@ -55,34 +55,6 @@ if ($del > 0) {
 	</script>
 <?php
 }
-// $can=0;
-// if(isset($_GET['can']))
-// {
-// $can=$_GET['can'];
-// }
-// if($can>0)
-// {
-// 	$cancelRequest = $userObj->cancelRequest($mysqli,$can, $userid);
-// 	
-?>
-<!-- // 	<script>location.href='<?php //echo $HOSTPATH;  
-									?>edit_request&msc=4';</script> -->
-<?php
-// }
-// $rev=0;
-// if(isset($_GET['rev']))
-// {
-// $rev=$_GET['rev'];
-// }
-// if($rev>0)
-// {
-// 	$revokeRequest = $userObj->revokeRequest($mysqli,$rev, $userid);
-// 	
-?>
-<!-- // 	<script>location.href='<?php //echo $HOSTPATH;  
-									?>edit_request&msc=8';</script> -->
-<?php
-// }
 $idupd = 0;
 // $role=0;
 if (isset($_GET['upd'])) {
@@ -126,7 +98,6 @@ if ($idupd > 0) {
 			$district					= $getRequest['district'];
 			$taluk					= $getRequest['taluk'];
 			$area					= $getRequest['area'];
-			$sub_area					= $getRequest['sub_area'];
 			$address					= $getRequest['address'];
 			$mobile1					= $getRequest['mobile1'];
 			$mobile2					= $getRequest['mobile2'];
@@ -138,7 +109,6 @@ if ($idupd > 0) {
 			$occupation					= $getRequest['occupation'];
 			$pic					= $getRequest['pic'];
 			$loan_category					= $getRequest['loan_category'];
-			$sub_category					= $getRequest['sub_category'];
 			$tot_value					= $getRequest['tot_value'];
 			$ad_amt					= $getRequest['ad_amt'];
 			$ad_perc					= $getRequest['ad_perc'];
@@ -197,7 +167,11 @@ if ($idupd > 0) {
 <div class="main-container">
 	<!--form start-->
 	<form id="request" name="request" action="" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="page_view" id="page_view" value="<?php if (isset($pgeView)) {echo $pgeView;}else{ echo '2';} ?>" />
+		<input type="hidden" name="page_view" id="page_view" value="<?php if (isset($pgeView)) {
+																		echo $pgeView;
+																	} else {
+																		echo '2';
+																	} ?>" />
 		<input type="hidden" id="pending_sts"> <input type="hidden" id="od_sts"> <input type="hidden" id="due_nil_sts"> <input type="hidden" id="closed_sts"><input type="hidden" id="bal_amt">
 		<?php if ($idupd == 0) { ?>
 			<input type="hidden" class="form-control" value="<?php if (isset($user_id)) echo $user_id; ?>" id="user_id_load" name="user_id_load" aria-describedby="id" placeholder="Enter id">
@@ -246,7 +220,6 @@ if ($idupd > 0) {
 			<input type="hidden" class="form-control" value="<?php if (isset($occupation)) echo $occupation; ?>" id="occupation_upd" name="occupation_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($pic)) echo $pic; ?>" id="pic_upd" name="pic_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($loan_category)) echo $loan_category; ?>" id="loan_category_upd" name="loan_category_upd">
-			<input type="hidden" class="form-control" value="<?php if (isset($sub_category)) echo $sub_category; ?>" id="sub_category_upd" name="sub_category_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($tot_value)) echo $tot_value; ?>" id="tot_value_upd" name="tot_value_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($ad_amt)) echo $ad_amt; ?>" id="ad_amt_upd" name="ad_amt_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($ad_perc)) echo $ad_perc; ?>" id="ad_perc_upd" name="ad_perc_upd">
@@ -457,15 +430,6 @@ if ($idupd > 0) {
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 								<div class="form-group">
-									<label for="disabledInput">Sub Area</label>&nbsp;<span class="text-danger">*</span>
-									<select tabindex="20" type="text" class="form-control" id="sub_area" name="sub_area">
-										<option value=''>Select Sub Area</option>
-									</select>
-									<span class="text-danger" style='display:none' id='subareaCheck'>Please Select Sub Area</span>
-								</div>
-							</div>
-							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
-								<div class="form-group">
 									<label for="address">Address</label><span class="required">&nbsp;*</span>
 									<input type="text" class="form-control" id="address" name="address" value='<?php if (isset($address)) {
 																													echo $address;
@@ -563,8 +527,8 @@ if ($idupd > 0) {
 								<input type='hidden' id='img_exist' name='img_exist' value=''>
 								<img id='imgshow' src='img/avatar.png' />
 								<input type="file" onchange="compressImage(this, 200)" class="form-control" id="pic" name="pic" value='<?php if (isset($pic)) {
-																																				echo $pic;
-																																			} ?>' tabindex='30'>
+																																			echo $pic;
+																																		} ?>' tabindex='30'>
 								<span class="text-danger" style='display:none' id='picCheck'>Please Choose Image</span>
 							</div>
 						</div>
@@ -593,16 +557,6 @@ if ($idupd > 0) {
 							<span class="text-danger" style='display:none' id='loancategoryCheck'>Please Select Loan Category</span>
 						</div>
 					</div>
-					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-						<div class="form-group">
-							<label for="disabledInput">Sub Category</label>&nbsp;<span class="text-danger">*</span>
-							<select tabindex="32" type="text" class="form-control" id="sub_category" name="sub_category">
-								<option value="">Select Sub Category</option>
-							</select>
-							<span class="text-danger" style='display:none' id='subcategoryCheck'>Please Select Sub Category</span>
-						</div>
-					</div>
-					<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 advance_yes" style="display:none"></div> -->
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 advance_yes" style="display:none">
 						<div class="form-group">
 							<label for="tot_value">Total value</label><span class="required">&nbsp;*</span>
@@ -639,12 +593,6 @@ if ($idupd > 0) {
 							<span class="text-danger" style='display:none' id='loanamtCheck'>Please Enter Loan Amount</span>
 						</div>
 					</div>
-					<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 advance_no" style="display:none">
-								<div class="form-group">
-									<label for="loan_amt">Loan Amount</label><span class="required">&nbsp;*</span>
-									<input type="text" class="form-control " id="loan_amt" name="loan_amt" readonly value='' tabindex='35'>
-								</div>
-							</div> -->
 				</div>
 			</div>
 		</div>
@@ -670,24 +618,26 @@ if ($idupd > 0) {
 							<span class="text-danger" style='display:none' id='posstypeCheck'>Please Select Possibility Type</span>
 						</div>
 					</div>
-					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 due_amt" style="display:none">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 due_amt"
+						<?php echo (isset($due_amt) && $due_amt != '') ? '' : 'style="display:none"'; ?>>
 						<div class="form-group">
 							<label for="due_amt">Due Amount</label><span class="required">&nbsp;*</span>
-							<input type="number" class="form-control" id="due_amt" name="due_amt" value='<?php if (isset($due_amt)) {
-																												echo $due_amt;
-																											} ?>' tabindex='38'>
+							<input type="number" class="form-control" id="due_amt" name="due_amt"
+								value='<?php echo isset($due_amt) ? $due_amt : ''; ?>' tabindex='38'>
 							<span class="text-danger" style='display:none' id='dueamtCheck'>Please Enter Due Amount</span>
 						</div>
 					</div>
-					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 due_period" style="display:none">
+
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 due_period"
+						<?php echo (isset($due_period) && $due_period != '') ? '' : 'style="display:none"'; ?>>
 						<div class="form-group">
 							<label for="due_period">Due Period</label><span class="required">&nbsp;*</span>
-							<input type="number" class="form-control" id="due_period" name="due_period" value='<?php if (isset($due_period)) {
-																													echo $due_period;
-																												} ?>' tabindex='39'>
+							<input type="number" class="form-control" id="due_period" name="due_period"
+								value='<?php echo isset($due_period) ? $due_period : ''; ?>' tabindex='39'>
 							<span class="text-danger" style='display:none' id='dueperiodCheck'>Please Enter Due Period</span>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>
@@ -722,18 +672,7 @@ if ($idupd > 0) {
 					</div>
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12"></div>
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12"></div>
-					<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" >
-								<div class="form-group">
-									<label for="calc_int_amt">Interest Amount</label>
-									<input type="text" class="form-control" id="calc_int_amt" name="calc_int_amt" readonly>
-								</div>
-							</div>
-							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" >
-								<div class="form-group">
-									<label for="calc_tot_amt">Total Amount</label>
-									<input type="text" class="form-control" id="calc_tot_amt" name="calc_tot_amt" readonly>
-								</div>
-							</div> -->
+				
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group">
 							<label for="calc_due_amt">Due Amount</label>

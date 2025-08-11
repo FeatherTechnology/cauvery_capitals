@@ -14,7 +14,7 @@ class RequestClass
         $response = array();
         $today = date('Y-m-d');
         $month = (isset($_POST['month']) && $_POST['month'] != '') ? date('Y-m-01', strtotime($_POST['month'])) : date('Y-m-01');
-        $sub_area_list = $_POST['sub_area_list'];
+        $area_list = $_POST['area_list'];
 
         //all the above queries without $connect->query(). just query as string like $req_query = "SELECT count(*) as tot_req FROM request_creation WHERE insert_login_id = '$this->user_id' "
         $req_query = "SELECT count(*) as tot_req FROM request_creation WHERE 1 and month(created_date) = month('$month') and year(created_date) = year('$month')";
@@ -32,24 +32,24 @@ class RequestClass
         $today_new_query = "SELECT count(*) as today_new FROM request_creation WHERE cus_data = 'New' AND date(created_date) = '$today' ";
         $today_existing_query = "SELECT count(*) as today_existing FROM request_creation WHERE cus_data = 'Existing' AND date(created_date) = '$today' ";
 
-        //now i shoud add sub_area IN ($sub_area_list) in where clause to the above queries
+        //now i shoud add sub_area IN ($area_list) in where clause to the above queries
 
-        if (!empty($sub_area_list)) {
+        if (!empty($area_list)) {
             //if the sub area list is empty then no need to add it to the query
-            $req_query .= " AND sub_area IN ($sub_area_list) ";
-            $issue_query .= " AND sub_area IN ($sub_area_list) ";
-            $balance_query .= " AND sub_area IN ($sub_area_list) ";
-            $cancel_query .= " AND sub_area IN ($sub_area_list) ";
-            $revoke_query .= " AND sub_area IN ($sub_area_list) ";
-            $new_query .= " AND sub_area IN ($sub_area_list) ";
-            $existing_query .= " AND sub_area IN ($sub_area_list) ";
-            $today_req_query .= " AND sub_area IN ($sub_area_list) ";
-            $today_issue_query .= " AND sub_area IN ($sub_area_list) ";
-            $today_balance_query .= " AND sub_area IN ($sub_area_list) ";
-            $today_cancel_query .= " AND sub_area IN ($sub_area_list) ";
-            $today_revoke_query .= " AND sub_area IN ($sub_area_list) ";
-            $today_new_query .= " AND sub_area IN ($sub_area_list) ";
-            $today_existing_query .= " AND sub_area IN ($sub_area_list) ";
+            $req_query .= " AND area IN ($area_list) ";
+            $issue_query .= " AND area IN ($area_list) ";
+            $balance_query .= " AND area IN ($area_list) ";
+            $cancel_query .= " AND area IN ($area_list) ";
+            $revoke_query .= " AND area IN ($area_list) ";
+            $new_query .= " AND area IN ($area_list) ";
+            $existing_query .= " AND area IN ($area_list) ";
+            $today_req_query .= " AND area IN ($area_list) ";
+            $today_issue_query .= " AND area IN ($area_list) ";
+            $today_balance_query .= " AND area IN ($area_list) ";
+            $today_cancel_query .= " AND area IN ($area_list) ";
+            $today_revoke_query .= " AND area IN ($area_list) ";
+            $today_new_query .= " AND area IN ($area_list) ";
+            $today_existing_query .= " AND area IN ($area_list) ";
         } else {
             //add insert_login_id = '$this->user_id' in where clause to the above queries
             $req_query .= " AND insert_login_id = '$this->user_id' ";

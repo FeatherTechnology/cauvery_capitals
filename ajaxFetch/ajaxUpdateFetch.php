@@ -12,18 +12,20 @@ if ($userid != 1) {
         $group_id = $rowuser['group_id'];
     }
     $group_id = explode(',', $group_id);
-    $sub_area_list = array();
+    $area_list = array();
     foreach ($group_id as $group) {
         $groupQry = $connect->query("SELECT * FROM area_group_mapping where map_id = $group ");
         $row_sub = $groupQry->fetch();
-        $sub_area_list[] = $row_sub['sub_area_id'];
+        if ($row_sub !== false) {
+        $area_list[] = $row_sub['area_id'];
     }
-    $sub_area_ids = array();
-    foreach ($sub_area_list as $subarray) {
-        $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
     }
-    $sub_area_list = array();
-    $sub_area_list = implode(',', $sub_area_ids);
+    $area_ids = array();
+    foreach ($area_list as $subarray) {
+        $area_ids = array_merge($area_ids, explode(',', $subarray));
+    }
+    $area_list = array();
+    $area_list = implode(',', $area_ids);
 }
 
 
@@ -41,7 +43,7 @@ $column = array(
 );
 
 if ($userid == 1) {
-    $query = "SELECT rc.req_id, rc.cus_id, rc.cus_name, rc.mobile1,rc.area ,rc.sub_area, rc.cus_status, rc.cus_data 
+    $query = "SELECT rc.req_id, rc.cus_id, rc.cus_name, rc.mobile1,rc.area ,rc.area, rc.cus_status, rc.cus_data 
 FROM request_creation rc
 INNER JOIN (
     SELECT cus_id, MAX(req_id) AS last_req_id 
@@ -51,10 +53,10 @@ INNER JOIN (
 WHERE (rc.cus_data = 'Existing' AND rc.cus_status >= 1) OR (rc.cus_data = 'New' AND rc.cus_status > 13)";
 
 } else {
-    $query = "SELECT rc.req_id, rc.cus_id, rc.cus_name, rc.mobile1,rc.area ,rc.sub_area, rc.cus_status, rc.cus_data
+    $query = "SELECT rc.req_id, rc.cus_id, rc.cus_name, rc.mobile1,rc.area ,rc.area, rc.cus_status, rc.cus_data
 FROM request_creation rc
 INNER JOIN ( SELECT cus_id, MAX(req_id) AS last_req_id FROM request_creation GROUP BY cus_id) latest ON rc.cus_id = latest.cus_id AND rc.req_id = latest.last_req_id
-WHERE rc.sub_area IN ($sub_area_list) AND ( (rc.cus_data = 'Existing' AND rc.cus_status >= 1) OR (rc.cus_data = 'New' AND rc.cus_status > 13))";
+WHERE rc.area IN ($area_list) AND ( (rc.cus_data = 'Existing' AND rc.cus_status >= 1) OR (rc.cus_data = 'New' AND rc.cus_status > 13))";
 }
 
 if (isset($_POST['search']) && $_POST['search'] != "") {
@@ -115,16 +117,16 @@ foreach ($result as $row) {
 
     $lineqry = $connect->query("SELECT CASE 
     WHEN ( SELECT COUNT(*) FROM customer_profile WHERE cus_id = $cus_id ) > 0 
-    THEN ( SELECT line_name FROM area_line_mapping WHERE FIND_IN_SET( ( SELECT area_confirm_subarea FROM customer_profile WHERE cus_id = $cus_id ORDER BY `id` DESC LIMIT 1 ) , sub_area_id) ) 
-    ELSE ( SELECT line_name FROM area_line_mapping WHERE FIND_IN_SET( ( SELECT sub_area FROM request_creation WHERE cus_id = $cus_id ORDER BY `req_id` DESC LIMIT 1 ), sub_area_id ) )
+    THEN ( SELECT line_name FROM area_line_mapping WHERE FIND_IN_SET( ( SELECT area_confirm_area FROM customer_profile WHERE cus_id = $cus_id ORDER BY `id` DESC LIMIT 1 ) , area_id) ) 
+    ELSE ( SELECT line_name FROM area_line_mapping WHERE FIND_IN_SET( ( SELECT area FROM request_creation WHERE cus_id = $cus_id ORDER BY `req_id` DESC LIMIT 1 ), area_id ) )
     END AS `line_name`
     ");
     $sub_array[] = $lineqry->fetch()['line_name'];
 
     $grpqry = $connect->query("SELECT CASE 
     WHEN ( SELECT COUNT(*) FROM customer_profile WHERE cus_id = $cus_id ) > 0 
-    THEN ( SELECT group_name FROM area_group_mapping WHERE FIND_IN_SET( ( SELECT area_confirm_subarea FROM customer_profile WHERE cus_id = $cus_id ORDER BY `id` DESC LIMIT 1 ) , sub_area_id) ) 
-    ELSE ( SELECT group_name FROM area_group_mapping WHERE FIND_IN_SET( ( SELECT sub_area FROM request_creation WHERE cus_id = $cus_id ORDER BY `req_id` DESC LIMIT 1 ), sub_area_id ) )
+    THEN ( SELECT group_name FROM area_group_mapping WHERE FIND_IN_SET( ( SELECT area_confirm_area FROM customer_profile WHERE cus_id = $cus_id ORDER BY `id` DESC LIMIT 1 ) , area_id) ) 
+    ELSE ( SELECT group_name FROM area_group_mapping WHERE FIND_IN_SET( ( SELECT area FROM request_creation WHERE cus_id = $cus_id ORDER BY `req_id` DESC LIMIT 1 ), area_id ) )
     END AS `group_name`
     ");
     $sub_array[] = $grpqry->fetch()['group_name'];

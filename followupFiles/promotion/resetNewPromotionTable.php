@@ -15,7 +15,6 @@ $sql = $connect->query("SELECT * FROM new_cus_promo WHERE cus_id NOT IN (select 
         <th>Customer Name</th>
         <th>Mobile No.</th>
         <th>Area</th>
-        <th>Sub Area</th>
         <th>Action</th>
         <th>Promotion Chart</th>
         <th>Follow Date</th>
@@ -28,7 +27,6 @@ $sql = $connect->query("SELECT * FROM new_cus_promo WHERE cus_id NOT IN (select 
                 <td><?php echo $row['cus_name']; ?></td>
                 <td><?php echo $row['mobile']; ?></td>
                 <td><?php echo $row['area']; ?></td>
-                <td><?php echo $row['sub_area']; ?></td>
                 <td>
                     <?php  //for intrest or not intrest choice to make
                     // if($row['int_status'] == '' or $row['int_status'] == NULL){

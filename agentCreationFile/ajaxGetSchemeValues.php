@@ -1,16 +1,15 @@
 <?php 
 include('../ajaxconfig.php');
 
-if (isset($_POST['sub_cat'])) {
-    $sub_cat = $_POST['sub_cat'];
+if (isset($_POST['loan_cat'])) {
+    $loan_cat = $_POST['loan_cat'];
 }
-$sub_cat_array = explode(',',$sub_cat);
-// print_r($checkloanQry);die;
+$loan_cat_ids = explode(',',$loan_cat);
 $detailrecords = array();
 $j=0;
-foreach($sub_cat_array as $sub_cat){
+foreach($loan_cat_ids as $loan_cat){
 
-    $loanCatSelect = "SELECT * FROM loan_scheme WHERE (FIND_IN_SET('".strip_tags($sub_cat)."', sub_category) and sub_category !='') and status=0"; 
+    $loanCatSelect = "SELECT * FROM loan_scheme WHERE (FIND_IN_SET('".strip_tags($loan_cat)."', loan_category) ) and status=0"; 
     $res = $connect->query($loanCatSelect) or die("Error in Get All Records");
     if ($res->rowCount()>0)
     {$i=0;

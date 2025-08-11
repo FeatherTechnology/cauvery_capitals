@@ -32,7 +32,6 @@
 									<th>Guarantor Name</th>
 									<th>Relationship</th>
 									<th>Area</th>
-									<th>Sub Area</th>
 									<th>Mobile</th>
 									<th>Cust. Limit</th>
 									<th>Line</th>
