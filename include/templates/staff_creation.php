@@ -137,7 +137,7 @@ if ($idupd > 0) {
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
-											<label for="disabledInput">Address</label>
+											<label for="disabledInput">Address</label>&nbsp;<span class="text-danger">*</span>
 											<input type="text" class="form-control" id="address" name="address" value="<?php if (isset($address)) echo $address; ?>" placeholder="Enter Address" tabindex="5">
 										</div>
 									</div>

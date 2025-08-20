@@ -84,13 +84,13 @@ class branchProcess
         if ($branch_id == 0) {
             $branch_list = $this->getBranchList($user_id);
             foreach ($branch_list as $branch) {
-                $qry = $this->connect->query("SELECT area_id FROM area_group_mapping WHERE branch_id = '" . $branch['branch_id'] . "'");
+                $qry = $this->connect->query("SELECT agma.area_id FROM area_group_mapping agm  join area_group_mapping_area agma on agm.map_id = agma.group_map_id WHERE agm.branch_id = '" . $branch['branch_id'] . "'");
                 while ($row = $qry->fetch()) {
                     $area_list[] = $row['area_id'];
                 }
             }
         } else {
-            $qry = $this->connect->query("SELECT area_id FROM area_group_mapping WHERE branch_id = $branch_id");
+            $qry = $this->connect->query("SELECT agma.area_id FROM area_group_mapping agm  join area_group_mapping_area agma on agm.map_id = agma.group_map_id WHERE agm.branch_id = $branch_id");
             while ($row = $qry->fetch()) {
                 $area_list[] = $row['area_id'];
             }

@@ -366,12 +366,14 @@ function getTalukBasedArea(talukselected) {
             for (var i = 0; i < len; i++) {
                 var area_id = response[i]['area_id'];
                 var area_name = response[i]['area_name'];
+                var checked = response[i]['disabled'];
                 var selected = '';
                 if (area_upd != '' && area_upd == area_id) {
                     selected = 'selected';
+                    checked = false;
                 }
-                $("#area").append("<option value='" + area_id + "' " + selected + ">" + area_name + "</option>");
-            }
+                var disabledAttr = checked ? 'disabled' : '';
+                $("#area").append("<option value='" + area_id + "' " + selected + " " + disabledAttr + ">" + area_name + "</option>");            }
 
             $("#area_name").val('');
             $("#area_id").val('');

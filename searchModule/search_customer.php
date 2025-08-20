@@ -79,16 +79,20 @@ if (!empty($req_id)) {
             $req_sql = $connect->query("SELECT req.cus_id,req.cus_name,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,req.mobile1,req.mobile2 
                         From request_creation req 
                         LEFT JOIN area_list_creation ac ON req.area = ac.area_id
-                        LEFT JOIN area_line_mapping alm ON FIND_IN_SET(ac.area_id,alm.area_id)
-                        LEFT JOIN area_group_mapping agm ON FIND_IN_SET(ac.area_id,agm.area_id)
+                        JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
+                        JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+                        JOIN area_group_mapping_area agma ON agma.area_id = ac.area_id
+                        JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id
                         LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id 
                         where req.req_id = $req ");
         } else {
             $req_sql = $connect->query("SELECT cp.cus_id,cp.cus_name,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,cp.mobile1,cp.mobile2 
                     FROM customer_profile cp
                     LEFT JOIN area_list_creation ac ON cp.area_confirm_area = ac.area_id 
-                    LEFT JOIN area_line_mapping alm ON FIND_IN_SET(ac.area_id,alm.area_id)
-                    LEFT JOIN area_group_mapping agm ON FIND_IN_SET(ac.area_id,agm.area_id)
+                    JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
+                    JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+                    JOIN area_group_mapping_area agma ON agma.area_id = ac.area_id
+                    JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id
                     LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id 
                     WHERE cp.req_id = $req  ");
         }

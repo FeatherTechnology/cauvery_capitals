@@ -12,7 +12,7 @@ if ($user_id != '') { //to get user's sub area id based on user's branch assigne
     $group_id = explode(',', $group_id);
     $area_list = array();
     foreach ($group_id as $group) {
-        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping where map_id = $group ");
+        $groupQry = $connect->query("SELECT agma.area_id FROM area_group_mapping agm  join area_group_mapping_area agma on agm.map_id = agma.group_map_id where agm.map_id = $group ");
         $row_sub = $groupQry->fetch();
         $area_list[] = $row_sub['area_id'];
     }

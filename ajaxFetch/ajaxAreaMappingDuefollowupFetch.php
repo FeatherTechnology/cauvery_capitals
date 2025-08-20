@@ -19,7 +19,8 @@ $column = array(
 $query = "SELECT adm.*, c.company_name, bc.branch_name,
         (SELECT GROUP_CONCAT(alc.area_name SEPARATOR ', ')
         FROM area_list_creation alc
-        WHERE FIND_IN_SET(alc.area_id, adm.area_id) AND alc.status = 0) AS area_names
+        join  area_duefollowup_mapping_area adma on adma.area_id = alc.area_id
+        WHERE alc.area_id = adma.area_id AND alc.status = 0) AS area_names
         FROM area_duefollowup_mapping adm
         JOIN company_creation c ON c.company_id = adm.company_id
         JOIN branch_creation bc ON adm.branch_id = bc.branch_id
@@ -32,7 +33,8 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
             OR bc.branch_name LIKE '%" . $search . "%'
             OR (SELECT GROUP_CONCAT(alc.area_name SEPARATOR ', ')
                 FROM area_list_creation alc
-                WHERE FIND_IN_SET(alc.area_id, adm.area_id) AND alc.status = 0) LIKE '%" . $search . "%') ";
+                join  area_duefollowup_mapping_area adma on adma.area_id = alc.area_id
+                WHERE alc.area_id = adma.area_id AND alc.status = 0) LIKE '%" . $search . "%') ";
 }
 
 if (isset($_POST['order'])) {

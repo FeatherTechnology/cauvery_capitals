@@ -343,6 +343,22 @@ $(document).ready(function () {
             $('.bank_details').hide()
         }
     })
+    $('#promotion_activity').click(function () {
+        var promotion_activity = document.querySelector('#promotion_activity');
+        if (promotion_activity.checked) {
+            $('.promotion_activity_div').show()
+        } else {
+            $('.promotion_activity_div').hide()
+        }
+    })
+    $('#conf_followup').click(function () {
+        var conf_followup = document.querySelector('#conf_followup');
+        if (conf_followup.checked) {
+            $('.conf_followup_div').show()
+        } else {
+            $('.conf_followup_div').hide()
+        }
+    })
     $('#due_followup').click(function () {
         var due_followup = document.querySelector('#due_followup');
         if (due_followup.checked) {
@@ -411,9 +427,17 @@ $(function () {
         getProAccess();
 
         var due_followup = document.querySelector('#due_followup');
+        var promotion_activity = document.querySelector('#promotion_activity');
+        var conf_followup = document.querySelector('#conf_followup');
         if (due_followup.checked) {
             getdueFollupLineDropdown();
             $('.due_followupline_div').show()
+        }
+        if (promotion_activity.checked) {
+            $('.promotion_activity_div').show()
+        }
+        if (conf_followup.checked) {
+            $('.conf_followup_div').show()
         }
 
         var update_screen = document.querySelector('#update');
@@ -1166,6 +1190,34 @@ function validation() {
             $('.duefollowupCheck').show();
         }else{
             $('.duefollowupCheck').hide();
+        }
+    }
+    var promotion_activity = document.querySelector('#promotion_activity');
+    var PAGroupOrDuefollowup =  $('#promotion_activity_line_or_duefollowup').val();
+     console.log("bbbb",PAGroupOrDuefollowup)
+    if (!promotion_activity.checked) {
+        $('#promotion_activity_line_or_duefollowup').val('')
+        console.log("kkk", $('#promotion_activity_line_or_duefollowup').val())
+    } else{
+         if(PAGroupOrDuefollowup ==''){
+            event.preventDefault();
+            $('.promotion_activity_div').show();
+            $('.promotionactivityCheck').show();
+        }else{
+            $('.promotionactivityCheck').hide();
+        }
+    }
+    var conf_followup = document.querySelector('#conf_followup');
+    var CFGroupOrDuefollowup =  $('#conf_followup_line_or_duefollowup').val();
+    if (!conf_followup.checked) {
+        $('#conf_followup_line_or_duefollowup').val('')
+    } else{
+         if(CFGroupOrDuefollowup ==''){
+            event.preventDefault();
+            $('.conf_followup_div').show();
+            $('.confFollowupCheck').show();
+        }else{
+            $('.confFollowupCheck').hide();
         }
     }
 

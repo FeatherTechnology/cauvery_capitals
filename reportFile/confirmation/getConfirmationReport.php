@@ -18,18 +18,20 @@ if ($userid != 1) {
     $report_access = $rowuser['report_access'];
 
     if ($report_access == '1') {
-        $line_id = explode(',', $line_id);
-        $area_list = array();
-        foreach ($line_id as $line) {
-            $lineQry = $connect->query("SELECT area_id FROM area_line_mapping where map_id = $line ");
-            $row_sub = $lineQry->fetch();
-            $area_list[] = $row_sub['area_id'];
+         $line_ids = explode(',', $line_id);
+        $area_list_array = [];
+        foreach ($line_ids as $line) {
+            $lineQry = $connect->query("SELECT area_id FROM area_line_mapping_area where line_map_id = $line ");
+            while ($row_sub = $lineQry->fetch(PDO::FETCH_ASSOC)) {
+                $area_list_array[] = $row_sub['area_id'];
+            }
         }
-        $area_ids = array();
-        foreach ($area_list as $subarray) {
+        $area_ids = [];
+        foreach ($area_list_array as $subarray) {
             $area_ids = array_merge($area_ids, explode(',', $subarray));
         }
-        $area_list = array();
+
+        $area_ids = array_unique($area_ids);
         $area_list = implode(',', $area_ids);
 
         $user_based = " AND cp.area_confirm_area IN ($area_list) AND c.insert_login_id = '$userid' ";
@@ -47,8 +49,8 @@ if (isset($_POST['from_date']) && isset($_POST['to_date']) && $_POST['from_date'
 $where .= $user_based;
 
 $role_arr = [1 => 'Director', 2 => 'Agent', 3 => 'Staff'];
-$status_arr = [1=>'Completed',2=>'Unavailable',3=>'Reconfirmation'];
-$sub_status_arr = [1=>'RNR',2=>'Not Reachable',3=>'Switch off', 4=>'Blocked',5=>'Not in use'];
+$status_arr = [1 => 'Completed', 2 => 'Unavailable', 3 => 'Reconfirmation'];
+$sub_status_arr = [1 => 'RNR', 2 => 'Not Reachable', 3 => 'Switch off', 4 => 'Blocked', 5 => 'Not in use'];
 $per_type_arr = [1 => 'Customer', 2 => 'Garentor', 3 => 'Family Member'];
 
 $column = array(
@@ -99,8 +101,8 @@ JOIN
     in_issue ii ON ii.req_id = cf.req_id
 JOIN 
     area_list_creation al ON cp.area_confirm_area = al.area_id
-JOIN
-    area_line_mapping alm ON FIND_IN_SET(al.area_id, alm.area_id)
+JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
+JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
 WHERE 1
     $where ";
 
@@ -114,7 +116,6 @@ if (isset($_POST['search'])) {
             cf.status LIKE '%" . $_POST['search'] . "%' OR
             cf.sub_status LIKE '%" . $_POST['search'] . "%' OR
             cf.person_name LIKE '%" . $_POST['search'] . "%' )";
-
     }
 }
 
@@ -141,19 +142,19 @@ $result = $statement->fetchAll();
 
 $data = array();
 $sno = 1;
-foreach ($result as $row) {  
+foreach ($result as $row) {
 
-    $substatus='';
-    if($row['sub_status']!=''){
-        $substatus=$sub_status_arr[$row['sub_status']];
-    } 
+    $substatus = '';
+    if ($row['sub_status'] != '') {
+        $substatus = $sub_status_arr[$row['sub_status']];
+    }
 
-    $role='';
-    if($row['role']!=''){
-        $role=$role_arr[$row['role']];
-    } 
+    $role = '';
+    if ($row['role'] != '') {
+        $role = $role_arr[$row['role']];
+    }
 
-     // Fetch person name based on person type
+    // Fetch person name based on person type
     if ($row['person_type'] == 1) {
         $name = getCustomer($connect, $row['cus_id']);
         $relationship = "NIL";
@@ -183,7 +184,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['label'];
     $sub_array[] = $row['remark'];
     $sub_array[] = date('d-m-Y', strtotime($row['created_date']));
-    $sub_array[] = $role; 
+    $sub_array[] = $role;
     $sub_array[] = $row['fullname'];
     $data[] = $sub_array;
     $sno = $sno + 1;

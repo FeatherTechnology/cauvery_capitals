@@ -27,11 +27,11 @@ if (in_array($_FILES["excelFile"]["type"], $allowedFileType)) {
                 $data['doc_code'] = $obj->getDocumentCode($connect);
                 $data['loan_id'] = $obj->getLoanCode($connect);
                 $data['area_id'] = $obj->getAreaId($connect, $data['area']);
-                $data['sub_area_id'] = $obj->getSubAreaId($connect, $data['sub_area'], $data['area_id']);
+                // $data['sub_area_id'] = $obj->getSubAreaId($connect, $data['sub_area'], $data['area_id']);
                 $data['loan_cat_id'] = $obj->getLoanCategoryId($connect, $data['loan_category']);
-                $data['sub_categoryCheck'] = $obj->checkSubCategory($connect, $data['sub_category']);
-                $data['group_name'] = $obj->getAreaGroup($connect, $data['sub_area_id']) == $data['area_group'] ? $data['area_group'] : 'Invalid';
-                $data['line_name'] = $obj->getAreaLine($connect, $data['sub_area_id']) == $data['area_line'] ? $data['area_line'] : 'Invalid';
+                // $data['sub_categoryCheck'] = $obj->checkSubCategory($connect, $data['sub_category']);
+                $data['group_name'] = $obj->getAreaGroup($connect, $data['area_id']) == $data['area_group'] ? $data['area_group'] : 'Invalid';
+                $data['line_name'] = $obj->getAreaLine($connect, $data['area_id']) == $data['area_line'] ? $data['area_line'] : 'Invalid';
                 $data['agent_id'] = $obj->checkAgent($connect, $data['agent_id']);
                 $checkCustomerData = $obj->checkCustomerData($connect, $data['cus_id']);
                 $data['cus_data'] = $checkCustomerData['cus_data'];

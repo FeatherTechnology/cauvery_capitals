@@ -16,18 +16,20 @@ if ($userid != 1) {
     $report_access = $rowuser['report_access'];
 
     if ($report_access == '1') { //Report access individual.
-        $line_id = explode(',', $line_id);
-        $area_list = array();
-        foreach ($line_id as $line) {
-            $lineQry = $connect->query("SELECT area_id FROM area_line_mapping WHERE map_id = $line ");
-            $row_sub = $lineQry->fetch();
-            $area_list[] = $row_sub['area_id'];
+         $line_ids = explode(',', $line_id);
+        $area_list_array = [];
+        foreach ($line_ids as $line) {
+            $lineQry = $connect->query("SELECT area_id FROM area_line_mapping_area where line_map_id = $line ");
+            while ($row_sub = $lineQry->fetch(PDO::FETCH_ASSOC)) {
+                $area_list_array[] = $row_sub['area_id'];
+            }
         }
-        $area_ids = array();
-        foreach ($area_list as $subarray) {
+        $area_ids = [];
+        foreach ($area_list_array as $subarray) {
             $area_ids = array_merge($area_ids, explode(',', $subarray));
         }
-        $area_list = array();
+
+        $area_ids = array_unique($area_ids);
         $area_list = implode(',', $area_ids);
 
         $user_based = " AND cp.area_confirm_area IN ($area_list) AND coll.insert_login_id = '$userid' ";
@@ -109,8 +111,8 @@ JOIN acknowlegement_customer_profile cp ON
     ii.req_id = cp.req_id
 JOIN area_list_creation al ON
     cp.area_confirm_area = al.area_id
-JOIN area_line_mapping alm ON
-    FIND_IN_SET( al.area_id, alm.area_id )
+JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
+JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
 JOIN acknowlegement_loan_calculation lc ON
     ii.req_id = lc.req_id
 JOIN loan_category_creation lcc ON
@@ -195,17 +197,13 @@ foreach ($result as $row) {
         $pending_month = $pending;
         
     } else {
-        $end = strtotime($full_date);
+         $end = strtotime($full_date);
         $start = strtotime($row['due_start_from']);
         $months = (date('Y', $end) - date('Y', $start)) * 12 + (date('m', $end) - date('m', $start)) + 1;
-
-        if(date('m', $end)==date('m', $start)){
-            $months -- ;
-        }
-         
+    
         if (($row['due_method_calc'] != 'Monthly' && $row['due_method_scheme'] != '1')  ) {
-            if((int)$start_date->format('d') > (int)$end_date->format('d')){
-            $months += 1;
+            if((date('d', $start) < date('d', $end)) && (date('m', $start) <= date('m', $end)) && (date('Y', $start) <= date('Y', $end)) ){
+                $months += 1;
             }
         }
         $pending_month = $months - 1;

@@ -60,7 +60,7 @@ if (isset($_FILES["file"]["type"])) {
                     }
 
 
-                    $qry = $connect->query("SELECT area_creation_id as id, sub_area FROM area_creation WHERE area_name_id = '" . strip_tags($area_list_creation_id) . "' LIMIT 1 ");
+                    $qry = $connect->query("SELECT area_creation_id as id FROM area_creation WHERE area_name_id = '" . strip_tags($area_list_creation_id) . "' LIMIT 1 ");
                     if ($qry->rowCount() > 0) {
 
                         $row = $qry->fetch();

@@ -17,19 +17,20 @@ if ($userid != 1) {
         $group_id = $rowuser['group_id'];
     }
     $group_id = explode(',', $group_id);
-    $area_list = array();
+    $area_list_array = []; 
     foreach ($group_id as $group) {
-        $groupQry = $connect->query("SELECT * FROM area_group_mapping where map_id = $group ");
-        $row_sub = $groupQry->fetch();
-        if ($row_sub !== false) {
-        $area_list[] = $row_sub['area_id'];
+        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping_area WHERE group_map_id = $group");
+
+        while ($row_sub = $groupQry->fetch(PDO::FETCH_ASSOC)) {
+            $area_list_array[] = $row_sub['area_id']; 
         }
     }
-    $area_ids = array();
-    foreach ($area_list as $subarray) {
+      $area_ids = [];
+    foreach ($area_list_array as $subarray) {
         $area_ids = array_merge($area_ids, explode(',', $subarray));
     }
-    $area_list = array();
+
+    $area_ids = array_unique($area_ids);
     $area_list = implode(',', $area_ids);
 }
 
@@ -58,9 +59,11 @@ if ($userid == 1) {
     JOIN acknowlegement_loan_calculation b on a.req_id=b.req_id 
     JOIN acknowlegement_loan_calculation b on a.req_id=b.req_id 
     JOIN area_list_creation ac ON a.area = ac.area_id
-    JOIN area_group_mapping ag ON FIND_IN_SET(ac.area_id, ag.area_id)
+    JOIN area_group_mapping_area agma ON agma.area_id = ac.area_id
+    JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
     JOIN branch_creation bc ON ag.branch_id = bc.branch_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(ac.area_id, alm.area_id)
+     JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
+    JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = b.loan_category
     WHERE a.status = 0 and (a.cus_status = 13) and (a.issue_by = 1) "; // Move To Issue
 } else {
@@ -68,9 +71,11 @@ if ($userid == 1) {
     FROM in_verification a 
     JOIN acknowlegement_loan_calculation b on a.req_id=b.req_id 
     JOIN area_list_creation ac ON a.area = ac.area_id
-    JOIN area_group_mapping ag ON FIND_IN_SET(ac.area_id, ag.area_id)
+    JOIN area_group_mapping_area agma ON agma.area_id = ac.area_id
+    JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
     JOIN branch_creation bc ON ag.branch_id = bc.branch_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(ac.area_id, alm.area_id)
+     JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
+    JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = b.loan_category
     WHERE a.status = 0 and (a.cus_status = 13) and (a.issue_by = 1) and a.area IN ($area_list) ";  //show only Approved Verification in Acknowledgement. // 13 Move to Issue. // 14 Move To Collection.
 }

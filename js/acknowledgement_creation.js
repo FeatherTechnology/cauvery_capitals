@@ -2829,38 +2829,6 @@ function getUserBasedLoanCategory() {
     })
 }
 
-//Fetch Sub Category Based on loan category
-function getSubCategory(loan_cat) {
-    var sub_category = $('#sub_category_load').val();
-    var sub_categoryu_upd = $('#sub_category_upd').val();
-    return $.ajax({
-        url: 'requestFile/getSingleSubCategory.php',
-        type: 'POST',
-        dataType: 'json',
-        cache: false,
-        data: { 'loan_cat': loan_cat },
-        success: function (response) {
-
-            $('#sub_category').empty();
-            $('#sub_category').append("<option value='' >Select Sub Category</option>");
-            for (var i = 0; i < response.length; i++) {
-                var selected = '';
-                if (sub_categoryu_upd == '' || sub_categoryu_upd == undefined) { //if update is not available, then only use on load value of loan category
-                    if (sub_category != undefined && sub_category != '' && sub_category == response[i]['sub_category_name']) {
-                        selected = 'selected';
-                        $('#sub_category_ack').val(response[i]['sub_category_name']);
-                    }
-                } else {
-                    if (sub_categoryu_upd != undefined && sub_categoryu_upd != '' && sub_categoryu_upd == response[i]['sub_category_name']) {
-                        selected = 'selected';
-                        $('#sub_category_ack').val(response[i]['sub_category_name']);
-                    }
-                }
-                $('#sub_category').append("<option value='" + response[i]['sub_category_name'] + "' " + selected + ">" + response[i]['sub_category_name'] + " </option>");
-            }
-        }
-    })
-}
 
 //Get Category info From Request
 function getCategoryInfo() {

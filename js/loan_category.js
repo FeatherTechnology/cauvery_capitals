@@ -214,31 +214,9 @@ $(document).ready(function () {
 
     // Submit Button 
     $('#submitLoanCategory').click(function () {
-        event.preventDefault();
-        console.log("#loan_category_name: " + $('#loan_category_name').val());
-console.log("#loan_id_upd: " + $('#loan_id_upd').val());
-console.log("#loan_limit: " + $('#loan_limit').val());
-console.log("#loan_category_ref_name: " + $('#loan_category_ref_name').val());
-console.log("#monthly_due_method: " + $('#monthly_due_method').val());
-console.log("#monthly_due_type: " + $('#monthly_due_type').val());
-console.log("#monthly_profit_method: " + $('#monthly_profit_method').val());
-console.log("#monthly_intrests_rate_min: " + $('#monthly_intrests_rate_min').val());
-console.log("#monthly_intrest_rate_max: " + $('#monthly_intrests_rate_max').val());
-console.log("#monthly_due_period_min: " + $('#monthly_due_periods_min').val());
-console.log("#monthly_due_period_max: " + $('#monthly_due_periods_max').val());
-console.log("#monthly_doc_charges_type: " + $('#monthly_doc_charges_type').val());
-console.log("#monthly_document_charge_min: " + $('#monthly_document_charge_min').val());
-console.log("#monthly_document_charge_max: " + $('#monthly_document_charge_max').val());
-console.log("#proc_fees_type: " + $('#proc_fees_type').val());
-console.log("#monthly_processing_fee_min: " + $('#monthly_processing_fee_min').val());
-console.log("#monthly_processing_fee_max: " + $('#monthly_processing_fee_max').val());
-console.log("#monthly_overdues: " + $('#monthly_overdues').val());
-console.log("#monthly_collection_info: " + $('#monthly_collection_info').val());
-console.log("#userid: " + $('#userid').val());
 
-
-        // validation(); validateLoanCategoryTable();
-        // validateLoanCalculationInputs();
+        validation(); validateLoanCategoryTable();
+        validateLoanCalculationInputs();
     });
     $('#scheme_name').change(function () {
         getSchemeListTable($(this).val());

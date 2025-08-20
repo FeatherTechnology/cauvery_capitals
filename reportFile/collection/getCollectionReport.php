@@ -17,19 +17,20 @@ if ($userid != 1) {
 
     if ($report_access == '1') { //Report access individual.
         $line_id = explode(',', $line_id);
-        $area_list = array();
+        $area_list_array = [];
         foreach ($line_id as $line) {
-            $lineQry = $connect->query("SELECT area_id FROM area_line_mapping WHERE map_id = $line ");
-            $row_sub = $lineQry->fetch();
-            $area_list[] = $row_sub['area_id'];
+            $lineQry = $connect->query("SELECT area_id FROM area_line_mapping_area where line_map_id = $line ");
+            while ($row_sub = $lineQry->fetch(PDO::FETCH_ASSOC)) {
+                $area_list_array[] = $row_sub['area_id'];
+            }
         }
-        $area_ids = array();
-        foreach ($area_list as $subarray) {
+        $area_ids = [];
+        foreach ($area_list_array as $subarray) {
             $area_ids = array_merge($area_ids, explode(',', $subarray));
         }
-        $area_list = array();
-        $area_list = implode(',', $area_ids);
 
+        $area_ids = array_unique($area_ids);
+        $area_list = implode(',', $area_ids);
         $user_based = " AND cp.area_confirm_area IN ($area_list) AND coll.insert_login_id = '$userid' ";
     }
 }
@@ -42,7 +43,7 @@ if (isset($_POST['from_date']) && isset($_POST['to_date']) && $_POST['from_date'
     $where  = "(date(coll.coll_date) >= '" . $from_date . "') and (date(coll.coll_date) <= '" . $to_date . "') ";
 }
 
-    $where  .= $user_based;
+$where  .= $user_based;
 
 $statusObj = [
     '14' => 'Current',
@@ -118,7 +119,8 @@ $query = "SELECT
         JOIN in_issue ii ON coll.req_id = ii.req_id
         JOIN area_list_creation al ON cp.area_confirm_area = al.area_id
         -- JOIN sub_area_list_creation sal ON cp.area_confirm_subarea = sal.sub_area_id
-        JOIN area_line_mapping alm ON FIND_IN_SET(al.area_id, alm.area_id)
+        JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
+        JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
         JOIN acknowlegement_loan_calculation lc ON coll.req_id = lc.req_id
         JOIN in_verification iv ON coll.req_id = iv.req_id
         LEFT JOIN bank_creation b ON coll.bank_id = b.id
@@ -200,7 +202,7 @@ foreach ($result as $row) {
         $sub_array[] = '';
         $sub_array[] = '';
     }
-     $sub_array[] = moneyFormatIndia(intVal($row['due_amt_track']));
+    $sub_array[] = moneyFormatIndia(intVal($row['due_amt_track']));
     $sub_array[] = moneyFormatIndia(intval($row['penalty_track']));
     $sub_array[] = moneyFormatIndia(intval($row['coll_charge_track']));
     $sub_array[] = moneyFormatIndia(intval($row['total_paid_track']));

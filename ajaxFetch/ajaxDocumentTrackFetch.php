@@ -31,9 +31,11 @@ $query = "SELECT dt.*, cr.customer_name, bc.branch_name, al.area_name, agm.group
         FROM document_track dt
         JOIN customer_register cr ON dt.cus_id = cr.cus_id
         JOIN area_list_creation al ON cr.area = al.area_id
-        LEFT JOIN area_group_mapping agm ON FIND_IN_SET(al.area_id, agm.area_id)
+        JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
+        JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id
         LEFT OUTER JOIN branch_creation bc ON agm.branch_id = bc.branch_id
-        LEFT OUTER JOIN area_line_mapping alm ON FIND_IN_SET(cr.area, alm.area_id)
+        JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
+        JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
         WHERE dt.track_status != 5";
 
 // Apply user-specific filter

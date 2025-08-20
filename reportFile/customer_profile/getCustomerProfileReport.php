@@ -16,18 +16,22 @@ if ($userid != 1) {
         $report_access = $rowuser['report_access'];
     
     if($report_access =='1'){
-        $group_id = explode(',', $group_id);
-        $area_list = array();
-        foreach ($group_id as $group) {
-            $groupQry = $connect->query("SELECT area_id FROM area_group_mapping WHERE map_id = $group ");
-            $row_sub = $groupQry->fetch();
-            $area_list[] = $row_sub['area_id'];
+         $group_id_array = explode(',', $group_id);
+        $area_list_array = [];
+
+        foreach ($group_id_array as $group) {
+            $groupQry = $connect->query("SELECT area_id FROM area_group_mapping_area WHERE group_map_id = $group");
+
+            while ($row_sub = $groupQry->fetch(PDO::FETCH_ASSOC)) {
+                $area_list_array[] = $row_sub['area_id'];
+            }
         }
-        $area_ids = array();
-        foreach ($area_list as $subarray) {
+        $area_ids = [];
+        foreach ($area_list_array as $subarray) {
             $area_ids = array_merge($area_ids, explode(',', $subarray));
         }
-        $area_list = array();
+
+        $area_ids = array_unique($area_ids);
         $area_list = implode(',', $area_ids);
 
         $user_based = "WHERE cp.area_confirm_area IN ($area_list) AND cp.insert_login_id = '$userid' ";
@@ -89,7 +93,6 @@ $column = array(
     'fam.famname',
     'fam.relationship',
     'al.area_name',
-    'sal.sub_area_name',
     'cp.mobile1',
     'reg.loan_limit',
     'alm.line_name',
@@ -126,8 +129,10 @@ $query = "SELECT
             FROM customer_profile cp
             JOIN verification_family_info fam ON cp.guarentor_name = fam.id
             JOIN area_list_creation al ON cp.area_confirm_area = al.area_id
-            JOIN area_line_mapping alm ON FIND_IN_SET(al.area_id, alm.area_id)
-            JOIN area_group_mapping agm ON FIND_IN_SET(al.area_id, agm.area_id)
+            JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
+            JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+            JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
+            JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id
             JOIN customer_register reg ON cp.cus_id = reg.cus_id
             JOIN request_creation req ON cp.req_id = req.req_id
 

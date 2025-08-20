@@ -240,6 +240,7 @@ $(document).ready(function () {
     $('#due_line').change(function () {
         // Get values from multiselect and sort
         const lineList = dueLine.getValue();
+        console.log("line",lineList);
         const lineSortedStr = lineList
             .map(item => item.value)
             .sort((a, b) => a - b)
@@ -248,6 +249,7 @@ $(document).ready(function () {
         $('#dueline').val(lineSortedStr);
     
         if(lineSortedStr){
+            console.log("line",lineSortedStr);
             getArea2(lineSortedStr);
         }
     });

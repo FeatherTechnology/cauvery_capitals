@@ -16,19 +16,19 @@ if ($userid != 1) {
     }
 
     $line_id = explode(',', $line_id);
-    $area_list = array();
+    $area_list_array = []; 
     foreach ($line_id as $line) {
-        $lineQry = $connect->query("SELECT area_id FROM area_line_mapping where map_id = $line ");
-        if ($lineQry->rowCount() > 0) {
-            $row_sub = $lineQry->fetch();
-            $area_list[] = $row_sub['area_id'];
+        $lineQry = $connect->query("SELECT area_id FROM area_line_mapping_area where line_map_id = $line ");
+        while ($row_sub = $lineQry->fetch(PDO::FETCH_ASSOC)) {
+            $area_list_array[] = $row_sub['area_id']; 
         }
     }
-    $area_ids = array();
-    foreach ($area_list as $subarray) {
+    $area_ids = [];
+    foreach ($area_list_array as $subarray) {
         $area_ids = array_merge($area_ids, explode(',', $subarray));
     }
-    $area_list = array();
+
+    $area_ids = array_unique($area_ids);
     $area_list = implode(',', $area_ids);
 }
 
@@ -37,7 +37,6 @@ $column = array(
     'cp.cus_id',
     'cp.cus_name',
     'alc.area_name',
-    'salc.sub_area_name',
     'cp.id',
     'alm.line_name',
     'cp.mobile1',
@@ -52,7 +51,8 @@ if ($userid == 1) {
     JOIN in_issue ii ON cp.cus_id = ii.cus_id 
     JOIN customer_status cs ON cp.req_id = cs.req_id 
     JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(alc.area_id, alm.area_id)
+    JOIN area_line_mapping_area alma ON alma.area_id = alc.area_id
+    JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
     JOIN branch_creation b ON b.branch_id = alm.branch_id
     WHERE ii.status = 0 AND (ii.cus_status >= 14 AND ii.cus_status <= 17)"; // Only Issued and all lines not relying on sub area// 14 and 17 means collection entries, 17 removed from issue list
 
@@ -65,7 +65,8 @@ if ($userid == 1) {
         JOIN in_issue ii ON cp.cus_id = ii.cus_id 
         JOIN customer_status cs ON cp.req_id = cs.req_id 
         JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id
-        JOIN area_line_mapping alm ON FIND_IN_SET(alc.area_id, alm.area_id)
+        JOIN area_line_mapping_area alma ON alma.area_id = alc.area_id
+        JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
         JOIN branch_creation b ON b.branch_id = alm.branch_id
         left JOIN request_creation rc ON ii.req_id = rc.req_id 
         WHERE ii.status = 0 AND (ii.cus_status >= 14 AND ii.cus_status <= 17) AND cp.area_confirm_area IN ($area_list) ";
@@ -76,7 +77,8 @@ if ($userid == 1) {
         JOIN request_creation rc ON ii.req_id = rc.req_id 
         JOIN customer_status cs ON cp.req_id = cs.req_id 
         JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id
-        JOIN area_line_mapping alm ON FIND_IN_SET(alc.area_id, alm.area_id)
+        JOIN area_line_mapping_area alma ON alma.area_id = alc.area_id
+        JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
         JOIN branch_creation b ON b.branch_id = alm.branch_id
         WHERE ii.status = 0 AND (ii.cus_status >= 14 AND ii.cus_status <= 17) AND (rc.user_type = 'Agent' OR (rc.agent_id != '' OR rc.agent_id != null)  OR rc.insert_login_id = '$userid' ) AND cp.area_confirm_area IN ($area_list) and rc.agent_id = $ag_id "; // 14 and 17 means collection entries, 17 removed from issue list
 

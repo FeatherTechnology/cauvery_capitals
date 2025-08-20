@@ -13,24 +13,26 @@ if (isset($_SESSION["userid"])) {
 if ($userid != 1) {
 
     $userQry = $connect->query("SELECT group_id, loan_cat FROM USER WHERE user_id = $userid ");
-    $rowuser = $userQry->fetch(); 
-        $group_id = $rowuser['group_id'];
-        $loan_cat = $rowuser['loan_cat'];
-    
-    $group_id = explode(',', $group_id);
-    $area_list = array();
-    foreach ($group_id as $group) {
-        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping where map_id = $group ");
-        $row_sub = $groupQry->fetch();
-        if ($row_sub !== false) {  // check if fetch was successful
-        $area_list[] = $row_sub['area_id'];
+    $rowuser = $userQry->fetch();
+    $group_id = $rowuser['group_id'];
+    $loan_cat = $rowuser['loan_cat'];
+
+    $group_id_array = explode(',', $group_id);
+    $area_list_array = []; 
+
+    foreach ($group_id_array as $group) {
+        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping_area WHERE group_map_id = $group");
+
+        while ($row_sub = $groupQry->fetch(PDO::FETCH_ASSOC)) {
+            $area_list_array[] = $row_sub['area_id']; 
+        }
     }
-    }
-    $area_ids = array();
-    foreach ($area_list as $subarray) {
+    $area_ids = [];
+    foreach ($area_list_array as $subarray) {
         $area_ids = array_merge($area_ids, explode(',', $subarray));
     }
-    $area_list = array();
+
+    $area_ids = array_unique($area_ids);
     $area_list = implode(',', $area_ids);
 
     if ($loan_cat == null) {
@@ -49,7 +51,6 @@ $column = array(
     'alm.line_name',
     'v.mobile1',
     'a.area_name',
-    'sa.sub_area_name',
     'lcc.loan_category_creation_name',
     'v.loan_amt',
     'v.user_type',
@@ -68,18 +69,22 @@ if ($userid == 1) {
     $query = "SELECT v.*,a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
     FROM in_verification v
     JOIN area_list_creation a ON v.area = a.area_id
-    JOIN area_group_mapping ag ON FIND_IN_SET(a.area_id, ag.area_id)
+    JOIN area_group_mapping_area agma ON agma.area_id = a.area_id
+    JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
     JOIN branch_creation bc ON ag.branch_id = bc.branch_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(a.area_id, alm.area_id)
+    JOIN area_line_mapping_area alma ON alma.area_id = a.area_id
+    JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = v.loan_category
     WHERE v.status = 0 and (v.cus_status NOT IN(4, 5, 6, 7, 8, 9) and v.cus_status < 14) "; //  < 14 means issued
 } else {
     $query = "SELECT v.*,a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
     FROM in_verification v
     JOIN area_list_creation a ON v.area = a.area_id
-    JOIN area_group_mapping ag ON FIND_IN_SET(a.area_id, ag.area_id)
+    JOIN area_group_mapping_area agma ON agma.area_id = a.area_id
+    JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
     JOIN branch_creation bc ON ag.branch_id = bc.branch_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(a.area_id, alm.area_id)
+    JOIN area_line_mapping_area alma ON alma.area_id = a.area_id
+    JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = v.loan_category
     WHERE v.status = 0 and (v.cus_status NOT IN(4, 5, 6, 7, 8, 9) and v.cus_status < 14) AND v.area IN ($area_list) "; //show only moved to verification list and cancelled at verification 
 
@@ -115,8 +120,7 @@ if ($_POST['length'] != -1) {
     $query1 = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
 }
 
-$statement = $connect->prepare($query);
-
+$statement = $connect->prepare(query: $query);
 $statement->execute();
 
 $number_filter_row = $statement->rowCount();
@@ -162,9 +166,9 @@ foreach ($result as $row) {
         $sub_array[] = '';
     }
 
-     if ($row['responsible'] == '0') {
+    if ($row['responsible'] == '0') {
         $sub_array[] = 'Yes';
-    }else if (!empty($ag_id) && $row['responsible'] != '0') {
+    } else if (!empty($ag_id) && $row['responsible'] != '0') {
         $sub_array[] = 'No';
     } else {
         $sub_array[] = '';
@@ -190,13 +194,13 @@ foreach ($result as $row) {
         $sub_array[] = "In Verification";
     } elseif ($cus_status == '12') {
         $cus_profile = $connect->query("SELECT * FROM `customer_profile` WHERE `req_id` ='$id'");
-        $cus_profile_row =  $cus_profile -> rowCount();
+        $cus_profile_row =  $cus_profile->rowCount();
 
         $cus_doc = $connect->query("SELECT * FROM `verification_documentation` WHERE `req_id` ='$id'");
-        $cus_doc_row =  $cus_doc -> rowCount();
+        $cus_doc_row =  $cus_doc->rowCount();
 
         $cus_loan_calc = $connect->query("SELECT * FROM `verification_loan_calculation` WHERE `req_id` ='$id'");
-        $cus_loan_calc_row =  $cus_loan_calc -> rowCount();
+        $cus_loan_calc_row =  $cus_loan_calc->rowCount();
 
         if ($cus_profile_row > 0 && $cus_doc_row > 0 && $cus_loan_calc_row > 0) {
 

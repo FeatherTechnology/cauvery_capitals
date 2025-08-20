@@ -19,7 +19,7 @@ if ($user_id != 1) {
 
         foreach ($due_followup_lines as $line) {
             $line = (int)trim($line);
-            $lineQry = $connect->query("SELECT area_id, loan_category_id, line_name FROM area_duefollowup_mapping WHERE map_id = $line");
+            $lineQry = $connect->query("SELECT adfma.area_id, adf.loan_category_id, adf.line_name FROM area_duefollowup_mapping_area adfma join area_duefollowup_mapping adf on adf.map_id = adfma.map_id WHERE adf.map_id = $line");
 
             if ($row_sub = $lineQry->fetch()) {
                 $area_ids = array_filter(array_map('intval', explode(',', $row_sub['area_id'])));
@@ -121,8 +121,8 @@ JOIN customer_status cs ON
     cp.req_id = cs.req_id
 JOIN area_list_creation alc ON
     cp.area_confirm_area = alc.area_id
-JOIN area_line_mapping alm ON
-    FIND_IN_SET(alc.area_id, alm.area_id)
+JOIN area_line_mapping_area alma ON alma.area_id = alc.area_id
+JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
 JOIN branch_creation bc ON
     alm.branch_id = bc.branch_id
 JOIN in_verification iv ON
@@ -246,7 +246,6 @@ foreach ($result as $row) {
         $finalData['cus_id'] = $cus_id,
         $finalData['cus_name'] = $cus_name,
         $finalData['area_name'] = $area_name,
-        $finalData['sub_area_name'] = $sub_area_name,
         $finalData['branch_name'] = $branch_name,
         $finalData['line'] = $row['line_name'],
         $finalData['mobile'] = $row['mobile1'],

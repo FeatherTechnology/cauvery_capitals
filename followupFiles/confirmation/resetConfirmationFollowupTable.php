@@ -33,25 +33,53 @@ if (isset($_SESSION["userid"])) {
     $userid = $_SESSION["userid"];
 }
 if ($userid != 1) {
-    $userQry = $connect->query("SELECT group_id FROM USER WHERE user_id = $userid ");
-    $rowuser = $userQry->fetch();
-        $group_id = $rowuser['group_id'];
-    
-    $group_id = explode(',', $group_id);
-    $area_list = array();
-    foreach ($group_id as $group) {
-        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping where map_id = $group ");
-        $row_sub = $groupQry->fetch();
-         if ($row_sub !== false) {
-        $area_list[] = $row_sub['area_id'];
-         }
-    }
-    $area_ids = array();
-    foreach ($area_list as $subarray) {
-        $area_ids = array_merge($area_ids, explode(',', $subarray));
-    }
-    $area_list = array();
-    $area_list = implode(',', $area_ids);
+     $userQry = $connect->query("SELECT group_id ,due_followup_lines, promo_act_area_access FROM USER WHERE user_id = $userid ");
+            $rowuser = $userQry->fetch();
+            $group_id = $rowuser['group_id'];
+            $due_followup_lines = $rowuser['due_followup_lines'];
+            $promo_act_area_access = $rowuser['promo_act_area_access'];
+
+            $group_id = explode(',', $group_id);
+            $due_followup_lines = explode(',', $due_followup_lines);
+            $area_list_array = [];
+
+            if ($promo_act_area_access == 1) {
+
+                foreach ($group_id as $group) {
+                    $groupQry = $connect->query("SELECT area_id FROM area_group_mapping_area WHERE group_map_id = $group");
+
+                    while ($row_sub = $groupQry->fetch(PDO::FETCH_ASSOC)) {
+                        $area_list_array[] = $row_sub['area_id'];
+                    }
+                }
+                $area_ids = [];
+                foreach ($area_list_array as $subarray) {
+                    $area_ids = array_merge($area_ids, explode(',', $subarray));
+                }
+
+                $area_ids = array_unique($area_ids);
+                $area_list = implode(',', $area_ids);
+
+            } else if ($promo_act_area_access == 2) {
+
+                foreach ($due_followup_lines as $due_foll_lines) {
+                    $groupQry = $connect->query("SELECT adma.area_id 
+                        FROM area_duefollowup_mapping_area adma 
+                        JOIN area_duefollowup_mapping adm ON adm.map_id = adma.map_id 
+                        WHERE adm.map_id = $due_foll_lines");
+
+                    while ($row_sub = $groupQry->fetch(PDO::FETCH_ASSOC)) {
+                        $area_list_array[] = $row_sub['area_id'];
+                    }
+                }
+                $area_ids = [];
+                foreach ($area_list_array as $subarray) {
+                    $area_ids = array_merge($area_ids, explode(',', $subarray));
+                }
+
+                $area_ids = array_unique($area_ids);
+                $area_list = implode(',', $area_ids);
+            }
 }
 
 $searchQuery = "";
@@ -85,12 +113,12 @@ LEFT JOIN
     loan_category_creation lcc ON rc.loan_category = lcc.loan_category_creation_id
 LEFT JOIN 
     agent_creation ac ON rc.agent_id = ac.ag_id
-LEFT JOIN 
-    area_group_mapping agm ON FIND_IN_SET(alc.area_id, agm.area_id)
+JOIN area_group_mapping_area agma ON agma.area_id = alc.area_id
+JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id
 LEFT JOIN 
     branch_creation bc ON agm.branch_id = bc.branch_id
-LEFT JOIN 
-    area_line_mapping alm ON FIND_IN_SET(alc.area_id, alm.area_id)
+JOIN area_line_mapping_area alma ON alma.area_id = alc.area_id
+JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
 WHERE 
     rc.cus_status >= 14 AND acp.area_confirm_area IN ($area_list) AND NOT EXISTS (SELECT 1 FROM confirmation_followup cf WHERE cf.req_id = rc.req_id AND cf.remove_status = 1) $searchQuery $orderQuery ";
 
