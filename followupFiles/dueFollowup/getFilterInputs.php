@@ -9,7 +9,7 @@ while($row = $sql->fetch()){
 }
 
 //to get Line
-$sql = $connect->query("SELECT  map_id,line_name,branch_id,area_id FROM area_line_mapping where 1 ");
+$sql = $connect->query("SELECT  alm.map_id,alm.line_name,alm.branch_id,alma.area_id FROM area_line_mapping alm join area_line_mapping_area alma on alm.map_id = alma.line_map_id  where 1 ");
 while($row = $sql->fetch()){
     $response['line'][] = array('id'=>$row['map_id'],'name'=>$row['line_name'],'branch_id'=>$row['branch_id'],'area_id'=>$row['area_id']);
 }

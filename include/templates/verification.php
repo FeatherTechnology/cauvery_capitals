@@ -97,6 +97,7 @@ if (sizeof($getRequestData) > 0) {
 		$address					= $getRequestData['address'];
 		$mobile1					= $getRequestData['mobile1'];
 		$mobile2					= $getRequestData['mobile2'];
+		$whatsapp_no					= $getRequestData['whatsapp_no'];
 		$father_name					= $getRequestData['father_name'];
 		$mother_name					= $getRequestData['mother_name'];
 		$marital					= $getRequestData['marital'];
@@ -195,7 +196,6 @@ if (sizeof($getcusInfoForDoc) > 0) {
 	$doc_cus_id = $getcusInfoForDoc['cus_id'];
 	$doc_cus_name = $getcusInfoForDoc['cus_name'];
 	$doc_area_name = $getcusInfoForDoc['area_name'];
-	// $doc_sub_area_name = $getcusInfoForDoc['sub_area_name'];
 	$customer_profile_sts = $getcusInfoForDoc['cus_status'];
 }
 
@@ -301,7 +301,6 @@ if (sizeof($getLoanCalculation) > 0) {
 ///////// Loan Calculation End ///////////////
 
 $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_nameforhead;
-// $sub_area_topbar = isset($sub_area_name) && $sub_area_name != '' ? $sub_area_name : $sub_area_nameforhead;
 
 ?>
 
@@ -570,8 +569,8 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="whatsapp">Whatsapp No </label>
-												<input type="number" class="form-control" id="whatsapp_no" name="whatsapp_no" tabindex='17' placeholder="Enter WhatsApp Number" maxlength="10" onkeypress="if(this.value.length==10) return false;" value="<?php if (isset($cp_whatsapp)) {
-																																																																echo $cp_whatsapp;
+												<input type="number" class="form-control" id="whatsapp_no" name="whatsapp_no" tabindex='17' placeholder="Enter WhatsApp Number" maxlength="10" onkeypress="if(this.value.length==10) return false;" value="<?php if (isset($whatsapp_no)) {
+																																																																echo $whatsapp_no;
 																																																															} ?>">
 												<span class="text-danger" style='display:none' id='whatsapp_noCheck'>Please Enter Whatsapp Number</span>
 											</div>
@@ -1034,6 +1033,12 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 																														} ?>" readonly tabindex="47">
 									</div>
 								</div>
+								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+									<div class="form-group">
+										<label for="duefollowup_name">Due Followup Name</label>
+										<input type="text" class="form-control" name="duefollowup_name" id="duefollowup_name"  readonly tabindex="47">
+									</div>
+								</div>
 
 							</div>
 						</div>
@@ -1414,19 +1419,6 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 									</div>
 								</div>
 
-								<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-									<div class="form-group">
-										<label for="doc_Sub_Area"> Sub Area </label> <span class="required"> * </span>
-										<input type="text" class="form-control" id="doc_Sub_Area" name="doc_Sub_Area" value='<?php if (isset($doc_sub_area_name)) echo $doc_sub_area_name; ?>' readonly tabindex="7">
-									</div>
-								</div> -->
-
-								<!-- doc id is generate in acknowledgement documentation, so removing here.<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-									<div class="form-group">
-										<label for="doc_id">Document ID</label> <span class="required"> * </span>
-										<input type="text" class="form-control" id="doc_id" name="doc_id" readonly tabindex="8">
-									</div>
-								</div> -->
 							</div>
 						</div>
 					</div>

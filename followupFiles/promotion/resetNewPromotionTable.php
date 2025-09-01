@@ -1,9 +1,31 @@
 <?php
 
 include('../../ajaxconfig.php');
+@session_start();
+if (isset($_SESSION['userid'])) {
+    $user_id = $_SESSION['userid'];
+}
 
-// $sql = $connect->query("SELECT a.*,b.area_name,c.sub_area_name  FROM new_promotion a JOIN area_list_creation b ON a.area = b.area_id JOIN sub_area_list_creation c ON a.sub_area = c.sub_area_id WHERE 1 ");
-$sql = $connect->query("SELECT * FROM new_cus_promo WHERE cus_id NOT IN (select cus_id from customer_register) ");
+// Step 1: Fetch role_type of the user
+$userRes = $connect->query("SELECT role_type FROM user WHERE user_id = $user_id");
+$userRow = $userRes->fetch();
+$role_type = $userRow['role_type'];
+
+// Step 2: Apply logic for fetching data
+if ($role_type == 7) {
+    // Role 7 (Admin)→ See all records
+    $sql = $connect->query("
+        SELECT ncp.cus_id,ncp.cus_name,ncp.mobile,ncp.insert_login_id,ncp.created_date,a.area_name FROM new_cus_promo ncp JOIN area_list_creation a ON ncp.area = a.area_id
+        WHERE ncp.cus_id NOT IN (SELECT cus_id FROM customer_register)
+    ");
+} else {
+    // Other roles → See only their own records
+    $sql = $connect->query("
+        SELECT ncp.cus_id,ncp.cus_name,ncp.mobile,ncp.insert_login_id,ncp.created_date,a.area_name FROM new_cus_promo ncp JOIN area_list_creation a ON ncp.area = a.area_id
+        WHERE ncp.cus_id NOT IN (SELECT cus_id FROM customer_register)
+          AND ncp.insert_login_id = $user_id
+    ");
+}
 
 ?>
 
@@ -15,6 +37,7 @@ $sql = $connect->query("SELECT * FROM new_cus_promo WHERE cus_id NOT IN (select 
         <th>Customer Name</th>
         <th>Mobile No.</th>
         <th>Area</th>
+        <th>User Name</th>
         <th>Action</th>
         <th>Promotion Chart</th>
         <th>Follow Date</th>
@@ -26,7 +49,13 @@ $sql = $connect->query("SELECT * FROM new_cus_promo WHERE cus_id NOT IN (select 
                 <td><?php echo $row['cus_id']; ?></td>
                 <td><?php echo $row['cus_name']; ?></td>
                 <td><?php echo $row['mobile']; ?></td>
-                <td><?php echo $row['area']; ?></td>
+                <td><?php echo $row['area_name']; ?></td>
+                   <td>
+                    <?php
+                    $qry = $connect->query("SELECT fullname FROM user WHERE user_id = '" . $row['insert_login_id'] . "'");
+                        $full_name = $qry->fetch()['fullname'];
+                        echo($full_name);
+                    ?></td>
                 <td>
                     <?php  //for intrest or not intrest choice to make
                     // if($row['int_status'] == '' or $row['int_status'] == NULL){
@@ -90,7 +119,7 @@ $sql = $connect->query("SELECT * FROM new_cus_promo WHERE cus_id NOT IN (select 
         }
     })
     $('#new_promo_table tbody tr').not('th').each(function() {
-        let tddate = $(this).find('td:eq(8)').text(); // Get the text content of the 8th td element (Follow date)
+        let tddate = $(this).find('td:eq(9)').text(); // Get the text content of the 8th td element (Follow date)
         let datecorrection = tddate.split("-").reverse().join("-").replaceAll(/\s/g, ''); // Correct the date format
         let values = new Date(datecorrection); // Create a Date object from the corrected date
         values.setHours(0, 0, 0, 0); // Set the time to midnight for accurate date comparison
@@ -107,17 +136,17 @@ $sql = $connect->query("SELECT * FROM new_cus_promo WHERE cus_id NOT IN (select 
         if (tddate != '' && values != 'Invalid Date') { // Check if the extracted date and the created Date object are valid
 
             if (values < curDate) { // Compare the extracted date with the current date
-                $(this).find('td:eq(8)').css({
+                $(this).find('td:eq(9)').css({
                     'background-color': colors.past,
                     'color': 'white'
                 }); // Apply styling for past dates
             } else if (values > curDate) {
-                $(this).find('td:eq(8)').css({
+                $(this).find('td:eq(9)').css({
                     'background-color': colors.future,
                     'color': 'white'
                 }); // Apply styling for future dates
             } else {
-                $(this).find('td:eq(8)').css({
+                $(this).find('td:eq(9)').css({
                     'background-color': colors.current,
                     'color': 'white'
                 }); // Apply styling for the current date

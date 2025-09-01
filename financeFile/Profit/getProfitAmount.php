@@ -58,7 +58,7 @@ function getAreaList($connect, $user_id)
         $line_id = explode(',', $line_id);
         $area_list = array();
         foreach ($line_id as $line) {
-            $groupQry = $connect->query("SELECT area_id FROM area_line_mapping where map_id = $line ");
+            $groupQry = $connect->query("SELECT area_id FROM area_line_mapping_area where line_map_id = $line ");
             $row_sub = $groupQry->fetch();
             $area_list[] = $row_sub['area_id'];
         }

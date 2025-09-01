@@ -8,13 +8,15 @@ if (isset($_POST['cus_id'])) {
 }
 
 $response = array();
-$result = $connect->query("SELECT lc.collection_info,lcat.loan_limit FROM loan_calculation lc JOIN loan_category lcat ON lcat.loan_category_name = lc.loan_category where lc.status=0 and lc.loan_category = '" . strip_tags($loan_category_upd) . "' ");
+$result = $connect->query("SELECT lc.collection_info,lcat.loan_limit,lcat.agent_loan FROM loan_calculation lc JOIN loan_category lcat ON lcat.loan_category_name = lc.loan_category where lc.status=0 and lc.loan_category = '" . strip_tags($loan_category_upd) . "' ");
 if ($result->rowCount() > 0) {
 
     $row = $result->fetch();
     $response['advance'] = $row['collection_info'];
     // $response['loan_limit'] = $row['loan_limit'];
     $loan_limit = intVal($row['loan_limit']);
+    $agent_loan = intVal($row['agent_loan']);
+    $response['agent_loan'] = $agent_loan;
     $response['message'] = "";
 } else {
     $response['message'] = "No Loan Calculation Made!";

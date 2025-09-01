@@ -2,9 +2,9 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: mysql8010.site4now.net
--- Generation Time: Jul 10, 2025 at 12:45 AM
--- Server version: 8.0.36
+-- Host: mysql5049.site4now.net
+-- Generation Time: Aug 31, 2025 at 09:58 PM
+-- Server version: 8.0.34
 -- PHP Version: 8.3.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_aab6ce_cltdemo`
+-- Database: `db_a86e03_caucaps`
 --
 
 -- --------------------------------------------------------
@@ -42,50 +42,49 @@ CREATE TABLE `acknowledgement_loan_cal_category` (
 
 CREATE TABLE `acknowlegement_customer_profile` (
   `id` int NOT NULL,
-  `req_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gender` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `dob` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `age` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `blood_group` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile1` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile2` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `whatsapp` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_pic` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `guarentor_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `guarentor_relation` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `guarentor_photo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_exist_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `residential_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `residential_details` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `residential_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `residential_native_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `occupation_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `occupation_details` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `occupation_income` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `occupation_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `dow` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `abt_occ` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_confirm_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_confirm_state` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_confirm_district` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_confirm_taluk` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_confirm_area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_confirm_subarea` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `latlong` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_group` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_line` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `communication` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `com_audio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `verification_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `verification_location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gender` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `dob` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `age` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `blood_group` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mobile1` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mobile2` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `whatsapp` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_pic` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `guarentor_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `guarentor_relation` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `guarentor_photo` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_exist_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `residential_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `residential_details` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `residential_address` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `residential_native_address` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `occupation_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `occupation_details` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `occupation_income` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `occupation_address` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `dow` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `abt_occ` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_confirm_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_confirm_state` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_confirm_district` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_confirm_taluk` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_confirm_area` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `latlong` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_group` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_line` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `communication` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `com_audio` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `verification_person` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `verification_location` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -98,89 +97,89 @@ CREATE TABLE `acknowlegement_customer_profile` (
 
 CREATE TABLE `acknowlegement_documentation` (
   `id` int NOT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_id_doc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `customer_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_profile_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_process` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_process_noc` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `mort_noc_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mort_noc_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mort_noc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Propertyholder_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Propertyholder_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Propertyholder_relationship_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_property_relation` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_property_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_property_measurement` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_property_location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_property_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_dsgn` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_nuumber` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `reg_office` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_document` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_document_noc` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `mort_doc_noc_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mort_doc_noc_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mort_doc_noc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_document_used` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `mortgage_document_upd` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_document_pending` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `endorsement_process` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `endorsement_process_noc` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `endor_noc_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `endor_noc_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `endor_noc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `owner_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `owner_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ownername_relationship_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_relation` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `vehicle_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `vehicle_process` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_Company` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_Model` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `vehicle_reg_no` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `endorsement_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_RC` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_RC_noc` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `en_rc_noc_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_rc_noc_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_rc_noc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_RC_used` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `Rc_document_upd` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Rc_document_pending` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_Key` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_Key_noc` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `en_key_noc_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_key_noc_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_key_noc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_Key_used` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `gold_info` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_sts` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Purity` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_Count` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_Weight` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_Value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `document_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `document_details` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `document_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_info_upload` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_info_upload_noc` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `doc_info_upload_used` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `document_holder` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `docholder_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `docholder_relationship_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_relation` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `submitted` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id_doc` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `customer_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_profile_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_process` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_process_noc` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `mort_noc_date` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mort_noc_person` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mort_noc_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Propertyholder_type` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Propertyholder_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Propertyholder_relationship_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_property_relation` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_property_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_property_measurement` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_property_location` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_property_value` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_dsgn` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_nuumber` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `reg_office` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_value` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_document` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_document_noc` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `mort_doc_noc_date` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mort_doc_noc_person` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mort_doc_noc_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_document_used` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `mortgage_document_upd` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_document_pending` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `endorsement_process` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `endorsement_process_noc` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `endor_noc_date` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `endor_noc_person` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `endor_noc_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `owner_type` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `owner_name` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ownername_relationship_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_relation` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `vehicle_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `vehicle_process` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_Company` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_Model` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `vehicle_reg_no` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `endorsement_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_RC` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_RC_noc` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `en_rc_noc_date` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_rc_noc_person` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_rc_noc_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_RC_used` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `Rc_document_upd` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Rc_document_pending` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_Key` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_Key_noc` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `en_key_noc_date` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_key_noc_person` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_key_noc_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_Key_used` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `gold_info` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_sts` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Purity` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_Count` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_Weight` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_Value` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `document_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `document_details` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `document_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_info_upload` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_info_upload_noc` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `doc_info_upload_used` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `document_holder` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `docholder_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `docholder_relationship_name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_relation` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `submitted` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -200,7 +199,6 @@ CREATE TABLE `acknowlegement_loan_calculation` (
   `mobile_loan` varchar(255) DEFAULT NULL,
   `pic_loan` varchar(255) DEFAULT NULL,
   `loan_category` varchar(255) DEFAULT NULL,
-  `sub_category` varchar(255) DEFAULT NULL,
   `tot_value` varchar(255) DEFAULT NULL,
   `ad_amt` varchar(255) DEFAULT NULL,
   `loan_amt` varchar(255) DEFAULT NULL,
@@ -248,11 +246,11 @@ CREATE TABLE `acknowlegement_loan_calculation` (
 
 CREATE TABLE `agent_communication_details` (
   `comm_id` int NOT NULL,
-  `agent_reff_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `designation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `whatsapp` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  `agent_reff_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `designation` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mobile` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `whatsapp` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -263,33 +261,32 @@ CREATE TABLE `agent_communication_details` (
 
 CREATE TABLE `agent_creation` (
   `ag_id` int NOT NULL,
-  `ag_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ag_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ag_group_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `company_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `branch_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `district` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `taluk` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `place` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `pincode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `loan_category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `sub_category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `scheme` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `loan_payment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `responsible` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `collection_point` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `bank_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `bank_branch_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `acc_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ifsc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `holder_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `more_info` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ag_code` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ag_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ag_group_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `company_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `branch_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mail` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `state` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `district` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `taluk` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `place` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `pincode` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_category` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `scheme` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_payment` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `responsible` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `collection_point` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `bank_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `bank_branch_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `acc_no` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ifsc` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `holder_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `more_info` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` int DEFAULT '0',
-  `insert_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -302,8 +299,8 @@ CREATE TABLE `agent_creation` (
 
 CREATE TABLE `agent_group_creation` (
   `agent_group_id` int NOT NULL,
-  `agent_group_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0'
+  `agent_group_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -315,18 +312,17 @@ CREATE TABLE `agent_group_creation` (
 CREATE TABLE `area_creation` (
   `area_creation_id` int NOT NULL,
   `area_name_id` int NOT NULL,
-  `sub_area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `taluk` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `district` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `pincode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `enable` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `taluk` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `district` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `state` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `pincode` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `enable` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
   `status` int DEFAULT '0',
-  `insert_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `created_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `updated_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+  `insert_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_date` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `updated_date` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -337,21 +333,31 @@ CREATE TABLE `area_creation` (
 
 CREATE TABLE `area_duefollowup_mapping` (
   `map_id` int NOT NULL,
-  `duefollowup_name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `loan_category_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `line_name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `customer_status` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `area_id` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `cus_count` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `loan_count` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `duefollowup_name` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `customer_status` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `cus_count` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `loan_count` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `company_id` int DEFAULT NULL,
-  `branch_id` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `branch_id` longtext COLLATE utf8mb4_general_ci,
   `status` int NOT NULL DEFAULT '0',
   `insert_login_id` int DEFAULT NULL,
-  `update_login_id` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_login_id` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(11) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(11) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `area_duefollowup_mapping_area`
+--
+
+CREATE TABLE `area_duefollowup_mapping_area` (
+  `id` int NOT NULL,
+  `map_id` int DEFAULT NULL,
+  `area_id` int DEFAULT NULL,
+  `created_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -363,8 +369,7 @@ CREATE TABLE `area_duefollowup_mapping` (
 CREATE TABLE `area_group_mapping` (
   `map_id` int NOT NULL,
   `group_name` varchar(255) DEFAULT NULL,
-  `area_id` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `sub_area_id` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `area_id` longtext,
   `company_id` varchar(255) DEFAULT NULL,
   `branch_id` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT '0',
@@ -374,6 +379,19 @@ CREATE TABLE `area_group_mapping` (
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `area_group_mapping_area`
+--
+
+CREATE TABLE `area_group_mapping_area` (
+  `id` int NOT NULL,
+  `group_map_id` int DEFAULT NULL,
+  `area_id` int DEFAULT NULL,
+  `created_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -384,8 +402,7 @@ CREATE TABLE `area_group_mapping` (
 CREATE TABLE `area_line_mapping` (
   `map_id` int NOT NULL,
   `line_name` varchar(255) DEFAULT NULL,
-  `area_id` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `sub_area_id` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `area_id` longtext,
   `company_id` varchar(255) DEFAULT NULL,
   `branch_id` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT '0',
@@ -399,13 +416,26 @@ CREATE TABLE `area_line_mapping` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `area_line_mapping_area`
+--
+
+CREATE TABLE `area_line_mapping_area` (
+  `id` int NOT NULL,
+  `line_map_id` int DEFAULT NULL,
+  `area_id` int DEFAULT NULL,
+  `created_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `area_list_creation`
 --
 
 CREATE TABLE `area_list_creation` (
   `area_id` int NOT NULL,
-  `area_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `taluk` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `taluk` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `area_enable` int NOT NULL DEFAULT '0',
   `status` int DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -465,20 +495,20 @@ CREATE TABLE `bank_stmt` (
 
 CREATE TABLE `branch_creation` (
   `branch_id` int NOT NULL,
-  `branch_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `branch_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `address1` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `address2` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `whatsapp_number` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `place` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `pincode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `landline_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `district` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `taluk` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `branch_code` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `branch_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `company_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mobile_number` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `address1` text COLLATE utf8mb4_general_ci,
+  `address2` text COLLATE utf8mb4_general_ci,
+  `whatsapp_number` text COLLATE utf8mb4_general_ci,
+  `place` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `pincode` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `landline_number` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `state` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `district` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `taluk` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` int NOT NULL DEFAULT '0',
   `insert_login_id` int DEFAULT NULL,
   `update_login_id` int DEFAULT NULL,
@@ -556,15 +586,15 @@ INSERT INTO `cash_tally_modes` (`id`, `modes`, `admin_access`, `handcredit`, `ba
 
 CREATE TABLE `cheque_info` (
   `id` int NOT NULL,
-  `cus_id` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `req_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_profile_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `holder_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `holder_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `holder_relationship_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cheque_relation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `chequebank_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cheque_count` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+  `cus_id` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_profile_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `holder_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `holder_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `holder_relationship_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cheque_relation` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `chequebank_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cheque_count` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -575,24 +605,24 @@ CREATE TABLE `cheque_info` (
 
 CREATE TABLE `cheque_no_list` (
   `id` int NOT NULL,
-  `cus_id` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cheque_table_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cheque_holder_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cheque_holder_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cheque_no` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `used_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `noc_given` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `noc_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `noc_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `noc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `temp_sts` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `cus_id` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cheque_table_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cheque_holder_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cheque_holder_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cheque_no` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `used_status` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `noc_given` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `noc_date` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `noc_person` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `noc_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `temp_sts` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
   `temp_date` date DEFAULT NULL,
-  `temp_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `temp_purpose` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `temp_remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `temp_person` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `temp_purpose` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `temp_remarks` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -605,10 +635,10 @@ CREATE TABLE `cheque_no_list` (
 
 CREATE TABLE `cheque_upd` (
   `id` int NOT NULL,
-  `cus_id` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cheque_table_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `upload_cheque_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+  `cus_id` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cheque_table_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `upload_cheque_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -619,14 +649,14 @@ CREATE TABLE `cheque_upd` (
 
 CREATE TABLE `closed_status` (
   `id` int NOT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `closed_sts` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `consider_level` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_sts` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `closed_sts` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `consider_level` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `remark` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_sts` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -727,19 +757,19 @@ CREATE TABLE `collection_charges` (
 
 CREATE TABLE `commitment` (
   `id` int NOT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `ftype` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `fstatus` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `person_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `person_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `relationship` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `ftype` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `fstatus` varchar(55) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `person_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `person_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `relationship` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `remark` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `comm_date` date DEFAULT NULL,
-  `hint` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `comm_err` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `insert_login_id` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `updated_login_id` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `hint` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `comm_err` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `insert_login_id` varchar(55) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `updated_login_id` varchar(55) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -752,20 +782,20 @@ CREATE TABLE `commitment` (
 
 CREATE TABLE `company_creation` (
   `company_id` int NOT NULL,
-  `company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `address1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `address2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `district` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `taluk` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `place` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `pincode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `website` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mailid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `whatsapp` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `landline` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `company_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `address1` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `address2` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `state` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `district` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `taluk` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `place` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `pincode` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `website` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mailid` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mobile` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `whatsapp` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `landline` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
   `insert_user_id` int DEFAULT NULL,
   `update_user_id` int DEFAULT NULL,
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -780,40 +810,40 @@ CREATE TABLE `company_creation` (
 
 CREATE TABLE `concern_creation` (
   `id` int NOT NULL,
-  `raising_for` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `self_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `self_code` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `staff_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `staff_dept_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `staff_team_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ag_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ag_grp` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_sub_area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_group` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_line` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `com_date` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `com_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `branch_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `concern_to` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `to_dept_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `to_team_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `com_sub` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `com_remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `com_priority` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `staff_assign_to` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `raising_for` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `self_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `self_code` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `staff_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `staff_dept_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `staff_team_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ag_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ag_grp` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_area` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_sub_area` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_group` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_line` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `com_date` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `com_code` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `branch_name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `concern_to` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `to_dept_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `to_team_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `com_sub` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `com_remark` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `com_priority` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `staff_assign_to` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` int NOT NULL DEFAULT '0',
-  `solution_date` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `communication` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `uploads` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `solution_remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `feedback_date` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `feedback_rating` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_user_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_user_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_user_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `solution_date` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `communication` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `uploads` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `solution_remark` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `feedback_date` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `feedback_rating` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_user_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_user_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_user_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -826,7 +856,7 @@ CREATE TABLE `concern_creation` (
 
 CREATE TABLE `concern_subject` (
   `concern_sub_id` int NOT NULL,
-  `concern_subject` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `concern_subject` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` int NOT NULL DEFAULT '0',
   `insert_user_id` int DEFAULT NULL,
   `update_user_id` int DEFAULT NULL,
@@ -843,20 +873,20 @@ CREATE TABLE `concern_subject` (
 
 CREATE TABLE `confirmation_followup` (
   `id` int NOT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `person_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `person_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `relationship` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `mobile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `upload` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `sub_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `remove_status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `insert_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `update_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `person_type` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `person_name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `relationship` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `mobile` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `upload` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `sub_status` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `remark` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `remove_status` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `insert_login_id` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `update_login_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1503,7 +1533,7 @@ CREATE TABLE `ct_db_hissued` (
   `netcash` varchar(255) DEFAULT NULL,
   `amt` varchar(255) DEFAULT NULL,
   `insert_login_id` varchar(10) NOT NULL,
-  `update_login_id` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `update_login_id` varchar(10) DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -1538,50 +1568,49 @@ CREATE TABLE `ct_hand_collection` (
 
 CREATE TABLE `customer_profile` (
   `id` int NOT NULL,
-  `req_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gender` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `dob` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `age` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `blood_group` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile1` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile2` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `whatsapp` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_pic` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `guarentor_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `guarentor_relation` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `guarentor_photo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_exist_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `residential_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `residential_details` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `residential_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `residential_native_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `occupation_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `occupation_details` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `occupation_income` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `occupation_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `dow` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `abt_occ` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_confirm_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_confirm_state` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_confirm_district` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_confirm_taluk` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_confirm_area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_confirm_subarea` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `latlong` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_group` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area_line` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `communication` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `com_audio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `verification_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `verification_location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gender` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `dob` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `age` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `blood_group` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mobile1` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mobile2` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `whatsapp` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_pic` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `guarentor_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `guarentor_relation` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `guarentor_photo` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_exist_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `residential_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `residential_details` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `residential_address` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `residential_native_address` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `occupation_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `occupation_details` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `occupation_income` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `occupation_address` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `dow` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `abt_occ` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_confirm_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_confirm_state` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_confirm_district` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_confirm_taluk` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_confirm_area` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `latlong` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_group` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area_line` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `communication` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `com_audio` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `verification_person` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `verification_location` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1605,10 +1634,11 @@ CREATE TABLE `customer_register` (
   `district` varchar(255) DEFAULT NULL,
   `taluk` varchar(255) DEFAULT NULL,
   `area` varchar(255) DEFAULT NULL,
-  `sub_area` varchar(255) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `mobile1` varchar(255) DEFAULT NULL,
   `mobile2` varchar(255) DEFAULT NULL,
+  `mobile_whatsapp` varchar(200) DEFAULT NULL,
+  `whatsapp_no` varchar(200) DEFAULT NULL,
   `father_name` varchar(255) DEFAULT NULL,
   `mother_name` varchar(255) DEFAULT NULL,
   `marital` varchar(255) DEFAULT NULL,
@@ -1635,8 +1665,8 @@ CREATE TABLE `customer_register` (
   `occupation_details` varchar(255) DEFAULT NULL,
   `occupation_income` varchar(255) DEFAULT NULL,
   `occupation_address` varchar(255) DEFAULT NULL,
-  `dow` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `abt_occ` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `dow` varchar(255) DEFAULT NULL,
+  `abt_occ` varchar(255) DEFAULT NULL,
   `area_confirm_type` varchar(50) DEFAULT NULL,
   `area_confirm_state` varchar(50) DEFAULT NULL,
   `area_confirm_district` varchar(50) DEFAULT NULL,
@@ -1659,14 +1689,14 @@ CREATE TABLE `customer_register` (
 
 CREATE TABLE `customer_status` (
   `id` int NOT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `cus_id` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `sub_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `payable_amnt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `bal_amnt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `cus_id` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `sub_status` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `payable_amnt` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `bal_amnt` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `last_paid_date` int DEFAULT '0',
   `current_month_paid` int DEFAULT '0',
-  `insert_login_id` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `insert_login_id` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
   `created_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1678,15 +1708,15 @@ CREATE TABLE `customer_status` (
 
 CREATE TABLE `cus_old_data` (
   `id` int NOT NULL COMMENT 'Primary Key',
-  `cus_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `sub_area` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `loan_cat` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `sub_cat` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `loan_amt` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `due_chart_file` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_name` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mobile` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `sub_area` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_cat` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `sub_cat` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_amt` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `due_chart_file` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1741,9 +1771,9 @@ CREATE TABLE `document_info` (
   `relation` varchar(255) DEFAULT NULL,
   `doc_upload` varchar(255) DEFAULT NULL,
   `doc_info_upload_noc` int DEFAULT '0',
-  `noc_date` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `noc_person` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `noc_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `noc_date` varchar(255) DEFAULT NULL,
+  `noc_person` varchar(255) DEFAULT NULL,
+  `noc_name` varchar(255) DEFAULT NULL,
   `doc_info_upload_used` int DEFAULT '0',
   `temp_sts` varchar(10) NOT NULL DEFAULT '0',
   `temp_date` date DEFAULT NULL,
@@ -1765,16 +1795,16 @@ CREATE TABLE `document_info` (
 
 CREATE TABLE `document_track` (
   `id` int NOT NULL,
-  `req_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `sign_doc_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cheque_doc_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ack_doc_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_doc_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `track_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `update_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `sign_doc_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cheque_doc_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ack_doc_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_doc_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `track_status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `update_login_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1787,13 +1817,12 @@ CREATE TABLE `document_track` (
 
 CREATE TABLE `doc_mapping` (
   `doc_map_id` int NOT NULL,
-  `loan_category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `sub_category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_creation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
-  `insert_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_category` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_creation` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '0',
+  `insert_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1836,27 +1865,27 @@ CREATE TABLE `fingerprints` (
 
 CREATE TABLE `gold_info` (
   `id` int NOT NULL,
-  `cus_id` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_sts` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Purity` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_Count` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_Weight` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_Value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_upload` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `noc_given` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `noc_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `noc_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `noc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `used_status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `temp_sts` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `cus_id` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_sts` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Purity` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_Count` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_Weight` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_Value` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_upload` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `noc_given` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `noc_date` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `noc_person` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `noc_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `used_status` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `temp_sts` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
   `temp_date` date DEFAULT NULL,
-  `temp_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `temp_purpose` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `temp_remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `temp_person` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `temp_purpose` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `temp_remarks` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1869,9 +1898,9 @@ CREATE TABLE `gold_info` (
 
 CREATE TABLE `holiday_creation` (
   `holiday_id` int NOT NULL,
-  `holiday_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `holiday_date` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `comments` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `holiday_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `holiday_date` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `comments` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` int NOT NULL DEFAULT '0',
   `insert_login_id` int DEFAULT NULL,
   `update_login_id` int DEFAULT NULL,
@@ -1888,16 +1917,16 @@ CREATE TABLE `holiday_creation` (
 
 CREATE TABLE `in_acknowledgement` (
   `id` int NOT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `inserted_user` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `inserted_user` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `inserted_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1908,13 +1937,13 @@ CREATE TABLE `in_acknowledgement` (
 --
 
 CREATE TABLE `in_approval` (
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
-  `insert_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_status` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '0',
+  `insert_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1926,17 +1955,17 @@ CREATE TABLE `in_approval` (
 
 CREATE TABLE `in_issue` (
   `id` int NOT NULL,
-  `loan_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime DEFAULT NULL,
-  `inserted_user` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `inserted_user` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `inserted_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1948,56 +1977,55 @@ CREATE TABLE `in_issue` (
 
 CREATE TABLE `in_verification` (
   `req_id` int NOT NULL,
-  `user_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `agent_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `responsible` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `declaration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `req_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `user_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `user_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `agent_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `responsible` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `remarks` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `declaration` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_code` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `dor` date DEFAULT NULL,
-  `cus_reg_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_data` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_reg_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_data` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `dob` date DEFAULT NULL,
-  `age` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gender` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `blood_group` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `district` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `taluk` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `sub_area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `father_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mother_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `marital` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `spouse_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `occupation_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `occupation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `pic` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `loan_category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `sub_category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tot_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ad_amt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ad_perc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `loan_amt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `poss_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `due_amt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `due_period` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
-  `prompt_remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `age` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gender` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `blood_group` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `state` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `district` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `taluk` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mobile1` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mobile2` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `whatsapp_no` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `father_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mother_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `marital` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `spouse_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `occupation_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `occupation` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `pic` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_category` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tot_value` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ad_amt` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ad_perc` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_amt` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `poss_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `due_amt` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `due_period` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_status` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '0',
+  `prompt_remark` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
   `issue_by` int NOT NULL DEFAULT '1',
-  `issue_mode` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `payment_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `bank_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `issue_mode` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `payment_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `bank_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2010,28 +2038,27 @@ CREATE TABLE `in_verification` (
 
 CREATE TABLE `loan_calculation` (
   `loan_cal_id` int NOT NULL,
-  `loan_category` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `sub_category` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `due_method` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `due_type` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `profit_method` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `calculate_method` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `intrest_rate_min` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `intrest_rate_max` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `due_period_min` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `due_period_max` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_charge_type` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `document_charge_min` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `document_charge_max` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `proc_fee_type` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `processing_fee_min` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `processing_fee_max` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `loan_limit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `due_date` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `grace_period` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `penalty` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `overdue` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `collection_info` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_category` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `due_method` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `due_type` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `profit_method` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `calculate_method` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `intrest_rate_min` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `intrest_rate_max` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `due_period_min` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `due_period_max` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_charge_type` varchar(11) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `document_charge_min` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `document_charge_max` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `proc_fee_type` varchar(11) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `processing_fee_min` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `processing_fee_max` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_limit` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `due_date` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `grace_period` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `penalty` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `overdue` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `collection_info` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` int NOT NULL DEFAULT '0',
   `insert_login_id` int DEFAULT NULL,
   `update_login_id` int DEFAULT NULL,
@@ -2048,9 +2075,9 @@ CREATE TABLE `loan_calculation` (
 
 CREATE TABLE `loan_category` (
   `loan_category_id` int NOT NULL,
-  `loan_category_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `sub_category_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `loan_limit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `loan_category_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_limit` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `agent_loan` int DEFAULT NULL,
   `status` int NOT NULL DEFAULT '0',
   `insert_user_id` int DEFAULT NULL,
   `update_user_id` int DEFAULT NULL,
@@ -2067,7 +2094,7 @@ CREATE TABLE `loan_category` (
 
 CREATE TABLE `loan_category_creation` (
   `loan_category_creation_id` int NOT NULL,
-  `loan_category_creation_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_category_creation_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` int NOT NULL DEFAULT '0',
   `insert_user_id` int DEFAULT NULL,
   `update_user_id` int DEFAULT NULL,
@@ -2084,8 +2111,8 @@ CREATE TABLE `loan_category_creation` (
 
 CREATE TABLE `loan_category_ref` (
   `loan_category_ref_id` int NOT NULL,
-  `loan_category_ref_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `loan_category_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_category_ref_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_category_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` int NOT NULL DEFAULT '0',
   `insert_user_id` int DEFAULT NULL,
   `update_user_id` int DEFAULT NULL,
@@ -2102,13 +2129,13 @@ CREATE TABLE `loan_category_ref` (
 
 CREATE TABLE `loan_followup` (
   `id` int NOT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `stage` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `stage` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `remark` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `follow_date` date NOT NULL,
-  `insert_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `update_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `update_login_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2121,28 +2148,28 @@ CREATE TABLE `loan_followup` (
 
 CREATE TABLE `loan_issue` (
   `id` int NOT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `issued_to` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `agent_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `issued_mode` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `payment_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `bank_id` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cheque_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cheque_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cheque_remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `transaction_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `transaction_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `transaction_remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `balance_amount` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `loan_amt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `net_cash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `cash_guarentor_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `relationship` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `issued_to` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `agent_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `issued_mode` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `payment_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cash` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `bank_id` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cheque_no` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cheque_value` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cheque_remark` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `transaction_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `transaction_value` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `transaction_remark` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `balance_amount` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `loan_amt` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `net_cash` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `cash_guarentor_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `relationship` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -2154,33 +2181,33 @@ CREATE TABLE `loan_issue` (
 
 CREATE TABLE `loan_scheme` (
   `scheme_id` int NOT NULL,
-  `scheme_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `short_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `loan_category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `sub_category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `due_method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `profit_method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `intrest_rate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `total_due` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `advance_due` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `due_period` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `intreset_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `intreset_min` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `intreset_max` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_charge_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_charge_min` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_charge_max` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `proc_fee_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `proc_fee_min` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `proc_fee_max` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `due_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `overdue` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `grace_period` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `penalty` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `scheme_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `short_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_category` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `due_method` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `profit_method` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `intrest_rate` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `advance_type` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `total_due` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `advance_due` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `due_period` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `intreset_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `intreset_min` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `intreset_max` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_charge_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_charge_min` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_charge_max` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `proc_fee_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `proc_fee_min` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `proc_fee_max` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `due_date` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `overdue` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `grace_period` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `penalty` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` int DEFAULT '0',
   `insert_login_id` int DEFAULT NULL,
   `update_login_id` int DEFAULT NULL,
-  `delete_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2193,11 +2220,11 @@ CREATE TABLE `loan_scheme` (
 
 CREATE TABLE `loan_summary_feedback` (
   `id` int NOT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `feedback_label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_feedback` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `feedback_remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `feedback_label` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_feedback` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `feedback_remark` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -2208,9 +2235,9 @@ CREATE TABLE `loan_summary_feedback` (
 
 CREATE TABLE `modules` (
   `id` int NOT NULL COMMENT 'Primary Key',
-  `screens` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `modules` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `access` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  `screens` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `modules` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `access` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -2240,14 +2267,14 @@ CREATE TABLE `name_detail_creation` (
 
 CREATE TABLE `new_cus_promo` (
   `id` int NOT NULL COMMENT 'Primary Key',
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `sub_area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `int_status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mobile` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `sub_area` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `int_status` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2260,13 +2287,13 @@ CREATE TABLE `new_cus_promo` (
 
 CREATE TABLE `new_promotion` (
   `id` int NOT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `label` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `remark` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `follow_date` datetime DEFAULT NULL,
-  `insert_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2334,51 +2361,51 @@ CREATE TABLE `request_category_info` (
 
 CREATE TABLE `request_creation` (
   `req_id` int NOT NULL,
-  `user_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `agent_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `responsible` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `declaration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `req_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `user_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `user_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `agent_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `responsible` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `remarks` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `declaration` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_code` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `dor` date DEFAULT NULL,
-  `cus_reg_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_data` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_reg_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_data` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `dob` date DEFAULT NULL,
-  `age` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gender` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `district` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `taluk` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `sub_area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `father_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mother_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `marital` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `spouse_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `occupation_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `occupation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `pic` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `loan_category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `sub_category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tot_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ad_amt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ad_perc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `loan_amt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `poss_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `due_amt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `due_period` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
-  `prompt_remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `insert_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `age` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gender` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `state` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `district` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `taluk` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `area` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mobile1` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mobile2` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mobile_whatsapp` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `whatsapp_no` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `father_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mother_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `marital` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `spouse_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `occupation_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `occupation` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `pic` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_category` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tot_value` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ad_amt` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ad_perc` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_amt` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `poss_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `due_amt` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `due_period` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_status` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '0',
+  `prompt_remark` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `insert_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2391,22 +2418,22 @@ CREATE TABLE `request_creation` (
 
 CREATE TABLE `signed_doc` (
   `id` int NOT NULL,
-  `cus_id` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `signed_doc_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `upload_doc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `noc_given` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `noc_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `noc_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `noc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `used_status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `temp_sts` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `cus_id` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `signed_doc_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `upload_doc_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `noc_given` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `noc_date` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `noc_person` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `noc_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `used_status` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `temp_sts` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
   `temp_date` date DEFAULT NULL,
-  `temp_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `temp_purpose` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `temp_remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `temp_person` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `temp_purpose` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `temp_remarks` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2419,25 +2446,25 @@ CREATE TABLE `signed_doc` (
 
 CREATE TABLE `signed_doc_info` (
   `id` int NOT NULL,
-  `cus_id` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `sign_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `signType_relationship` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_Count` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `req_id` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_profile_id` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `noc_given` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `noc_date` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `noc_person` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `noc_name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `used_status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `temp_sts` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `cus_id` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `sign_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `signType_relationship` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_Count` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_profile_id` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `noc_given` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `noc_date` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `noc_person` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `noc_name` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `used_status` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `temp_sts` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
   `temp_date` date DEFAULT NULL,
-  `temp_person` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `temp_purpose` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `temp_remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `temp_person` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `temp_purpose` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `temp_remarks` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2491,132 +2518,120 @@ CREATE TABLE `staff_type_creation` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sub_area_list_creation`
---
-
-CREATE TABLE `sub_area_list_creation` (
-  `sub_area_id` int NOT NULL,
-  `area_id_ref` varchar(255) DEFAULT NULL,
-  `sub_area_name` varchar(255) DEFAULT NULL,
-  `sub_area_enable` int NOT NULL DEFAULT '0',
-  `status` varchar(255) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
   `user_id` int NOT NULL,
-  `firstname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `lastname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `fullname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `emailid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `user_password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `role_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `dir_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ag_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `staff_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `company_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `branch_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `loan_cat` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `agentforstaff` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `line_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `group_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `download_access` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `report_access` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `pro_aty_access` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1,2,3',
-  `mastermodule` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `company_creation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `branch_creation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `loan_category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `loan_calculation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `loan_scheme` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `area_creation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `area_mapping` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `area_approval` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `adminmodule` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `director_creation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `agent_creation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `staff_creation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `manage_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `doc_mapping` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `bank_creation` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `requestmodule` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `request` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `request_list_access` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `verificationmodule` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `verification` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `approvalmodule` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `approval` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `acknowledgementmodule` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `acknowledgement` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `loanissuemodule` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `loan_issue` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `collectionmodule` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `collection` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `collection_access` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `closedmodule` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `closed` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `nocmodule` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `noc` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `doctrackmodule` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `doctrack` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `doc_rec_access` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `updatemodule` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `update_screen` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `update_screen_id` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `concernmodule` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `concern_creation` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `concern_solution` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `concern_feedback` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `accountsmodule` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `cash_tally` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `bank_details` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cash_tally_admin` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `bank_clearance` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `finance_insight` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `accounts_loan_issue` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `followupmodule` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `promotion_activity` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `loan_followup` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `confirmation_followup` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `due_followup` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
-  `due_followup_lines` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `reportmodule` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `ledger_report` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `request_report` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `cancel_revoke_report` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `cus_profile_report` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `loan_issue_report` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `collection_report` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `firstname` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `lastname` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `fullname` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `title` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `emailid` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `user_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `user_password` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `role` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `role_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `dir_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ag_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `staff_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `company_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `branch_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `loan_cat` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `agentforstaff` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `line_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `group_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `download_access` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `report_access` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `pro_aty_access` varchar(100) COLLATE utf8mb4_general_ci DEFAULT '1,2,3',
+  `mastermodule` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `company_creation` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `branch_creation` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `loan_category` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `loan_calculation` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `loan_scheme` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `area_creation` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `area_mapping` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `area_approval` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `adminmodule` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `director_creation` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `agent_creation` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `staff_creation` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `manage_user` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `doc_mapping` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `bank_creation` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `requestmodule` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `request` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `request_list_access` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `verificationmodule` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `verification` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `approvalmodule` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `approval` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `acknowledgementmodule` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `acknowledgement` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `loanissuemodule` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `loan_issue` varchar(255) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `collectionmodule` varchar(25) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `collection` varchar(25) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `collection_access` varchar(25) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `closedmodule` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `closed` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `nocmodule` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `noc` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `doctrackmodule` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `doctrack` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `doc_rec_access` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `updatemodule` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `update_screen` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `update_screen_id` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `concernmodule` varchar(10) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `concern_creation` varchar(10) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `concern_solution` varchar(10) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `concern_feedback` varchar(50) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `accountsmodule` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `cash_tally` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `bank_details` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cash_tally_admin` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `bank_clearance` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `finance_insight` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `accounts_loan_issue` varchar(11) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `followupmodule` varchar(10) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `promotion_activity` varchar(10) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `promo_act_area_access` int DEFAULT NULL,
+  `loan_followup` varchar(10) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `confirmation_followup` varchar(10) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `conf_follow_area_access` int DEFAULT NULL,
+  `due_followup` varchar(10) COLLATE utf8mb4_general_ci DEFAULT '1',
+  `due_followup_lines` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `reportmodule` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `ledger_report` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `request_report` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `cancel_revoke_report` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `cus_profile_report` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `loan_issue_report` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `collection_report` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
   `principal_interest_report` int NOT NULL DEFAULT '1',
-  `balance_report` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `due_list_report` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `balance_report` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `due_list_report` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
   `in_closed_report` int NOT NULL DEFAULT '1',
-  `closed_report` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `confirmation_followup_report` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `agent_report` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `closed_report` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `confirmation_followup_report` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `agent_report` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
   `no_due_pay_report` int DEFAULT NULL,
-  `other_trans_report` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `day_end_report` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `search_module` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `search` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `bulk_upload_module` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `bulk_upload` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `loan_track_module` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `loan_track` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `other_trans_report` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `day_end_report` varchar(50) COLLATE utf8mb4_general_ci DEFAULT '0',
+  `search_module` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `search` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `bulk_upload_module` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `bulk_upload` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `loan_track_module` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `loan_track` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
   `sms_module` int NOT NULL DEFAULT '1',
   `sms_generation` int NOT NULL DEFAULT '1',
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `insert_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_login_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `insert_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2625,8 +2640,11 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `firstname`, `lastname`, `fullname`, `title`, `emailid`, `user_name`, `user_password`, `role`, `role_type`, `dir_id`, `ag_id`, `staff_id`, `company_id`, `branch_id`, `loan_cat`, `agentforstaff`, `line_id`, `group_id`, `download_access`, `report_access`, `pro_aty_access`, `mastermodule`, `company_creation`, `branch_creation`, `loan_category`, `loan_calculation`, `loan_scheme`, `area_creation`, `area_mapping`, `area_approval`, `adminmodule`, `director_creation`, `agent_creation`, `staff_creation`, `manage_user`, `doc_mapping`, `bank_creation`, `requestmodule`, `request`, `request_list_access`, `verificationmodule`, `verification`, `approvalmodule`, `approval`, `acknowledgementmodule`, `acknowledgement`, `loanissuemodule`, `loan_issue`, `collectionmodule`, `collection`, `collection_access`, `closedmodule`, `closed`, `nocmodule`, `noc`, `doctrackmodule`, `doctrack`, `doc_rec_access`, `updatemodule`, `update_screen`, `update_screen_id`, `concernmodule`, `concern_creation`, `concern_solution`, `concern_feedback`, `accountsmodule`, `cash_tally`, `bank_details`, `cash_tally_admin`, `bank_clearance`, `finance_insight`, `accounts_loan_issue`, `followupmodule`, `promotion_activity`, `loan_followup`, `confirmation_followup`, `due_followup`, `due_followup_lines`, `reportmodule`, `ledger_report`, `request_report`, `cancel_revoke_report`, `cus_profile_report`, `loan_issue_report`, `collection_report`, `principal_interest_report`, `balance_report`, `due_list_report`, `in_closed_report`, `closed_report`, `confirmation_followup_report`, `agent_report`, `no_due_pay_report`, `other_trans_report`, `day_end_report`, `search_module`, `search`, `bulk_upload_module`, `bulk_upload`, `loan_track_module`, `loan_track`, `sms_module`, `sms_generation`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 'Super', 'Admin', 'Super Admin', 'Super Admin', 'support@feathertechnology.in', 'support@feathertechnology.in', '123', '1', NULL, NULL, NULL, NULL, '1', '1,2,3,4,5', NULL, NULL, '1,2,3,4,5,6,7,8', '1,2,3,4,5,6,7,8', '1', '1', '1,2,3', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', NULL, '0', '0', '0', '0', '0', '0', NULL, '0', '0', '0', '1', '0', '0', '0', '0', '0', NULL, '0', '0', '0', '1', '0', '0', '0', 1, '0', '0', 1, '0', '1', '1', NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', 0, 0, '0', NULL, NULL, NULL, '2024-06-13 11:13:00', '2024-06-13 11:13:00');
+INSERT INTO `user` (`user_id`, `firstname`, `lastname`, `fullname`, `title`, `emailid`, `user_name`, `user_password`, `role`, `role_type`, `dir_id`, `ag_id`, `staff_id`, `company_id`, `branch_id`, `loan_cat`, `agentforstaff`, `line_id`, `group_id`, `download_access`, `report_access`, `pro_aty_access`, `mastermodule`, `company_creation`, `branch_creation`, `loan_category`, `loan_calculation`, `loan_scheme`, `area_creation`, `area_mapping`, `area_approval`, `adminmodule`, `director_creation`, `agent_creation`, `staff_creation`, `manage_user`, `doc_mapping`, `bank_creation`, `requestmodule`, `request`, `request_list_access`, `verificationmodule`, `verification`, `approvalmodule`, `approval`, `acknowledgementmodule`, `acknowledgement`, `loanissuemodule`, `loan_issue`, `collectionmodule`, `collection`, `collection_access`, `closedmodule`, `closed`, `nocmodule`, `noc`, `doctrackmodule`, `doctrack`, `doc_rec_access`, `updatemodule`, `update_screen`, `update_screen_id`, `concernmodule`, `concern_creation`, `concern_solution`, `concern_feedback`, `accountsmodule`, `cash_tally`, `bank_details`, `cash_tally_admin`, `bank_clearance`, `finance_insight`, `accounts_loan_issue`, `followupmodule`, `promotion_activity`, `promo_act_area_access`, `loan_followup`, `confirmation_followup`, `conf_follow_area_access`, `due_followup`, `due_followup_lines`, `reportmodule`, `ledger_report`, `request_report`, `cancel_revoke_report`, `cus_profile_report`, `loan_issue_report`, `collection_report`, `principal_interest_report`, `balance_report`, `due_list_report`, `in_closed_report`, `closed_report`, `confirmation_followup_report`, `agent_report`, `no_due_pay_report`, `other_trans_report`, `day_end_report`, `search_module`, `search`, `bulk_upload_module`, `bulk_upload`, `loan_track_module`, `loan_track`, `sms_module`, `sms_generation`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, 'Super', 'Admin', 'Super Admin', 'Super Admin', 'support@feathertechnology.in', 'support@feathertechnology.in', '123', '1', NULL, NULL, NULL, NULL, '1', '1,2,3,4,5', NULL, NULL, '1,2,3,4,5,6,7,8', '1,2,3,4,5,6,7,8', '1', '1', '1,2,3', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', NULL, '0', '0', '0', '0', '0', '0', NULL, '0', '0', '0', '1', '0', '0', NULL, '0', '0', NULL, '0', NULL, '0', '0', '0', '1', '0', '0', '0', 1, '0', '0', 1, '0', '1', '1', NULL, NULL, '0', '0', '0', '0', '0', '0', '0', 0, 0, '0', NULL, NULL, NULL, '2024-06-13 11:13:00', '2024-06-13 11:13:00'),
+(2, NULL, NULL, 'Kumar', NULL, '', 'admin', '123', '3', '1', '', '', '1', '1', '1,2', '1,2,3,4', '1', '1', '1,2', '0', '1', '1,2,3', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '1,2', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', 1, '1', '0', 2, '0', '1', '0', '0', '0', '0', '0', '0', '0', 0, '0', '0', 0, '0', '0', '0', 0, '1', '0', '0', '0', '0', '0', '0', '0', 0, 0, '0', '1', '2', NULL, '2024-06-26 15:01:20', '2025-08-30 10:39:32'),
+(95, NULL, NULL, 'Ravi', NULL, '', 'sss', '12', '2', '', '', '1', '', '1', '1', '', '', '1', '1', '0', '', '1,2,3', '0', '0', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '', '1', '1', '1', '1', '1', '1', '', '1', '1', '1', '1', '0', '0', 1, '1', '0', 1, '0', '', '1', '1', '1', '1', '1', '1', '1', 1, '1', '1', 1, '1', '1', '1', 1, '1', '0', '1', '1', '1', '1', '1', '1', 1, 1, '0', '2', '2', NULL, '2025-08-14 13:21:35', '2025-08-26 16:28:21'),
+(96, NULL, NULL, 'Kumar', NULL, '', 'kumar', '123', '3', '1', '', '', '1', '1', '1', '1,2,3', '1', '1', '1', '0', '', '1,2,3', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '', '1', '1', '1', '1', '1', '1', '', '1', '1', '1', '1', '0', '0', 1, '1', '0', 2, '1', '', '1', '1', '1', '1', '1', '1', '1', 1, '1', '1', 1, '1', '1', '1', 1, '1', '0', '1', '1', '1', '1', '1', '1', 1, 1, '0', '2', NULL, NULL, '2025-08-26 16:28:06', '2025-08-26 16:28:06');
 
 -- --------------------------------------------------------
 
@@ -2636,14 +2654,14 @@ INSERT INTO `user` (`user_id`, `firstname`, `lastname`, `fullname`, `title`, `em
 
 CREATE TABLE `verification_bank_info` (
   `id` int NOT NULL,
-  `cus_id` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `req_id` int NOT NULL,
-  `bank_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `branch_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `acc_holder_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `bank_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `branch_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `acc_holder_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `acc_no` bigint NOT NULL,
-  `ifsc_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `upload` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ifsc_code` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `upload` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `issue_status` int NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -2655,11 +2673,11 @@ CREATE TABLE `verification_bank_info` (
 
 CREATE TABLE `verification_cus_feedback` (
   `id` int NOT NULL,
-  `cus_id` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `feedback_label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_feedback` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `feedback_remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+  `cus_id` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `feedback_label` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_feedback` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `feedback_remark` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -2670,62 +2688,62 @@ CREATE TABLE `verification_cus_feedback` (
 
 CREATE TABLE `verification_documentation` (
   `id` int NOT NULL,
-  `req_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_id_doc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `customer_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_profile_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_process` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Propertyholder_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Propertyholder_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Propertyholder_relationship_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_property_relation` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_property_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_property_measurement` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_property_location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_property_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_dsgn` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_nuumber` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `reg_office` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_document` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_document_upd` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mortgage_document_pending` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `endorsement_process` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `owner_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `owner_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ownername_relationship_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_relation` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `vehicle_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `vehicle_process` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_Company` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_Model` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `vehicle_reg_no` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `endorsement_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_RC` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Rc_document_upd` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Rc_document_pending` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `en_Key` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_info` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_sts` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Purity` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_Count` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_Weight` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `gold_Value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `document_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `document_details` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `document_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `document_holder` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `docholder_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `docholder_relationship_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_relation` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cus_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `insert_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `delete_login_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id_doc` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `customer_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_profile_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_process` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Propertyholder_type` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Propertyholder_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Propertyholder_relationship_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_property_relation` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_property_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_property_measurement` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_property_location` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_property_value` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_dsgn` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_nuumber` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `reg_office` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_value` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_document` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_document_upd` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `mortgage_document_pending` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `endorsement_process` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `owner_type` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `owner_name` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ownername_relationship_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_relation` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `vehicle_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `vehicle_process` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_Company` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_Model` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `vehicle_reg_no` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `endorsement_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_RC` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Rc_document_upd` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Rc_document_pending` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `en_Key` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_info` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_sts` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Purity` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_Count` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_Weight` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gold_Value` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `document_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `document_details` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `document_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `document_holder` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `docholder_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `docholder_relationship_name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_relation` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insert_login_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_login_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `delete_login_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2738,18 +2756,18 @@ CREATE TABLE `verification_documentation` (
 
 CREATE TABLE `verification_family_info` (
   `id` int NOT NULL,
-  `cus_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `req_id` int DEFAULT NULL,
-  `famname` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `relationship` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `other_remark` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `other_address` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `relation_age` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `relation_aadhar` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `famname` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `relationship` text COLLATE utf8mb4_general_ci,
+  `other_remark` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `other_address` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `relation_age` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `relation_aadhar` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `relation_Mobile` double DEFAULT NULL,
-  `relation_Occupation` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `relation_Income` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `relation_Blood` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `relation_Occupation` text COLLATE utf8mb4_general_ci,
+  `relation_Income` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `relation_Blood` text COLLATE utf8mb4_general_ci,
   `status` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -2761,14 +2779,14 @@ CREATE TABLE `verification_family_info` (
 
 CREATE TABLE `verification_group_info` (
   `id` int NOT NULL,
-  `cus_id` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `req_id` int NOT NULL,
-  `group_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `group_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `group_age` int NOT NULL,
-  `group_aadhar` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `group_aadhar` text COLLATE utf8mb4_general_ci NOT NULL,
   `group_mobile` double NOT NULL,
-  `group_gender` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `group_designation` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  `group_gender` text COLLATE utf8mb4_general_ci NOT NULL,
+  `group_designation` text COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -2779,14 +2797,14 @@ CREATE TABLE `verification_group_info` (
 
 CREATE TABLE `verification_kyc_info` (
   `id` int NOT NULL,
-  `cus_id` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cus_id` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `req_id` int NOT NULL,
-  `proofOf` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `fam_mem` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `guarantor_mem` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `proof_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `proof_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `upload` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+  `proofOf` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `fam_mem` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `guarantor_mem` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `proof_type` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `proof_no` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `upload` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -2804,7 +2822,6 @@ CREATE TABLE `verification_loan_calculation` (
   `mobile_loan` varchar(255) DEFAULT NULL,
   `pic_loan` varchar(255) DEFAULT NULL,
   `loan_category` varchar(255) DEFAULT NULL,
-  `sub_category` varchar(255) DEFAULT NULL,
   `tot_value` varchar(255) DEFAULT NULL,
   `ad_amt` varchar(255) DEFAULT NULL,
   `loan_amt` varchar(255) DEFAULT NULL,
@@ -2852,12 +2869,12 @@ CREATE TABLE `verification_loan_calculation` (
 
 CREATE TABLE `verification_property_info` (
   `id` int NOT NULL,
-  `cus_id` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `req_id` int NOT NULL,
-  `property_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `property_measurement` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `property_value` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `property_holder` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  `cus_id` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `req_id` int DEFAULT NULL,
+  `property_type` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `property_measurement` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `property_value` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `property_holder` varchar(50) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -2888,7 +2905,7 @@ ALTER TABLE `acknowledgement_loan_cal_category`
 --
 ALTER TABLE `acknowlegement_customer_profile`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_acknowlegement_customer_profile` (`req_id`,`area_confirm_subarea`,`area_confirm_area`) USING BTREE,
+  ADD KEY `idx_acknowlegement_customer_profile` (`req_id`,`area_confirm_area`) USING BTREE,
   ADD KEY `idx_cus_id` (`cus_id`);
 
 --
@@ -2935,6 +2952,12 @@ ALTER TABLE `area_duefollowup_mapping`
   ADD PRIMARY KEY (`map_id`);
 
 --
+-- Indexes for table `area_duefollowup_mapping_area`
+--
+ALTER TABLE `area_duefollowup_mapping_area`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `area_group_mapping`
 --
 ALTER TABLE `area_group_mapping`
@@ -2942,11 +2965,23 @@ ALTER TABLE `area_group_mapping`
   ADD KEY `idx_area_group_mapping` (`map_id`,`branch_id`);
 
 --
+-- Indexes for table `area_group_mapping_area`
+--
+ALTER TABLE `area_group_mapping_area`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `area_line_mapping`
 --
 ALTER TABLE `area_line_mapping`
   ADD PRIMARY KEY (`map_id`),
   ADD KEY `idx_line_name` (`map_id`,`line_name`);
+
+--
+-- Indexes for table `area_line_mapping_area`
+--
+ALTER TABLE `area_line_mapping_area`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `area_list_creation`
@@ -3450,7 +3485,7 @@ ALTER TABLE `request_category_info`
 --
 ALTER TABLE `request_creation`
   ADD PRIMARY KEY (`req_id`),
-  ADD KEY `idx_request_creation` (`cus_status`,`area`,`sub_area`,`req_id`),
+  ADD KEY `idx_request_creation` (`cus_status`,`area`,`req_id`),
   ADD KEY `idx_cus_id` (`cus_id`);
 
 --
@@ -3476,13 +3511,6 @@ ALTER TABLE `staff_creation`
 --
 ALTER TABLE `staff_type_creation`
   ADD PRIMARY KEY (`staff_type_id`);
-
---
--- Indexes for table `sub_area_list_creation`
---
-ALTER TABLE `sub_area_list_creation`
-  ADD PRIMARY KEY (`sub_area_id`),
-  ADD KEY `idx_sub_area_list_creation` (`sub_area_id`);
 
 --
 -- Indexes for table `user`
@@ -3606,16 +3634,34 @@ ALTER TABLE `area_duefollowup_mapping`
   MODIFY `map_id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `area_duefollowup_mapping_area`
+--
+ALTER TABLE `area_duefollowup_mapping_area`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `area_group_mapping`
 --
 ALTER TABLE `area_group_mapping`
   MODIFY `map_id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `area_group_mapping_area`
+--
+ALTER TABLE `area_group_mapping_area`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `area_line_mapping`
 --
 ALTER TABLE `area_line_mapping`
   MODIFY `map_id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `area_line_mapping_area`
+--
+ALTER TABLE `area_line_mapping_area`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `area_list_creation`
@@ -4122,16 +4168,10 @@ ALTER TABLE `staff_type_creation`
   MODIFY `staff_type_id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `sub_area_list_creation`
---
-ALTER TABLE `sub_area_list_creation`
-  MODIFY `sub_area_id` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `verification_bank_info`
@@ -4195,7 +4235,7 @@ ALTER TABLE `verif_loan_cal_category`
 -- Constraints for table `closing_customer`
 --
 ALTER TABLE `closing_customer`
-  ADD CONSTRAINT `requestForegin` FOREIGN KEY (`req_id`) REFERENCES `request_creation` (`req_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `requestForegin` FOREIGN KEY (`req_id`) REFERENCES `request_creation` (`req_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

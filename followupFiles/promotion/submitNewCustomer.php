@@ -16,9 +16,6 @@ if(isset($_POST['cus_mob'])){
 if(isset($_POST['area'])){
     $area = $_POST['area'];
 }
-if(isset($_POST['sub_area'])){
-    $sub_area = $_POST['sub_area'];
-}
 if(isset($_POST['update'])){
     //this update will be yes when user confirmed updating customer details when submitting the form
     $update = $_POST['update'];
@@ -37,7 +34,7 @@ if($sql->rowCount() == 0){
         if($update == 'yes'){
             //this update query will run only when user confirmed updating 
 
-            $sql = $connect->query("UPDATE new_cus_promo SET cus_name = '$cus_name', mobile = '$cus_mob', area = '$area', sub_area = '$sub_area', update_login_id = '$userid' WHERE cus_id = '$cus_id' ");
+            $sql = $connect->query("UPDATE new_cus_promo SET cus_name = '$cus_name', mobile = '$cus_mob', area = '$area', update_login_id = '$userid' WHERE cus_id = '$cus_id' ");
             //update customer details if customer id is already present in the table
             if($sql){
                 $response = 'Customer Updated Successfully';
@@ -53,8 +50,8 @@ if($sql->rowCount() == 0){
 
     }else{
 
-        $sql = $connect->query("INSERT INTO new_cus_promo(cus_id, cus_name, mobile, area, sub_area, insert_login_id,created_date) 
-            VALUES('$cus_id', '$cus_name', '$cus_mob', '$area', '$sub_area','$userid',now())");
+        $sql = $connect->query("INSERT INTO new_cus_promo(cus_id, cus_name, mobile, area,  insert_login_id,created_date) 
+            VALUES('$cus_id', '$cus_name', '$cus_mob', '$area','$userid',now())");
         //insert customer details if customer id is not present in the table
         if($sql){
             $response = 'Customer Added Successfully';

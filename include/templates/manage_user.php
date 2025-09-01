@@ -71,8 +71,10 @@ $finance_insight = '';
 $accounts_loan_issue = '';
 $followupmodule = '';
 $promotion_activity = '';
-$loan_followup  = '';
+$promo_act_area_access  = '';
+// $loan_followup  = '';
 $conf_followup  = '';
+$conf_follow_area_access   = '';
 $due_followup  = '';
 $reportmodule = '';
 $ledger_report = '';
@@ -210,8 +212,10 @@ if($idupd>0)
 			$accounts_loan_issue          		     = $getUser['accounts_loan_issue'];
 			$followupmodule          		     = $getUser['followupmodule'];
 			$promotion_activity = $getUser['promotion_activity'];
-			$loan_followup = $getUser['loan_followup'];
+			$promo_act_area_access = $getUser['promo_act_area_access'];
+			// $loan_followup = $getUser['loan_followup'];
 			$conf_followup = $getUser['confirmation_followup'];
+			$conf_follow_area_access  = $getUser['conf_follow_area_access '];
 			$due_followup = $getUser['due_followup'];
 			$due_followup_lines = $getUser['due_followup_lines'];
 			
@@ -932,25 +936,49 @@ if($idupd>0)
                                 <label class="custom-control-label" for="promotion_activity">Promotion Activity</label>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 promotion_activity_div"  style='display:none; margin-top: 10px; '>
+                            <div class="custom-control custom-checkbox">
+                                <label class="custom-control-label" for="promotion_activity_line_or_duefollowup">Promotion Activity Mapping Area Access :</label>
+								<!-- <input type='hidden' id='line_or_duefollowup_id' name='line_or_duefollowup_id' value=''> -->
+                                <select class='form-control' id='promotion_activity_line_or_duefollowup' name='promotion_activity_line_or_duefollowup'>
+									<option value="">Select Line Or Due Followup</option>
+									<option value="1" <?php if($promo_act_area_access == '1') echo 'selected';?>>Group</option>
+									<option value="2" <?php if($promo_act_area_access == '2') echo 'selected';?>>Due Followup</option>
+								</select>
+								<span class='text-danger promotionactivityCheck' style="display:none">Please Select Line Or Due Followup Area</span>
+                            </div>
+                        </div>
+                        <!-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($loan_followup==0){ echo'checked'; }} ?> tabindex="58" class="followup-checkbox" id="loan_followup" name="loan_followup" disabled>&nbsp;&nbsp;
                                 <label class="custom-control-label" for="loan_followup">Loan Followup</label>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($conf_followup==0){ echo'checked'; }} ?> tabindex="59" class="followup-checkbox" id="conf_followup" name="conf_followup" disabled>&nbsp;&nbsp;
                                 <label class="custom-control-label" for="conf_followup">Confirmation Followup</label>
                             </div>
                         </div>
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 conf_followup_div"  style='display:none; margin-top: 10px;'>
+                            <div class="custom-control custom-checkbox">
+                                <label class="custom-control-label" for="conf_followup_line_or_duefollowup">Confirmation Followup Mapping Area Access :</label>
+								<!-- <input type='hidden' id='line_or_duefollowup_id' name='line_or_duefollowup_id' value=''> -->
+                                <select class='form-control' id='conf_followup_line_or_duefollowup' name='conf_followup_line_or_duefollowup'>
+									<option value="">Select Line Or Due Followup</option>
+									<option value="1" <?php if($conf_follow_area_access == '1') echo 'selected';?>>Group</option>
+									<option value="2" <?php if($conf_follow_area_access == '2') echo 'selected';?>>Due Followup</option>
+								</select>
+								<span class='text-danger confFollowupCheck' style="display:none">Please Select Line Or Due Followup Area</span>
+                            </div>
+                        </div>
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12" style="margin-top: 30px;">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($due_followup==0){ echo'checked'; }} ?> tabindex="60" class="followup-checkbox" id="due_followup" name="due_followup" disabled>&nbsp;&nbsp;
                                 <label class="custom-control-label" for="due_followup">Due Followup</label>
                             </div>
                         </div>
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 due_followupline_div"  style='display:none; margin-top: 15px;'>
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 due_followupline_div"  style='display:none; margin-top: 30px;'>
                             <div class="custom-control custom-checkbox">
                                 <label class="custom-control-label" for="due_follup_lines">Due Followup lines</label>
 								<input type='hidden' id='due_follup_line_id' name='due_follup_line_id' value=''>

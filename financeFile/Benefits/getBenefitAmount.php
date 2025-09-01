@@ -90,7 +90,7 @@ function getAreaList($connect, $user_id)
         $group_id = explode(',', $group_id);
         $area_list = array();
         foreach ($group_id as $group) {
-            $groupQry = $connect->query("SELECT area_id FROM area_line_mapping where map_id = $group ");
+            $groupQry = $connect->query("SELECT area_id FROM area_line_mapping_area where line_map_id = $group ");
             $row_sub = $groupQry->fetch();
             $area_list[] = $row_sub['area_id'];
         }

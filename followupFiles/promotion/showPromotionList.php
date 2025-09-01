@@ -48,8 +48,10 @@ if (isset($_POST['order'])) {
             GROUP BY cus_id 
         ) cs ON cs.cus_id = cp.cus_id 
         LEFT JOIN area_list_creation al ON cp.area_confirm_area = al.area_id 
-        LEFT JOIN area_group_mapping agm ON FIND_IN_SET(al.area_id, agm.area_id) 
-        LEFT JOIN area_line_mapping alm ON FIND_IN_SET(al.area_id, alm.area_id) 
+    JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
+    JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id 
+        JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
+    JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
         LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id 
         LEFT JOIN (
             SELECT cus_id, MAX(follow_date) AS follow_date, status
@@ -67,7 +69,10 @@ if (isset($_POST['order'])) {
 
     if($_POST['dateType']){
         $date_type = $_POST['dateType'];//1=Closed date, 2=Followup date.
-        $qry_date = ($date_type == '1') ? "AND cs.created_date BETWEEN '".$_POST['followUpFromDate']."' AND '".$_POST['followUpToDate']."' " : "AND np.follow_date BETWEEN '".$_POST['followUpFromDate']."' AND '".$_POST['followUpToDate']."' ";
+        $fromDate = date('Y-m-d 00:00:01', strtotime($_POST['followUpFromDate']));
+        $toDate   = date('Y-m-d 23:59:59', strtotime($_POST['followUpToDate']));
+
+        $qry_date = ($date_type == '1') ? "AND cs.created_date BETWEEN '$fromDate' AND '$toDate' ": "AND np.follow_date BETWEEN '$fromDate' AND '$toDate' ";
 
         $qry .= $qry_date;
     }    

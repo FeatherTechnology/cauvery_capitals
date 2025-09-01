@@ -3288,6 +3288,9 @@ function getTalukBasedArea(talukselected) {
           })
         );
         $("#area").prepend(firstOption);
+        if (area_upd) {
+        $("#area").val(area_upd).trigger("change");
+      }
       }
     },
   });
@@ -5058,6 +5061,7 @@ function getGroupandLine(area_id) {
     success: function (response) {
       $("#area_group").val(response["group_name"]);
       $("#area_line").val(response["line_name"]);
+      $("#duefollowup_name").val(response["duefollowup_name"]);
     },
   });
 }

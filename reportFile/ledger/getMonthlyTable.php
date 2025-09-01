@@ -15,22 +15,24 @@ if ($userid != 1) {
 
     $userQry = $connect->query("SELECT line_id, report_access FROM USER WHERE user_id = $userid ");
     $rowuser = $userQry->fetch();
-        $line_id = $rowuser['line_id'];
-        $report_access = $rowuser['report_access'];
-    
+    $line_id = $rowuser['line_id'];
+    $report_access = $rowuser['report_access'];
+
     if ($report_access == '1') { //Report access individual.
         $line_id = explode(',', $line_id);
-        $area_list = array();
+        $area_list_array = [];
         foreach ($line_id as $line) {
-            $lineQry = $connect->query("SELECT * FROM area_line_mapping where map_id = $line ");
-            $row_sub = $lineQry->fetch();
-            $area_list[] = $row_sub['area_id'];
+            $lineQry = $connect->query("SELECT area_id FROM area_line_mapping_area where line_map_id = $line ");
+            while ($row_sub = $lineQry->fetch(PDO::FETCH_ASSOC)) {
+                $area_list_array[] = $row_sub['area_id'];
+            }
         }
-        $area_ids = array();
-        foreach ($area_list as $subarray) {
+        $area_ids = [];
+        foreach ($area_list_array as $subarray) {
             $area_ids = array_merge($area_ids, explode(',', $subarray));
         }
-        $area_list = array();
+
+        $area_ids = array_unique($area_ids);
         $area_list = implode(',', $area_ids);
 
         $user_based = " AND (select area_confirm_area from customer_profile where req_id = cp.req_id) IN ($area_list) AND cp.insert_login_id = '$userid' ";
@@ -148,7 +150,6 @@ $months = generateMonths($startDate, $endDate);
                     <td><?php echo $row['area_name']; ?></td>
                     <td><?php echo date('d-m-Y', strtotime($row['loan_date'])); ?></td>
                     <td><?php echo date('d-m-Y', strtotime($row['maturity_date'])); ?></td>
-                    <td><?php echo $row['loan_category_creation_name']; ?></td>
                     <!-- used ternary operator cause monthly loans may not have due amt for interest loans, so showed interest amt instead due amt -->
                     <td><?php echo moneyFormatIndia($row['due_amt'] != '' ? $row['due_amt'] : $row['int_amt']); ?></td>
                     <td>
@@ -192,7 +193,7 @@ $months = generateMonths($startDate, $endDate);
     </tbody>
     <tfoot>
         <?php
-        $tfoot = "<tr><td colspan='5'><b>Total</b></td><td><b>" . moneyFormatIndia($due_amt_sum) . "</b></td><td><b>" . moneyFormatIndia($opening_balance_sum) . "</b></td><td colspan=".$total_months."></td><td><b>" . moneyFormatIndia($total_paid_sum) . "</b></td><td><b>" . moneyFormatIndia($closing_balance_sum) . "</b></td></tr>";
+        $tfoot = "<tr><td colspan='5'><b>Total</b></td><td><b>" . moneyFormatIndia($due_amt_sum) . "</b></td><td><b>" . moneyFormatIndia($opening_balance_sum) . "</b></td><td colspan=" . $total_months . "></td><td><b>" . moneyFormatIndia($total_paid_sum) . "</b></td><td><b>" . moneyFormatIndia($closing_balance_sum) . "</b></td></tr>";
         echo $tfoot;
         ?>
     </tfoot>

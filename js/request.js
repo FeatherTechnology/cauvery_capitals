@@ -198,6 +198,18 @@ $(document).ready(function () {
         submit_btn.attr('disabled', true);
         validation(submit_btn, event);
     })
+      $('input[name="mobile_whatsapp"]').on('change', function () {
+        let selectedValue = $(this).val();
+        let mobileNumber;
+
+        if (selectedValue === 'mobile1') {
+            mobileNumber = $('#mobile1').val();
+        } else if (selectedValue === 'mobile2') {
+            mobileNumber = $('#mobile2').val();
+        }
+
+        $('#whatsapp_no').val(mobileNumber);
+    });
 
 });// Document ready end
 
@@ -381,7 +393,6 @@ function getCustomerDetails(cus_id) {
                 $('#taluk1').val('');
                 $('#taluk').val('Select Taluk');
                 $('#area').val('');
-                $('#sub_area').val('');
                 $('#address').val('');
                 $('#mobile1').val('');
                 $('#mobile2').val('');
@@ -689,6 +700,12 @@ function getLoaninfo(loan_category_upd) {
         type: 'post',
         cache: false,
         success: function (response) {
+            console.log("res",response['agent_loan'])
+            if(response['agent_loan']== '0' ){
+                 $('#agent_loan').val(0);
+            }else if(response['agent_loan']== '1'){
+                $('#agent_loan').val(1);
+            }
             if (response['advance'] == 'Yes') {
                 $('.advance_yes').show();
                 $('#tot_value').val('');
@@ -988,10 +1005,10 @@ function validation(submit_btn, event) {
         $('#responsibleCheck').hide();
     }
 
-    var cus_id = $('#cus_id').val(); var cus_name = $('#cus_name').val(); var dob = $('#dob').val(); var gender = $('#gender').val(); var pic = $('#pic').val(); var state = $('#state').val(); var district = $('#district1').val(); var taluk = $('#taluk1').val(); var area = $('#area').val(); var sub_area = $('#sub_area').val(); var address = $('#address').val(); var mobile1 = $('#mobile1').val();var mobile2 = $('#mobile2').val(); var father_name = $('#father_name').val(); var mother_name = $('#mother_name').val(); var marital = $('#marital').val(); var spouse_name = $('#spouse_name').val(); var occupation_type = $('#occupation_type').val(); var occupation = $('#occupation').val(); var loan_category = $('#loan_category').val(); var tot_value = $('#tot_value').val(); var ad_amt = $('#ad_amt').val(); var ad_perc = $('#ad_perc').val(); var loan_amt = $('#loan_amt').val(); var poss_type = $('#poss_type').val(); var due_amt = $('#due_amt').val(); var due_period = $('#due_period').val(); var agent = $('#agent').val();
+    var cus_id = $('#cus_id').val(); var cus_name = $('#cus_name').val(); var dob = $('#dob').val(); var gender = $('#gender').val(); var pic = $('#pic').val(); var state = $('#state').val(); var district = $('#district1').val(); var taluk = $('#taluk1').val(); var area = $('#area').val();  var address = $('#address').val(); var mobile1 = $('#mobile1').val();var mobile2 = $('#mobile2').val(); var father_name = $('#father_name').val(); var mother_name = $('#mother_name').val(); var marital = $('#marital').val(); var spouse_name = $('#spouse_name').val(); var occupation_type = $('#occupation_type').val(); var occupation = $('#occupation').val(); var loan_category = $('#loan_category').val(); var tot_value = $('#tot_value').val(); var ad_amt = $('#ad_amt').val(); var ad_perc = $('#ad_perc').val(); var loan_amt = $('#loan_amt').val(); var poss_type = $('#poss_type').val(); var due_amt = $('#due_amt').val(); var due_period = $('#due_period').val(); var agent = $('#agent').val(); var agent_loan = $('#agent_loan').val();
 
     //if loan category is Appliance, vehicle, 2 vehicle, 4 vehicle need to check agent select  because these type of loan given by agent only. so validation added.
-    if(loan_category == '1' || loan_category =='2' || loan_category == '4'){
+    if(agent_loan == 0){
         if (!agent) {
             event.preventDefault();
             $('#agentCheck').show();
@@ -999,6 +1016,7 @@ function validation(submit_btn, event) {
             $('#agentCheck').hide();
         }
     }
+    
 
     if (!cus_id) {
         event.preventDefault();

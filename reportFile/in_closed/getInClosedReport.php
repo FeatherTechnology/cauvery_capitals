@@ -14,22 +14,24 @@ if ($userid != 1) {
 
     $userQry = $connect->query("SELECT line_id, report_access FROM USER WHERE user_id = $userid ");
     $rowuser = $userQry->fetch();
-        $line_id = $rowuser['line_id'];
-        $report_access = $rowuser['report_access'];
-    
-    if($report_access =='1'){
-        $line_id = explode(',', $line_id);
-        $area_list = array();
-        foreach ($line_id as $line) {
-            $lineQry = $connect->query("SELECT area_id FROM area_line_mapping where map_id = $line ");
-            $row_sub = $lineQry->fetch();
-            $area_list[] = $row_sub['area_id'];
+    $line_id = $rowuser['line_id'];
+    $report_access = $rowuser['report_access'];
+
+    if ($report_access == '1') {
+        $line_ids = explode(',', $line_id);
+        $area_list_array = [];
+        foreach ($line_ids as $line) {
+            $lineQry = $connect->query("SELECT area_id FROM area_line_mapping_area where line_map_id = $line ");
+            while ($row_sub = $lineQry->fetch(PDO::FETCH_ASSOC)) {
+                $area_list_array[] = $row_sub['area_id'];
+            }
         }
-        $area_ids = array();
-        foreach ($area_list as $subarray) {
+        $area_ids = [];
+        foreach ($area_list_array as $subarray) {
             $area_ids = array_merge($area_ids, explode(',', $subarray));
         }
-        $area_list = array();
+
+        $area_ids = array_unique($area_ids);
         $area_list = implode(',', $area_ids);
 
         $user_based = " AND cp.area_confirm_area IN ($area_list) AND iv.update_login_id = '$userid' ";
@@ -89,8 +91,8 @@ JOIN
     acknowlegement_documentation ad ON ii.req_id = ad.req_id
 JOIN 
     area_list_creation al ON cp.area_confirm_area = al.area_id
-JOIN
-    area_line_mapping alm ON FIND_IN_SET(al.area_id, alm.area_id)
+JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
+JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
 LEFT JOIN 
     loan_category_creation lcc ON lcc.loan_category_creation_id = lc.loan_category
 LEFT JOIN 

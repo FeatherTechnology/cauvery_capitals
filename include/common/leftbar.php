@@ -914,7 +914,7 @@ if (sizeof($getUser) > 0) {
 						</div>
 					</li>
 				<?php  } ?>
-				<!-- <?php if ($bulk_upload_module == 0) { ?>
+				<?php if ($bulk_upload_module == 0) { ?>
 					<li class="sidebar-dropdown">
 						<a href="javascript:void(0)">
 							<i class='icon-upload-cloud'></i>
@@ -930,7 +930,7 @@ if (sizeof($getUser) > 0) {
 							</ul>
 						</div>
 					</li>
-				<?php  } ?> -->
+				<?php  } ?>
 				<?php if ($loan_track_module == 0) { ?>
 					<li class="sidebar-dropdown">
 						<a href="javascript:void(0)">

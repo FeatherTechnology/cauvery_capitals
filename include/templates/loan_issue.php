@@ -56,7 +56,6 @@ if (sizeof($getRequestData) > 0) {
 		$district					= $getRequestData['district'];
 		$taluk					= $getRequestData['taluk'];
 		$area					= $getRequestData['area'];
-		$sub_area					= $getRequestData['sub_area'];
 		$address					= $getRequestData['address'];
 		$mobile1					= $getRequestData['mobile1'];
 		$mobile2					= $getRequestData['mobile2'];
@@ -114,7 +113,6 @@ if (sizeof($getCustomerProfile) > 0) {
 	$area_confirm_district = $getCustomerProfile['area_confirm_district'];
 	$area_confirm_taluk = $getCustomerProfile['area_confirm_taluk'];
 	$area_confirm_area = $getCustomerProfile['area_confirm_area'];
-	$area_confirm_subarea = $getCustomerProfile['area_confirm_subarea'];
 	$latlong = $getCustomerProfile['latlong'];
 	$area_group = $getCustomerProfile['area_group'];
 	$area_line = $getCustomerProfile['area_line'];
@@ -152,7 +150,6 @@ if (sizeof($getcusInfoForDoc) > 0) {
 	$doc_cus_id = $getcusInfoForDoc['cus_id'];
 	$doc_cus_name = $getcusInfoForDoc['cus_name'];
 	$doc_area_name = $getcusInfoForDoc['area_name'];
-	$doc_sub_area_name = $getcusInfoForDoc['sub_area_name'];
 	$customer_profile_sts = $getcusInfoForDoc['cus_status'];
 }
 
@@ -393,9 +390,6 @@ if (sizeof($getLoanCalculation) > 0) {
 			<input type="hidden" name="area_upd" id="area_upd" value="<?php if (isset($area_confirm_area)) {
 																			echo $area_confirm_area;
 																		} ?>" />
-			<input type="hidden" name="sub_area_upd" id="sub_area_upd" value="<?php if (isset($area_confirm_subarea)) {
-																					echo $area_confirm_subarea;
-																				} ?>" />
 			<input type="hidden" name="verification_person_upd" id="verification_person_upd" value="<?php if (isset($verification_person)) {
 																										echo $verification_person;
 																									} ?>" />
@@ -522,14 +516,6 @@ if (sizeof($getLoanCalculation) > 0) {
 												<input type="text" class="form-control" id="doc_area" name="doc_area" value="<?php if (isset($doc_area_name)) echo $doc_area_name; ?>" readonly tabindex='8'>
 											</div>
 										</div>
-
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
-												<label for="DocSubArea"> Sub Area </label>
-												<input type="text" class="form-control" id="doc_Sub_Area" name="doc_Sub_Area" value='<?php if (isset($doc_sub_area_name)) echo $doc_sub_area_name; ?>' readonly tabindex='9'>
-											</div>
-										</div>
-
 									</div>
 								</div>
 

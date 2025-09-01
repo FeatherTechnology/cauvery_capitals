@@ -14,19 +14,19 @@ if ($userid != 1) {
     }
 
     $line_id = explode(',', $line_id);
-    $area_list = array();
+     $area_list_array = []; 
     foreach ($line_id as $line) {
-        $lineQry = $connect->query("SELECT * FROM area_line_mapping where map_id = $line ");
-        $row_sub = $lineQry->fetch();
-         if ($row_sub !== false) {
-        $area_list[] = $row_sub['area_id'];
-         }
+        $lineQry = $connect->query("SELECT area_id FROM area_line_mapping_area where line_map_id = $line ");
+        while ($row_sub = $lineQry->fetch(PDO::FETCH_ASSOC)) {
+            $area_list_array[] = $row_sub['area_id']; 
+        }
     }
-    $area_ids = array();
-    foreach ($area_list as $subarray) {
+    $area_ids = [];
+    foreach ($area_list_array as $subarray) {
         $area_ids = array_merge($area_ids, explode(',', $subarray));
     }
-    $area_list = array();
+
+    $area_ids = array_unique($area_ids);
     $area_list = implode(',', $area_ids);
 }
 
@@ -46,14 +46,8 @@ if ($userid == 1) {
     FROM acknowlegement_customer_profile cp 
     JOIN in_issue ii ON cp.cus_id = ii.cus_id
     JOIN area_list_creation ac ON cp.area_confirm_area = ac.area_id
-    JOIN (
-    SELECT DISTINCT 
-      area_id, 
-      line_name,
-    branch_id
-    FROM 
-      area_line_mapping
-  ) al ON FIND_IN_SET(ac.area_id, al.area_id)
+   JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
+    JOIN area_line_mapping al ON al.map_id = alma.line_map_id
     JOIN branch_creation bc ON al.branch_id = bc.branch_id
     where ii.status = 0 and ii.cus_status = 20 '; // Only Issued and all lines not relying on sub area
 } else {
@@ -61,14 +55,8 @@ if ($userid == 1) {
     FROM acknowlegement_customer_profile cp 
     JOIN in_issue ii ON cp.cus_id = ii.cus_id
     JOIN area_list_creation ac ON cp.area_confirm_area = ac.area_id
-    JOIN (
-    SELECT DISTINCT 
-      area_id, 
-      line_name,
-    branch_id
-    FROM 
-      area_line_mapping
-  ) al ON FIND_IN_SET(ac.area_id, al.area_id)
+    JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
+    JOIN area_line_mapping al ON al.map_id = alma.line_map_id
     JOIN branch_creation bc ON al.branch_id = bc.branch_id
     where ii.status = 0 and ii.cus_status = 20 and cp.area_confirm_area IN ($area_list) "; //show only issued customers within the same lines of user. 
 }

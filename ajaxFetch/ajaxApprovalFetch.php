@@ -17,19 +17,20 @@ if ($userid != 1) {
         $group_id = $rowuser['group_id'];
     }
     $group_id = explode(',', $group_id);
-    $area_list = array();
+    $area_list_array = []; 
     foreach ($group_id as $group) {
-        $groupQry = $connect->query("SELECT * FROM area_group_mapping where map_id = $group ");
-        $row_sub = $groupQry->fetch();
-        if ($row_sub !== false) {
-        $area_list[] = $row_sub['area_id'];
+        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping_area WHERE group_map_id = $group");
+
+        while ($row_sub = $groupQry->fetch(PDO::FETCH_ASSOC)) {
+            $area_list_array[] = $row_sub['area_id']; 
         }
     }
-    $area_ids = array();
-    foreach ($area_list as $subarray) {
+      $area_ids = [];
+    foreach ($area_list_array as $subarray) {
         $area_ids = array_merge($area_ids, explode(',', $subarray));
     }
-    $area_list = array();
+
+    $area_ids = array_unique($area_ids);
     $area_list = implode(',', $area_ids);
 }
 
@@ -42,7 +43,6 @@ $column = array(
     'ag.group_name',
     'alm.line_name',
     'a.area_name',
-    'sa.sub_area_name',
     'lcc.loan_category_creation_name',
     'v.loan_amt',
     'v.user_type',
@@ -58,18 +58,22 @@ if ($userid == 1) {
     $query = 'SELECT v.*,a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
     FROM in_verification v
     JOIN area_list_creation a ON v.area = a.area_id
-    JOIN area_group_mapping ag ON FIND_IN_SET(a.area_id, ag.area_id)
+    JOIN area_group_mapping_area agma ON agma.area_id = a.area_id
+    JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
     JOIN branch_creation bc ON ag.branch_id = bc.branch_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(a.area_id, alm.area_id)
+    JOIN area_line_mapping_area alma ON alma.area_id = a.area_id
+    JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = v.loan_category
     WHERE v.status = 0 and v.cus_status IN(2,3,13)'; //2-in approval, 3-in ack,6-cancel approval, 7-cancel_ack,13-in issue.
 } else {
     $query = "SELECT v.*,a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
     FROM in_verification v
     JOIN area_list_creation a ON v.area = a.area_id
-    JOIN area_group_mapping ag ON FIND_IN_SET(a.area_id, ag.area_id)
+    JOIN area_group_mapping_area agma ON agma.area_id = a.area_id
+    JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
     JOIN branch_creation bc ON ag.branch_id = bc.branch_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(a.area_id, alm.area_id)
+    JOIN area_line_mapping_area alma ON alma.area_id = a.area_id
+    JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = v.loan_category
     WHERE v.status = 0 and v.cus_status IN(2,3,13) and v.area IN ($area_list) "; //show only moved to Approval list and Approve the verification.
 }

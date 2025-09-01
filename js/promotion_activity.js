@@ -193,8 +193,8 @@ function resetNewPromotionTable() {
 
 function submitNewCustomer() {
     let cus_id = $('#cus_id').val(); let cus_name = $('#cus_name').val(); let cus_mob = $('#cus_mob').val();
-    let area = $('#area').val(); let sub_area = $('#sub_area').val();
-    let args = { 'cus_id': cus_id, 'cus_name': cus_name, 'cus_mob': cus_mob, 'area': area, 'sub_area': sub_area }
+    let area = $('#area').val();
+    let args = { 'cus_id': cus_id, 'cus_name': cus_name, 'cus_mob': cus_mob, 'area': area }
     $.post('followupFiles/promotion/submitNewCustomer.php', args, function (response) {
         if (response.includes('Error')) {
             swarlErrorAlert(response);
@@ -213,11 +213,10 @@ function submitNewCustomer() {
 function validateNewCusAdd() {
     let response = true;
     let cus_id = $('#cus_id').val(); let cus_name = $('#cus_name').val(); let cus_mob = $('#cus_mob').val();
-    let area = $('#area').val(); let sub_area = $('#sub_area').val();
+    let area = $('#area').val(); 
 
     validateField(cus_name, '#cus_nameCheck');
     validateField(area, '#areaCheck');
-    validateField(sub_area, '#sub_areaCheck');
 
     function validateField(value, fieldId) {
         if (value === '') {
@@ -284,10 +283,34 @@ function validatePromoAdd() {
     return response;
 }
 
+function getUserBasedArea() {
+    $.ajax({
+        url: "followupFiles/promotion/getAreaId.php",
+        type: "post",
+        dataType: "json",
+        success: function (data) {
+            let $area = $("#area");
+            $area.empty().append('<option value="">Select Area</option>');
+            let options = '';
+            $.each(data, function (i, item) {
+                options += '<option value="' + item.area_id + '">' + item.area_name + '</option>';
+            });
+            let $options = $(options);
+            $options.sort(function (a, b) {
+                return $(a).text().localeCompare($(b).text());
+            });
+            $area.append($options);
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error:", error);
+        }
+    });
+}
+
 function update() {//this function will update customer details of after confirmation
     let cus_id = $('#cus_id').val(); let cus_name = $('#cus_name').val(); let cus_mob = $('#cus_mob').val();
-    let area = $('#area').val(); let sub_area = $('#sub_area').val();
-    let args = { 'cus_id': cus_id, 'cus_name': cus_name, 'cus_mob': cus_mob, 'area': area, 'sub_area': sub_area, 'update': 'yes' }
+    let area = $('#area').val();
+    let args = { 'cus_id': cus_id, 'cus_name': cus_name, 'cus_mob': cus_mob, 'area': area, 'update': 'yes' }
     $.post('followupFiles/promotion/submitNewCustomer.php', args, function (response) {
         if (response.includes('Error')) {
             swarlErrorAlert(response);
@@ -394,7 +417,8 @@ function promotionListOnclick() {
     //on click for customer profile showing in next page
     $('.cust-profile').off('click').click(function () {
         let req_id = $(this).data('reqid');
-        window.location.href = 'due_followup_info&upd=' + req_id + '&pgeView=1';
+        window.open('due_followup_info&upd=' + req_id + '&pgeView=1', '_blank');
+
     })
 
     $('.loan-history, .doc-history').off('click').click(function () {

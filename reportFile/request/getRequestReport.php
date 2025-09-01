@@ -12,22 +12,26 @@ if ($userid != 1) {
 
     $userQry = $connect->query("SELECT group_id, report_access FROM USER WHERE user_id = $userid ");
     $rowuser = $userQry->fetch();
-        $group_id = $rowuser['group_id'];
-        $report_access = $rowuser['report_access'];
-    
-    if($report_access =='1'){ //Report access individual.
-        $group_id = explode(',', $group_id);
-        $area_list = array();
-        foreach ($group_id as $group) {
-            $groupQry = $connect->query("SELECT area_id FROM area_group_mapping WHERE map_id = $group ");
-            $row_sub = $groupQry->fetch();
-            $area_list[] = $row_sub['area_id'];
+    $group_id = $rowuser['group_id'];
+    $report_access = $rowuser['report_access'];
+
+    if ($report_access == '1') { //Report access individual.
+        $group_id_array = explode(',', $group_id);
+        $area_list_array = [];
+
+        foreach ($group_id_array as $group) {
+            $groupQry = $connect->query("SELECT area_id FROM area_group_mapping_area WHERE group_map_id = $group");
+
+            while ($row_sub = $groupQry->fetch(PDO::FETCH_ASSOC)) {
+                $area_list_array[] = $row_sub['area_id'];
+            }
         }
-        $area_ids = array();
-        foreach ($area_list as $subarray) {
+        $area_ids = [];
+        foreach ($area_list_array as $subarray) {
             $area_ids = array_merge($area_ids, explode(',', $subarray));
         }
-        $area_list = array();
+
+        $area_ids = array_unique($area_ids);
         $area_list = implode(',', $area_ids);
 
         $user_based = " AND (
@@ -157,7 +161,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['user_type'];
     $sub_array[] = $row['user_name'];
     $sub_array[] = $row['ag_name'];
-    $sub_array[] = (!empty($row['ag_name'])) ? (($row['responsible'] == '0') ? 'Yes': 'No') : '';
+    $sub_array[] = (!empty($row['ag_name'])) ? (($row['responsible'] == '0') ? 'Yes' : 'No') : '';
     $sub_array[] = $row['cus_data'];
     $sub_array[] = $statusLabels[$row['cus_status']];
 

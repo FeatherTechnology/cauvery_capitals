@@ -137,7 +137,6 @@ if (sizeof($getcusInfoForDoc) > 0) {
     $doc_cus_id = $getcusInfoForDoc['cus_id'];
     $doc_cus_name = $getcusInfoForDoc['cus_name'];
     $doc_area_name = $getcusInfoForDoc['area_name'];
-    $doc_sub_area_name = $getcusInfoForDoc['sub_area_name'];
     $customer_profile_sts = $getcusInfoForDoc['cus_status'];
 }
 
@@ -454,12 +453,6 @@ if (sizeof($getLoanCalculation) > 0) {
                                             </div>
                                         </div>
 
-                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="form-group">
-                                                <label for="DocSubArea"> Sub Area </label>
-                                                <input type="text" class="form-control" id="doc_Sub_Area" name="doc_Sub_Area" value='<?php if (isset($doc_sub_area_name)) echo $doc_sub_area_name; ?>' readonly tabindex='9'>
-                                            </div>
-                                        </div>
 
                                     </div>
                                 </div>

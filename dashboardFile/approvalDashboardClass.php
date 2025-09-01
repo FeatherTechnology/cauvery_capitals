@@ -94,7 +94,7 @@ function getUserGroupBasedSubArea($connect, $user_id)
     foreach ($group_ids as $group_id) {
         $group_id = intval($group_id); // sanitize
 
-        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping WHERE map_id = $group_id");
+        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping_area WHERE group_map_id = $group_id");
         if ($groupQry && $row_sub = $groupQry->fetch()) {
             $area_str = $row_sub['area_id']; // e.g., "1,2,3"
             if (!empty($area_str)) {

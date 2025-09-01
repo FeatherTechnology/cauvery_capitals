@@ -37,9 +37,11 @@ $column = array(
 $query = "SELECT rc.*, a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
     FROM request_creation rc
     JOIN area_list_creation a ON rc.area = a.area_id
-    JOIN area_group_mapping ag ON FIND_IN_SET(a.area_id, ag.area_id)
+    JOIN area_group_mapping_area agma ON agma.area_id = a.area_id
+    JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
     JOIN branch_creation bc ON ag.branch_id = bc.branch_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(a.area_id, alm.area_id)
+    JOIN area_line_mapping_area alma ON alma.area_id = a.area_id
+    JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = rc.loan_category
     WHERE rc.status = 0 
     AND (rc.cus_status NOT IN (4, 5, 6, 7, 8, 9) AND rc.cus_status < 14) 
@@ -48,9 +50,11 @@ if ($userid == 1 or $request_list_access == 0) { //if request_list_access is gra
     $query = "SELECT rc.*, a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
     FROM request_creation rc
     JOIN area_list_creation a ON rc.area = a.area_id
-    JOIN area_group_mapping ag ON FIND_IN_SET(a.area_id, ag.area_id)
+    JOIN area_group_mapping_area agma ON agma.area_id = a.area_id
+    JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
     JOIN branch_creation bc ON ag.branch_id = bc.branch_id
-    JOIN area_line_mapping alm ON FIND_IN_SET(a.area_id, alm.area_id)
+    JOIN area_line_mapping_area alma ON alma.area_id = a.area_id
+    JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = rc.loan_category
     WHERE rc.status = 0 
     AND (rc.cus_status NOT IN (4, 5, 6, 7, 8, 9) AND rc.cus_status < 14) ";

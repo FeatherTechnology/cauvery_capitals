@@ -96,7 +96,6 @@
 									<th>Cust. ID</th>
 									<th>Cust. Name</th>
 									<th>Area</th>
-									<th>Sub Area</th>
 									<th>Loan Category</th>
 									<th>Agent</th>
 									<th>Loan Amount</th>
@@ -116,8 +115,6 @@
 								<tfoot>
 									<tr>
 										<td colspan="13"></td>
-										<td></td>
-										<td></td>
 										<td></td>
 										<td></td>
 										<td></td>

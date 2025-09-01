@@ -5,28 +5,6 @@ include('..\ajaxconfig.php');
 if (isset($_SESSION["userid"])) {
     $userid = $_SESSION["userid"];
 }
-if ($userid != 1) {
-
-    $userQry = $connect->query("SELECT * FROM USER WHERE user_id = $userid ");
-    while ($rowuser = $userQry->fetch()) {
-        $group_id = $rowuser['group_id'];
-        $line_id = $rowuser['line_id'];
-    }
-
-    $line_id = explode(',', $line_id);
-    $sub_area_list = array();
-    foreach ($line_id as $line) {
-        $lineQry = $connect->query("SELECT * FROM area_line_mapping where map_id = $line ");
-        $row_sub = $lineQry->fetch();
-        $sub_area_list[] = $row_sub['sub_area_id'];
-    }
-    $sub_area_ids = array();
-    foreach ($sub_area_list as $subarray) {
-        $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
-    }
-    $sub_area_list = array();
-    $sub_area_list = implode(',', $sub_area_ids);
-}
 
 $column = array(
     'cc.id',

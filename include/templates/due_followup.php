@@ -28,8 +28,6 @@ if($idupd>0)
 			$cus_name					= $getLoanList['cus_name'];
 			$area_id					= $getLoanList['area_confirm_area'];
 			$area_name					= $getLoanList['area_name'];
-			$sub_area_id				= $getLoanList['area_confirm_subarea'];
-			$sub_area_name				= $getLoanList['sub_area_name'];
 			$branch_id					= $getLoanList['branch_id'];
 			$branch_name				= $getLoanList['branch_name'];
 			$line_id					= $getLoanList['line_id'];

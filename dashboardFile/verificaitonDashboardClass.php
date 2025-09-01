@@ -98,7 +98,7 @@ class verificaitonClass
     // Fetch area_id(s) from area_group_mapping for each group_id
     foreach ($group_ids as $group) {
         $group = intval($group); // safety
-        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping WHERE map_id = $group");
+        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping_area WHERE group_map_id = $group");
         if ($groupQry && $row_sub = $groupQry->fetch()) {
             $area_list = explode(',', $row_sub['area_id']);
             $area_ids = array_merge($area_ids, $area_list);

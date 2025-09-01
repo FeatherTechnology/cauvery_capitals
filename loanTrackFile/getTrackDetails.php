@@ -162,15 +162,26 @@ class getTrackTableDetails
         return $response;
     }
     public function getBranchName($connect, $area, $type)
-    {
-        if ($type == 'group') {
-            $qry = $connect->query("SELECT bc.branch_name from area_group_mapping agm LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id where FIND_IN_SET($area,agm.area_id)");
-        } else if ($type == 'line') {
-            $qry = $connect->query("SELECT bc.branch_name from area_line_mapping alm LEFT JOIN branch_creation bc ON alm.branch_id = bc.branch_id where FIND_IN_SET($area,alm.area_id)");
-        }
-        $branch_name = $qry->fetch()['branch_name'];
-        return $branch_name;
+{
+    $branch_name = ''; // default
+
+    if ($type == 'group') {
+        $qry = $connect->query(" SELECT bc.branch_name FROM area_group_mapping agm LEFT JOIN area_group_mapping_area agma ON agm.map_id = agma.group_map_id  LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id 
+            WHERE agma.area_id = $area
+        ");
+    } else if ($type == 'line') {
+        $qry = $connect->query(" SELECT bc.branch_name FROM area_line_mapping alm LEFT JOIN area_line_mapping_area alma ON alm.map_id = alma.line_map_id LEFT JOIN branch_creation bc ON alm.branch_id = bc.branch_id 
+            WHERE alma.area_id = $area
+        ");
     }
+
+    if ($qry && $row = $qry->fetch(PDO::FETCH_ASSOC)) {
+        $branch_name = $row['branch_name'];
+    }
+
+    return $branch_name;
+}
+
     public function getNocCompletedStatusbyReq($connect, $req_id)
     {
         //this function is to find out whether all of the req id's documents are given to customer or not

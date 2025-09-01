@@ -47,8 +47,10 @@ if (isset($_POST['order'])) {
         AND cus_status < 20 
     ) rc ON req.cus_id = rc.cus_id 
     LEFT JOIN area_list_creation al ON al.area_id = CASE WHEN req.cus_status IN (6, 7) THEN cp.area_confirm_area ELSE cp.area END
-    LEFT JOIN area_group_mapping agm ON FIND_IN_SET(al.area_id, agm.area_id) 
-    LEFT JOIN area_line_mapping alm ON FIND_IN_SET(al.area_id, alm.area_id) 
+    JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
+    JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id 
+    JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
+    JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
     LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id 
     LEFT JOIN ( SELECT cus_id, MAX(follow_date) AS follow_date, status FROM new_promotion GROUP BY cus_id ) np ON req.cus_id = np.cus_id
     WHERE req.cus_status BETWEEN 4 AND 9 
