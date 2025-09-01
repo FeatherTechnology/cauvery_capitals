@@ -19,8 +19,8 @@ $column = array(
 $query = "SELECT adm.*, c.company_name, bc.branch_name,
         (SELECT GROUP_CONCAT(alc.area_name SEPARATOR ', ')
         FROM area_list_creation alc
-        join  area_duefollowup_mapping_area adma on adma.area_id = alc.area_id
-        WHERE alc.area_id = adma.area_id AND alc.status = 0) AS area_names
+        JOIN area_duefollowup_mapping_area adma ON adma.area_id = alc.area_id
+        WHERE adma.map_id = adm.map_id AND alc.status = 0) AS area_names
         FROM area_duefollowup_mapping adm
         JOIN company_creation c ON c.company_id = adm.company_id
         JOIN branch_creation bc ON adm.branch_id = bc.branch_id
@@ -70,7 +70,6 @@ foreach ($result as $row) {
     $sub_array[] = $row["company_name"];
     $sub_array[] = $row["branch_name"];
     $sub_array[] = $row["area_names"];
-    // $sub_array[] = $row["sub_area_names"];
 
     $status      = $row['status'];
     if ($status == 1) {

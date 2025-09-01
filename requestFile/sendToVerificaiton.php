@@ -22,7 +22,7 @@ $selectIC = $connect->query("UPDATE customer_register set cus_status = 1,updated
 $selectIC = $connect->query("INSERT INTO in_verification (
     req_id, user_type, user_name, agent_id, responsible, remarks, declaration,
     req_code, dor, cus_reg_id, cus_id, cus_data, cus_name, dob, age, gender,
-    state, district, taluk, area, address, mobile1, mobile2, father_name, mother_name,
+    state, district, taluk, area, address, mobile1, mobile2,whatsapp_no, father_name, mother_name,
     marital, spouse_name, occupation_type, occupation, pic, loan_category,
     tot_value, ad_amt, ad_perc, loan_amt, poss_type, due_amt, due_period,
     cus_status, prompt_remark, status, insert_login_id, update_login_id, delete_login_id,
@@ -31,7 +31,7 @@ $selectIC = $connect->query("INSERT INTO in_verification (
 SELECT 
     req_id, user_type, user_name, agent_id, responsible, remarks, declaration,
     req_code, dor, cus_reg_id, cus_id, cus_data, cus_name, dob, age, gender,
-    state, district, taluk, area, address, mobile1, mobile2, father_name, mother_name,
+    state, district, taluk, area, address, mobile1, mobile2, whatsapp_no, father_name, mother_name,
     marital, spouse_name, occupation_type, occupation, pic, loan_category,
     tot_value, ad_amt, ad_perc, loan_amt, poss_type, due_amt, due_period,
     cus_status, prompt_remark, status, insert_login_id, update_login_id, delete_login_id,

@@ -38,8 +38,7 @@ if ($result->rowCount() > 0) {
         $grprow = $grpList->fetch();
         $records['grp_name'] = $grprow['group_name'];
     }
-
-    $lineList = $connect->query("SELECT alm.`line_name` FROM `area_line_mapping` alm join `area_line_mapping_area` alma on alma.line_map_id = alm.map_id  WHERE alma.`area_id`= $Area)");
+    $lineList = $connect->query("SELECT alm.`line_name` FROM `area_line_mapping` alm join `area_line_mapping_area` alma on alma.line_map_id = alm.map_id  WHERE alma.`area_id`= $Area");
     if ($lineList->rowCount() > 0) {
         $linerow = $lineList->fetch();
         $records['line_name'] = $linerow['line_name'];

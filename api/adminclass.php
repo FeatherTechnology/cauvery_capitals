@@ -290,6 +290,9 @@ class admin
 		if (isset($_POST['loan_limit'])) {
 			$loan_limit = $_POST['loan_limit'];
 		}
+		if (isset($_POST['agent_loan'])) {
+			$agent_loan = $_POST['agent_loan'];
+		}
 		if (isset($_POST['loan_category_ref_name'])) {
 			$loan_category_ref_name = $_POST['loan_category_ref_name'];
 		}
@@ -368,8 +371,8 @@ class admin
 			$mysqli->query($update_unselected) or die("Error (unselected update): " . $mysqli->error);
 		}
 
-		$insertQry = "INSERT INTO loan_category(loan_category_name,loan_limit, insert_user_id) 
-		VALUES('" . strip_tags($loan_category_name) . "','" . strip_tags($loan_limit) . "', '" . strip_tags($userid) . "' )";
+		$insertQry = "INSERT INTO loan_category(loan_category_name,loan_limit,agent_loan, insert_user_id) 
+		VALUES('" . strip_tags($loan_category_name) . "','" . strip_tags($loan_limit) . "','" . strip_tags($agent_loan) . "', '" . strip_tags($userid) . "' )";
 		$insresult = $mysqli->query($insertQry) or die("Error " . $mysqli->error);
 		$loan_category_id = $mysqli->insert_id;
 
@@ -392,6 +395,7 @@ class admin
 			$detailrecords['loan_category_id']      = $row->loan_category_id;
 			$detailrecords['loan_category_name']    = $row->loan_category_name;
 			$detailrecords['loan_limit']    = $row->loan_limit;
+			$detailrecords['agent_loan']    = $row->agent_loan;
 		}
 
 		$loan_categoryRefId = 0;
@@ -428,6 +432,9 @@ class admin
 		}
 		if (isset($_POST['loan_limit'])) {
 			$loan_limit = $_POST['loan_limit'];
+		}
+		if (isset($_POST['agent_loan'])) {
+			$agent_loan = $_POST['agent_loan'];
 		}
 		if (isset($_POST['loan_category_ref_name'])) {
 			$loan_category_ref_name = $_POST['loan_category_ref_name'];
@@ -518,7 +525,7 @@ class admin
 		}
 
 
-		$updateQry = 'UPDATE loan_category SET loan_category_name = "' . strip_tags($loan_category_name) . '",loan_limit = "' . strip_tags($loan_limit) . '", status = "0" WHERE loan_category_id = "' . mysqli_real_escape_string($mysqli, $id) . '" ';
+		$updateQry = 'UPDATE loan_category SET loan_category_name = "' . strip_tags($loan_category_name) . '",loan_limit = "' . strip_tags($loan_limit) . '",agent_loan = "' . strip_tags($agent_loan) . '", status = "0" WHERE loan_category_id = "' . mysqli_real_escape_string($mysqli, $id) . '" ';
 		$res = $mysqli->query($updateQry) or die("Error in in update Query!." . $mysqli->error);
 
 		$DeleterrRef = $mysqli->query("DELETE FROM loan_category_ref WHERE loan_category_id = '" . $id . "' ");
@@ -1422,7 +1429,7 @@ class admin
 		if (isset($_POST['loan_count'])) {
 			$loan_count = $_POST['loan_count'];
 		}
-		$insertQry = "INSERT INTO area_duefollowup_mapping(duefollowup_name, loan_category_id, line_name, customer_status, area_id, cus_count, loan_count, company_id, branch_id, insert_login_id, created_date) VALUES('" . strip_tags($duefollowup_name) . "', '" . strip_tags($loan_cat) . "', '" . strip_tags($line_name) . "', '" . strip_tags($customer_status) . "', '" . strip_tags($area_id) . "', '" . strip_tags($cus_count) . "', '" . strip_tags($loan_count) . "', '" . strip_tags($company_id) . "','" . strip_tags($branch_id) . "', '" . strip_tags($userid) . "', CURRENT_TIMESTAMP() )";
+		$insertQry = "INSERT INTO area_duefollowup_mapping(duefollowup_name,   customer_status, cus_count, loan_count, company_id, branch_id, insert_login_id, created_date) VALUES('" . strip_tags($duefollowup_name) . "', '" . strip_tags($customer_status) . "', '" . strip_tags($cus_count) . "', '" . strip_tags($loan_count) . "', '" . strip_tags($company_id) . "','" . strip_tags($branch_id) . "', '" . strip_tags($userid) . "', CURRENT_TIMESTAMP() )";
 		$insresult = $mysqli->query($insertQry) or die("Error " . $mysqli->error);
 		
 		$last_id = $mysqli->insert_id;
@@ -1544,7 +1551,7 @@ class admin
 		if (isset($_POST['loan_count'])) {
 			$loan_count = $_POST['loan_count'];
 		}
-		$updateQry = "UPDATE area_duefollowup_mapping set duefollowup_name='" . strip_tags($duefollowup_name) . "', loan_category_id = '" . strip_tags($loan_cat) . "', line_name='" . strip_tags($line_name) . "', customer_status ='" . strip_tags($customer_status) . "', cus_count='" . strip_tags($cus_count) . "', loan_count='" . strip_tags($loan_count) . "', company_id='" . strip_tags($company_id) . "', branch_id= '" . strip_tags($branch_id) . "', update_login_id='" . strip_tags($userid) . "', updated_date = current_timestamp(), status=0 WHERE map_id = '" . $id . "' ";
+		$updateQry = "UPDATE area_duefollowup_mapping set duefollowup_name='" . strip_tags($duefollowup_name) . "', customer_status ='" . strip_tags($customer_status) . "', cus_count='" . strip_tags($cus_count) . "', loan_count='" . strip_tags($loan_count) . "', company_id='" . strip_tags($company_id) . "', branch_id= '" . strip_tags($branch_id) . "', update_login_id='" . strip_tags($userid) . "', updated_date = current_timestamp(), status=0 WHERE map_id = '" . $id . "' ";
 		$result = $mysqli->query($updateQry) or die("Error " . $mysqli->error);
 		
 		$deletQry = "DELETE FROM `area_duefollowup_mapping_area` WHERE map_id = $id ";
@@ -1642,8 +1649,6 @@ class admin
             if (empty($detailrecords)) {
                 $detailrecords['map_id'] = $row->map_id;
                 $detailrecords['duefollowup_name'] = $row->duefollowup_name;
-                $detailrecords['loan_category_id'] = $row->loan_category_id;
-                $detailrecords['line_name'] = $row->line_name;
                 $detailrecords['customer_status'] = $row->customer_status;
                 $detailrecords['cus_count'] = $row->cus_count;
                 $detailrecords['loan_count'] = $row->loan_count;
@@ -3450,6 +3455,12 @@ class admin
 		if (isset($_POST['mobile2'])) {
 			$mobile2 = $_POST['mobile2'];
 		}
+		if (isset($_POST['mobile_whatsapp'])) {
+			$mobile_whatsapp = $_POST['mobile_whatsapp'];
+		}
+		if (isset($_POST['whatsapp_no'])) {
+			$whatsapp_no = $_POST['whatsapp_no'];
+		}
 		if (isset($_POST['father_name'])) {
 			$father_name = $_POST['father_name'];
 		}
@@ -3536,14 +3547,14 @@ class admin
 			}
 
 			$insertQry = "INSERT INTO request_creation(`user_type`, `user_name`, `agent_id`, `responsible`, `remarks`, `declaration`, `req_code`, `dor`, `cus_id`,
-		`cus_data`, `cus_name`, `dob`, `age`, `gender`, `state`, `district`, `taluk`, `area`, `address`, `mobile1`, `mobile2`, `father_name`, 
+		`cus_data`, `cus_name`, `dob`, `age`, `gender`, `state`, `district`, `taluk`, `area`, `address`, `mobile1`, `mobile2`,`mobile_whatsapp`,`whatsapp_no`,`father_name`, 
 		`mother_name`, `marital`, `spouse_name`, `occupation_type`, `occupation`, `pic`, `loan_category`,  `tot_value`, `ad_amt`, `ad_perc`, 
 		`loan_amt`, `poss_type`, `due_amt`, `due_period`, `insert_login_id`,`created_date`) 
 		VALUES('" . strip_tags($user_type) . "','" . strip_tags($user) . "','" . strip_tags($agent) . "','" . strip_tags($responsible) . "','" . strip_tags($remarks) . "',
 		'" . strip_tags($declaration) . "','" . strip_tags($req_code) . "','" . strip_tags($dor) . "', '" . strip_tags($cus_id) . "',
 		'" . strip_tags($cus_data) . "','" . strip_tags($cus_name) . "','" . strip_tags($dob) . "', '" . strip_tags($age) . "', '" . strip_tags($gender) . "', '" . strip_tags($state) . "',
 		'" . strip_tags($district) . "','" . strip_tags($taluk) . "','" . strip_tags($area) . "', '" . strip_tags($address) . "', '" . strip_tags($mobile1) . "',
-		'" . strip_tags($mobile2) . "','" . strip_tags($father_name) . "','" . strip_tags($mother_name) . "', '" . strip_tags($marital) . "', '" . strip_tags($spouse_name) . "', '" . strip_tags($occupation_type) . "',
+		'" . strip_tags($mobile2) . "','" . strip_tags($mobile_whatsapp) . "','" . strip_tags($whatsapp_no) . "','" . strip_tags($father_name) . "','" . strip_tags($mother_name) . "', '" . strip_tags($marital) . "', '" . strip_tags($spouse_name) . "', '" . strip_tags($occupation_type) . "',
 		'" . strip_tags($occupation) . "','" . strip_tags($pic) . "','" . strip_tags($loan_category) . "', '" . strip_tags($tot_value) . "', '" . strip_tags($ad_amt) . "',
 		'" . strip_tags($ad_perc) . "', '" . strip_tags($loan_amt) . "','" . strip_tags($poss_type) . "','" . strip_tags($due_amt) . "','" . strip_tags($due_period) . "',
 		'" . strip_tags($userid) . "',current_timestamp )";
@@ -3551,10 +3562,10 @@ class admin
 			$req_ref_id = $mysqli->insert_id;
 			if ($cus_data == 'New') {
 				$CustomerInsert = "INSERT INTO customer_register (`cus_id`,`req_ref_id`, `customer_name`, `dob`, `age`, `gender`, `state`, `district`,
-				`taluk`, `area`, `address`, `mobile1`, `mobile2`, `father_name`, `mother_name`, `marital`, `spouse`, `occupation_type`, `occupation`,`pic`)
+				`taluk`, `area`, `address`, `mobile1`, `mobile2`,`mobile_whatsapp`,`whatsapp_no`, `father_name`, `mother_name`, `marital`, `spouse`, `occupation_type`, `occupation`,`pic`)
 				VALUES('" . strip_tags($cus_id) . "','" . strip_tags($req_ref_id) . "','" . strip_tags($cus_name) . "','" . strip_tags($dob) . "', '" . strip_tags($age) . "', '" . strip_tags($gender) . "', '" . strip_tags($state) . "',
 				'" . strip_tags($district) . "','" . strip_tags($taluk) . "','" . strip_tags($area) . "', '" . strip_tags($address) . "', '" . strip_tags($mobile1) . "',
-				'" . strip_tags($mobile2) . "','" . strip_tags($father_name) . "','" . strip_tags($mother_name) . "', '" . strip_tags($marital) . "', '" . strip_tags($spouse_name) . "',
+				'" . strip_tags($mobile2) . "','" . strip_tags($mobile_whatsapp) . "','" . strip_tags($whatsapp_no) . "','" . strip_tags($father_name) . "','" . strip_tags($mother_name) . "', '" . strip_tags($marital) . "', '" . strip_tags($spouse_name) . "',
 				'" . strip_tags($occupation_type) . "','" . strip_tags($occupation) . "','" . strip_tags($pic) . "' )";
 				$insresult = $mysqli->query($CustomerInsert) or die("Error " . $mysqli->error);
 			} elseif ($cus_data == 'Existing') {
@@ -3622,6 +3633,8 @@ class admin
 			$detailrecords['address'] = $row['address'];
 			$detailrecords['mobile1'] = $row['mobile1'];
 			$detailrecords['mobile2'] = $row['mobile2'];
+			$detailrecords['mobile_whatsapp'] = $row['mobile_whatsapp'];
+			$detailrecords['whatsapp_no'] = $row['whatsapp_no'];
 			$detailrecords['father_name'] = $row['father_name'];
 			$detailrecords['mother_name'] = $row['mother_name'];
 			$detailrecords['marital'] = $row['marital'];
@@ -3729,6 +3742,12 @@ class admin
 		if (isset($_POST['mobile2'])) {
 			$mobile2 = $_POST['mobile2'];
 		}
+		if (isset($_POST['mobile_whatsapp'])) {
+			$mobile_whatsapp = $_POST['mobile_whatsapp'];
+		}
+		if (isset($_POST['whatsapp_no'])) {
+			$whatsapp_no = $_POST['whatsapp_no'];
+		}
 		if (isset($_POST['father_name'])) {
 			$father_name = $_POST['father_name'];
 		}
@@ -3806,7 +3825,7 @@ class admin
 		`cus_data`='" . strip_tags($cus_data) . "',`cus_name`='" . strip_tags($cus_name) . "',`dob`='" . strip_tags($dob) . "',`age`='" . strip_tags($age) . "',
 		`gender`='" . strip_tags($gender) . "',`state`='" . strip_tags($state) . "',`district`='" . strip_tags($district) . "',
 		`taluk`='" . strip_tags($taluk) . "',`area`='" . strip_tags($area) . "',`address`='" . strip_tags($address) . "',`mobile1`='" . strip_tags($mobile1) . "',
-		`mobile2`='" . strip_tags($mobile2) . "',`father_name`='" . strip_tags($father_name) . "',
+		`mobile2`='" . strip_tags($mobile2) . "',`mobile_whatsapp`='" . strip_tags($mobile_whatsapp) . "',`whatsapp_no`='" . strip_tags($whatsapp_no) . "',`father_name`='" . strip_tags($father_name) . "',
 		`mother_name`='" . strip_tags($mother_name) . "',`marital`='" . strip_tags($marital) . "',`spouse_name`='" . strip_tags($spouse_name) . "',`occupation_type`='" . strip_tags($occupation_type) . "',
 		`occupation`='" . strip_tags($occupation) . "',`pic`='" . strip_tags($pic) . "',
 		`loan_category`='" . strip_tags($loan_category) . "',`tot_value`='" . strip_tags($tot_value) . "',`ad_amt`='" . strip_tags($ad_amt) . "',
@@ -3830,7 +3849,7 @@ class admin
 		// $insresult = $mysqli->query($CustomerInsert) or die("Error " . $mysqli->error);
 
 		$mysqli->query("UPDATE customer_register SET `cus_id` = '" . strip_tags($cus_id) . "',`req_ref_id` = '" . strip_tags($id) . "', `customer_name` = '" . strip_tags($cus_name) . "', `dob` = '" . strip_tags($dob) . "', `age` = '" . strip_tags($age) . "', `gender` = '" . strip_tags($gender) . "', `state` = '" . strip_tags($state) . "', `district` = '" . strip_tags($district) . "',
-		`taluk` = '" . strip_tags($taluk) . "', `area` = '" . strip_tags($area) . "', `address` = '" . strip_tags($address) . "', `mobile1` = '" . strip_tags($mobile1) . "', `mobile2` = '" . strip_tags($mobile2) . "', `father_name` = '" . strip_tags($father_name) . "', `mother_name` = '" . strip_tags($mother_name) . "', `marital` = '" . strip_tags($marital) . "', `spouse` = '" . strip_tags($spouse_name) . "', `occupation_type` = '" . strip_tags($occupation_type) . "', `occupation` = '" . strip_tags($occupation) . "', `pic` = '" . strip_tags($pic) . "', `cus_status` = 0 WHERE `cus_id`= '" . strip_tags($cus_id) . "' ");
+		`taluk` = '" . strip_tags($taluk) . "', `area` = '" . strip_tags($area) . "', `address` = '" . strip_tags($address) . "', `mobile1` = '" . strip_tags($mobile1) . "', `mobile2` = '" . strip_tags($mobile2) . "',`mobile_whatsapp`='" . strip_tags($mobile_whatsapp) . "',`whatsapp_no`='" . strip_tags($whatsapp_no) . "', `father_name` = '" . strip_tags($father_name) . "', `mother_name` = '" . strip_tags($mother_name) . "', `marital` = '" . strip_tags($marital) . "', `spouse` = '" . strip_tags($spouse_name) . "', `occupation_type` = '" . strip_tags($occupation_type) . "', `occupation` = '" . strip_tags($occupation) . "', `pic` = '" . strip_tags($pic) . "', `cus_status` = 0 WHERE `cus_id`= '" . strip_tags($cus_id) . "' ");
 
 
 		$categoryDelete = $mysqli->query("DELETE From request_category_info where req_ref_id = '" . strip_tags($id) . "' ");
@@ -3893,6 +3912,7 @@ class admin
 			$reqToverify['address'] = $row['address'];
 			$reqToverify['mobile1'] = $row['mobile1'];
 			$reqToverify['mobile2'] = $row['mobile2'];
+			$reqToverify['whatsapp_no'] = $row['whatsapp_no'];
 			$reqToverify['father_name'] = $row['father_name'];
 			$reqToverify['mother_name'] = $row['mother_name'];
 			$reqToverify['marital'] = $row['marital'];

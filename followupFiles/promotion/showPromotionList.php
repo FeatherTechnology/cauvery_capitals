@@ -69,7 +69,10 @@ if (isset($_POST['order'])) {
 
     if($_POST['dateType']){
         $date_type = $_POST['dateType'];//1=Closed date, 2=Followup date.
-        $qry_date = ($date_type == '1') ? "AND cs.created_date BETWEEN '".$_POST['followUpFromDate']."' AND '".$_POST['followUpToDate']."' " : "AND np.follow_date BETWEEN '".$_POST['followUpFromDate']."' AND '".$_POST['followUpToDate']."' ";
+        $fromDate = date('Y-m-d 00:00:01', strtotime($_POST['followUpFromDate']));
+        $toDate   = date('Y-m-d 23:59:59', strtotime($_POST['followUpToDate']));
+
+        $qry_date = ($date_type == '1') ? "AND cs.created_date BETWEEN '$fromDate' AND '$toDate' ": "AND np.follow_date BETWEEN '$fromDate' AND '$toDate' ";
 
         $qry .= $qry_date;
     }    

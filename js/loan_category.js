@@ -225,10 +225,13 @@ $(document).ready(function () {
     $('#scheme_due_method').change(function () {
         if($(this).val()=='monthly'){
             $(".total_due").show();
+            $(".advance_div").show();
+            $("#advance_yes").prop("checked", true).trigger("change");
             $(".advance_due").show();
              $('#due_period').prop('readonly', true);
         }else{
              $(".total_due").hide();
+            $(".advance_div").hide();
             $(".advance_due").hide();
             $('#due_period').prop('readonly', false);
         }
@@ -236,7 +239,11 @@ $(document).ready(function () {
     //Validation on submit
     $('#submit_loan_scheme').click(function () {
    event.preventDefault();
-        
+   var advance_type = $('input[name=advance]:checked').val();
+   let advance_dues ='';
+        if (advance_type == 'Yes') {
+           advance_dues= $('#advance_due').val();
+        }
       var dataToSend = {
         scheme_id: $('#scheme_id').val(),
         add_scheme_name: $('#add_scheme_name').val(),
@@ -244,7 +251,8 @@ $(document).ready(function () {
         scheme_due_method: $('#scheme_due_method').val(),
         profit_methods: $('#profit_methods option:selected').val(),
         total_due: $('#total_due').val(),
-        advance_due: $('#advance_due').val(),
+        advance_type: advance_type,
+        advance_due: advance_dues,
         due_period: $('#due_period').val(),
         intreset_type: $('input[name="intreset_type"]:checked').val(),
         intreset_min: $('#intreset_min').val(),
@@ -259,7 +267,6 @@ $(document).ready(function () {
     };
 
     let scheme_name = dataToSend.add_scheme_name;
-    let scheme_id = dataToSend.scheme_id;
     let scheme_short = dataToSend.scheme_short;
     let scheme_due_method = dataToSend.scheme_due_method;
     let profit_method = dataToSend.profit_methods;
@@ -282,7 +289,7 @@ $(document).ready(function () {
         doc_charge_type != '' && doc_charge_min != '' && doc_charge_max != '' &&
         proc_fee_type != '' && proc_fee_min != '' && proc_fee_max != '' &&
         overdue != '' && profit_method != '' && profit_method != null &&
-        (scheme_due_method != 'monthly' || (total_due != '' && advance_due != ''))
+        (scheme_due_method != 'monthly' || (total_due != ''  && (advance_type == 'No' || advance_due != '')))
     ) {
         submitScheme(dataToSend);
         // return true;
@@ -301,8 +308,12 @@ $(document).ready(function () {
     });
        //Due period calculation
     $('#advance_due ,#total_due').keyup(function () {
+        var advance_type = $('input[name=advance]:checked').val();
         var total_due = $('#total_due').val();
-        var advance_due = $('#advance_due').val();
+        let advance_due ='';
+        if(advance_type =='Yes'){
+         advance_due = $('#advance_due').val();
+        }
         if (total_due != '' && advance_due == '') {
             $('#due_period').val(total_due);
         } else if (total_due != '' && advance_due != '') {
@@ -345,6 +356,15 @@ $(document).ready(function () {
             changePercentinput('intresetmin', 'intersetmax', 'intreset_min', 'intreset_max');
         }
     })
+    $('#advance_yes,#advance_no').click(function () {
+        var advance_type = $('input[name=advance]:checked').val();
+        if (advance_type == 'Yes') {
+           $(".advance_due").show();
+        }
+        if (advance_type == 'No') {
+            $(".advance_due").hide();
+        }
+    })
    $(document).on('click', '.edit_loan_scheme', function (e) {
     e.preventDefault(); 
     var id = $(this).data('id');
@@ -361,6 +381,7 @@ $(document).ready(function () {
 
 function validation() {
      let loancategoryValue = $('#loan_category_name').val(); let loanlimit = $('#loan_limit').val();
+     let agent_loan = $('#agent_loan').val();
 
     if (loancategoryValue.length == '') {
         $('#loanCategoryCheck').show();
@@ -376,6 +397,13 @@ function validation() {
     }
     else {
         $('#loan_limitCheck').hide();
+    }
+    if (agent_loan== '') {
+        $('#agent_loanCheck').show();
+        event.preventDefault();
+    }
+    else {
+        $('#agent_loanCheck').hide();
     }
 }
 
@@ -448,6 +476,35 @@ function getSchemeTable() {
 }
 function getSchemeDropdown() {
     $.post('loancategoryFile/getSchemeList.php', { action: 'dropdown' }, function (response) {
+        
+        $('#scheme_id').val('');
+        $('#add_scheme_name').val('');
+        $('#scheme_short').val('');
+        $('#total_due').val('');
+        $('#advance_due').val('');
+        $('#due_period').val('');
+        $('#intreset_min').val('');
+        $('#intreset_max').val('');
+        $('#doc_charge_min').val('');
+        $('#doc_charge_max').val('');
+        $('#proc_fee_min').val('');
+        $('#proc_fee_max').val('');
+        $('#overdue').val('');
+        $('#add_scheme_id').val('');
+
+        // Deselect radio buttons by name
+        $('input[name="intreset_type"]').prop('checked', false);
+        $('input[name="doc_charge_type"]').prop('checked', false);
+        $('input[name="proc_fee_type"]').prop('checked', false);
+
+        // Reset select dropdowns and trigger change (for Choices.js or Select2)
+        $('#scheme_due_method').val('').trigger('change');
+        $('#profit_methods').val('').trigger('change');
+
+        // Hide sections
+        $('.total_due').hide();
+        $('.advance_due').hide();
+        
         scheme_choices.clearStore();
         let selectedSchemeId = [];
 
@@ -555,6 +612,7 @@ function getSchemeDetails(id) {
         $('#proc_fee_min').val(response.proc_fee_min);
         $('#proc_fee_max').val(response.proc_fee_max);
         $('#overdue').val(response.overdue);
+        $("input[name='advance'][value='" + response.advance_type + "']").prop("checked", true);
 
         // Set Interest Type radio
         if (response.intreset_type === 'amt') {
@@ -581,7 +639,8 @@ function getSchemeDetails(id) {
         if (response.due_method === 'monthly') {
             $('#total_due').val(response.total_due);
             $('#advance_due').val(response.advance_due);
-            $('.total_due, .advance_due').show();
+            $('.total_due').show();
+            $(".advance_div").show();
 
             $('#due_period').val(response.due_period).prop('readonly', true);
         } else {

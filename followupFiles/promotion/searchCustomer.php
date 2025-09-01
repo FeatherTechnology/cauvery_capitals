@@ -18,7 +18,7 @@ $Obj = new promotionListClass($connect);
 $response['cusPromotionType'] = 'New Promotion';
 
 if ($cus_id != '') {
-    $sql = $connect->query("SELECT a.cus_id,a.customer_name,a.mobile1,b.area_name,c.sub_area_name FROM customer_register a JOIN area_list_creation b ON a.area = b.area_id JOIN sub_area_list_creation c ON a.sub_area = c.sub_area_id WHERE a.cus_id = '$cus_id' ");
+    $sql = $connect->query("SELECT a.cus_id,a.customer_name,a.mobile1,b.area_name FROM customer_register a JOIN area_list_creation b ON a.area = b.area_id  WHERE a.cus_id = '$cus_id' ");
 
     if ($sql->rowCount()) {
         $row = $sql->fetch();
@@ -28,7 +28,7 @@ if ($cus_id != '') {
         $response['cusPromotionType'] = $Obj->getCustomerPromotionType($connect, $response['cus_id']);
     }
 } else if ($cus_name != '') {
-    $sql = $connect->query("SELECT a.cus_id,a.customer_name,a.mobile1,b.area_name,c.sub_area_name FROM customer_register a JOIN area_list_creation b ON a.area = b.area_id JOIN sub_area_list_creation c ON a.sub_area = c.sub_area_id WHERE a.customer_name = '$cus_name' ");
+    $sql = $connect->query("SELECT a.cus_id,a.customer_name,a.mobile1,b.area_name FROM customer_register a JOIN area_list_creation b ON a.area = b.area_id  WHERE a.customer_name = '$cus_name' ");
 
     if ($sql->rowCount()) {
         $row = $sql->fetch();
@@ -38,7 +38,7 @@ if ($cus_id != '') {
         $response['cusPromotionType'] = $Obj->getCustomerPromotionType($connect, $response['cus_id']);
     }
 } else if ($cus_mob != '') {
-    $sql = $connect->query("SELECT a.cus_id,a.customer_name,a.mobile1,b.area_name,c.sub_area_name FROM customer_register a JOIN area_list_creation b ON a.area = b.area_id JOIN sub_area_list_creation c ON a.sub_area = c.sub_area_id WHERE a.mobile1 = '$cus_mob' ");
+    $sql = $connect->query("SELECT a.cus_id,a.customer_name,a.mobile1,b.area_name FROM customer_register a JOIN area_list_creation b ON a.area = b.area_id  WHERE a.mobile1 = '$cus_mob' ");
 
     if ($sql->rowCount()) {
         $row = $sql->fetch();

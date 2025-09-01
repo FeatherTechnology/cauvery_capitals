@@ -43,7 +43,7 @@ if ($del > 0) {
 if (isset($_GET['upd'])) {
 	$idupd = $_GET['upd'];
 }
-
+$agent_loan ='';
 $status = 0;
 if ($idupd > 0) {
 	$getLoanCategoryDetails = $userObj->getLoanCategoryDetails($mysqli, $idupd);
@@ -55,6 +55,7 @@ if ($idupd > 0) {
 			$loan_limit      			     = $getLoanCategoryDetails['loan_limit'];
 			$loan_category_ref_id       			 = $getLoanCategoryDetails['loan_category_ref_id'];
 			$loan_category_ref_name                	 = $getLoanCategoryDetails['loan_category_ref_name'];
+			$agent_loan                	 = $getLoanCategoryDetails['agent_loan'];
 		}
 	}
 }
@@ -81,25 +82,24 @@ if ($idupd > 0) {
 			$collection_info        = $getLoanCalculation['collection_info'];
 		}
 	}
-	
+
 	$profit_method = explode(',', $profit_method);
 }
 
 if ($idupd > 0) {
 	$getLoanScheme = $userObj->getLoanScheme($mysqli, $loan_category_name);
 
-$schemeIds = "";
+	$schemeIds = "";
 
-if (sizeof($getLoanScheme) > 0) {
-    $ids = array();
+	if (sizeof($getLoanScheme) > 0) {
+		$ids = array();
 
-    foreach ($getLoanScheme as $row) {
-        $ids[] = $row['scheme_id'];
-    }
+		foreach ($getLoanScheme as $row) {
+			$ids[] = $row['scheme_id'];
+		}
 
-    $schemeIds = implode(',', $ids);
-}
-
+		$schemeIds = implode(',', $ids);
+	}
 }
 
 ?>
@@ -165,6 +165,17 @@ if (sizeof($getLoanScheme) > 0) {
 											<label for="disabledInput">Loan Limit</label><span class="required">&nbsp;*</span>
 											<input type="text" tabindex="3" id="loan_limit" name="loan_limit" class="form-control" placeholder="Enter Loan Limit" value="<?php if (isset($loan_limit)) echo $loan_limit; ?>">
 											<span id="loan_limitCheck" class="text-danger" style="display: none;">Enter Loan limit</span>
+										</div>
+									</div>
+									<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="disabledInput">Agent Loan</label><span class="required">&nbsp;*</span>
+											<select class='form-control' id='agent_loan' name='agent_loan'>
+												<option value="">Select Agent Loan</option>
+												<option value="0" <?php if ($agent_loan == '0') echo 'selected'; ?>>Yes</option>
+												<option value="1" <?php if ($agent_loan == '1') echo 'selected'; ?>>No</option>
+											</select>
+											<span id="agent_loanCheck" class="text-danger" style="display: none;">Enter Agent Loan</span>
 										</div>
 									</div>
 								</div>
@@ -288,7 +299,7 @@ if (sizeof($getLoanScheme) > 0) {
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput">Min</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="8" id="monthly_intrests_rate_min" name="monthly_intrests_rate_min" class="form-control" placeholder="Rate Of Interest Min"  value="<?php if (isset($intrest_rate_min)) echo $intrest_rate_min; ?>">
+								<input type="number" step="0.01" tabindex="8" id="monthly_intrests_rate_min" name="monthly_intrests_rate_min" class="form-control" placeholder="Rate Of Interest Min" value="<?php if (isset($intrest_rate_min)) echo $intrest_rate_min; ?>">
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
@@ -305,13 +316,13 @@ if (sizeof($getLoanScheme) > 0) {
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput">Min</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="10" id="monthly_due_periods_min" name="monthly_due_period_min" class="form-control" placeholder="Due Period Min"  value="<?php if (isset($due_period_min)) echo $due_period_min; ?>">
+								<input type="number" step="0.01" tabindex="10" id="monthly_due_periods_min" name="monthly_due_period_min" class="form-control" placeholder="Due Period Min" value="<?php if (isset($due_period_min)) echo $due_period_min; ?>">
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput">Max</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="11" id="monthly_due_periods_max" name="monthly_due_period_max" class="form-control" placeholder="Due Period Max"  value="<?php if (isset($due_period_max)) echo $due_period_max; ?>">
+								<input type="number" step="0.01" tabindex="11" id="monthly_due_periods_max" name="monthly_due_period_max" class="form-control" placeholder="Due Period Max" value="<?php if (isset($due_period_max)) echo $due_period_max; ?>">
 
 							</div>
 						</div>
@@ -325,13 +336,13 @@ if (sizeof($getLoanScheme) > 0) {
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput" id="monthly_docmin">Min</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="14" id="monthly_document_charges_min" name="monthly_document_charge_min" class="form-control" placeholder="Document Charge Min"  value="<?php if (isset($document_charge_min)) echo $document_charge_min; ?>">
+								<input type="number" step="0.01" tabindex="14" id="monthly_document_charges_min" name="monthly_document_charge_min" class="form-control" placeholder="Document Charge Min" value="<?php if (isset($document_charge_min)) echo $document_charge_min; ?>">
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput" id="monthly_docmax">Max</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="15" id="monthly_document_charges_max" name="monthly_document_charge_max" class="form-control" placeholder="Document Charge Max"  value="<?php if (isset($document_charge_max)) echo $document_charge_max; ?>">
+								<input type="number" step="0.01" tabindex="15" id="monthly_document_charges_max" name="monthly_document_charge_max" class="form-control" placeholder="Document Charge Max" value="<?php if (isset($document_charge_max)) echo $document_charge_max; ?>">
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -344,13 +355,13 @@ if (sizeof($getLoanScheme) > 0) {
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput" id="monthly_procmin">Min</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="18" id="monthly_processing_fees_min" name="monthly_processing_fee_min" class="form-control" placeholder="Processing Fee Min"  value="<?php if (isset($processing_fee_min)) echo $processing_fee_min; ?>">
+								<input type="number" step="0.01" tabindex="18" id="monthly_processing_fees_min" name="monthly_processing_fee_min" class="form-control" placeholder="Processing Fee Min" value="<?php if (isset($processing_fee_min)) echo $processing_fee_min; ?>">
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput" id="monthly_procmax">Max</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="19" id="monthly_processing_fees_max" name="monthly_processing_fee_max" class="form-control" placeholder="Processing Fee Max"  value="<?php if (isset($processing_fee_max)) echo $processing_fee_max; ?>">
+								<input type="number" step="0.01" tabindex="19" id="monthly_processing_fees_max" name="monthly_processing_fee_max" class="form-control" placeholder="Processing Fee Max" value="<?php if (isset($processing_fee_max)) echo $processing_fee_max; ?>">
 
 							</div>
 						</div>
@@ -359,16 +370,16 @@ if (sizeof($getLoanScheme) > 0) {
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput">Overdue Penalty %</label><span class='text-danger' style="font-size:11px">&nbsp;*</span>
-								<input type="number" step="0.01 " tabindex="20" id="monthly_overdues" name="monthly_overdues" class="form-control" placeholder="Enter Overdue" value="<?php if (isset($overdue)) echo $overdue; ?>" >
+								<input type="number" step="0.01 " tabindex="20" id="monthly_overdues" name="monthly_overdues" class="form-control" placeholder="Enter Overdue" value="<?php if (isset($overdue)) echo $overdue; ?>">
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group"><br>
 								<label for="monthly_disabledInput">Advance</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<input checked type="radio" tabindex="21" name="monthly_collection_info" id="yes" value="Yes" <?php if (isset($collection_info))
-																															echo ($collection_info == 'yes') ? 'checked' : '' ?>> &nbsp;&nbsp; <label for="yes">Yes </label> &nbsp;&nbsp;&nbsp;&nbsp;
+																																	echo ($collection_info == 'yes') ? 'checked' : '' ?>> &nbsp;&nbsp; <label for="yes">Yes </label> &nbsp;&nbsp;&nbsp;&nbsp;
 								<input type="radio" tabindex='22' name="monthly_collection_info" id="no" value="No" <?php if (isset($collection_info))
-																												echo ($collection_info == 'No') ? 'checked' : '' ?>> &nbsp;&nbsp; <label for="no">No </label>
+																														echo ($collection_info == 'No') ? 'checked' : '' ?>> &nbsp;&nbsp; <label for="no">No </label>
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"></div>
@@ -530,7 +541,7 @@ if (sizeof($getLoanScheme) > 0) {
 				<div class="modal-content" style="background-color: white">
 					<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalLongTitle">Add Scheme</h5>
-						<button type="button" class="close" data-dismiss="modal"  aria-label="Close" onclick="getSchemeDropdown()">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="getSchemeDropdown()">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
@@ -542,7 +553,7 @@ if (sizeof($getLoanScheme) > 0) {
 									<div class="col-sm-4 col-md-4 col-lg-4">
 										<div class="form-group">
 											<label for="add_scheme_name">Scheme Name</label><span class="text-danger">*</span>
-											<input class="form-control" name="add_scheme_name" id="add_scheme_name"  placeholder="Enter Scheme">
+											<input class="form-control" name="add_scheme_name" id="add_scheme_name" placeholder="Enter Scheme">
 											<input type="hidden" id="add_scheme_id" value="0">
 										</div>
 									</div>
@@ -555,7 +566,7 @@ if (sizeof($getLoanScheme) > 0) {
 									<div class="col-sm-4 col-md-4 col-lg-4">
 										<div class="form-group">
 											<label for="scheme_due_method">Due Method</label><span class="text-danger">*</span>
-											<select class="form-control" id="scheme_due_method" name="scheme_due_method" >
+											<select class="form-control" id="scheme_due_method" name="scheme_due_method">
 												<option value="">Select Due Method</option>
 												<option value="monthly">Monthly</option>
 												<option value="weekly">Weekly</option>
@@ -563,10 +574,19 @@ if (sizeof($getLoanScheme) > 0) {
 											</select>
 										</div>
 									</div>
-									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 total_due" style="display: none;" >
+									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 advance_div">
+										<div class="form-group"><br>
+											<label for="advance">Advance</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<input checked type="radio" tabindex="21" name="advance" id="advance_yes" value="Yes" <?php if (isset($advance))
+																																		echo ($advance == 'yes') ? 'checked' : '' ?>> &nbsp;&nbsp; <label for="yes">Yes </label> &nbsp;&nbsp;&nbsp;&nbsp;
+											<input type="radio" tabindex='22' name="advance" id="advance_no" value="No" <?php if (isset($advance))
+																															echo ($advance == 'No') ? 'checked' : '' ?>> &nbsp;&nbsp; <label for="no">No </label>
+										</div>
+									</div>
+									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 total_due" style="display: none;">
 										<div class="form-group">
 											<label for="disabledInput">Total Due</label>&nbsp;<span class="text-danger">*</span>
-											<input type="number" name="total_due" id="total_due" value="<?php if (isset($total_due)) echo $total_due; ?>" placeholder="Enter Total Due" class="form-control" >
+											<input type="number" name="total_due" id="total_due" value="<?php if (isset($total_due)) echo $total_due; ?>" placeholder="Enter Total Due" class="form-control">
 										</div>
 									</div>
 
@@ -579,10 +599,10 @@ if (sizeof($getLoanScheme) > 0) {
 									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Due Period</label>
-											<input type="text" name="due_period" id="due_period" readonly value="<?php if (isset($due_period)) echo $due_period; ?>" placeholder="Enter Total & Advance Due" class="form-control" >
+											<input type="text" name="due_period" id="due_period" readonly value="<?php if (isset($due_period)) echo $due_period; ?>" placeholder="Enter Total & Advance Due" class="form-control">
 										</div>
 									</div>
-									
+
 									<div class="col-sm-4 col-md-4 col-lg-4">
 										<div class="form-group">
 											<label for="profit_methods">Profit Method</label><span class="text-danger">*</span>
@@ -603,20 +623,20 @@ if (sizeof($getLoanScheme) > 0) {
 											<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
 												<div class="form-group">
 													<label style="font-size:1.35em;padding-right:2%">Interest Rate: <span class="text-danger">*</span></label>
-													<input type="radio"  name="intreset_type" id="interestamt" value="amt" <?php if (isset($intreset_type) and $intreset_type == 'amt') echo 'checked'; ?>></input><label for='interestamt'>&nbsp;&nbsp;<b>₹</b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-													<input type="radio"  name="intreset_type" id="interestpercentage" value="percentage" <?php if (isset($intreset_type) and $intreset_type == 'percentage') echo 'checked'; ?>></input><label for='interestpercentage'>&nbsp;&nbsp;%</label>
+													<input type="radio" name="intreset_type" id="interestamt" value="amt" <?php if (isset($intreset_type) and $intreset_type == 'amt') echo 'checked'; ?>></input><label for='interestamt'>&nbsp;&nbsp;<b>₹</b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+													<input type="radio" name="intreset_type" id="interestpercentage" value="percentage" <?php if (isset($intreset_type) and $intreset_type == 'percentage') echo 'checked'; ?>></input><label for='interestpercentage'>&nbsp;&nbsp;%</label>
 												</div>
 											</div>
 											<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
 												<div class="form-group">
 													<label for="disabledInput" id="intresetmin">Min</label>&nbsp;<span class="text-danger">*</span>
-													<input type="number" step="0.01"  id="intreset_min" name="intreset_min" class="form-control" placeholder="Enter Minimum Interest" value="<?php if (isset($intreset_min)) echo $intreset_min; ?>">
+													<input type="number" step="0.01" id="intreset_min" name="intreset_min" class="form-control" placeholder="Enter Minimum Interest" value="<?php if (isset($intreset_min)) echo $intreset_min; ?>">
 												</div>
 											</div>
 											<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
 												<div class="form-group">
 													<label for="disabledInput" id="intersetmax">Max</label>&nbsp;<span class="text-danger">*</span>
-													<input type="number" step="0.01"  id="intreset_max" name="intreset_max" class="form-control" placeholder="Enter Maximum Interest" value="<?php if (isset($intreset_max)) echo $intreset_max; ?>">
+													<input type="number" step="0.01" id="intreset_max" name="intreset_max" class="form-control" placeholder="Enter Maximum Interest" value="<?php if (isset($intreset_max)) echo $intreset_max; ?>">
 												</div>
 											</div>
 											<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -642,7 +662,7 @@ if (sizeof($getLoanScheme) > 0) {
 												<div class="form-group">
 													<label style="font-size:1.35em;padding-right:2%">Processing Fee: <span class="text-danger">*</span></label>
 													<input type="radio" name="proc_fee_type" id="procamt" value="amt"></input><label for='procamt'>&nbsp;&nbsp;<b>₹</b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-													<input type="radio" name="proc_fee_type" id="procpercentage" value="percentage" ></input><label for='procpercentage'>&nbsp;&nbsp;%</label>
+													<input type="radio" name="proc_fee_type" id="procpercentage" value="percentage"></input><label for='procpercentage'>&nbsp;&nbsp;%</label>
 												</div>
 											</div>
 											<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
