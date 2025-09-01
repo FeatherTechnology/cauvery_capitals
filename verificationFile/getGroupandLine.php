@@ -14,6 +14,10 @@ $result = $connect->query("SELECT alm.line_name FROM `area_line_mapping_area` al
 $row = $result->fetch();
 $records['line_name'] = $row['line_name'];
 
+$result = $connect->query("SELECT afn.duefollowup_name FROM `area_duefollowup_mapping` afn join area_duefollowup_mapping_area afna on afn.map_id =afna.map_id  where afn.status=0 and afna.area_id = $area  ");
+$row = $result->fetch();
+$records['duefollowup_name'] = $row['duefollowup_name'];
+
 echo json_encode($records);
 
 // Close the database connection
