@@ -5,6 +5,8 @@ if (isset($_SESSION["userid"])) {
 }
 
 $id = 0;
+$emicheck = 0;
+$calcheck = 0;
 $typeofaccount;
 $loanCategoryCreationList = $userObj->getLoanCategoryCreation($mysqli);
 
@@ -67,7 +69,9 @@ if ($idupd > 0) {
 		for ($ibranch = 0; $ibranch < sizeof($getLoanCalculation); $ibranch++) {
 
 			$loan_cal_id            = $getLoanCalculation['loan_cal_id'];
+			$due_type               = $getLoanCalculation['due_type'];
 			$profit_method          = $getLoanCalculation['profit_method'];
+			$calculate_method       = $getLoanCalculation['calculate_method'];
 			$intrest_rate_min       = $getLoanCalculation['intrest_rate_min'];
 			$intrest_rate_max       = $getLoanCalculation['intrest_rate_max'];
 			$due_period_min         = $getLoanCalculation['due_period_min'];
@@ -78,10 +82,14 @@ if ($idupd > 0) {
 			$proc_fee_type    = $getLoanCalculation['proc_fee_type'];
 			$processing_fee_min     = $getLoanCalculation['processing_fee_min'];
 			$processing_fee_max     = $getLoanCalculation['processing_fee_max'];
+			$overdue_type           = $getLoanCalculation['overdue_type'];
 			$overdue                = $getLoanCalculation['overdue'];
 			$collection_info        = $getLoanCalculation['collection_info'];
 		}
 	}
+
+	$emicheck = strpos($due_type, 'emi') !== false;
+	$calcheck = strpos($due_type, 'intrest') !== false;
 
 	$profit_method = explode(',', $profit_method);
 }
@@ -263,16 +271,32 @@ if ($idupd > 0) {
 								<input type="text" id="monthly_due_method" name="monthly_due_method" class="form-control" value="Monthly" tabindex='5' readonly>
 							</div>
 						</div>
-						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+						<!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="disabledInput">Due Type</label><span class="required">&nbsp;*</span>
 								<input type="hidden" class="form-control" id="monthly_due_type" name="due_type" value="emi">
 								<input tabindex="6" type="text" class="form-control" id="monthly_duetype" name="monthly_duetype" value="EMI" title="Select Due Type" readonly>
 							</div>
-						</div>
-						<div id="emi_method" class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+						</div> -->
+						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
-								<label for="disabledInput">Profit Method</label>
+								<label for="disabledInput">Due Type</label><span class="required">&nbsp;*</span>
+								<select tabindex="4" type="text" class="form-control" id="monthly_duetype" name="monthly_duetype" title="Select Due Type" required>
+									<option value=''>Select Due Type</option>
+									<option <?php if (isset($due_type)) {
+												if ($due_type == "emi") echo 'selected';
+											}
+											?> value="emi">EMI</option>
+									<option <?php if (isset($due_type)) {
+												if ($due_type == "intrest") echo 'selected';
+											}
+											?> value="intrest">Interest</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 emi_method" style="display: <?php echo ($emicheck ? 'block' : 'none'); ?>;">
+							<div class="form-group">
+								<label for="disabledInput">Profit Method</label><span class="required">&nbsp;*</span>
 								<select tabindex="7" type="text" class="form-control selectpicker" id="monthly_profit_method" name="monthly_profit_method[]" data-live-search="true" multiple data-actions-box="true" title="Select Profit Method">
 									<option <?php if (isset($profit_method)) {
 												if ($profit_method[0] == "pre_intrest") echo 'selected';
@@ -288,6 +312,28 @@ if ($idupd > 0) {
 								</select>
 							</div>
 						</div>
+						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 intrest_method" style="display: <?php echo ($calcheck ? 'block' : 'none'); ?>;">
+							<div class="form-group">
+								<label for="disabledInput">Profit Method</label>
+								<input type="text" readonly id="int_profit_method" name="int_profit_method" class="form-control" value="After Benefit" tabindex='3'>
+							</div>
+						</div>
+						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 intrest_method" style="display: <?php echo ($calcheck ? 'block' : 'none'); ?>;">
+							<div class="form-group">
+								<label for="inputReadOnly">Calculate Method</label><span class="required">&nbsp;*</span>
+								<select tabindex="4" type="text" class="form-control" id="calculate_method" name="calculate_method" title="Select Calculate Method">
+									<option value=''>Select Calculate Method</option>
+									<option <?php if (isset($calculate_method)) {
+												if ($calculate_method == "monthly") echo 'selected';
+											}
+											?> value="monthly">Monthly</option>
+									<option <?php if (isset($calculate_method)) {
+												if ($calculate_method == "days") echo 'selected';
+											}
+											?> value="days">Days</option>
+								</select>
+							</div>
+						</div>
 					</div>
 					<div class="card-header">Condition Info</div>
 					<div class="card-body row">
@@ -299,13 +345,15 @@ if ($idupd > 0) {
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput">Min</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="8" id="monthly_intrests_rate_min" name="monthly_intrests_rate_min" class="form-control" placeholder="Rate Of Interest Min" value="<?php if (isset($intrest_rate_min)) echo $intrest_rate_min; ?>">
+								<input type="number" step="0.01" tabindex="8" id="monthly_intrests_rate_min" name="monthly_intrests_rate_min" class="form-control" placeholder="Rate Of Interest Min" value="<?php if (isset($intrest_rate_min)) echo $intrest_rate_min; ?>"
+								onchange="checkMinMaxValue('#monthly_intrests_rate_min','#monthly_intrests_rate_max')">
 							</div>
-						</div>
+						</div>	
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput">Max</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="9" id="monthly_intrests_rate_max" name="monthly_intrest_rate_max" class="form-control" placeholder="Rate Of Interest Max" value="<?php if (isset($intrest_rate_max)) echo $intrest_rate_max; ?>">
+								<input type="number" step="0.01" tabindex="9" id="monthly_intrests_rate_max" name="monthly_intrest_rate_max" class="form-control" placeholder="Rate Of Interest Max" value="<?php if (isset($intrest_rate_max)) echo $intrest_rate_max; ?>"
+								onchange="checkMinMaxValue('#monthly_intrests_rate_min','#monthly_intrests_rate_max')">
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-12 col-sm-6 col-12">
@@ -316,14 +364,15 @@ if ($idupd > 0) {
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput">Min</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="10" id="monthly_due_periods_min" name="monthly_due_period_min" class="form-control" placeholder="Due Period Min" value="<?php if (isset($due_period_min)) echo $due_period_min; ?>">
+								<input type="number" step="0.01" tabindex="10" id="monthly_due_periods_min" name="monthly_due_period_min" class="form-control" placeholder="Due Period Min" value="<?php if (isset($due_period_min)) echo $due_period_min; ?>"
+								onchange="checkMinMaxValue('#monthly_due_periods_min','#monthly_due_periods_max')">
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput">Max</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="11" id="monthly_due_periods_max" name="monthly_due_period_max" class="form-control" placeholder="Due Period Max" value="<?php if (isset($due_period_max)) echo $due_period_max; ?>">
-
+								<input type="number" step="0.01" tabindex="11" id="monthly_due_periods_max" name="monthly_due_period_max" class="form-control" placeholder="Due Period Max" value="<?php if (isset($due_period_max)) echo $due_period_max; ?>"
+								onchange="checkMinMaxValue('#monthly_due_periods_min','#monthly_due_periods_max')">
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -336,18 +385,20 @@ if ($idupd > 0) {
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput" id="monthly_docmin">Min</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="14" id="monthly_document_charges_min" name="monthly_document_charge_min" class="form-control" placeholder="Document Charge Min" value="<?php if (isset($document_charge_min)) echo $document_charge_min; ?>">
+								<input type="number" step="0.01" tabindex="14" id="monthly_document_charges_min" name="monthly_document_charge_min" class="form-control" placeholder="Document Charge Min" value="<?php if (isset($document_charge_min)) echo $document_charge_min; ?>"
+								onchange="checkMinMaxValue('#monthly_document_charges_min','#monthly_document_charges_max')">
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput" id="monthly_docmax">Max</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="15" id="monthly_document_charges_max" name="monthly_document_charge_max" class="form-control" placeholder="Document Charge Max" value="<?php if (isset($document_charge_max)) echo $document_charge_max; ?>">
+								<input type="number" step="0.01" tabindex="15" id="monthly_document_charges_max" name="monthly_document_charge_max" class="form-control" placeholder="Document Charge Max" value="<?php if (isset($document_charge_max)) echo $document_charge_max; ?>"
+								onchange="checkMinMaxValue('#monthly_document_charges_min','#monthly_document_charges_max')">
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
 							<div class="form-group">
-								<label style="font-size:1.35em;padding-right:2%">Processing Fee: <span class="text-danger">*</span></label>
+								<label style="font-size:1.35em;padding-right:6%">Processing Fee: <span class="text-danger">*</span></label>
 								<input type="radio" name="proc_fees_type" id="monthly_procamt" value="amt" tabindex="16" <?php if (isset($proc_fee_type) and $proc_fee_type == 'amt') echo 'checked'; ?>></input><label for='procamt'>&nbsp;&nbsp;<b>₹</b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<input type="radio" name="proc_fees_type" id="monthly_procpercentage" value="percentage" tabindex="17" <?php if (isset($proc_fee_type) and $proc_fee_type == 'percentage') echo 'checked'; ?>></input><label for='procpercentage'>&nbsp;&nbsp;%</label>
 							</div>
@@ -355,26 +406,45 @@ if ($idupd > 0) {
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput" id="monthly_procmin">Min</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="18" id="monthly_processing_fees_min" name="monthly_processing_fee_min" class="form-control" placeholder="Processing Fee Min" value="<?php if (isset($processing_fee_min)) echo $processing_fee_min; ?>">
+								<input type="number" step="0.01" tabindex="18" id="monthly_processing_fees_min" name="monthly_processing_fee_min" class="form-control" placeholder="Processing Fee Min" value="<?php if (isset($processing_fee_min)) echo $processing_fee_min; ?>"
+								onchange="checkMinMaxValue('#monthly_processing_fees_min','#monthly_processing_fees_max')">
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="monthly_disabledInput" id="monthly_procmax">Max</label><span class="required">&nbsp;*</span>
-								<input type="number" step="0.01" tabindex="19" id="monthly_processing_fees_max" name="monthly_processing_fee_max" class="form-control" placeholder="Processing Fee Max" value="<?php if (isset($processing_fee_max)) echo $processing_fee_max; ?>">
-
+								<input type="number" step="0.01" tabindex="19" id="monthly_processing_fees_max" name="monthly_processing_fee_max" class="form-control" placeholder="Processing Fee Max" value="<?php if (isset($processing_fee_max)) echo $processing_fee_max; ?>"
+								onchange="checkMinMaxValue('#monthly_processing_fees_min','#monthly_processing_fees_max')">
 							</div>
 						</div>
 
-						<br><br><br><br><br><br>
-						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 overdue_penalty">
 							<div class="form-group">
-								<label for="monthly_disabledInput">Overdue Penalty %</label><span class='text-danger' style="font-size:11px">&nbsp;*</span>
-								<input type="number" step="0.01 " tabindex="20" id="monthly_overdues" name="monthly_overdues" class="form-control" placeholder="Enter Overdue" value="<?php if (isset($overdue)) echo $overdue; ?>">
+								<label style="font-size:1.35em;padding-right:4.5%" for="overdue">
+									Overdue Penalty: <span class='text-danger'>*</span>
+									<span id="emi_symbol" style="display:none;">&nbsp;%</span>
+								</label>
+
+								<!-- Interest: Rupees / Percentage radio buttons -->
+								<div class="form-check form-check-inline interest_only" style="margin-top:5px;">
+									<input class="form-check-input" type="radio" name="overdue_type" id="overdueamt" value="amt"
+										<?php if (isset($overdue_type) and $overdue_type == 'amt') echo 'checked'; ?>>
+									<label class="form-check-label" for="overdueamt">&nbsp;<b>₹</b></label>&nbsp;
+								</div>
+								<div class="form-check form-check-inline interest_only">
+									<input class="form-check-input" type="radio" name="overdue_type" id="overduepercentage" value="percentage"
+										<?php if (isset($overdue_type) and $overdue_type == 'percentage') echo 'checked'; ?>>
+									<label class="form-check-label" for="overduepercentage"><b>%</b></label>
+								</div>
+
+								<!-- EMI/Interest: single input field -->
+								<input type="number" step="0.01" tabindex="15" id="monthly_overdues" name="monthly_overdues"
+									class="form-control emi_only mt-2" placeholder="Enter Overdue"
+									value="<?php if (isset($overdue)) echo $overdue; ?>">
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-							<div class="form-group"><br>
+							<div class="form-group" style="margin-top:25px;"><br>
 								<label for="monthly_disabledInput">Advance</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<input checked type="radio" tabindex="21" name="monthly_collection_info" id="yes" value="Yes" <?php if (isset($collection_info))
 																																	echo ($collection_info == 'yes') ? 'checked' : '' ?>> &nbsp;&nbsp; <label for="yes">Yes </label> &nbsp;&nbsp;&nbsp;&nbsp;
@@ -388,7 +458,7 @@ if ($idupd > 0) {
 					</div>
 				</div>
 				<!--- ---------------------- Loan scheme  START----------------------------- -->
-				<div class="card">
+				<div class="card" id="loan_scheme_card" style="display: <?php echo ($emicheck ? 'block' : 'none'); ?>;">
 					<div class="card-header d-flex align-items-center justify-content-between">
 						<h5 class="card-title mb-0">Loan Scheme</h5>
 						<button type="button" class="btn btn-primary modalBtnCss card-head-btn" data-toggle="modal" data-target="#add_loan_scheme_modal" tabindex="23" onclick="getSchemeTable();"><span class="icon-add"></span></button>
