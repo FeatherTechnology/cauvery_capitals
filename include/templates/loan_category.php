@@ -61,7 +61,7 @@ if ($idupd > 0) {
 }
 
 if ($idupd > 0) {
-	$getLoanCalculation = $userObj->getLoanCalculation($mysqli, $loan_category_name);
+	$getLoanCalculation = $userObj->getLoanCalculation($mysqli, $loan_category_id);
 
 	if (sizeof($getLoanCalculation) > 0) {
 		for ($ibranch = 0; $ibranch < sizeof($getLoanCalculation); $ibranch++) {
@@ -87,7 +87,7 @@ if ($idupd > 0) {
 }
 
 if ($idupd > 0) {
-	$getLoanScheme = $userObj->getLoanScheme($mysqli, $loan_category_name);
+	$getLoanScheme = $userObj->getLoanScheme($mysqli, $loan_category_id);
 
 	$schemeIds = "";
 
@@ -193,7 +193,7 @@ if ($idupd > 0) {
 							<div class="col-md-12 ">
 								<div class="row">
 									<div class="col-md-12">
-										<!-- <label><span class="text-danger" id="loanCategoryTableCheck">Category Info Mandatory Field</span></label> -->
+										<label><span class="text-danger" id="loanCategoryTableCheck">Category Info Mandatory Field</span></label>
 										<table id="moduleTable" class="table custom-table">
 											<thead>
 												<tr>

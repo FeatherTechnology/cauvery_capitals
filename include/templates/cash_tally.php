@@ -2,13 +2,17 @@
 if (isset($_SESSION['userid'])) {
 	$userid = $_SESSION['userid'];
 }
-
+?>
+<link rel="stylesheet" href="css/dashboard.css">
+<?php
 $getuser = $userObj->getuser($mysqli, $userid);
 $user_id = $getuser['user_id'];
 $fullname = $getuser['fullname'];
 $bank_details = $getuser['bank_details'];
 $branch_id = $getuser['branch_id'];
 $role_type = $getuser['role_type'];
+$cash_tally_access = $getuser['cash_tally_access'];
+
 
 //To get bank name details for mentioning it on opening and closing balance
 if ($bank_details != null) {
@@ -68,9 +72,457 @@ if ($bank_qry->num_rows > 0) {
 </div>
 <br><br>
 <!-- Page header end -->
-
 <!-- Main container start -->
 <div class="main-container">
+	<div class="row gutters">
+
+		<div class="col-12">
+			<!----------------------------- CARD START ACCOUNTS ------------------------------>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-12" style=" margin-bottom: 20px;">
+							<div class="row">
+								<div class=" col-xxl-10 col-xl-9 col-lg-7 col-md-6 col-sm-6 col-12 " style="font-size:18px;font-weight:bold;">Accounts</div>
+								<div class=" col-xxl-1 col-xl-1 col-lg-2 col-md-3 col-sm-3 col-12" style="max-width: 140px;text-align:right">
+									<div class="form-group">
+										<label for="op_date" class="lable-style">Opening Date: </label><br>
+									</div>
+								</div>
+								<div class=" col-xxl-1 col-xl-1 col-lg-2 col-md-3 col-sm-3 col-12">
+									<div class="form-group">
+										<label class="lable-style" id='op_date'></label><br>
+									</div>
+								</div>
+							</div>
+						</div><br><br><br>
+
+						<div class="col-12">
+							<div class="row">
+								<div class=" d-none d-xl-block col-xl-2"></div>
+								<div class="  col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12" style="max-width: 198px;">
+									<div class="form-group">
+										<label class="lable-style">Hand Cash</label><br>
+										<?php if (isset($bank_name_arr)) {
+											for ($i = 0; $i < sizeof($bank_name_arr); $i++) { ?>
+												<label class="lable-style"><?php echo $bank_name_arr[$i]; ?></label><br>
+										<?php }
+										} ?>
+										<label class="lable-style">Agent Cash</label><br><br>
+										<hr>
+										<label class="lable-style">Total Opening Balance</label>
+									</div>
+								</div>
+								<div class="  col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12" style="max-width: 20px;">
+									<div class="form-group">
+										<label class="lable-style">:</label><br>
+										<?php if (isset($bank_name_arr)) {
+											for ($i = 0; $i < sizeof($bank_name_arr); $i++) { ?>
+												<label class="lable-style">:</label><br>
+										<?php }
+										} ?>
+										<label class="lable-style">:</label><br><br>
+										<hr>
+										<label class="lable-style">:</label>
+									</div>
+								</div>
+
+								<div class="  col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12" style="max-width: 150px;">
+									<div class="form-group">
+										<label class="lable-style" id='hand_opening'></label><br>
+										<input type='hidden' id='untrkd_ids_op' name='untrkd_ids_op' value='<?php $untrkd0 = '';
+																											if (isset($bank_name_arr)) {
+																												for ($i = 0; $i < sizeof($bank_name_arr); $i++) {
+																													$untrkd0 .= 'untrkd0' . $i . ',';
+																												}
+																											}
+																											echo rtrim($untrkd0, ','); ?>'>
+										<?php if (isset($bank_name_arr)) {
+											for ($i = 0; $i < sizeof($bank_name_arr); $i++) { ?>
+												<label class="lable-style" id='bank_opening<?php echo $i; ?>'></label>&nbsp;<label class="lable-style untrkd_op" id='<?php echo 'untrkd0' . $i; ?>'>(0)</label><br>
+										<?php }
+										} ?>
+										<label class="lable-style" id='agent_opening'></label><br><br>
+										<hr>
+										<label class="lable-style" id='opening_balance'></label>
+									</div>
+								</div>
+
+								<div class="d-none d-xl-block col-xl-1"></div>
+								<div class="  col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12" style="max-width: 198px;">
+									<div class="form-group">
+										<label class="lable-style"> Hand Cash</label><br>
+										<?php if (isset($bank_name_arr)) {
+											for ($i = 0; $i < sizeof($bank_name_arr); $i++) { ?>
+												<label class="lable-style"><?php echo $bank_name_arr[$i]; ?></label><br>
+										<?php }
+										} ?>
+										<label class="lable-style">Agent Cash</label><br><br>
+										<hr>
+										<label class="lable-style">Total Closing Balance</label>
+									</div>
+								</div>
+								<div class="  col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12" style="max-width: 20px;">
+									<div class="form-group">
+										<label class="lable-style">:</label><br>
+										<?php if (isset($bank_name_arr)) {
+											for ($i = 0; $i < sizeof($bank_name_arr); $i++) { ?>
+												<label class="lable-style">:</label><br>
+										<?php }
+										} ?>
+										<label class="lable-style">:</label><br><br>
+										<hr>
+										<label class="lable-style">:</label>
+									</div>
+								</div>
+
+								<div class="  col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12" style="max-width: 150px;">
+									<div class="form-group">
+
+										<input type='hidden' id='untrkd_ids' name='untrkd_ids' value='<?php if (isset($bank_name_arr)) {
+																											for ($i = 0; $i < sizeof($bank_name_arr); $i++) {
+																												echo 'untrkd' . $bank_id_arr[$i] . ',';
+																											}
+																										} ?>'>
+										<label class="lable-style" id='hand_closing'></label><br>
+										<?php if (isset($bank_name_arr)) {
+											for ($i = 0; $i < sizeof($bank_name_arr); $i++) { ?>
+												<label class="lable-style" id='bank_closing<?php echo $i; ?>'></label>&nbsp;<label class="lable-style untrkd" id='<?php echo 'untrkd' . $bank_id_arr[$i]; ?>'>(0)</label><br>
+										<?php }
+										} ?>
+										<label class="lable-style" id='agent_closing'></label><br><br>
+										<hr>
+										<label class="lable-style" id='closing_balance'></label>
+									</div>
+								</div>
+								<div class="d-none d-xl-block col-xl-1"></div>
+								<div class=" col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12" style="max-width: 150px;">
+									<button type="button" data-toggle="modal" data-target=".super_closing" id="super_closing" name="super_closing" class="btn btn-primary" onclick="getAllClosingBalance()" <?php if ($role_type != '12') { ?> style="display:none" <?php } ?>>All Closing</button>
+									<button type="button" data-toggle="modal" data-target=".addUntracked" id="addUntracked" name="addUntracked" class="btn btn-primary">Untracked</button>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!----------------------------- CARD END ACCOUNTS ------------------------------>
+			<div class="coll-radio-container" style="display: flex; justify-content: center; align-items: center;">
+				<div class="selector">
+
+					<div class="selector-item" data-value="1">
+						<input type="radio" id="collection" name="accounts_type" class="selector-item_radio" value="1">
+						<label for="collection" class="selector-item_label" style="display: inline-block; padding: 10px 30px; border: 2px solid #ccc; border-radius: 999px; cursor: pointer;">Collection</label>
+					</div>
+
+					<div class="selector-item" data-value="2">
+						<input type="radio" id="loan_issued" name="accounts_type" class="selector-item_radio" value="2">
+						<label for="loan_issued" class="selector-item_label" style="display: inline-block; padding: 10px 30px; border: 2px solid #ccc; border-radius: 999px; cursor: pointer;">Loan Issued</label>
+					</div>
+
+					<div class="selector-item" data-value="3">
+						<input type="radio" id="expenses" name="accounts_type" class="selector-item_radio" value="3">
+						<label for="expenses" class="selector-item_label" style="display: inline-block; padding: 10px 30px; border: 2px solid #ccc; border-radius: 999px; cursor: pointer;">Expenses</label>
+					</div>
+
+					<div class="selector-item" data-value="4">
+						<input type="radio" id="other_transaction" name="accounts_type" class="selector-item_radio" value="4">
+						<label for="other_transaction" class="selector-item_label" style="display: inline-block; padding: 10px 30px; border: 2px solid #ccc; border-radius: 999px; cursor: pointer;">Other Transaction</label>
+					</div>
+
+				</div>
+			</div>
+
+
+
+
+			<br>
+			<!----------------------------- COLLECTION CARD START ------------------------------>
+			<div class="card collection_card" style='display:none'>
+
+				<div class="card-header" style='font-size:18px;font-weight:bold;'>Collection</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"></div>
+								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+									<div class="form-group">
+										<input type="radio" id="hand_cash_radio" name="Coll_cash_type" value='0' />&emsp;<label class='radio-style'>Hand Cash</label>&emsp;
+									</div>
+								</div>
+								<?php if (isset($bank_details) && $bank_details != null) {
+									for ($i = 0; $i < sizeof($bank_name_arr); $i++) {  ?>
+										<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 30%;">
+											<div class="form-group">
+												<input type="radio" id="bank_cash_radio" name="Coll_cash_type" value="<?php echo $bank_id_arr[$i]; ?>" class="bank_cash_radio" />&emsp;<label class='radio-style'><?php echo $bank_name_arr[$i]; ?></label>
+											</div>
+										</div>
+								<?php  }
+								} ?>
+								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+									<div class="form-group">
+										<!-- <button type="button" name="blnc_sheet_btn" id="blnc_sheet_btn" class="btn btn-primary" data-toggle='modal' data-target='.blncModal' onclick="hideAllCardsfunction()">Balance Sheet</button> -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+
+								<div class="modal-body">
+									<div id="collectionTableDiv">
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!----------------------------- COLLECTION CARD END ------------------------------>
+
+			<!-- //////////////////////////////////////////////////////////// Issued Card ////////////////////////////////////////////////////////////////////////////-->
+			<div class="card issued_card" style='display:none'>
+				<div class="card-header issued_card_header" style='font-size:18px;font-weight:bold;'>Issued</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"></div>
+								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+									<div class="form-group">
+										<input type="radio" id="hand_cash_radio" name="issued_cash_type" value='0' />&emsp;<label class='radio-style'>Hand Cash</label>&emsp;
+									</div>
+								</div>
+								<?php if (isset($bank_details) && $bank_details != null) {
+									for ($i = 0; $i < sizeof($bank_name_arr); $i++) {  ?>
+										<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 30%;">
+											<div class="form-group">
+												<input type="radio" id="bank_cash_radio" name="issued_cash_type" value="<?php echo $bank_id_arr[$i]; ?>" class="bank_cash_radio" />&emsp;<label class='radio-style'><?php echo $bank_name_arr[$i]; ?></label>
+											</div>
+										</div>
+								<?php  }
+								} ?>
+								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+									<div class="form-group">
+										<!-- <button type="button" name="blnc_sheet_btn" id="blnc_sheet_btn" class="btn btn-primary" data-toggle='modal' data-target='.blncModal' onclick="hideAllCardsfunction()">Balance Sheet</button> -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row modal-body" id="issuedDiv">
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //////////////////////////////////////////////////////////// Other income Card ////////////////////////////////////////////////////////////////////////////-->
+
+			<!-- //////////////////////////////////////////////////////////// Expense Card ////////////////////////////////////////////////////////////////////////////-->
+			<div class="card expense_card" style='display:none'>
+				<div class="card-header expense_card_header" style='font-size:18px;font-weight:bold;'>Expense</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"></div>
+								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+									<div class="form-group">
+										<input type="radio" id="hand_cash_radio" name="expense_cash_type" value='0' />&emsp;<label class='radio-style'>Hand Cash</label>&emsp;
+									</div>
+								</div>
+								<?php if (isset($bank_details) && $bank_details != null) {
+									for ($i = 0; $i < sizeof($bank_name_arr); $i++) {  ?>
+										<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 30%;">
+											<div class="form-group">
+												<input type="radio" id="bank_cash_radio" name="expense_cash_type" value="<?php echo $bank_id_arr[$i]; ?>" class="bank_cash_radio" />&emsp;<label class='radio-style'><?php echo $bank_name_arr[$i]; ?></label>
+											</div>
+										</div>
+								<?php  }
+								} ?>
+								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+									<div class="form-group">
+										<!-- <button type="button" name="blnc_sheet_btn" id="blnc_sheet_btn" class="btn btn-primary" data-toggle='modal' data-target='.blncModal' onclick="hideAllCardsfunction()">Balance Sheet</button> -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row modal-body" id="expenseDiv">
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //////////////////////////////////////////////////////////// Expense Card ////////////////////////////////////////////////////////////////////////////-->
+
+			<!----------------------------- OTHER TRANSACTION CARD START ------------------------------>
+			<div class="card" id="other_transaction_card" style="display: none;">
+				<div class="card-header">
+					<h3 class="card-title">Other Transaction</h3>
+					<!-- <div class="text-right">
+						<button type="button" name="blnc_sheet_btn" id="blnc_sheet_btn" class="btn btn-primary" data-toggle='modal' data-target='.blncModal'>Balance Sheet</button>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_other_transaction_modal" id="other_trans_add" style="padding: 5px 35px;" tabindex='30'><span class="icon-add"></span></button>
+					</div> -->
+				</div>
+				<div class="card-body">
+					<!-- <div class="row"> -->
+					<!-- <div class="col-md-12"> -->
+					<div class="row">
+						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"></div>
+						<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+							<div class="form-group">
+								<input type="radio" id="hands_cash_radio" name="cashs_type" value='0' />&emsp;<label class='radio-style'>Hand Cash</label>&emsp;
+							</div>
+						</div>
+						<?php if (isset($bank_details) && $bank_details != null) {
+							for ($i = 0; $i < sizeof($bank_name_arr); $i++) {  ?>
+								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 30%;">
+									<div class="form-group">
+										<input type="radio" id="banks_cash_radio" name="cashs_type" value="<?php echo $bank_id_arr[$i]; ?>" class="bank_cash_radio" />&emsp;<label class='radio-style'><?php echo $bank_name_arr[$i]; ?></label>
+									</div>
+								</div>
+						<?php  }
+						} ?>
+						<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+							<div class="form-group">
+								<!-- <button type="button" name="blnc_sheet_btn" id="blnc_sheet_btn" class="btn btn-primary" data-toggle='modal' data-target='.blncModal' onclick="hideAllCardsfunction()">Balance Sheet</button> -->
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12"></div>
+						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+							<div class="form-group">
+								<label for='credit_type'>Credit</label>
+								<select class="form-control" id='credit_types' name='credit_types'>
+									<option value=''>Select Credit Type</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+							<div class="form-group">
+								<label for='debit_type'>Debit</label>
+								<select class="form-control" id='debit_types' name='debit_types'>
+									<option value=''>Select Debit Type</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<!-- </div> -->
+					<!-- </div> -->
+					<!-- //////////////////////////////////////////////////////////// Contra Card ////////////////////////////////////////////////////////////////////////////-->
+					<div class="card contra_card" style='display:none'>
+						<div class="card-header contra_card_header" style='font-size:18px;font-weight:bold;'>Contra</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="row modal-body" id="contraTableDiv">
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- //////////////////////////////////////////////////////////// Contra Card ////////////////////////////////////////////////////////////////////////////-->
+
+					<!-- //////////////////////////////////////////////////////////// Exchange Card ////////////////////////////////////////////////////////////////////////////-->
+					<div class="card exchange_card" style='display:none'>
+						<div class="card-header exchange_card_header" style='font-size:18px;font-weight:bold;'>Exchange</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="row modal-body" id="exchangeDiv">
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- //////////////////////////////////////////////////////////// Exchange Card ////////////////////////////////////////////////////////////////////////////-->
+
+					<!-- //////////////////////////////////////////////////////////// Other income Card ////////////////////////////////////////////////////////////////////////////-->
+					<div class="card oti_card" style='display:none'>
+						<div class="card-header oti_card_header" style='font-size:18px;font-weight:bold;'>Other Income</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="row modal-body" id="otiDiv">
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- //////////////////////////////////////////////////////////// Other income Card ////////////////////////////////////////////////////////////////////////////-->
+
+					<!-- //////////////////////////////////////////////////////////// Investment/Deposit/EL Card ////////////////////////////////////////////////////////////////////////////-->
+					<div class="card inv_card" style='display:none'>
+						<div class="card-header inv_card_header" style='font-size:18px;font-weight:bold;'>Investment</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="row modal-body" id="invDiv">
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- //////////////////////////////////////////////////////////// Investment/Deposit/EL Card ////////////////////////////////////////////////////////////////////////////-->
+
+					<!-- //////////////////////////////////////////////////////////// Excess fund Card ////////////////////////////////////////////////////////////////////////////-->
+					<div class="card exf_card" style='display:none'>
+						<div class="card-header exf_card_header" style='font-size:18px;font-weight:bold;'>Excess Fund</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="row modal-body" id="exfDiv">
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- //////////////////////////////////////////////////////////// Excess fund Card ////////////////////////////////////////////////////////////////////////////-->
+
+					<!-- //////////////////////////////////////////////////////////// Agent Card ////////////////////////////////////////////////////////////////////////////-->
+					<div class="card ag_card" style='display:none'>
+						<div class="card-header ag_card_header" style='font-size:18px;font-weight:bold;'>Agent</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="row modal-body" id="agDiv">
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- //////////////////////////////////////////////////////////// Agent Card ////////////////////////////////////////////////////////////////////////////-->
+				</div>
+			</div>
+			<!----------------------------- OTHER TRANSACTION CARD END ------------------------------>
+
+		</div>
+	</div>
+
 	<!--form start-->
 	<form id="cash_tally" name="cash_tally" action="" method="post" enctype="multipart/form-data">
 		<input type="hidden" id='user_id' name='user_id' value='<?php if (isset($user_id)) echo $user_id; ?>'>
@@ -78,377 +530,27 @@ if ($bank_qry->num_rows > 0) {
 		<input type="hidden" id='user_branch_id' name='user_branch_id' value='<?php if (isset($branch_id)) echo $branch_id; ?>'>
 		<input type="hidden" id='user_bank_details' name='user_bank_details' value='<?php if (isset($bank_details)) echo $bank_details; ?>'>
 		<input type="hidden" id='all_bank_details' name='all_bank_details' value='<?php if (isset($all_bank_id)) echo $all_bank_id; ?>'>
+		<input type="hidden" id='access' name='access' value='<?php if (isset($cash_tally_access)) echo $cash_tally_access; ?>'>
 		<input type="hidden" id='oldclosingbal' name='oldclosingbal' value=''>
 		<!-- Row start -->
 		<div class="row gutters">
 			<!-- Request Info -->
-			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 
-				<!-- //////////////////////////////////////////////////////////// Opening Balance Card ////////////////////////////////////////////////////////////////////////////-->
-				<div class="card">
-					<!-- <div class="card-header">Cash Tally</div> -->
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="row">
-									<div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-12">
-										<div class="form-group">
-											<label style='font-size:18px;font-weight:bold;'>Opening Balance</label>
-										</div>
-									</div>
-									<div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-12"></div>
-									<div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-12" style="max-width: 140px;text-align:right">
-										<div class="form-group">
-											<label for="op_date" class="lable-style">Opening Date: </label><br>
-										</div>
-									</div>
-									<div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-12">
-										<div class="form-group">
-											<label class="lable-style" id='op_date'></label><br>
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12"></div>
-									<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 198px;">
-										<div class="form-group">
-											<label class="lable-style">Hand Cash</label><br>
-											<?php if (isset($bank_name_arr)) {
-												for ($i = 0; $i < sizeof($bank_name_arr); $i++) { ?>
-													<label class="lable-style"><?php echo $bank_name_arr[$i]; ?></label><br>
-											<?php }
-											} ?>
-											<label class="lable-style">Agent Cash</label><br><br>
-											<hr>
-											<label class="lable-style">Total Opening Balance</label>
-										</div>
-									</div>
-									<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 20px;">
-										<div class="form-group">
-											<label class="lable-style">:</label><br>
-											<?php if (isset($bank_name_arr)) {
-												for ($i = 0; $i < sizeof($bank_name_arr); $i++) { ?>
-													<label class="lable-style">:</label><br>
-											<?php }
-											} ?>
-											<label class="lable-style">:</label><br><br>
-											<hr>
-											<label class="lable-style">:</label>
-										</div>
-									</div>
-
-									<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 150px;">
-										<div class="form-group">
-											<label class="lable-style" id='hand_opening'></label><br>
-											<input type='hidden' id='untrkd_ids_op' name='untrkd_ids_op' value='<?php $untrkd0 = '';
-																												if (isset($bank_name_arr)) {
-																													for ($i = 0; $i < sizeof($bank_name_arr); $i++) {
-																														$untrkd0 .= 'untrkd0' . $i . ',';
-																													}
-																												}
-																												echo rtrim($untrkd0, ','); ?>'>
-											<?php if (isset($bank_name_arr)) {
-												for ($i = 0; $i < sizeof($bank_name_arr); $i++) { ?>
-													<label class="lable-style" id='bank_opening<?php echo $i; ?>'></label>&nbsp;<label class="lable-style untrkd_op" id='<?php echo 'untrkd0' . $i; ?>'>(0)</label><br>
-											<?php }
-											} ?>
-											<label class="lable-style" id='agent_opening'></label><br><br>
-											<hr>
-											<label class="lable-style" id='opening_balance'></label>
-										</div>
-									</div>
-								</div>
-
-							</div>
-						</div>
-					</div>
+			<!-- Submit Button Start -->
+			<div class="col-md-12 ">
+				<div class="text-right">
+					<button type="button" name="blnc_sheet_btn" id="blnc_sheet_btn" class="btn btn-primary" data-toggle='modal' data-target='.blncModal' onclick="hideAllCardsfunction()">Balance Sheet</button>
+					<button name="submit_cash_tally" id="submit_cash_tally" class="btn btn-primary" value="Submit">Submit</button>
+					<!-- <button type="reset" class="btn btn-outline-secondary" tabindex="20">Clear</button> -->
 				</div>
-				<!-- //////////////////////////////////////////////////////////// Opening Balance Card ////////////////////////////////////////////////////////////////////////////-->
-
-				<!-- //////////////////////////////////////////////////////////// Cash tally Card ////////////////////////////////////////////////////////////////////////////-->
-				<div class="card">
-					<div class="card-header" style='font-size:18px;font-weight:bold;'>Cash Tally</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="row">
-									<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"></div>
-									<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
-										<div class="form-group">
-											<input type="radio" id="hand_cash_radio" name="cash_type" value='0' />&emsp;<label class='radio-style'>Hand Cash</label>&emsp;
-										</div>
-									</div>
-									<?php  if (isset($bank_details) && $bank_details != null) {
-										for ($i = 0; $i < sizeof($bank_name_arr); $i++) {  ?>
-											<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 30%;">
-												<div class="form-group">
-													<input type="radio" id="bank_cash_radio" name="cash_type" value="<?php echo $bank_id_arr[$i]; ?>" class="bank_cash_radio" />&emsp;<label class='radio-style'><?php echo $bank_name_arr[$i]; ?></label>
-												</div>
-											</div> 
-									<?php  }}?>
-									<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
-										<div class="form-group">
-											<!-- <button type="button" name="blnc_sheet_btn" id="blnc_sheet_btn" class="btn btn-primary" data-toggle='modal' data-target='.blncModal' onclick="hideAllCardsfunction()">Balance Sheet</button> -->
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12"></div>
-									<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
-										<div class="form-group">
-											<label for='credit_type'>Credit</label>
-											<select class="form-control" id='credit_type' name='credit_type'>
-												<option value=''>Select Credit Type</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
-										<div class="form-group">
-											<label for='debit_type'>Debit</label>
-											<select class="form-control" id='debit_type' name='debit_type'>
-												<option value=''>Select Debit Type</option>
-											</select>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- //////////////////////////////////////////////////////////// Cash tally Card ////////////////////////////////////////////////////////////////////////////-->
-
-				<!-- //////////////////////////////////////////////////////////// Collection Card ////////////////////////////////////////////////////////////////////////////-->
-				<div class="card collection_card" style='display:none'>
-					<div class="card-header" style='font-size:18px;font-weight:bold;'>Collection</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="row">
-
-									<div class="modal-body">
-										<div id="collectionTableDiv">
-										</div>
-									</div>
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- //////////////////////////////////////////////////////////// Collection Card ////////////////////////////////////////////////////////////////////////////-->
-
-				<!-- //////////////////////////////////////////////////////////// Contra Card ////////////////////////////////////////////////////////////////////////////-->
-				<div class="card contra_card" style='display:none'>
-					<div class="card-header contra_card_header" style='font-size:18px;font-weight:bold;'>Contra</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="row modal-body" id="contraTableDiv">
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- //////////////////////////////////////////////////////////// Contra Card ////////////////////////////////////////////////////////////////////////////-->
-
-				<!-- //////////////////////////////////////////////////////////// Exchange Card ////////////////////////////////////////////////////////////////////////////-->
-				<div class="card exchange_card" style='display:none'>
-					<div class="card-header exchange_card_header" style='font-size:18px;font-weight:bold;'>Exchange</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="row modal-body" id="exchangeDiv">
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- //////////////////////////////////////////////////////////// Exchange Card ////////////////////////////////////////////////////////////////////////////-->
-
-				<!-- //////////////////////////////////////////////////////////// Other income Card ////////////////////////////////////////////////////////////////////////////-->
-				<div class="card oti_card" style='display:none'>
-					<div class="card-header oti_card_header" style='font-size:18px;font-weight:bold;'>Other Income</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="row modal-body" id="otiDiv">
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- //////////////////////////////////////////////////////////// Other income Card ////////////////////////////////////////////////////////////////////////////-->
-
-				<!-- //////////////////////////////////////////////////////////// Issued Card ////////////////////////////////////////////////////////////////////////////-->
-				<div class="card issued_card" style='display:none'>
-					<div class="card-header issued_card_header" style='font-size:18px;font-weight:bold;'>Issued</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="row modal-body" id="issuedDiv">
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- //////////////////////////////////////////////////////////// Other income Card ////////////////////////////////////////////////////////////////////////////-->
-
-				<!-- //////////////////////////////////////////////////////////// Expense Card ////////////////////////////////////////////////////////////////////////////-->
-				<div class="card expense_card" style='display:none'>
-					<div class="card-header expense_card_header" style='font-size:18px;font-weight:bold;'>Expense</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="row modal-body" id="expenseDiv">
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- //////////////////////////////////////////////////////////// Expense Card ////////////////////////////////////////////////////////////////////////////-->
-
-				<!-- //////////////////////////////////////////////////////////// Investment/Deposit/EL Card ////////////////////////////////////////////////////////////////////////////-->
-				<div class="card inv_card" style='display:none'>
-					<div class="card-header inv_card_header" style='font-size:18px;font-weight:bold;'>Investment</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="row modal-body" id="invDiv">
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- //////////////////////////////////////////////////////////// Investment/Deposit/EL Card ////////////////////////////////////////////////////////////////////////////-->
-
-				<!-- //////////////////////////////////////////////////////////// Excess fund Card ////////////////////////////////////////////////////////////////////////////-->
-				<div class="card exf_card" style='display:none'>
-					<div class="card-header exf_card_header" style='font-size:18px;font-weight:bold;'>Excess Fund</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="row modal-body" id="exfDiv">
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- //////////////////////////////////////////////////////////// Excess fund Card ////////////////////////////////////////////////////////////////////////////-->
-
-				<!-- //////////////////////////////////////////////////////////// Agent Card ////////////////////////////////////////////////////////////////////////////-->
-				<div class="card ag_card" style='display:none'>
-					<div class="card-header ag_card_header" style='font-size:18px;font-weight:bold;'>Agent</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="row modal-body" id="agDiv">
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- //////////////////////////////////////////////////////////// Agent Card ////////////////////////////////////////////////////////////////////////////-->
-
-				<!-- //////////////////////////////////////////////////////////// Closing Balance Card ////////////////////////////////////////////////////////////////////////////-->
-				<div class="card">
-					<!-- <div class="card-header">Cash Tally</div> -->
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="row">
-									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8">
-										<div class="form-group">
-											<label style='font-size:18px;font-weight:bold;'>Closing Balance</label>
-										</div>
-									</div>
-									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8"></div>
-									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8">
-										<div class="text-right">
-											<button type="button" data-toggle="modal" data-target=".super_closing" id="super_closing" name="super_closing" class="btn btn-primary" onclick="getAllClosingBalance()" <?php if ($role_type != '12') { ?> style="display:none" <?php } ?>>All Closing</button>
-											<button type="button" data-toggle="modal" data-target=".addUntracked" id="addUntracked" name="addUntracked" class="btn btn-primary">Untracked</button>
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12"></div>
-									<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 198px;">
-										<div class="form-group">
-											<label class="lable-style"> Hand Cash</label><br>
-											<?php if (isset($bank_name_arr)) {
-												for ($i = 0; $i < sizeof($bank_name_arr); $i++) { ?>
-													<label class="lable-style"><?php echo $bank_name_arr[$i]; ?></label><br>
-											<?php }
-											} ?>
-											<label class="lable-style">Agent Cash</label><br><br>
-											<hr>
-											<label class="lable-style">Total Closing Balance</label>
-										</div>
-									</div>
-									<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 20px;">
-										<div class="form-group">
-											<label class="lable-style">:</label><br>
-											<?php if (isset($bank_name_arr)) {
-												for ($i = 0; $i < sizeof($bank_name_arr); $i++) { ?>
-													<label class="lable-style">:</label><br>
-											<?php }
-											} ?>
-											<label class="lable-style">:</label><br><br>
-											<hr>
-											<label class="lable-style">:</label>
-										</div>
-									</div>
-
-									<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 150px;">
-										<div class="form-group">
-
-											<input type='hidden' id='untrkd_ids' name='untrkd_ids' value='<?php if (isset($bank_name_arr)) {
-																												for ($i = 0; $i < sizeof($bank_name_arr); $i++) {
-																													echo 'untrkd' . $bank_id_arr[$i] . ',';
-																												}
-																											} ?>'>
-											<label class="lable-style" id='hand_closing'></label><br>
-											<?php if (isset($bank_name_arr)) {
-												for ($i = 0; $i < sizeof($bank_name_arr); $i++) { ?>
-													<label class="lable-style" id='bank_closing<?php echo $i; ?>'></label>&nbsp;<label class="lable-style untrkd" id='<?php echo 'untrkd' . $bank_id_arr[$i]; ?>'>(0)</label><br>
-											<?php }
-											} ?>
-											<label class="lable-style" id='agent_closing'></label><br><br>
-											<hr>
-											<label class="lable-style" id='closing_balance'></label>
-										</div>
-									</div>
-								</div>
-
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- //////////////////////////////////////////////////////////// Closing Balance Card ////////////////////////////////////////////////////////////////////////////-->
-
-				<!-- Submit Button Start -->
-				<div class="col-md-12 ">
-					<div class="text-right">
-						<button type="button" name="blnc_sheet_btn" id="blnc_sheet_btn" class="btn btn-primary" data-toggle='modal' data-target='.blncModal' onclick="hideAllCardsfunction()">Balance Sheet</button>
-						<button name="submit_cash_tally" id="submit_cash_tally" class="btn btn-primary" value="Submit">Submit</button>
-						<!-- <button type="reset" class="btn btn-outline-secondary" tabindex="20">Clear</button> -->
-					</div>
-				</div>
-				<!-- Submit Button End -->
-
 			</div>
+			<!-- Submit Button End -->
+
 		</div>
 	</form>
 	<!-- Form End -->
+</div>
+
 </div>
 
 <!-- /////////////////////////////////////////////////////////////////// Collection Modal START ////////////////////////////////////////////////////////////////////// -->
@@ -954,3 +1056,220 @@ if ($bank_qry->num_rows > 0) {
 		</div>
 	</div>
 </div>
+
+<!--Other Transaction Modal Start-->
+<div class="modal fade" id="add_other_transaction_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-lg " role="document">
+		<div class="modal-content" style="background-color: white">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Add Other Transaction</h5>
+				<button type="button" class="close clse-trans" data-dismiss="modal" tabindex="1" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div><br><br>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"></div>
+						<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+							<div class="form-group">
+								<input type="radio" id="hands_cash_radio" name="cashs_type" value='0' />&emsp;<label class='radio-style'>Hand Cash</label>&emsp;
+							</div>
+						</div>
+						<?php if (isset($bank_details) && $bank_details != null) {
+							for ($i = 0; $i < sizeof($bank_name_arr); $i++) {  ?>
+								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 30%;">
+									<div class="form-group">
+										<input type="radio" id="banks_cash_radio" name="cashs_type" value="<?php echo $bank_id_arr[$i]; ?>" class="bank_cash_radio" />&emsp;<label class='radio-style'><?php echo $bank_name_arr[$i]; ?></label>
+									</div>
+								</div>
+						<?php  }
+						} ?>
+						<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+							<div class="form-group">
+								<!-- <button type="button" name="blnc_sheet_btn" id="blnc_sheet_btn" class="btn btn-primary" data-toggle='modal' data-target='.blncModal' onclick="hideAllCardsfunction()">Balance Sheet</button> -->
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12"></div>
+						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+							<div class="form-group">
+								<label for='credit_type'>Credit</label>
+								<select class="form-control" id='credit_types' name='credit_types'>
+									<option value=''>Select Credit Type</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+							<div class="form-group">
+								<label for='debit_type'>Debit</label>
+								<select class="form-control" id='debit_types' name='debit_types'>
+									<option value=''>Select Debit Type</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="modal-body">
+                <div class="container-fluid">
+                    <form id="other_transaction_form"> -->
+
+			<!-- <div class="row">
+                            <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                                <div class="form-group">
+                                    <input type="radio" id="othertransaction_hand_cash" name="othertransaction_cash_type" tabindex="2" value='1'/>&emsp;<label class='radio-style'>Hand Cash</label>&emsp;
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                                <div class="form-group">
+                                    <input type="radio" id="othertransaction_bank_cash" name="othertransaction_cash_type" tabindex="3" value='2'/>&emsp;<label class='radio-style'>Bank Cash</label>&emsp;
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    <select class="form-control" name="othertransaction_bank_name" id="othertransaction_bank_name" tabindex="4" disabled>
+                                        <option value="">Select Bank Name</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div></br> -->
+			<!-- <div class="row">
+								<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"></div>
+								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+									<div class="form-group">
+										<input type="radio" id="other_trans_hand_cash_radio" name="other_trans_cash_type" value='0' />&emsp;<label class='radio-style'>Hand Cash</label>&emsp;
+									</div>
+								</div>
+								<?php if (isset($bank_details) && $bank_details != null) {
+									for ($i = 0; $i < sizeof($bank_name_arr); $i++) {  ?>
+										<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 30%;">
+											<div class="form-group">
+												<input type="radio" id="other_trans_bank_cash_radio" name="other_trans_cash_type" value="<?php echo $bank_id_arr[$i]; ?>" class="bank_cash_radio" />&emsp;<label class='radio-style'><?php echo $bank_name_arr[$i]; ?></label>
+											</div>
+										</div>
+								<?php  }
+								} ?>
+								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+									<div class="form-group"> -->
+			<!-- <button type="button" name="blnc_sheet_btn" id="blnc_sheet_btn" class="btn btn-primary" data-toggle='modal' data-target='.blncModal' onclick="hideAllCardsfunction()">Balance Sheet</button> -->
+			<!-- </div>
+								</div>
+							</div><br> -->
+
+			<!-- <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                <div class="form-group">
+                                    <label for="trans_category">Transaction Category</label><span class="text-danger">*</span>
+                                    <select class="form-control" name="trans_category" id="trans_category" tabindex="5">
+                                        <option value="">Select Transaction Category</option>
+                                        <option value="1">Deposit</option>
+                                        <option value="2">Investment</option>
+                                        <option value="3">EL</option>
+                                        <option value="4">Exchange</option>
+                                        <option value="5">Bank Deposit</option>
+                                        <option value="6">Bank Withdrawal</option> -->
+			<!-- <option value="7">Loan Advance</option> -->
+			<!-- <option value="8">Other Income</option>
+                                        <option value="9">Bank Unbilled</option> -->
+			<!-- </select>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                                <div class="form-group">
+                                    <label for="other_trans_name">Name</label><span class="text-danger">*</span>
+                                    <select class="form-control" id="other_trans_name" name="other_trans_name" tabindex="6">
+                                        <option value="">Select Name</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-12" style="margin-top: 18px; padding-left: 0px !important">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary modalBtnCss" id="name_modal_btn" tabindex="7">+</button>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                <div class="form-group">
+                                    <label for="cat_type">Type</label><span class="text-danger">*</span>
+                                    <select class="form-control" name="cat_type" id="cat_type" tabindex="8">
+                                        <option value="">Select Type</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                <div class="form-group">
+                                    <label for="other_ref_id">Reference ID</label><span class="text-danger">*</span>
+                                    <input type="text" class="form-control" name="other_ref_id" id="other_ref_id" tabindex="9" readonly>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 other_trans_div" style="display: none;">
+                                <div class="form-group">
+                                    <label for="other_trans_id">Transaction ID</label><span class="text-danger">*</span>
+                                    <input type="number" class="form-control" name="other_trans_id" id="other_trans_id" tabindex="10" >
+                                </div>
+                            </div> -->
+			<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 other_user_name_div" style="display: none;">
+                                <div class="form-group">
+                                    <label for="other_user_name">User Name</label><span class="text-danger">*</span>
+                                    <select class="form-control" name="other_user_name" id="other_user_name" tabindex="11" disabled>
+                                        <option value="">Select User Name</option>
+                                    </select>
+                                </div>
+                            </div> -->
+			<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                <div class="form-group">
+                                    <label for="other_amnt">Amount</label><span class="text-danger">*</span>
+                                    <input type="number" class="form-control" name="other_amnt" id="other_amnt" tabindex="12">
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                <div class="form-group">
+                                    <label for="other_remark">Remark</label><span class="text-danger">*</span>
+                                    <textarea class="form-control" name="other_remark" id="other_remark" tabindex="13"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                <div class="form-group">
+                                    <button name="submit_other_transaction" id="submit_other_transaction" class="btn btn-primary" tabindex="14" style="margin-top: 18px;"><span class="icon-check"></span>&nbsp;Submit</button>
+                                    <button type="reset" id="clear_othertransaction_form" class="btn btn-outline-secondary" style="margin-top: 18px;" tabindex="15">Clear</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="row">
+                    <div class="col-12 overflow-x-cls">
+                        <table id="other_transaction_table" class="table custom-table">
+                            <thead>
+                                <tr>
+                                    <th>S.NO</th>
+                                    <th>Coll Mode</th>
+                                    <th>Bank Name</th>
+                                    <th>Transaction Category</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Reference ID</th>
+                                    <th>Transaction ID</th> -->
+			<!-- <th>User Name</th> -->
+			<!-- <th>Amount</th>
+                                    <th>Remark</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody> </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> -->
+
+
+			<div class="modal-footer">
+				<button class="btn btn-secondary clse-trans" data-dismiss="modal" tabindex="1">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ----------------------------------------------------- Other Transaction Modal End ----------------------------------------------------------------- -->

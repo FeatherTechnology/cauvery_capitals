@@ -63,6 +63,7 @@ $concern_solution = '';
 $concern_feedback = '';
 $accountsmodule = '';
 $cash_tally = '';
+$cash_tally_access = '';
 $due_followup_lines='';
 $cash_tally_admin = '';
 $bank_details = '';
@@ -205,6 +206,7 @@ if($idupd>0)
 			$concern_feedback          		     = $getUser['concern_feedback'];
 			$accountsmodule          		     = $getUser['accountsmodule'];
 			$cash_tally          		     = $getUser['cash_tally'];
+			$cash_tally_access          		     = $getUser['cash_tally_access'];
 			$cash_tally_admin          		     = $getUser['cash_tally_admin'];
 			$bank_details          		     = $getUser['bank_details'];
 			$bank_clearance          		     = $getUser['bank_clearance'];
@@ -284,6 +286,7 @@ if($idupd>0)
 		<input type="hidden" class="form-control" value="<?php if(isset($group_id)) echo $group_id; ?>"  id="group_id_upd" name="group_id_upd">
 		<input type="hidden" class="form-control" value="<?php if(isset($bank_details)) echo $bank_details; ?>"  id="bank_details_upd" name="bank_details_upd">
 		<input type="hidden" class="form-control" value="<?php if(isset($promotion_access)) echo $promotion_access; ?>"  id="promotion_access_upd" name="promotion_access_upd">
+		<input type="hidden" class="form-control" value="<?php if(isset($cash_tally_access)) echo $cash_tally_access; ?>"  id="cash_tally_access_upd" name="cash_tally_access_upd">
 		<input type="hidden" class="form-control" value="<?php if(isset($due_followup_lines)) echo $due_followup_lines; ?>"  id="due_followup_lines_upd" name="due_followup_lines_upd">
 		<!-- Row start -->
 		<div class="row gutters">
@@ -883,6 +886,21 @@ if($idupd>0)
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($cash_tally==0){ echo'checked'; }} ?> tabindex="52" class="accounts-checkbox" id="cash_tally" name="cash_tally" disabled>&nbsp;&nbsp;
                                 <label class="custom-control-label" for="cash_tally">Cash Tally</label>
+                            </div>
+                        </div>
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 cash_tally_access"  style='display:none'>
+                            <div class="custom-control custom-checkbox">
+                                <label class="custom-control-label" for="cash_tally_access">Cash Tally Access</label>
+								<input type='hidden' id='cash_tally_access' name='cash_tally_access' value=''>
+                                <select class='form-control' id='cash_tally_access1' name='cash_tally_access1' multiple>
+									<option value="">Select Cash Tally Access</option>
+									<option value="">Select Promotion Activity</option>
+												<option value="1">Collection</option>
+												<option value="2">Loan Issued</option>
+												<option value="3">Expenses</option>
+												<option value="4">Other Transaction</option>
+								</select>
+								<span class='text-danger cash_tally_accessCheck' style="display:none">Please Select Cash Tally Access</span>
                             </div>
                         </div>
 						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 bank_details" style='display:none'>
