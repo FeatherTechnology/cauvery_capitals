@@ -216,7 +216,7 @@ $(document).ready(function () {
     $('#submitLoanCategory').click(function () {
 
         validation(); validateLoanCategoryTable();
-        validateLoanCalculationInputs();
+        // validateLoanCalculationInputs();
     });
     $('#scheme_name').change(function () {
         getSchemeListTable($(this).val());
@@ -691,63 +691,63 @@ function ChangeSchemStatus(id) {
 
     });
 }
-function validateLoanCalculationInputs() {
-    let isAnyFilled = false;
-    let isAllFilled = true;
+// function validateLoanCalculationInputs() {
+//     let isAnyFilled = false;
+//     let isAllFilled = true;
 
-    const inputIds = [
-        '#monthly_intrests_rate_min',
-        '#monthly_intrests_rate_max',
-        '#monthly_due_periods_min',
-        '#monthly_due_periods_max',
-        '#monthly_document_charges_min',
-        '#monthly_document_charges_max',
-        '#monthly_processing_fees_min',
-        '#monthly_processing_fees_max',
-        '#monthly_overdues'
-    ];
+//     const inputIds = [
+//         '#monthly_intrests_rate_min',
+//         '#monthly_intrests_rate_max',
+//         '#monthly_due_periods_min',
+//         '#monthly_due_periods_max',
+//         '#monthly_document_charges_min',
+//         '#monthly_document_charges_max',
+//         '#monthly_processing_fees_min',
+//         '#monthly_processing_fees_max',
+//         '#monthly_overdues'
+//     ];
 
-    inputIds.forEach(function (selector) {
-        const value = $(selector).val().trim();
-        if (value !== "") {
-            isAnyFilled = true;
-        } else {
-            isAllFilled = false;
-        }
-    });
+//     inputIds.forEach(function (selector) {
+//         const value = $(selector).val().trim();
+//         if (value !== "") {
+//             isAnyFilled = true;
+//         } else {
+//             isAllFilled = false;
+//         }
+//     });
 
-    // Check multiselect
-    const profitMethod = $('#monthly_profit_method').val();
-    if (profitMethod && profitMethod.length > 0) {
-        isAnyFilled = true;
-    } else {
-        isAllFilled = false;
-    }
+//     // Check multiselect
+//     const profitMethod = $('#monthly_profit_method').val();
+//     if (profitMethod && profitMethod.length > 0) {
+//         isAnyFilled = true;
+//     } else {
+//         isAllFilled = false;
+//     }
 
-    // Check radio buttons
-    const docType = $('input[name="monthly_doc_charges_type"]:checked').length > 0;
-    const procType = $('input[name="proc_fees_type"]:checked').length > 0;
-    const advance = $('input[name="monthly_collection_info"]:checked').length > 0;
+//     // Check radio buttons
+//     const docType = $('input[name="monthly_doc_charges_type"]:checked').length > 0;
+//     const procType = $('input[name="proc_fees_type"]:checked').length > 0;
+//     const advance = $('input[name="monthly_collection_info"]:checked').length > 0;
 
-    if (docType || procType || advance) {
-        isAnyFilled = true;
-    }
-    if (!docType || !procType || !advance) {
-        isAllFilled = false;
-    }
+//     if (docType || procType || advance) {
+//         isAnyFilled = true;
+//     }
+//     if (!docType || !procType || !advance) {
+//         isAllFilled = false;
+//     }
 
-    // If nothing is filled, allow
-    if (!isAnyFilled) {
-        return true;
-    }
+//     // If nothing is filled, allow
+//     if (!isAnyFilled) {
+//         return true;
+//     }
 
-    // If something is filled but not all, block
-    if (!isAllFilled) {
-        return false;
-    }
+//     // If something is filled but not all, block
+//     if (!isAllFilled) {
+//         return false;
+//     }
 
-    return true;
-}
+//     return true;
+// }
 
 function submitScheme(data) {
     $.ajax({
