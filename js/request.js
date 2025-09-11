@@ -700,7 +700,6 @@ function getLoaninfo(loan_category_upd) {
         type: 'post',
         cache: false,
         success: function (response) {
-            console.log("res",response['agent_loan'])
             if(response['agent_loan']== '0' ){
                  $('#agent_loan').val(0);
             }else if(response['agent_loan']== '1'){

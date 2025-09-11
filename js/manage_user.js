@@ -29,6 +29,12 @@ const groupMultiselect = new Choices('#group1', {
     allowHTML: true
 
 });
+const cash_tally_access_select = new Choices('#cash_tally_access1', {
+    removeItemButton: true,
+    noChoicesText: 'Select Cash Tally Access',
+    allowHTML: true
+
+});
 const bankMultiselect = new Choices('#bank_details1', {
     removeItemButton: true,
     noChoicesText: 'Select Bank Name',
@@ -187,6 +193,24 @@ $(document).ready(function () {
         $('#bank_details').val(sortedStr);
 
     })
+    $('#cash_tally_access1').change(function () {
+        
+        var cash_tally_access1 = cash_tally_access_select.getValue();
+        console.log("hdsf",cash_tally_access1);
+        var cash_tally_access = '';
+        for (var i = 0; i < cash_tally_access1.length; i++) {
+            if (i > 0) {
+                cash_tally_access += ',';
+            }
+            cash_tally_access += cash_tally_access1[i].value;
+        }
+        var arr = cash_tally_access.split(",");
+        arr.sort(function (a, b) { return a - b });
+        var sortedStr = arr.join(",");
+
+        $('#cash_tally_access').val(sortedStr);
+
+    })
 
     $('#due_follup_lines').change(function () {
         var due_follup_lines = dueFollowupLines.getValue();
@@ -303,6 +327,14 @@ $(document).ready(function () {
             $('.bank_details').hide()
         }
     });
+    // $("#cash_tally ").on("change", function () {
+    //     const checkboxesToEnable = document.querySelectorAll("input.accounts-checkbox");
+    //     var accountsmodule = document.querySelector('#cash_tally ');
+    //     checkbox(checkboxesToEnable, accountsmodule);
+    //     if (!accountsmodule.checked) {
+    //         $('.cash_tally_access').hide()
+    //     }
+    // });
     $("#followupmodule").on("change", function () {
         const checkboxesToEnable = document.querySelectorAll("input.followup-checkbox");
         var followupmodule = document.querySelector('#followupmodule');
@@ -339,8 +371,10 @@ $(document).ready(function () {
         if (cash_tally.checked) {
             getBankDetails();
             $('.bank_details').show()
+            $('.cash_tally_access').show()
         } else {
             $('.bank_details').hide()
+            $('.cash_tally_access').hide()
         }
     })
     $('#promotion_activity').click(function () {
@@ -425,6 +459,7 @@ $(function () {
 
         getBankDetails();
         getProAccess();
+        // getcashTallyAccess()
 
         var due_followup = document.querySelector('#due_followup');
         var promotion_activity = document.querySelector('#promotion_activity');
@@ -451,6 +486,18 @@ $(function () {
             }
 
             $('.update_screen_div').show()
+        }
+        var cash_tally = document.querySelector('#cash_tally');
+        if (cash_tally.checked) {
+            var cash_tally_access_upd = $('#cash_tally_access_upd').val();
+            if (cash_tally_access_upd) {
+                let selectedValues = cash_tally_access_upd.split(',');
+                selectedValues.forEach(value => {
+                    cash_tally_access_select.setChoiceByValue(value.trim());
+                });
+            }
+
+            $('.cash_tally_access').show()
         }
 
         var mastermodule = document.getElementById('mastermodule');
@@ -969,6 +1016,36 @@ function getProAccess() {
     promotionAccess.setChoices(items);
     promotionAccess.init();
 }
+
+function getcashTallyAccess() {
+    var cash_tally_access_upd = $('#cash_tally_access_upd').val().split(',');
+
+    const valueToLabelMap = {
+        '1': 'Collection',
+        '2': 'Loan Issued ',
+        '3': 'Expenses' ,
+        '4': 'Other Transaction' 
+    };
+    cash_tally_access_select.clearStore();
+
+    let items = [];
+
+    $.each(valueToLabelMap, function(val, label) {
+        let selected = '';
+
+        if (cash_tally_access_upd.includes(val)) {
+            selected = 'selected';
+        }
+
+        items.push({
+            value: val,  
+            label: label,
+            selected: selected 
+        });
+    });
+    cash_tally_access_select.setChoices(items);
+    cash_tally_access_select.init();
+}
 //Screen Mapping
 //modules checkbox events
 function checkbox(checkboxesToEnable, module) {
@@ -1190,6 +1267,19 @@ function validation() {
             $('.duefollowupCheck').show();
         }else{
             $('.duefollowupCheck').hide();
+        }
+    }
+    var cash_tally = document.querySelector('#cash_tally');
+    var cash_tally_access_selects = cash_tally_access_select.getValue();
+    if (!cash_tally.checked) {
+        $('#cash_tally_access').val('')
+    } else{
+         if(cash_tally_access_selects.length == 0){
+            event.preventDefault();
+            $('.cash_tally_access').show();
+            $('.cash_tally_accessCheck').show();
+        }else{
+            $('.cash_tally_accessCheck').hide();
         }
     }
     var promotion_activity = document.querySelector('#promotion_activity');
