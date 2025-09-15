@@ -38,7 +38,7 @@ if (sizeof($getRequestData) > 0) {
         $district                    = $getRequestData['district'];
         $taluk                    = $getRequestData['taluk'];
         $area                    = $getRequestData['area'];
-        $sub_area                    = $getRequestData['sub_area'];
+        // $sub_area                    = $getRequestData['sub_area'];
         $address                    = $getRequestData['address'];
         $mobile1                    = $getRequestData['mobile1'];
         $mobile2                    = $getRequestData['mobile2'];

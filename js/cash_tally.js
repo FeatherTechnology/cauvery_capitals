@@ -1682,10 +1682,11 @@ function getAgBalancesheet() {
     var view_type = $('#ag_view_type').val();//overall/Agent wise
     var ag_name = $('#ag_namewise').val();//show by agent name wise
     var sheet_type = $('#sheet_type').val();
+    var op_date =$('#op_date').text() ;
 
     $.ajax({
         url: 'accountsFile/cashtally/contra/getBalanceSheet.php',
-        data: { 'sheet_type': sheet_type, 'ag_view_type': view_type, 'ag_name': ag_name },
+        data: { 'sheet_type': sheet_type, 'ag_view_type': view_type, 'ag_name': ag_name , 'op_date':op_date},
         type: 'post',
         cache: false,
         success: function (response) {
@@ -2943,7 +2944,7 @@ function bexpenseModalBtnClick() {
     $('#bexp_modalDiv').empty();
     $('#bexp_modalDiv').html(appendTxt);
 
-    var bank_id = $('input[name=cash_type]:checked').val();
+    var bank_id = $('input[name=expense_cash_type]:checked').val();
     $('#bank_id_bexp').val(bank_id);
 
     $.ajax({//For fetching Ref code

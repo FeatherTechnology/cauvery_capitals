@@ -3234,16 +3234,16 @@ function getTalukDropdown(DistSelected) {
   $("#taluk").html(htmlString);
   $("#taluk1").val(taluk_upd);
 
-  {
-    //To Order Alphabetically
-    var firstOption = $("#taluk option:first-child");
-    $("#taluk").html(
-      $("#taluk option:not(:first-child)").sort(function (a, b) {
-        return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-      })
-    );
-    $("#taluk").prepend(firstOption);
-  }
+  // {
+  //   //To Order Alphabetically
+  //   var firstOption = $("#taluk option:first-child");
+  //   $("#taluk").html(
+  //     $("#taluk option:not(:first-child)").sort(function (a, b) {
+  //       return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
+  //     })
+  //   );
+  //   $("#taluk").prepend(firstOption);
+  // }
 }
 
 //Get Taluk Based Area
