@@ -196,7 +196,6 @@ $(document).ready(function () {
     $('#cash_tally_access1').change(function () {
         
         var cash_tally_access1 = cash_tally_access_select.getValue();
-        console.log("hdsf",cash_tally_access1);
         var cash_tally_access = '';
         for (var i = 0; i < cash_tally_access1.length; i++) {
             if (i > 0) {
@@ -207,7 +206,7 @@ $(document).ready(function () {
         var arr = cash_tally_access.split(",");
         arr.sort(function (a, b) { return a - b });
         var sortedStr = arr.join(",");
-
+        $('#cash_tally_access').val('');
         $('#cash_tally_access').val(sortedStr);
 
     })
@@ -224,7 +223,7 @@ $(document).ready(function () {
         var arr = due_follup_lines_id.split(",");
         arr.sort(function (a, b) { return a - b });
         var sortedStr = arr.join(",");
-
+        $('#due_follup_line_id').val('');
         $('#due_follup_line_id').val(sortedStr);
 
     })

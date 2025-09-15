@@ -41,6 +41,11 @@ if (isset($_POST['ag_name'])) {
 } else {
     $ag_name = '';
 } // Agent view by name
+if (isset($_POST['op_date'])) {
+    $op_date = $_POST['op_date'];
+} else {
+    $op_date = '';
+} // Agent view by name
 
 $tableHeaders = '';
 $difference = 0;
@@ -1389,14 +1394,14 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
                 SELECT cl.total_paid_track as Credit, '' AS Debit
                 FROM collection cl 
                 WHERE
-                    cl.created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01') and FIND_IN_SET(cl.insert_login_id,'$ag_user_id')
+                    cl.created_date < DATE_FORMAT($op_date , '%Y-%m-%d') and FIND_IN_SET(cl.insert_login_id,'$ag_user_id')
                 
                 UNION ALL
 
                 SELECT '' AS Credit, li.cash + li.cheque_value + li.transaction_value AS Debit  
                 FROM loan_issue li 
                 WHERE
-                    li.created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01') and FIND_IN_SET(li.agent_id,'$ag_user_id')
+                    li.created_date < DATE_FORMAT($op_date , '%Y-%m-%d') and FIND_IN_SET(li.agent_id,'$ag_user_id')
                 
                 UNION ALL
     
@@ -1405,7 +1410,7 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
                     amt AS Debit
                 FROM ct_db_hag
                 WHERE
-                    created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
+                    created_date < DATE_FORMAT($op_date , '%Y-%m-%d')
                     AND insert_login_id = '$user_id'
     
                 UNION ALL
@@ -1415,7 +1420,7 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
                     '' AS Debit
                 FROM ct_cr_hag
                 WHERE
-                    created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
+                    created_date < DATE_FORMAT($op_date , '%Y-%m-%d')
                     AND insert_login_id = '$user_id'
     
                 UNION ALL
@@ -1425,7 +1430,7 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
                     amt AS Debit
                 FROM ct_db_bag
                 WHERE
-                    created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
+                    created_date < DATE_FORMAT($op_date , '%Y-%m-%d')
                     AND insert_login_id = '$user_id'
     
                 UNION ALL
@@ -1435,7 +1440,7 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
                     '' AS Debit
                 FROM ct_cr_bag
                 WHERE
-                    created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
+                    created_date < DATE_FORMAT($op_date , '%Y-%m-%d')
                     AND insert_login_id = '$user_id'
             ) AS opening
         ");
@@ -1539,7 +1544,7 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
                 FROM collection cl JOIN user us 
                 ON us.user_id = '$user_id' and FIND_IN_SET('$ag_name',us.agentforstaff)
                 WHERE
-                    cl.created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01') and cl.insert_login_id = '$ag_user_id'
+                    cl.created_date < DATE_FORMAT($op_date , '%Y-%m-%d') and cl.insert_login_id = '$ag_user_id'
                 
                 UNION ALL
 
@@ -1547,7 +1552,7 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
                 FROM loan_issue li JOIN user us 
                 ON us.user_id = '$user_id' and FIND_IN_SET('$ag_name',us.agentforstaff)
                 WHERE
-                    li.created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01') and li.agent_id = '$ag_name'
+                    li.created_date < DATE_FORMAT($op_date , '%Y-%m-%d') and li.agent_id = '$ag_name'
                 
                 UNION ALL
     
@@ -1556,7 +1561,7 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
                     amt AS Debit
                 FROM ct_db_hag
                 WHERE
-                    created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
+                    created_date < DATE_FORMAT($op_date , '%Y-%m-%d')
                     AND insert_login_id = '$user_id' and ag_id = '$ag_name'
     
                 UNION ALL
@@ -1566,7 +1571,7 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
                     '' AS Debit
                 FROM ct_cr_hag
                 WHERE
-                    created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
+                    created_date < DATE_FORMAT($op_date , '%Y-%m-%d')
                     AND insert_login_id = '$user_id' and ag_id = '$ag_name'
     
                 UNION ALL
@@ -1576,7 +1581,7 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
                     amt AS Debit
                 FROM ct_db_bag
                 WHERE
-                    created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
+                    created_date < DATE_FORMAT($op_date , '%Y-%m-%d')
                     AND insert_login_id = '$user_id' and ag_id = '$ag_name'
     
                 UNION ALL
@@ -1586,7 +1591,7 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
                     '' AS Debit
                 FROM ct_cr_bag
                 WHERE
-                    created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
+                    created_date < DATE_FORMAT($op_date , '%Y-%m-%d')
                     AND insert_login_id = '$user_id' and ag_id = '$ag_name'
             ) AS opening
         ");

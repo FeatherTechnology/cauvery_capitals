@@ -891,14 +891,13 @@ if($idupd>0)
 						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 cash_tally_access"  style='display:none'>
                             <div class="custom-control custom-checkbox">
                                 <label class="custom-control-label" for="cash_tally_access">Cash Tally Access</label>
-								<input type='hidden' id='cash_tally_access' name='cash_tally_access' value=''>
+								<input type='hidden' id='cash_tally_access' name='cash_tally_access' value='<?php if(isset($cash_tally_access)) echo $cash_tally_access; ?>'>
                                 <select class='form-control' id='cash_tally_access1' name='cash_tally_access1' multiple>
 									<option value="">Select Cash Tally Access</option>
-									<option value="">Select Promotion Activity</option>
-												<option value="1">Collection</option>
-												<option value="2">Loan Issued</option>
-												<option value="3">Expenses</option>
-												<option value="4">Other Transaction</option>
+									<option value="1">Collection</option>
+									<option value="2">Loan Issued</option>
+									<option value="3">Expenses</option>
+									<option value="4">Other Transaction</option>
 								</select>
 								<span class='text-danger cash_tally_accessCheck' style="display:none">Please Select Cash Tally Access</span>
                             </div>
@@ -999,7 +998,7 @@ if($idupd>0)
 						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 due_followupline_div"  style='display:none; margin-top: 30px;'>
                             <div class="custom-control custom-checkbox">
                                 <label class="custom-control-label" for="due_follup_lines">Due Followup lines</label>
-								<input type='hidden' id='due_follup_line_id' name='due_follup_line_id' value=''>
+								<input type='hidden' id='due_follup_line_id' name='due_follup_line_id' value='<?php if(isset($due_followup_lines)) echo $due_followup_lines; ?>'>
                                 <select class='form-control' id='due_follup_lines' name='due_follup_lines' multiple>
 									<option value="">Select Due Followup Lines</option>
 								</select>
