@@ -11,7 +11,7 @@ $row = $qry->fetch();
 
 extract($row); // Extracts the array values into variables
 
-$sql = $connect->query("SELECT alm.line_name, alc.area_name FROM `acknowlegement_customer_profile` cp  JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id join area_list_mapping_area alma on alma.area_id = alc.area_id JOIN area_line_mapping alm ON alma.line_map_id, alm.map_id WHERE cp.req_id='" . strip_tags($req_id) . "'");
+$sql = $connect->query("SELECT alm.line_name, alc.area_name FROM `acknowlegement_customer_profile` cp  JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id join area_line_mapping_area alma on alma.area_id = alc.area_id JOIN area_line_mapping alm ON alma.line_map_id = alm.map_id WHERE cp.req_id='" . strip_tags($req_id) . "'");
 $rowSql = $sql->fetch();
 $line_name = $rowSql['line_name'];
 $area_name = $rowSql['area_name'];

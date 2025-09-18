@@ -328,7 +328,7 @@ function getCategoryInfo() {
             $('#moduleTable').empty();
             $('#moduleTable').append('<tbody><tr>');
             if (response.length != 0) {
-                var tb = 14;
+                var tb = 13;
                 for (var i = 0; i < response.length; i++) {
                     $('#moduleTable tbody tr').append(`<td><label for="disabledInput">` + response[i]['loan_category_ref_name'] + `</label><input type="text" class="form-control" id="category_info" name="category_info[]" 
                     value='`+ category_info + `' tabindex='` + tb + `'readonly required placeholder='Enter ` + response[i]['loan_category_ref_name'] + `'></td>`);

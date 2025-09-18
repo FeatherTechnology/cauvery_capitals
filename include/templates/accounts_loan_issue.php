@@ -556,7 +556,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                                                                                                             echo $tot_value_lc;
                                                                                                                         } elseif (isset($tot_value)) {
                                                                                                                             echo $tot_value;
-                                                                                                                        } ?>' readonly tabindex='13'>
+                                                                                                                        } ?>' readonly tabindex='14'>
                                     </div>
                                 </div>
 
@@ -567,7 +567,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                                                                                                         echo $ad_amt_lc;
                                                                                                                     } elseif (isset($ad_amt)) {
                                                                                                                         echo $ad_amt;
-                                                                                                                    } ?>' readonly tabindex='14'>
+                                                                                                                    } ?>' readonly tabindex='15'>
                                     </div>
                                 </div>
 
@@ -578,7 +578,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                                                                                                             echo $loan_amt_lc;
                                                                                                                         } elseif (isset($loan_amt)) {
                                                                                                                             echo $loan_amt;
-                                                                                                                        } ?>' readonly tabindex='15'>
+                                                                                                                        } ?>' readonly tabindex='16'>
                                     </div>
                                 </div>
                                 <hr>
@@ -586,7 +586,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                     <div class="form-group">
                                         <label for="disabledInput">Profit Type</label>&nbsp;<span class="text-danger">*</span>
                                         <input type="hidden" class="form-control" id="profit_type_ack" name="profit_type_ack" value="<?php echo $profit_type_lc; ?>">
-                                        <select tabindex="16" type="text" class="form-control" id="profit_type" name="profit_type">
+                                        <select tabindex="17" type="text" class="form-control" id="profit_type" name="profit_type">
                                             <option value="">Select Profit Type</option>
                                             <option value="1" <?php if (isset($profit_type_lc) and $profit_type_lc == '1') echo 'selected'; ?>>Calculation</option>
                                             <option value="2" <?php if (isset($profit_type_lc) and $profit_type_lc == '2') echo 'selected'; ?>>Scheme</option>
@@ -597,20 +597,20 @@ if (sizeof($getLoanCalculation) > 0) {
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 calculation" style="display:none">
                                     <div class="form-group">
                                         <label for="disabledInput">Due Method</label>&nbsp;<span class="text-danger">*</span>
-                                        <input tabindex="17" type="text" class="form-control" id="due_method_calc" name="due_method_calc" readonly value='Monthly'>
+                                        <input tabindex="18" type="text" class="form-control" id="due_method_calc" name="due_method_calc" readonly value='Monthly'>
                                     </div>
                                 </div>
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 calculation" style="display:none">
                                     <div class="form-group">
                                         <label for="disabledInput">Due Type</label>&nbsp;<span class="text-danger">*</span>
-                                        <input tabindex="18" type="text" class="form-control" id="due_type" name="due_type" readonly value='<?php if (isset($due_type)) echo $due_type; ?>'>
+                                        <input tabindex="19" type="text" class="form-control" id="due_type" name="due_type" readonly value='<?php if (isset($due_type)) echo $due_type; ?>'>
                                     </div>
                                 </div>
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 emi-calculation" style="display:none">
                                     <div class="form-group">
                                         <label for="disabledInput">Profit Method</label>&nbsp;<span class="text-danger">*</span>
                                         <input type="hidden" class="form-control" id="profit_method_ack" name="profit_method_ack" value='<?php if (isset($profit_method_lc)) echo $profit_method_lc; ?>'>
-                                        <select tabindex="19" type="text" class="form-control" id="profit_method" name="profit_method">
+                                        <select tabindex="20" type="text" class="form-control" id="profit_method" name="profit_method">
                                             <option value="">Select Profit Method</option>
                                         </select>
                                         <span class="text-danger" style='display:none' id='profit_methodCheck'>Please Select Profit Method</span>
@@ -619,14 +619,14 @@ if (sizeof($getLoanCalculation) > 0) {
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 interest-calculation" style="display:none">
                                     <div class="form-group">
                                         <label for="disabledInput">Calculation Method</label>&nbsp;<span class="text-danger">*</span>
-                                        <input tabindex="20" type="text" class="form-control" id="calc_method" name="calc_method" readonly value='<?php if (isset($calc_method)) echo $calc_method; ?>'>
+                                        <input tabindex="21" type="text" class="form-control" id="calc_method" name="calc_method" readonly value='<?php if (isset($calc_method)) echo $calc_method; ?>'>
                                     </div>
                                 </div>
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 scheme" style="display:none">
                                     <div class="form-group">
                                         <label for="disabledInput">Due Method</label>&nbsp;<span class="text-danger">*</span>
                                         <input type="hidden" class="form-control" id="due_method_scheme_ack" name="due_method_scheme_ack" value="<?php echo $due_method_scheme_lc; ?>">
-                                        <select tabindex="21" type="text" class="form-control" id="due_method_scheme" name="due_method_scheme">
+                                        <select tabindex="22" type="text" class="form-control" id="due_method_scheme" name="due_method_scheme">
                                             <option value="">Select Due Method</option>
                                             <option value="1" <?php if (isset($due_method_scheme_lc) and $due_method_scheme_lc == '1') echo 'selected'; ?>>Monthly</option>
                                             <option value="2" <?php if (isset($due_method_scheme_lc) and $due_method_scheme_lc == '2') echo 'selected'; ?>>Weekly</option>
@@ -639,7 +639,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                     <div class="form-group">
                                         <label for="disabledInput">Day</label>&nbsp;<span class="text-danger">*</span>
                                         <input type="hidden" class="form-control" id="day_scheme_ack" name="day_scheme_ack" value="<?php echo $day_scheme_lc; ?>">
-                                        <select tabindex="22" type="text" class="form-control" id="day_scheme" name="day_scheme">
+                                        <select tabindex="23" type="text" class="form-control" id="day_scheme" name="day_scheme">
                                             <option value="">Select a Day</option>
                                             <option value="1" <?php if (isset($day_scheme_lc) and $day_scheme_lc == '1') echo 'selected'; ?>>Monday</option>
                                             <option value="2" <?php if (isset($day_scheme_lc) and $day_scheme_lc == '2') echo 'selected'; ?>>Tuesday</option>
@@ -656,7 +656,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                     <div class="form-group">
                                         <label for="disabledInput">Scheme Name</label>&nbsp;<span class="text-danger">*</span>
                                         <input type="hidden" class="form-control" id="scheme_name_ack" name="scheme_name_ack" value="<?php echo $scheme_name_lc; ?>">
-                                        <select tabindex="23" type="text" class="form-control" id="scheme_name" name="scheme_name">
+                                        <select tabindex="24" type="text" class="form-control" id="scheme_name" name="scheme_name">
                                             <option value="">Select Scheme Name</option>
                                         </select>
                                         <span class="text-danger" style='display:none' id='scheme_nameCheck'>Please Select Scheme Name</span>
@@ -666,7 +666,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                     <div class="form-group">
                                         <label for="scheme_profit_method">Profit Method</label>&nbsp;<span class="text-danger">*</span>
                                         <input type="hidden" class="form-control" id="profit_method_scheme_ack" name="profit_method_scheme_ack" value="<?php echo $profit_method_scheme_lc; ?>">
-                                        <select tabindex="24" type="text" class="form-control" id="scheme_profit_method" name="scheme_profit_method">
+                                        <select tabindex="25" type="text" class="form-control" id="scheme_profit_method" name="scheme_profit_method">
                                             <option value="">Select Profit Method</option>
                                         </select>
                                         <span class="text-danger" style='display:none' id='scheme_methodCheck'>Please Select Profit Method</span>
@@ -675,28 +675,28 @@ if (sizeof($getLoanCalculation) > 0) {
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Interest Rate </label>&nbsp;<span class="text-danger min-max-int">*</span><!-- Min and max intrest rate-->
-                                        <input tabindex="25" type="text" class="form-control" id="int_rate" name="int_rate" readonly value='<?php if (isset($int_rate)) echo $int_rate; ?>'>
+                                        <input tabindex="26" type="text" class="form-control" id="int_rate" name="int_rate" readonly value='<?php if (isset($int_rate)) echo $int_rate; ?>'>
                                         <span class="text-danger" style='display:none' id='int_rateCheck'>Please Enter Interest Rate</span>
                                     </div>
                                 </div>
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Due Period </label>&nbsp;<span class="text-danger min-max-due">*</span><!-- Min and max Profit Method-->
-                                        <input tabindex="26" type="text" class="form-control" id="due_period" name="due_period" readonly>
+                                        <input tabindex="27" type="text" class="form-control" id="due_period" name="due_period" readonly>
                                         <span class="text-danger" style='display:none' id='due_periodCheck'>Please Enter Due Period</span>
                                     </div>
                                 </div>
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Document Charges </label>&nbsp;<span class="text-danger min-max-doc">*</span><!-- Min and max Document charges-->
-                                        <input tabindex="27" type="text" class="form-control" id="doc_charge" name="doc_charge" readonly value='<?php if (isset($doc_charge)) echo $doc_charge; ?>'>
+                                        <input tabindex="28" type="text" class="form-control" id="doc_charge" name="doc_charge" readonly value='<?php if (isset($doc_charge)) echo $doc_charge; ?>'>
                                         <span class="text-danger" style='display:none' id='doc_chargeCheck'>Please Enter Document Charge</span>
                                     </div>
                                 </div>
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Processing Fees</label>&nbsp;<span class="text-danger min-max-proc">*</span><!-- Min and max Processing fee-->
-                                        <input tabindex="28" type="text" class="form-control" id="proc_fee" name="proc_fee" readonly value='<?php if (isset($proc_fee)) echo $proc_fee; ?>'>
+                                        <input tabindex="29" type="text" class="form-control" id="proc_fee" name="proc_fee" readonly value='<?php if (isset($proc_fee)) echo $proc_fee; ?>'>
                                         <span class="text-danger" style='display:none' id='proc_feeCheck'>Please Enter Processing fee</span>
                                     </div>
                                 </div>
@@ -716,49 +716,49 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Loan Amount</label>
-                                                <input type="text" class="form-control" readonly id="loan_amt_cal" name="loan_amt_cal" value='<?php if (isset($loan_amt_cal)) echo $loan_amt_cal; ?>' tabindex='29'>
+                                                <input type="text" class="form-control" readonly id="loan_amt_cal" name="loan_amt_cal" value='<?php if (isset($loan_amt_cal)) echo $loan_amt_cal; ?>' tabindex='30'>
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Principal Amount</label>
-                                                <input type="text" class="form-control" readonly id="principal_amt_cal" name="principal_amt_cal" value='<?php if (isset($principal_amt_cal)) echo $principal_amt_cal; ?>' tabindex='30'>
+                                                <input type="text" class="form-control" readonly id="principal_amt_cal" name="principal_amt_cal" value='<?php if (isset($principal_amt_cal)) echo $principal_amt_cal; ?>' tabindex='31'>
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Interest Amount</label>
-                                                <input type="text" class="form-control" readonly id="int_amt_cal" name="int_amt_cal" value='<?php if (isset($int_amt_cal)) echo $int_amt_cal; ?>' tabindex='31'>
+                                                <input type="text" class="form-control" readonly id="int_amt_cal" name="int_amt_cal" value='<?php if (isset($int_amt_cal)) echo $int_amt_cal; ?>' tabindex='32'>
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Total Amount</label>
-                                                <input type="text" class="form-control" readonly id="tot_amt_cal" name="tot_amt_cal" value='<?php if (isset($tot_amt_cal)) echo $tot_amt_cal; ?>' tabindex='32'>
+                                                <input type="text" class="form-control" readonly id="tot_amt_cal" name="tot_amt_cal" value='<?php if (isset($tot_amt_cal)) echo $tot_amt_cal; ?>' tabindex='33'>
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Due Amount</label>
-                                                <input type="text" class="form-control" readonly id="due_amt_cal" name="due_amt_cal" value='<?php if (isset($due_amt_cal)) echo $due_amt_cal; ?>' tabindex='33'>
+                                                <input type="text" class="form-control" readonly id="due_amt_cal" name="due_amt_cal" value='<?php if (isset($due_amt_cal)) echo $due_amt_cal; ?>' tabindex='34'>
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Document Charges</label>
-                                                <input type="text" class="form-control" readonly id="doc_charge_cal" name="doc_charge_cal" value='<?php if (isset($doc_charge_cal)) echo $doc_charge_cal; ?>' tabindex='34'>
+                                                <input type="text" class="form-control" readonly id="doc_charge_cal" name="doc_charge_cal" value='<?php if (isset($doc_charge_cal)) echo $doc_charge_cal; ?>' tabindex='35'>
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Processing Fee</label>
-                                                <input type="text" class="form-control" readonly id="proc_fee_cal" name="proc_fee_cal" value='<?php if (isset($proc_fee_cal)) echo $proc_fee_cal; ?>' tabindex='35'>
+                                                <input type="text" class="form-control" readonly id="proc_fee_cal" name="proc_fee_cal" value='<?php if (isset($proc_fee_cal)) echo $proc_fee_cal; ?>' tabindex='36'>
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Net Cash</label>
-                                                <input type="text" class="form-control" readonly id="net_cash_cal" name="net_cash_cal" value='<?php if (isset($net_cash_cal)) echo $net_cash_cal; ?>' tabindex='36'>
+                                                <input type="text" class="form-control" readonly id="net_cash_cal" name="net_cash_cal" value='<?php if (isset($net_cash_cal)) echo $net_cash_cal; ?>' tabindex='37'>
                                                 <!-- <input type="hidden" class="form-control"  id="net_cash" name="net_cash" > -->
                                             </div>
                                         </div>
@@ -786,19 +786,19 @@ if (sizeof($getLoanCalculation) > 0) {
                                                 <input type="hidden" class="form-control" id="due_method_scheme" name="due_method_scheme" value='<?php if (isset($due_method_scheme_lc)) echo $due_method_scheme_lc; ?>'>
                                                 <input type="hidden" class="form-control" id="day_scheme" name="day_scheme" value='<?php if (isset($day_scheme_lc)) echo $day_scheme_lc; ?>'>
 
-                                                <input type="date" class="form-control" id="due_start_from" name="due_start_from" readonly value='<?php if (isset($due_start_from)) echo $due_start_from; ?>' tabindex="37">
+                                                <input type="date" class="form-control" id="due_start_from" name="due_start_from" readonly value='<?php if (isset($due_start_from)) echo $due_start_from; ?>' tabindex="38">
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Maturity Month</label>
-                                                <input type="date" class="form-control" id="maturity_month" name="maturity_month" value='<?php if (isset($maturity_month)) echo $maturity_month; ?>' readonly tabindex='38'>
+                                                <input type="date" class="form-control" id="maturity_month" name="maturity_month" value='<?php if (isset($maturity_month)) echo $maturity_month; ?>' readonly tabindex='39'>
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Collection Method</label>
-                                                <select type="text" class="form-control" id="collection_method" name="collection_method" disabled tabindex='39'>
+                                                <select type="text" class="form-control" id="collection_method" name="collection_method" disabled tabindex='40'>
                                                     <option value="">Select Collection Method</option>
                                                     <option value="1" <?php if (isset($collection_method) and $collection_method == '1') echo 'selected'; ?>>BySelf</option>
                                                     <option value="2" <?php if (isset($collection_method) and $collection_method == '2') echo 'selected'; ?>>Spot Collection</option>
@@ -826,14 +826,14 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput"> Balance To Issue </label>
-                                                <input type="text" class="form-control" id="net_cash" name="net_cash" readonly tabindex='40'>
+                                                <input type="text" class="form-control" id="net_cash" name="net_cash" readonly tabindex='41'>
                                             </div>
                                         </div>
 
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Issued to </label>&nbsp;<span class="text-danger issued_to_type"></span>
-                                                <input type="text" class="form-control" id="issue_to" name="issue_to" readonly tabindex='41'>
+                                                <input type="text" class="form-control" id="issue_to" name="issue_to" readonly tabindex='42'>
                                                 <input type="hidden" class="form-control" id="agent_id" name="agent_id">
                                             </div>
                                         </div>
@@ -841,7 +841,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Issued mode</label>&nbsp;<span class="text-danger">*</span>
-                                                <select type="text" class="form-control" id="issued_mode" name="issued_mode" tabindex="42" disabled>
+                                                <select type="text" class="form-control" id="issued_mode" name="issued_mode" tabindex="43" disabled>
                                                     <option value=""> Select Issued Mood</option>
                                                     <option value="0" <?php if (isset($issue_mode) and $issue_mode == '0') echo 'selected'; ?>>Split Payment</option>
                                                     <option value="1" <?php if (isset($issue_mode) and $issue_mode == '1') echo 'selected'; ?>>Single Payment</option>
@@ -853,7 +853,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 ">
                                             <div class="form-group">
                                                 <label for="disabledInput">Payment Type </label>&nbsp;<span class="text-danger">*</span>
-                                                <select type="text" class="form-control" id="payment_type" name="payment_type" tabindex="43" disabled>
+                                                <select type="text" class="form-control" id="payment_type" name="payment_type" tabindex="44" disabled>
                                                     <option value=""> Select Payment Type</option>
                                                     <option value="0" <?php if (isset($payment_type) and $payment_type == '0') echo 'selected'; ?>>Cash</option>
                                                     <option value="1" <?php if (isset($payment_type) and $payment_type == '1') echo 'selected'; ?>>Cheque</option>
@@ -865,7 +865,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" id="bankDiv">
                                             <div class="form-group">
                                                 <label for="disabledInput">Bank Name </label>&nbsp;<span class="text-danger">*</span>
-                                                <select type="text" class="form-control" id="bank_id" name="bank_id" tabindex="44">
+                                                <select type="text" class="form-control" id="bank_id" name="bank_id" tabindex="45">
                                                     <option value="">Select Bank Name</option>
                                                     <?php
                                                     if (sizeof($getBankDetails) > 0) {
@@ -907,7 +907,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="bank_name "> Bank Name </label>
-                                                <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Enter Bank Name" onkeydown="return /[a-z ]/i.test(event.key)" tabindex='1'>
+                                                <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Enter Bank Name" onkeydown="return /[a-z ]/i.test(event.key)" tabindex='46'>
 
                                             </div>
                                         </div>
@@ -915,7 +915,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="branch_name"> Branch Name </label>
-                                                <input type="text" class="form-control" id="branch_name" name="branch_name" placeholder="Enter Branch Name" onkeydown="return /[a-z ]/i.test(event.key)" tabindex='1'>
+                                                <input type="text" class="form-control" id="branch_name" name="branch_name" placeholder="Enter Branch Name" onkeydown="return /[a-z ]/i.test(event.key)" tabindex='47'>
 
                                             </div>
                                         </div>
@@ -923,7 +923,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="account_holder_name"> Account Holder Name </label>
-                                                <input type="text" class="form-control" id="account_holder_name" name="account_holder_name" placeholder="Enter Account Holder Name" onkeydown="return /[a-z ]/i.test(event.key)" tabindex='1'>
+                                                <input type="text" class="form-control" id="account_holder_name" name="account_holder_name" placeholder="Enter Account Holder Name" onkeydown="return /[a-z ]/i.test(event.key)" tabindex='48'>
 
                                             </div>
                                         </div>
@@ -931,7 +931,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="account_number"> Account Number </label>
-                                                <input type="number" class="form-control" id="account_number" name="account_number" placeholder="Enter Account Number" tabindex='1'>
+                                                <input type="number" class="form-control" id="account_number" name="account_number" placeholder="Enter Account Number" tabindex='49'>
 
                                             </div>
                                         </div>
@@ -939,14 +939,14 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="Ifsc_code"> IFSC Code </label>
-                                                <input type="text" class="form-control" id="Ifsc_code" name="Ifsc_code" placeholder="Enter IFSC Code" tabindex='1'>
+                                                <input type="text" class="form-control" id="Ifsc_code" name="Ifsc_code" placeholder="Enter IFSC Code" tabindex='50'>
 
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="bank_upload">Upload</label>
-                                                <input type="file" class="form-control" id="bank_upload" name="bank_upload" tabindex="1" disabled>
+                                                <input type="file" class="form-control" id="bank_upload" name="bank_upload" tabindex="51" disabled>
 
                                                 <!-- Link to view uploaded image -->
                                                 <a href="#" id="viewUploadedImage" target="_blank" style="display: none;"></a>
@@ -981,7 +981,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 checque" style="display:none">
                                             <div class="form-group">
                                                 <label for="disabledInput">Cheque number</label>
-                                                <input type="number" class="form-control" id="chequeno" name="chequeno" tabindex="35">
+                                                <input type="number" class="form-control" id="chequeno" name="chequeno" tabindex="52">
                                                 <span class="text-danger" style="display: none;" id="cheque_num"> Please Enter Cheque Number </span>
                                             </div>
                                         </div>
@@ -989,14 +989,14 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 checque" style="display:none">
                                             <div class="form-group">
                                                 <label for="disabledInput">Cheque Value</label>
-                                                <input type="number" class="form-control" id="chequeValue" name="chequeValue" tabindex="36">
+                                                <input type="number" class="form-control" id="chequeValue" name="chequeValue" tabindex="53">
                                                 <span class="text-danger" style="display: none;" id="cheque_val"> Please Enter Cheque Value </span>
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 checque" style="display:none">
                                             <div class="form-group">
                                                 <label for="disabledInput">Cheque Remark</label>
-                                                <input type="text" class="form-control" id="chequeRemark" name="chequeRemark" tabindex="37">
+                                                <input type="text" class="form-control" id="chequeRemark" name="chequeRemark" tabindex="54">
                                                 <span class="text-danger" style="display: none;" id="cheque_remark"> Please Enter Cheque Remark </span>
                                             </div>
                                         </div>
@@ -1006,7 +1006,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 transaction" style="display:none">
                                             <div class="form-group">
                                                 <label for="disabledInput">Transaction ID</label>
-                                                <input type="text" class="form-control" id="transaction_id" name="transaction_id" tabindex="38">
+                                                <input type="text" class="form-control" id="transaction_id" name="transaction_id" tabindex="55">
                                                 <span class="text-danger" style="display: none;" id="transact_id"> Please Enter Transaction ID </span>
                                             </div>
                                         </div>
@@ -1014,14 +1014,14 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 transaction" style="display:none">
                                             <div class="form-group">
                                                 <label for="disabledInput">Transaction Value </label>
-                                                <input type="number" class="form-control" id="transaction_value" name="transaction_value" tabindex="39">
+                                                <input type="number" class="form-control" id="transaction_value" name="transaction_value" tabindex="56">
                                                 <span class="text-danger" style="display: none;" id="transact_val"> Please Enter Transaction Value </span>
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 transaction" style="display:none">
                                             <div class="form-group">
                                                 <label for="disabledInput">Transaction Remark </label>
-                                                <input type="text" class="form-control" id="transaction_remark" name="transaction_remark" tabindex="40">
+                                                <input type="text" class="form-control" id="transaction_remark" name="transaction_remark" tabindex="57">
                                                 <span class="text-danger" style="display: none;" id="transact_remark"> Please Enter Transaction Remark </span>
                                             </div>
                                         </div>
@@ -1029,7 +1029,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 balance" style="display:none">
                                             <div class="form-group">
                                                 <label for="disabledInput">Balance Amount </label>
-                                                <input type="text" class="form-control" id="balance" name="balance" readonly tabindex='41'>
+                                                <input type="text" class="form-control" id="balance" name="balance" readonly tabindex='58'>
                                             </div>
                                         </div>
                                     </div>
@@ -1041,7 +1041,7 @@ if (sizeof($getLoanCalculation) > 0) {
                     <!-- Submit Button Start -->
                     <div class="col-md-12 ">
                         <div class="text-right">
-                            <button type="submit" name="submit_accountsloanIssue" id="submit_accountsloanIssue" class="btn btn-primary" value="Submit" tabindex="45"><span class="icon-check"></span>&nbsp;Submit</button>
+                            <button type="submit" name="submit_accountsloanIssue" id="submit_accountsloanIssue" class="btn btn-primary" value="Submit" tabindex="59"><span class="icon-check"></span>&nbsp;Submit</button>
                         </div>
                     </div>
                     <!-- Submit Button End -->

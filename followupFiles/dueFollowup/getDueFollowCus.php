@@ -19,19 +19,19 @@ if ($user_id != 1) {
 
         foreach ($due_followup_lines as $line) {
             $line = (int)trim($line);
-            $lineQry = $connect->query("SELECT adfma.area_id, adf.loan_category_id, adf.line_name FROM area_duefollowup_mapping_area adfma join area_duefollowup_mapping adf on adf.map_id = adfma.map_id WHERE adf.map_id = $line");
+            $lineQry = $connect->query("SELECT adfma.area_id FROM area_duefollowup_mapping_area adfma join area_duefollowup_mapping adf on adf.map_id = adfma.map_id WHERE adf.map_id = $line");
 
             if ($row_sub = $lineQry->fetch()) {
                 $area_ids = array_filter(array_map('intval', explode(',', $row_sub['area_id'])));
-                $loan_cat_ids = array_filter(array_map('intval', explode(',', $row_sub['loan_category_id'])));
-                $line_ids = array_filter(array_map('intval', explode(',', $row_sub['line_name'])));
+                // $loan_cat_ids = array_filter(array_map('intval', explode(',', $row_sub['loan_category_id'])));
+                // $line_ids = array_filter(array_map('intval', explode(',', $row_sub['line_name'])));
 
-                if (!empty($area_ids) && !empty($loan_cat_ids) && !empty($line_ids)) {
+                if (!empty($area_ids)) {
                     $area_list = implode(',', $area_ids);
-                    $loan_cat_list = implode(',', $loan_cat_ids);
-                    $line_list = implode(',', $line_ids);
+                    // $loan_cat_list = implode(',', $loan_cat_ids);
+                    // $line_list = implode(',', $line_ids);
 
-                    $cnd = "(cp.area_confirm_area IN ($area_list) AND alm.map_id IN ($line_list) AND iv.loan_category IN ($loan_cat_list))";
+                    $cnd = "(cp.area_confirm_area IN ($area_list))";
                     $conditions[] = $cnd;
                 }
             }
