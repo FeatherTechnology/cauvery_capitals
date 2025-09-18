@@ -57,7 +57,8 @@ function getDistrictDropdown(StateSelected) {
             "Thoothukudi", "Tiruchirappalli", "Thirunelveli", "Vellore", "Viluppuram", "Virudhunagar", "Ariyalur", "Krishnagiri", "Tiruppur", "Chengalpattu", "Kallakurichi",
             "Ranipet", "Tenkasi", "Tirupathur", "Mayiladuthurai"];
         var Puducherry = ["Puducherry"];
-    }//District list
+    } //District list
+
     switch (StateSelected) {
         case "TamilNadu":
             optionsList = TamilNadu;
@@ -70,23 +71,22 @@ function getDistrictDropdown(StateSelected) {
             break;
     }
 
+    // Sort options alphabetically before appending
+    optionsList.sort();
+
     var district_upd = $('#district_upd').val();
     for (var i = 0; i < optionsList.length; i++) {
         var selected = '';
-        if (district_upd != '' && district_upd == optionsList[i]) { selected = "selected"; }
-        htmlString = htmlString + "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
+        if (district_upd != '' && district_upd == optionsList[i]) { 
+            selected = "selected"; 
+        }
+        htmlString += "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
     }
+
     $("#district").html(htmlString);
     $("#district1").val(district_upd);
-
-    {//To Order Alphabetically
-        var firstOption = $("#district option:first-child");
-        $("#district").html($("#district option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#district").prepend(firstOption);
-    }
 }
+
 
 //get Taluk Dropdown
 function getTalukDropdown(DistSelected) {
@@ -133,144 +133,61 @@ function getTalukDropdown(DistSelected) {
         var Tirupathur = ["Tirupathur", "Ambur", "Natrampalli", "Vaniyambadi"];
         var Mayiladuthurai = ["Mayiladuthurai", "Kuthalam", "Sirkali", "Tharangambadi"];
         var Puducherry = ["Puducherry", "Oulgaret", "Villianur", "Bahour", "Karaikal", "Thirunallar", "Mahe", "Yanam"];
-
-    }//taluk list
-    switch (DistSelected) {
-        case "Ariyalur":
-            optionsList = Ariyalur;
-            break;
-        case "Chengalpattu":
-            optionsList = Chengalpattu;
-            break;
-        case "Chennai":
-            optionsList = Chennai;
-            break;
-        case "Coimbatore":
-            optionsList = Coimbatore;
-            break;
-        case "Dharmapuri":
-            optionsList = Dharmapuri;
-            break;
-        case "Erode":
-            optionsList = Erode;
-            break;
-        case "Cuddalore":
-            optionsList = Cuddalore;
-            break;
-        case "Dindigul":
-            optionsList = Dindigul;
-            break;
-        case "Kallakurichi":
-            optionsList = Kallakurichi;
-            break;
-        case "Kanniyakumari":
-            optionsList = Kanniyakumari;
-            break;
-        case "Krishnagiri":
-            optionsList = Krishnagiri;
-            break;
-        case "Nagapattinam":
-            optionsList = Nagapattinam;
-            break;
-        case "Perambalur":
-            optionsList = Perambalur;
-            break;
-        case "Ramanathapuram":
-            optionsList = Ramanathapuram;
-            break;
-        case "Salem":
-            optionsList = Salem;
-            break;
-        case "Tenkasi":
-            optionsList = Tenkasi;
-            break;
-        case "Theni":
-            optionsList = Theni;
-            break;
-        case "Thirunelveli":
-            optionsList = Thirunelveli;
-            break;
-        case "Thiruvarur":
-            optionsList = Thiruvarur;
-            break;
-        case "Tirupathur":
-            optionsList = Tirupathur;
-            break;
-        case "Tiruvannamalai":
-            optionsList = Tiruvannamalai;
-            break;
-        case "Vellore":
-            optionsList = Vellore;
-            break;
-        case "Virudhunagar":
-            optionsList = Virudhunagar;
-            break;
-        case "Kancheepuram":
-            optionsList = Kancheepuram;
-            break;
-        case "Karur":
-            optionsList = Karur;
-            break;
-        case "Madurai":
-            optionsList = Madurai;
-            break;
-        case "Namakkal":
-            optionsList = Namakkal;
-            break;
-        case "Pudukottai":
-            optionsList = Pudukottai;
-            break;
-        case "Ranipet":
-            optionsList = Ranipet;
-            break;
-        case "Sivagangai":
-            optionsList = Sivagangai;
-            break;
-        case "Thanjavur":
-            optionsList = Thanjavur;
-            break;
-        case "Nilgiris":
-            optionsList = Nilgiris;
-            break;
-        case "Thiruvallur":
-            optionsList = Thiruvallur;
-            break;
-        case "Thoothukudi":
-            optionsList = Thoothukudi;
-            break;
-        case "Tiruppur":
-            optionsList = Tiruppur;
-            break;
-        case "Tiruchirappalli":
-            optionsList = Tiruchirappalli;
-            break;
-        case "Viluppuram":
-            optionsList = Viluppuram;
-            break;
-        case "Mayiladuthurai":
-            optionsList = Mayiladuthurai;
-            break;
-        case "Puducherry":
-            optionsList = Puducherry;
-            break;
-        case "Select District":
-            optionsList = [];
-            break;
     }
+
+    switch (DistSelected) {
+        case "Ariyalur": optionsList = Ariyalur; break;
+        case "Chengalpattu": optionsList = Chengalpattu; break;
+        case "Chennai": optionsList = Chennai; break;
+        case "Coimbatore": optionsList = Coimbatore; break;
+        case "Dharmapuri": optionsList = Dharmapuri; break;
+        case "Erode": optionsList = Erode; break;
+        case "Cuddalore": optionsList = Cuddalore; break;
+        case "Dindigul": optionsList = Dindigul; break;
+        case "Kallakurichi": optionsList = Kallakurichi; break;
+        case "Kanniyakumari": optionsList = Kanniyakumari; break;
+        case "Krishnagiri": optionsList = Krishnagiri; break;
+        case "Nagapattinam": optionsList = Nagapattinam; break;
+        case "Perambalur": optionsList = Perambalur; break;
+        case "Ramanathapuram": optionsList = Ramanathapuram; break;
+        case "Salem": optionsList = Salem; break;
+        case "Tenkasi": optionsList = Tenkasi; break;
+        case "Theni": optionsList = Theni; break;
+        case "Thirunelveli": optionsList = Thirunelveli; break;
+        case "Thiruvarur": optionsList = Thiruvarur; break;
+        case "Tirupathur": optionsList = Tirupathur; break;
+        case "Tiruvannamalai": optionsList = Tiruvannamalai; break;
+        case "Vellore": optionsList = Vellore; break;
+        case "Virudhunagar": optionsList = Virudhunagar; break;
+        case "Kancheepuram": optionsList = Kancheepuram; break;
+        case "Karur": optionsList = Karur; break;
+        case "Madurai": optionsList = Madurai; break;
+        case "Namakkal": optionsList = Namakkal; break;
+        case "Pudukottai": optionsList = Pudukottai; break;
+        case "Ranipet": optionsList = Ranipet; break;
+        case "Sivagangai": optionsList = Sivagangai; break;
+        case "Thanjavur": optionsList = Thanjavur; break;
+        case "Nilgiris": optionsList = Nilgiris; break;
+        case "Thiruvallur": optionsList = Thiruvallur; break;
+        case "Thoothukudi": optionsList = Thoothukudi; break;
+        case "Tiruppur": optionsList = Tiruppur; break;
+        case "Tiruchirappalli": optionsList = Tiruchirappalli; break;
+        case "Viluppuram": optionsList = Viluppuram; break;
+        case "Mayiladuthurai": optionsList = Mayiladuthurai; break;
+        case "Puducherry": optionsList = Puducherry; break;
+        case "Select District": optionsList = []; break;
+    }
+
+    // Sort options alphabetically before appending
+    optionsList.sort();
+
     var taluk_upd = $('#taluk_upd').val();
     for (var i = 0; i < optionsList.length; i++) {
         var selected = '';
         if (taluk_upd != '' && taluk_upd == optionsList[i]) { selected = "selected"; }
-        htmlString = htmlString + "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
+        htmlString += "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
     }
+
     $("#taluk").html(htmlString);
     $("#taluk1").val(taluk_upd);
-
-    {//To Order Alphabetically
-        var firstOption = $("#taluk option:first-child");
-        $("#taluk").html($("#taluk option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#taluk").prepend(firstOption);
-    }
 }

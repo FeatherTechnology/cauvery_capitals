@@ -460,22 +460,24 @@ function DropDownCourse() {
         success: function (response) {
 
             var len = response.length;
+
+            // Sort the response alphabetically by concern_subject
+            response.sort(function(a, b) {
+                return a.concern_subject.localeCompare(b.concern_subject);
+            });
+
             $("#com_sub").empty();
             $("#com_sub").append("<option value=''>" + 'Select Concern Subject' + "</option>");
+            
             for (var i = 0; i < len; i++) {
                 var concern_sub_id = response[i]['concern_sub_id'];
                 var concern_subject = response[i]['concern_subject'];
                 $("#com_sub").append("<option value='" + concern_sub_id + "'>" + concern_subject + "</option>");
-
-            }
-            {//To Order Alphabetically
-                var firstOption = $("#com_sub option:first-child");
-                $("#com_sub").html($("#com_sub option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#com_sub").prepend(firstOption);
             }
 
+            // Keep first option as 'Select Concern Subject'
+            var firstOption = $("#com_sub option:first-child");
+            $("#com_sub").prepend(firstOption);
         }
     });
 }

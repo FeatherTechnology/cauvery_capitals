@@ -72,7 +72,8 @@ function getDistrictDropdown(StateSelected) {
             "Thoothukudi", "Tiruchirappalli", "Thirunelveli", "Vellore", "Viluppuram", "Virudhunagar", "Ariyalur", "Krishnagiri", "Tiruppur", "Chengalpattu", "Kallakurichi",
             "Ranipet", "Tenkasi", "Tirupathur", "Mayiladuthurai"];
         var Puducherry = ["Puducherry"];
-    }//District list
+    }
+
     switch (StateSelected) {
         case "TamilNadu":
             optionsList = TamilNadu;
@@ -85,22 +86,19 @@ function getDistrictDropdown(StateSelected) {
             break;
     }
 
+    // Sort the districts first
+    optionsList.sort();
+
     var district_upd = $('#district_upd').val();
     for (var i = 0; i < optionsList.length; i++) {
         var selected = '';
         if (district_upd != '' && district_upd == optionsList[i]) { selected = "selected"; }
         htmlString = htmlString + "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
     }
-    $("#district").html(htmlString);
 
-    {//To Order Alphabetically
-        var firstOption = $("#district option:first-child");
-        $("#district").html($("#district option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#district").prepend(firstOption);
-    }
+    $("#district").html(htmlString);
 }
+
 
 //get Taluk Dropdown
 function getTalukDropdown(DistSelected) {
@@ -147,8 +145,8 @@ function getTalukDropdown(DistSelected) {
         var Tirupathur = ["Tirupathur", "Ambur", "Natrampalli", "Vaniyambadi"];
         var Mayiladuthurai = ["Mayiladuthurai", "Kuthalam", "Sirkali", "Tharangambadi"];
         var Puducherry = ["Puducherry", "Oulgaret", "Villianur", "Bahour", "Karaikal", "Thirunallar", "Mahe", "Yanam"];
+    }
 
-    }//taluk list
     switch (DistSelected) {
         case "Ariyalur":
             optionsList = Ariyalur;
@@ -271,19 +269,16 @@ function getTalukDropdown(DistSelected) {
             optionsList = [];
             break;
     }
+
+    // Sort the taluks first
+    optionsList.sort();
+
     var taluk_upd = $('#taluk_upd').val();
     for (var i = 0; i < optionsList.length; i++) {
         var selected = '';
         if (taluk_upd != '' && taluk_upd == optionsList[i]) { selected = "selected"; }
         htmlString = htmlString + "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
     }
-    $("#taluk").html(htmlString);
 
-    {//To Order Alphabetically
-        var firstOption = $("#taluk option:first-child");
-        $("#taluk").html($("#taluk option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#taluk").prepend(firstOption);
-    }
+    $("#taluk").html(htmlString);
 }

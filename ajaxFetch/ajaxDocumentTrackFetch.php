@@ -27,7 +27,7 @@ $column = array(
 );
 
 // Base query
-$query = "SELECT dt.*, cr.customer_name, bc.branch_name, al.area_name, agm.group_name, alm.line_name
+$query = "SELECT dt.*, cr.customer_name, bc.branch_name, al.area_id, al.area_name, agm.group_name, alm.line_name
         FROM document_track dt
         JOIN customer_register cr ON dt.cus_id = cr.cus_id
         JOIN area_list_creation al ON cr.area = al.area_id
@@ -120,7 +120,7 @@ foreach ($result as $row) {
 
     } elseif ($track_status == '4') {
 
-        $branchqry = $connect->query("SELECT bc.branch_name FROM area_line_mapping lm JOIN branch_creation bc ON lm.branch_id = bc.branch_id where FIND_IN_SET('" . $row['area'] . "' , lm.area_id) ");
+        $branchqry = $connect->query("SELECT bc.branch_name FROM area_line_mapping_area lm JOIN area_line_mapping alm ON alm.map_id = lm.line_map_id JOIN branch_creation bc ON alm.branch_id = bc.branch_id where FIND_IN_SET('" . $row['area_id'] . "' , lm.area_id) ");
         $sub_array[] = $branchqry->fetch()['branch_name'] . " Branch"; //document keeper column
 
     }

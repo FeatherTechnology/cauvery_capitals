@@ -1139,20 +1139,21 @@ function propertyHolder() {
             var len = response.length;
             $("#property_holder").empty();
             $("#property_holder").append("<option value=''>" + 'Select Property Holder' + "</option>");
+
+            // Sort the response alphabetically
+            response.sort(function(a, b){
+                return a.localeCompare(b);
+            });
+
+            // Append sorted options
             for (var i = 0; i < len; i++) {
                 var fam_name = response[i];
                 $("#property_holder").append("<option value='" + fam_name + "'>" + fam_name + "</option>");
             }
-            {//To Order ag_group Alphabetically
-                var firstOption = $("#property_holder option:first-child");
-                $("#property_holder").html($("#property_holder option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#property_holder").prepend(firstOption);
-            }
         }
     });
 }
+
 
 
 
@@ -1900,46 +1901,53 @@ function getDistrictDropdown(StateSelected) {
 
     return optionsList;
 }
-
 function districtNameList(optionsList) { // To List the District
     var htmlString = "<option value='Select District'>Select District</option>";
     var district_upd = $('#district_upd').val();
+
+    // Sort the optionsList alphabetically first
+    optionsList.sort(function(a, b){
+        return a.localeCompare(b);
+    });
+
+    // Build the option elements
     for (var i = 0; i < optionsList.length; i++) {
         var selected = '';
-        if (district_upd != undefined && district_upd != '' && district_upd == optionsList[i]) { selected = "selected"; }
-        htmlString = htmlString + "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
+        if (district_upd != undefined && district_upd != '' && district_upd == optionsList[i]) { 
+            selected = "selected"; 
+        }
+        htmlString += "<option value='" + optionsList[i] + "' " + selected + ">" + optionsList[i] + "</option>";
     }
+
+    // Append to the dropdown
     $("#district").html(htmlString);
     $("#district1").val(district_upd);
-
-    {//To Order Alphabetically
-        var firstOption = $("#district option:first-child");
-        $("#district").html($("#district option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#district").prepend(firstOption);
-    }
 }
+
 
 function conformDistrictNameList(optionsList) { // To List the Confirm Area District
     var htmlString = "<option value='Select District'>Select District</option>";
     var district_upd = $('#area_district_upd').val();
+
+    // Sort options alphabetically first
+    optionsList.sort(function(a, b) {
+        return a.localeCompare(b);
+    });
+
+    // Build the option elements
     for (var i = 0; i < optionsList.length; i++) {
         var selected = '';
-        if (district_upd != undefined && district_upd != '' && district_upd == optionsList[i]) { selected = "selected"; }
-        htmlString = htmlString + "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
+        if (district_upd != undefined && district_upd != '' && district_upd == optionsList[i]) { 
+            selected = "selected"; 
+        }
+        htmlString += "<option value='" + optionsList[i] + "' " + selected + ">" + optionsList[i] + "</option>";
     }
+
+    // Append to the dropdown
     $("#area_district").html(htmlString);
     $("#area_district1").val(district_upd);
-
-    {//To Order Alphabetically
-        var firstOption = $("#area_district option:first-child");
-        $("#area_district").html($("#area_district option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#area_district").prepend(firstOption);
-    }
 }
+
 
 //get Taluk Dropdown
 function getTalukDropdown(DistSelected) {
@@ -2113,79 +2121,82 @@ function getTalukDropdown(DistSelected) {
     return optionsList;
 }
 
-function talukNameList(optionsList) { //To show Taluk list.
+function talukNameList(optionsList) { // To show Taluk list
     var taluk_upd = $('#taluk_upd').val();
     var htmlString = "<option value='Select Taluk'>Select Taluk</option>";
+
+    // Sort options alphabetically first
+    optionsList.sort(function(a, b) {
+        return a.localeCompare(b);
+    });
+
+    // Build option elements
     for (var i = 0; i < optionsList.length; i++) {
         var selected = '';
-        if (taluk_upd != undefined && taluk_upd != '' && taluk_upd == optionsList[i]) { selected = "selected"; }
-        htmlString = htmlString + "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
+        if (taluk_upd != undefined && taluk_upd != '' && taluk_upd == optionsList[i]) { 
+            selected = "selected"; 
+        }
+        htmlString += "<option value='" + optionsList[i] + "' " + selected + ">" + optionsList[i] + "</option>";
     }
+
+    // Append to the dropdown
     $("#taluk").html(htmlString);
     $("#taluk1").val(taluk_upd);
-
-    {//To Order Alphabetically
-        var firstOption = $("#taluk option:first-child");
-        $("#taluk").html($("#taluk option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#taluk").prepend(firstOption);
-    }
 }
 
-function conformtalukNameList(optionsList) { //To show Taluk list.
+
+function conformtalukNameList(optionsList) { // To show Taluk list
     var taluk_upd = $('#area_taluk_upd').val();
     var htmlString = "<option value='Select Taluk'>Select Taluk</option>";
+
+    // Sort options alphabetically first
+    optionsList.sort(function(a, b) {
+        return a.localeCompare(b);
+    });
+
+    // Build option elements
     for (var i = 0; i < optionsList.length; i++) {
         var selected = '';
-        if (taluk_upd != undefined && taluk_upd != '' && taluk_upd == optionsList[i]) { selected = "selected"; }
-        htmlString = htmlString + "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
+        if (taluk_upd != undefined && taluk_upd != '' && taluk_upd == optionsList[i]) { 
+            selected = "selected"; 
+        }
+        htmlString += "<option value='" + optionsList[i] + "' " + selected + ">" + optionsList[i] + "</option>";
     }
+
+    // Append to the dropdown
     $("#area_taluk").html(htmlString);
     $("#area_taluk1").val(taluk_upd);
-
-    {//To Order Alphabetically
-        var firstOption = $("#area_taluk option:first-child");
-        $("#area_taluk").html($("#area_taluk option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#area_taluk").prepend(firstOption);
-    }
 }
+
 
 //Get Taluk Based Area
 function getTalukBasedArea(talukselected, area_upd, area) {
-
     $.ajax({
         url: 'requestFile/ajaxGetEnabledAreaName.php',
         type: 'post',
         data: { 'talukselected': talukselected },
         dataType: 'json',
         success: function (response) {
+            // Sort response alphabetically by area_name
+            response.sort(function(a, b) {
+                return a.area_name.localeCompare(b.area_name);
+            });
 
-            var len = response.length;
-            $(area).empty();
-            $(area).append("<option value=''>" + 'Select Area' + "</option>");
-            for (var i = 0; i < len; i++) {
+            // Build HTML options
+            var htmlString = "<option value=''>" + 'Select Area' + "</option>";
+            for (var i = 0; i < response.length; i++) {
                 var area_id = response[i]['area_id'];
                 var area_name = response[i]['area_name'];
-                var selected = '';
-                if (area_upd != undefined && area_upd != '' && area_upd == area_id) {
-                    selected = 'selected';
-                }
-                $(area).append("<option value='" + area_id + "' " + selected + ">" + area_name + "</option>");
+                var selected = (area_upd != undefined && area_upd == area_id) ? 'selected' : '';
+                htmlString += "<option value='" + area_id + "' " + selected + ">" + area_name + "</option>";
             }
 
-            {//To Order Alphabetically
-                var firstOption = $(area + " option:first-child");
-                $(area).html($(area + " option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $(area).prepend(firstOption);
-            }
+            // Append to the dropdown
+            $(area).html(htmlString);
         }
     });
 }
+
 
 function getGroupandLine(area_id) {
 

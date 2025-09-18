@@ -1225,8 +1225,7 @@ function resetFamDetails() {
         data: { "cus_id": cus_id },
         cache: false,
         success: function (html) {
-            $("#famList").empty();
-            $("#famList").html(html);
+            $("#famList").empty().html(html);
         }
     });
 
@@ -1237,10 +1236,15 @@ function resetFamDetails() {
         dataType: 'json',
         success: function (response) {
 
-            var len = response.length;
+            // ✅ Sort response array alphabetically by fam_name
+            response.sort(function (a, b) {
+                return a.fam_name.localeCompare(b.fam_name);
+            });
+
             $("#guarentor_name").empty();
             $("#guarentor_name").append("<option value=''>" + 'Select Guarantor' + "</option>");
-            for (var i = 0; i < len - 1; i++) {
+
+            for (var i = 0; i < response.length; i++) {
                 var fam_name = response[i]['fam_name'];
                 var fam_id = response[i]['fam_id'];
                 var selected = '';
@@ -1249,14 +1253,6 @@ function resetFamDetails() {
                 }
                 $("#guarentor_name").append("<option value='" + fam_id + "' " + selected + ">" + fam_name + "</option>");
             }
-            {//To Order ag_group Alphabetically
-                var firstOption = $("#guarentor_name option:first-child");
-                $("#guarentor_name").html($("#guarentor_name option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#guarentor_name").prepend(firstOption);
-            }
-
         }
     });
 }
@@ -1363,16 +1359,20 @@ function resetkycinfoList() {
 
 //get district dropdown
 function getDistrictDropdown(StateSelected) {
+    var optionsList = [];
+    var district_upd = $('#district_upd').val();
 
-    var optionsList;
-    var htmlString = "<option value='Select District'>Select District</option>";
-    {
-        var TamilNadu = ["Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kancheepuram", "Kanniyakumari", "Karur", "Madurai", "Nagapattinam",
-            "Namakkal", "Nilgiris", "Perambalur", "Pudukottai", "Ramanathapuram", "Salem", "Sivagangai", "Thanjavur", "Theni", "Thiruvallur", "Tiruvannamalai", "Thiruvarur",
-            "Thoothukudi", "Tiruchirappalli", "Thirunelveli", "Vellore", "Viluppuram", "Virudhunagar", "Ariyalur", "Krishnagiri", "Tiruppur", "Chengalpattu", "Kallakurichi",
-            "Ranipet", "Tenkasi", "Tirupathur", "Mayiladuthurai"];
-        var Puducherry = ["Puducherry"];
-    }//District list
+    // 🔹 District list
+    var TamilNadu = [
+        "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kancheepuram", "Kanniyakumari", "Karur",
+        "Madurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur", "Pudukottai", "Ramanathapuram", "Salem",
+        "Sivagangai", "Thanjavur", "Theni", "Thiruvallur", "Tiruvannamalai", "Thiruvarur", "Thoothukudi",
+        "Tiruchirappalli", "Thirunelveli", "Vellore", "Viluppuram", "Virudhunagar", "Ariyalur", "Krishnagiri",
+        "Tiruppur", "Chengalpattu", "Kallakurichi", "Ranipet", "Tenkasi", "Tirupathur", "Mayiladuthurai"
+    ];
+    var Puducherry = ["Puducherry"];
+
+    // 🔹 Assign districts based on state
     switch (StateSelected) {
         case "TamilNadu":
             optionsList = TamilNadu;
@@ -1380,219 +1380,138 @@ function getDistrictDropdown(StateSelected) {
         case "Puducherry":
             optionsList = Puducherry;
             break;
-        case "SelectState":
+        default:
             optionsList = [];
             break;
     }
 
-    var district_upd = $('#district_upd').val();
-    for (var i = 0; i < optionsList.length; i++) {
-        var selected = '';
-        if (district_upd != undefined && district_upd != '' && district_upd == optionsList[i]) { selected = "selected"; }
-        htmlString = htmlString + "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
-    }
-    $("#district").html(htmlString);
-    $("#district1").val(district_upd);
+    // ✅ Sort options alphabetically
+    optionsList.sort((a, b) => a.localeCompare(b));
 
-    {//To Order Alphabetically
-        var firstOption = $("#district option:first-child");
-        $("#district").html($("#district option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#district").prepend(firstOption);
-    }
+    // Reset dropdown
+    $("#district").empty().append("<option value=''>Select District</option>");
+
+    // Append sorted options
+    optionsList.forEach(function(district) {
+        let selected = (district_upd && district_upd === district) ? 'selected' : '';
+        $("#district").append(`<option value='${district}' ${selected}>${district}</option>`);
+    });
+
+    // Set hidden input value if needed
+    $("#district1").val(district_upd);
 }
+
+
 
 //get Taluk Dropdown
 function getTalukDropdown(DistSelected) {
-
     var optionsList;
-    var htmlString = "<option value='Select Taluk'>Select Taluk</option>";
-    {
-        var Chennai = ["Alandur", "Ambattur", "Aminjikarai", "Ayanavaram", "Egmore", "Guindy", "Madhavaram", "Madhuravoyal", "Mambalam", "Mylapore", "Perambur", "Purasavakkam", "Sholinganallur", "Thiruvottriyur", "Tondiarpet", "Velacherry"];
-        var Coimbatore = ["Aanaimalai", "Annur", "Coimbatore(North)", "Coimbatore(South)", "Kinathukadavu", "Madukarai", "Mettupalayam", "Perur", "Pollachi", "Sulur", "Valparai"];
-        var Cuddalore = ["Cuddalore", "Bhuvanagiri", "Chidambaram", "Kattumannarkoil", "Kurinjipadi", "Panruti", "Srimushnam", "Thittakudi", "Veppur", "Virudhachalam"];
-        var Dharmapuri = ["Dharmapuri", "Harur", "Karimangalam", "Nallampalli", "Palacode", "Pappireddipatti", "Pennagaram"];
-        var Dindigul = ["Atthur", "Dindigul (East)", "Dindigul (West)", "Guziliyamparai", "Kodaikanal", "Natham", "Nilakottai", "Oddanchatram", "Palani", "Vedasandur"];
-        var Erode = ["Erode", "Anthiyur", "Bhavani", "Gobichettipalayam", "Kodumudi", "Modakurichi", "Nambiyur", "Perundurai", "Sathiyamangalam", "Thalavadi"];
-        var Kancheepuram = ["Kancheepuram", "Kundrathur", "Sriperumbudur", "Uthiramerur", "Walajabad"];
-        var Kanniyakumari = ["Agasteeswaram", "Kalkulam", "Killiyur", "Thiruvatar", "Thovalai", "Vilavankodu"];
-        var Karur = ["Karur", "Aravakurichi", "Kadavur", "Krishnarayapuram", "Kulithalai", "Manmangalam", "Pugalur"];
-        var Madurai = ["Kallikudi", "Madurai (East)", "Madurai (North)", "Madurai (South)", "Madurai (West)", "Melur", "Peraiyur", "Thirumangalam", "Thiruparankundram", "Usilampatti", "Vadipatti"];
-        var Nagapattinam = ["Nagapattinam", "Kilvelur", "Thirukkuvalai", "Vedaranyam"];
-        var Namakkal = ["Namakkal", "Kholli Hills", "Kumarapalayam", "Mohanoor", "Paramathi Velur", "Rasipuram", "Senthamangalam", "Tiruchengode"];
-        var Nilgiris = ["Udagamandalam", "Coonoor", "Gudalur", "Kothagiri", "Kundah", "Pandalur"];
-        var Perambalur = ["Perambalur", "Alathur", "Kunnam", "Veppanthattai"];
-        var Pudukottai = ["Pudukottai", "Alangudi", "Aranthangi", "Avudiyarkoil", "Gandarvakottai", "Iluppur", "Karambakudi", "Kulathur", "Manamelkudi", "Ponnamaravathi", "Thirumayam", "Viralimalai"];
-        var Ramanathapuram = ["Ramanathapuram", "Kadaladi", "Kamuthi", "Kezhakarai", "Mudukulathur", "Paramakudi", "Rajasingamangalam", "Rameswaram", "Tiruvadanai"];
-        var Salem = ["Salem", "Attur", "Edapadi", "Gangavalli", "Kadaiyampatti", "Mettur", "Omalur", "Pethanayakanpalayam", "Salem South", "Salem West", "Sankari", "Vazhapadi", "Yercaud"];
-        var Sivagangai = ["Sivagangai", "Devakottai", "Ilayankudi", "Kalaiyarkovil", "Karaikudi", "Manamadurai", "Singampunari", "Thirupuvanam", "Tirupathur"];
-        var Thanjavur = ["Thanjavur", "Boothalur", "Kumbakonam", "Orathanadu", "Papanasam", "Pattukottai", "Peravurani", "Thiruvaiyaru", "Thiruvidaimaruthur"];
-        var Theni = ["Theni", "Aandipatti", "Bodinayakanur", "Periyakulam", "Uthamapalayam"];
-        var Thiruvallur = ["Thiruvallur", "Avadi", "Gummidipoondi", "Pallipattu", "Ponneri", "Poonamallee", "R.K. Pet", "Tiruthani", "Uthukottai"];
-        var Tiruvannamalai = ["Thiruvannamalai", "Arni", "Chengam", "Chetpet", "Cheyyar", "Jamunamarathur", "Kalasapakkam", "Kilpennathur", "Polur", "Thandramet", "Vandavasi", "Vembakkam"];
-        var Thiruvarur = ["Thiruvarur", "Kodavasal", "Koothanallur", "Mannargudi", "Nannilam", "Needamangalam", "Thiruthuraipoondi", "Valangaiman"];
-        var Thoothukudi = ["Thoothukudi", "Eral", "Ettayapuram", "Kayathar", "Kovilpatti", "Ottapidaram", "Sattankulam", "Srivaikundam", "Tiruchendur", "Vilathikulam"];
-        var Tiruchirappalli = ["Lalgudi", "Manachanallur", "Manapparai", "Marungapuri", "Musiri", "Srirangam", "Thottiam", "Thuraiyur", "Tiruchirapalli (West)", "Tiruchirappalli (East)", "Tiruverumbur"];
-        var Thirunelveli = ["Tirunelveli", "Ambasamudram", "Cheranmahadevi", "Manur", "Nanguneri", "Palayamkottai", "Radhapuram", "Thisayanvilai"];
-        var Vellore = ["Vellore", "Aanikattu", "Gudiyatham", "K V Kuppam", "Katpadi", "Pernambut"];
-        var Viluppuram = ["Villupuram", "Gingee", "Kandachipuram", "Marakanam", "Melmalaiyanur", "Thiruvennainallur", "Tindivanam", "Vanur", "Vikravandi"];
-        var Virudhunagar = ["Virudhunagar", "Aruppukottai", "Kariyapatti", "Rajapalayam", "Sathur", "Sivakasi", "Srivilliputhur", "Tiruchuli", "Vembakottai", "Watrap"];
-        var Ariyalur = ["Ariyalur", "Andimadam", "Sendurai", "Udaiyarpalayam"];
-        var Krishnagiri = ["Krishnagiri", "Anjetty", "Bargur", "Hosur", "Pochampalli", "Sulagiri", "Thenkanikottai", "Uthangarai"];
-        var Tiruppur = ["Avinashi", "Dharapuram", "Kangeyam", "Madathukkulam", "Oothukuli", "Palladam", "Tiruppur (North)", "Tiruppur (South)", "Udumalaipettai"];
-        var Chengalpattu = ["Chengalpattu", "Cheyyur", "Maduranthakam", "Pallavaram", "Tambaram", "Thirukalukundram", "Tiruporur", "Vandalur"];
-        var Kallakurichi = ["Kallakurichi", "Chinnaselam", "Kalvarayan Hills", "Sankarapuram", "Tirukoilur", "Ulundurpet"];
-        var Ranipet = ["Arakkonam", "Arcot", "Kalavai", "Nemili", "Sholingur", "Walajah"];
-        var Tenkasi = ["Tenkasi", "Alangulam", "Kadayanallur", "Sankarankovil", "Shenkottai", "Sivagiri", "Thiruvengadam", "Veerakeralampudur"];
-        var Tirupathur = ["Tirupathur", "Ambur", "Natrampalli", "Vaniyambadi"];
-        var Mayiladuthurai = ["Mayiladuthurai", "Kuthalam", "Sirkali", "Tharangambadi"];
-        var Puducherry = ["Puducherry", "Oulgaret", "Villianur", "Bahour", "Karaikal", "Thirunallar", "Mahe", "Yanam"];
+    var htmlString = "<option value=''>Select Taluk</option>";
 
-    }//taluk list
+    // --- Taluk list ---
+    var Chennai = ["Alandur", "Ambattur", "Aminjikarai", "Ayanavaram", "Egmore", "Guindy", "Madhavaram", "Madhuravoyal", "Mambalam", "Mylapore", "Perambur", "Purasavakkam", "Sholinganallur", "Thiruvottriyur", "Tondiarpet", "Velacherry"];
+    var Coimbatore = ["Aanaimalai", "Annur", "Coimbatore(North)", "Coimbatore(South)", "Kinathukadavu", "Madukarai", "Mettupalayam", "Perur", "Pollachi", "Sulur", "Valparai"];
+    var Cuddalore = ["Cuddalore", "Bhuvanagiri", "Chidambaram", "Kattumannarkoil", "Kurinjipadi", "Panruti", "Srimushnam", "Thittakudi", "Veppur", "Virudhachalam"];
+    var Dharmapuri = ["Dharmapuri", "Harur", "Karimangalam", "Nallampalli", "Palacode", "Pappireddipatti", "Pennagaram"];
+    var Dindigul = ["Atthur", "Dindigul (East)", "Dindigul (West)", "Guziliyamparai", "Kodaikanal", "Natham", "Nilakottai", "Oddanchatram", "Palani", "Vedasandur"];
+    var Erode = ["Erode", "Anthiyur", "Bhavani", "Gobichettipalayam", "Kodumudi", "Modakurichi", "Nambiyur", "Perundurai", "Sathiyamangalam", "Thalavadi"];
+    var Kancheepuram = ["Kancheepuram", "Kundrathur", "Sriperumbudur", "Uthiramerur", "Walajabad"];
+    var Kanniyakumari = ["Agasteeswaram", "Kalkulam", "Killiyur", "Thiruvatar", "Thovalai", "Vilavankodu"];
+    var Karur = ["Karur", "Aravakurichi", "Kadavur", "Krishnarayapuram", "Kulithalai", "Manmangalam", "Pugalur"];
+    var Madurai = ["Kallikudi", "Madurai (East)", "Madurai (North)", "Madurai (South)", "Madurai (West)", "Melur", "Peraiyur", "Thirumangalam", "Thiruparankundram", "Usilampatti", "Vadipatti"];
+    var Nagapattinam = ["Nagapattinam", "Kilvelur", "Thirukkuvalai", "Vedaranyam"];
+    var Namakkal = ["Namakkal", "Kholli Hills", "Kumarapalayam", "Mohanoor", "Paramathi Velur", "Rasipuram", "Senthamangalam", "Tiruchengode"];
+    var Nilgiris = ["Udagamandalam", "Coonoor", "Gudalur", "Kothagiri", "Kundah", "Pandalur"];
+    var Perambalur = ["Perambalur", "Alathur", "Kunnam", "Veppanthattai"];
+    var Pudukottai = ["Pudukottai", "Alangudi", "Aranthangi", "Avudiyarkoil", "Gandarvakottai", "Iluppur", "Karambakudi", "Kulathur", "Manamelkudi", "Ponnamaravathi", "Thirumayam", "Viralimalai"];
+    var Ramanathapuram = ["Ramanathapuram", "Kadaladi", "Kamuthi", "Kezhakarai", "Mudukulathur", "Paramakudi", "Rajasingamangalam", "Rameswaram", "Tiruvadanai"];
+    var Salem = ["Salem", "Attur", "Edapadi", "Gangavalli", "Kadaiyampatti", "Mettur", "Omalur", "Pethanayakanpalayam", "Salem South", "Salem West", "Sankari", "Vazhapadi", "Yercaud"];
+    var Sivagangai = ["Sivagangai", "Devakottai", "Ilayankudi", "Kalaiyarkovil", "Karaikudi", "Manamadurai", "Singampunari", "Thirupuvanam", "Tirupathur"];
+    var Thanjavur = ["Thanjavur", "Boothalur", "Kumbakonam", "Orathanadu", "Papanasam", "Pattukottai", "Peravurani", "Thiruvaiyaru", "Thiruvidaimaruthur"];
+    var Theni = ["Theni", "Aandipatti", "Bodinayakanur", "Periyakulam", "Uthamapalayam"];
+    var Thiruvallur = ["Thiruvallur", "Avadi", "Gummidipoondi", "Pallipattu", "Ponneri", "Poonamallee", "R.K. Pet", "Tiruthani", "Uthukottai"];
+    var Tiruvannamalai = ["Thiruvannamalai", "Arni", "Chengam", "Chetpet", "Cheyyar", "Jamunamarathur", "Kalasapakkam", "Kilpennathur", "Polur", "Thandramet", "Vandavasi", "Vembakkam"];
+    var Thiruvarur = ["Thiruvarur", "Kodavasal", "Koothanallur", "Mannargudi", "Nannilam", "Needamangalam", "Thiruthuraipoondi", "Valangaiman"];
+    var Thoothukudi = ["Thoothukudi", "Eral", "Ettayapuram", "Kayathar", "Kovilpatti", "Ottapidaram", "Sattankulam", "Srivaikundam", "Tiruchendur", "Vilathikulam"];
+    var Tiruchirappalli = ["Lalgudi", "Manachanallur", "Manapparai", "Marungapuri", "Musiri", "Srirangam", "Thottiam", "Thuraiyur", "Tiruchirapalli (West)", "Tiruchirappalli (East)", "Tiruverumbur"];
+    var Thirunelveli = ["Tirunelveli", "Ambasamudram", "Cheranmahadevi", "Manur", "Nanguneri", "Palayamkottai", "Radhapuram", "Thisayanvilai"];
+    var Vellore = ["Vellore", "Aanikattu", "Gudiyatham", "K V Kuppam", "Katpadi", "Pernambut"];
+    var Viluppuram = ["Villupuram", "Gingee", "Kandachipuram", "Marakanam", "Melmalaiyanur", "Thiruvennainallur", "Tindivanam", "Vanur", "Vikravandi"];
+    var Virudhunagar = ["Virudhunagar", "Aruppukottai", "Kariyapatti", "Rajapalayam", "Sathur", "Sivakasi", "Srivilliputhur", "Tiruchuli", "Vembakottai", "Watrap"];
+    var Ariyalur = ["Ariyalur", "Andimadam", "Sendurai", "Udaiyarpalayam"];
+    var Krishnagiri = ["Krishnagiri", "Anjetty", "Bargur", "Hosur", "Pochampalli", "Sulagiri", "Thenkanikottai", "Uthangarai"];
+    var Tiruppur = ["Avinashi", "Dharapuram", "Kangeyam", "Madathukkulam", "Oothukuli", "Palladam", "Tiruppur (North)", "Tiruppur (South)", "Udumalaipettai"];
+    var Chengalpattu = ["Chengalpattu", "Cheyyur", "Maduranthakam", "Pallavaram", "Tambaram", "Thirukalukundram", "Tiruporur", "Vandalur"];
+    var Kallakurichi = ["Kallakurichi", "Chinnaselam", "Kalvarayan Hills", "Sankarapuram", "Tirukoilur", "Ulundurpet"];
+    var Ranipet = ["Arakkonam", "Arcot", "Kalavai", "Nemili", "Sholingur", "Walajah"];
+    var Tenkasi = ["Tenkasi", "Alangulam", "Kadayanallur", "Sankarankovil", "Shenkottai", "Sivagiri", "Thiruvengadam", "Veerakeralampudur"];
+    var Tirupathur = ["Tirupathur", "Ambur", "Natrampalli", "Vaniyambadi"];
+    var Mayiladuthurai = ["Mayiladuthurai", "Kuthalam", "Sirkali", "Tharangambadi"];
+    var Puducherry = ["Puducherry", "Oulgaret", "Villianur", "Bahour", "Karaikal", "Thirunallar", "Mahe", "Yanam"];
+
+    // --- Assign taluks based on district ---
     switch (DistSelected) {
-        case "Ariyalur":
-            optionsList = Ariyalur;
-            break;
-        case "Chengalpattu":
-            optionsList = Chengalpattu;
-            break;
-        case "Chennai":
-            optionsList = Chennai;
-            break;
-        case "Coimbatore":
-            optionsList = Coimbatore;
-            break;
-        case "Dharmapuri":
-            optionsList = Dharmapuri;
-            break;
-        case "Erode":
-            optionsList = Erode;
-            break;
-        case "Cuddalore":
-            optionsList = Cuddalore;
-            break;
-        case "Dindigul":
-            optionsList = Dindigul;
-            break;
-        case "Kallakurichi":
-            optionsList = Kallakurichi;
-            break;
-        case "Kanniyakumari":
-            optionsList = Kanniyakumari;
-            break;
-        case "Krishnagiri":
-            optionsList = Krishnagiri;
-            break;
-        case "Nagapattinam":
-            optionsList = Nagapattinam;
-            break;
-        case "Perambalur":
-            optionsList = Perambalur;
-            break;
-        case "Ramanathapuram":
-            optionsList = Ramanathapuram;
-            break;
-        case "Salem":
-            optionsList = Salem;
-            break;
-        case "Tenkasi":
-            optionsList = Tenkasi;
-            break;
-        case "Theni":
-            optionsList = Theni;
-            break;
-        case "Thirunelveli":
-            optionsList = Thirunelveli;
-            break;
-        case "Thiruvarur":
-            optionsList = Thiruvarur;
-            break;
-        case "Tirupathur":
-            optionsList = Tirupathur;
-            break;
-        case "Tiruvannamalai":
-            optionsList = Tiruvannamalai;
-            break;
-        case "Vellore":
-            optionsList = Vellore;
-            break;
-        case "Virudhunagar":
-            optionsList = Virudhunagar;
-            break;
-        case "Kancheepuram":
-            optionsList = Kancheepuram;
-            break;
-        case "Karur":
-            optionsList = Karur;
-            break;
-        case "Madurai":
-            optionsList = Madurai;
-            break;
-        case "Namakkal":
-            optionsList = Namakkal;
-            break;
-        case "Pudukottai":
-            optionsList = Pudukottai;
-            break;
-        case "Ranipet":
-            optionsList = Ranipet;
-            break;
-        case "Sivagangai":
-            optionsList = Sivagangai;
-            break;
-        case "Thanjavur":
-            optionsList = Thanjavur;
-            break;
-        case "Nilgiris":
-            optionsList = Nilgiris;
-            break;
-        case "Thiruvallur":
-            optionsList = Thiruvallur;
-            break;
-        case "Thoothukudi":
-            optionsList = Thoothukudi;
-            break;
-        case "Tiruppur":
-            optionsList = Tiruppur;
-            break;
-        case "Tiruchirappalli":
-            optionsList = Tiruchirappalli;
-            break;
-        case "Viluppuram":
-            optionsList = Viluppuram;
-            break;
-        case "Mayiladuthurai":
-            optionsList = Mayiladuthurai;
-            break;
-        case "Puducherry":
-            optionsList = Puducherry;
-            break;
-        case "Select District":
-            optionsList = [];
-            break;
+        case "Ariyalur": optionsList = Ariyalur; break;
+        case "Chengalpattu": optionsList = Chengalpattu; break;
+        case "Chennai": optionsList = Chennai; break;
+        case "Coimbatore": optionsList = Coimbatore; break;
+        case "Dharmapuri": optionsList = Dharmapuri; break;
+        case "Erode": optionsList = Erode; break;
+        case "Cuddalore": optionsList = Cuddalore; break;
+        case "Dindigul": optionsList = Dindigul; break;
+        case "Kallakurichi": optionsList = Kallakurichi; break;
+        case "Kanniyakumari": optionsList = Kanniyakumari; break;
+        case "Krishnagiri": optionsList = Krishnagiri; break;
+        case "Nagapattinam": optionsList = Nagapattinam; break;
+        case "Perambalur": optionsList = Perambalur; break;
+        case "Ramanathapuram": optionsList = Ramanathapuram; break;
+        case "Salem": optionsList = Salem; break;
+        case "Tenkasi": optionsList = Tenkasi; break;
+        case "Theni": optionsList = Theni; break;
+        case "Thirunelveli": optionsList = Thirunelveli; break;
+        case "Thiruvarur": optionsList = Thiruvarur; break;
+        case "Tirupathur": optionsList = Tirupathur; break;
+        case "Tiruvannamalai": optionsList = Tiruvannamalai; break;
+        case "Vellore": optionsList = Vellore; break;
+        case "Virudhunagar": optionsList = Virudhunagar; break;
+        case "Kancheepuram": optionsList = Kancheepuram; break;
+        case "Karur": optionsList = Karur; break;
+        case "Madurai": optionsList = Madurai; break;
+        case "Namakkal": optionsList = Namakkal; break;
+        case "Pudukottai": optionsList = Pudukottai; break;
+        case "Ranipet": optionsList = Ranipet; break;
+        case "Sivagangai": optionsList = Sivagangai; break;
+        case "Thanjavur": optionsList = Thanjavur; break;
+        case "Nilgiris": optionsList = Nilgiris; break;
+        case "Thiruvallur": optionsList = Thiruvallur; break;
+        case "Thoothukudi": optionsList = Thoothukudi; break;
+        case "Tiruppur": optionsList = Tiruppur; break;
+        case "Tiruchirappalli": optionsList = Tiruchirappalli; break;
+        case "Viluppuram": optionsList = Viluppuram; break;
+        case "Mayiladuthurai": optionsList = Mayiladuthurai; break;
+        case "Puducherry": optionsList = Puducherry; break;
+        default: optionsList = []; break;
     }
+
+    // --- Sort taluks alphabetically ---
+    optionsList.sort();
+
+    // --- Append options after sorting ---
     var taluk_upd = $('#taluk_upd').val();
-    for (var i = 0; i < optionsList.length; i++) {
-        var selected = '';
-        if (taluk_upd != undefined && taluk_upd != '' && taluk_upd == optionsList[i]) { selected = "selected"; }
-        htmlString = htmlString + "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
-    }
+    optionsList.forEach(function(taluk) {
+        var selected = (taluk_upd && taluk_upd === taluk) ? "selected" : "";
+        htmlString += "<option value='" + taluk + "' " + selected + ">" + taluk + "</option>";
+    });
+
     $("#taluk").html(htmlString);
     $("#taluk1").val(taluk_upd);
-
-    {//To Order Alphabetically
-        var firstOption = $("#taluk option:first-child");
-        $("#taluk").html($("#taluk option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#taluk").prepend(firstOption);
-    }
 }
+
 
 //Get Taluk Based Area
 function getTalukBasedArea(talukselected) {
     var area_upd = $('#area_upd').val();
+
     $.ajax({
         url: 'requestFile/ajaxGetEnabledAreaName.php',
         type: 'post',
@@ -1600,32 +1519,29 @@ function getTalukBasedArea(talukselected) {
         dataType: 'json',
         success: function (response) {
 
-            var len = response.length;
             $("#area").empty();
-            $("#area").append("<option value=''>" + 'Select Area' + "</option>");
-            for (var i = 0; i < len; i++) {
-                var area_id = response[i]['area_id'];
-                var area_name = response[i]['area_name'];
-                var selected = '';
-                if (area_upd != undefined && area_upd != '' && area_upd == area_id) {
-                    selected = 'selected';
-                }
-                $("#area").append("<option value='" + area_id + "' " + selected + ">" + area_name + "</option>");
-            }
+            $("#area").append("<option value=''>Select Area</option>"); // first option
 
+            // Sort response alphabetically by area_name
+            response.sort(function(a, b) {
+                return a.area_name.localeCompare(b.area_name);
+            });
+
+            // Append sorted options
+            response.forEach(function(item) {
+                var area_id = item.area_id;
+                var area_name = item.area_name;
+                var selected = (area_upd && area_upd == area_id) ? "selected" : "";
+                $("#area").append("<option value='" + area_id + "' " + selected + ">" + area_name + "</option>");
+            });
+
+            // Reset other area inputs
             $("#area_name").val('');
             $("#area_id").val('');
-
-            {//To Order Alphabetically
-                var firstOption = $("#area option:first-child");
-                $("#area").html($("#area option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#area").prepend(firstOption);
-            }
         }
     });
 }
+
 
 //Customer Feedback Modal 
 function feedbackList() {
@@ -1706,87 +1622,88 @@ function getDocID() {
 }
 
 function endorseHolderName() {
-
     let cus_id = $('#cus_id').val();
+    let endorsename = $("#en_relation_name").val();
 
+    // Load family list HTML (if needed)
+    $.ajax({
+        url: 'verificationFile/verification_fam_list.php',
+        type: 'POST',
+        data: { "cus_id": cus_id },
+        cache: false,
+        success: function (html) {
+            $("#famList").empty().html(html);
+        }
+    });
+
+    // Load and populate owner name dropdown
     $.ajax({
         url: 'verificationFile/verificationFam.php',
-        type: 'post',
+        type: 'POST',
         data: { "cus_id": cus_id },
         dataType: 'json',
         success: function (response) {
 
-            var len = response.length;
-            let Endorsename = $("#en_relation_name").val();
+            // ✅ Sort response alphabetically by fam_name
+            response.sort((a, b) => a.fam_name.localeCompare(b.fam_name));
 
-            $("#ownername_relationship_name").empty();
-            $("#ownername_relationship_name").append("<option value=''>Select Holder Name</option>");
+            // Reset dropdown
+            $("#ownername_relationship_name").empty().append("<option value=''>Select Holder Name</option>");
 
-            for (var i = 0; i < len - 1; i++) {
-                // -1 because this ajax's response will contain customer value at the last of the response for verification person
-                var fam_name = response[i]['fam_name'];
-                var fam_id = response[i]['fam_id'];
-                let selected ='';
-
-                if(fam_id == Endorsename){
-                selected ='selected';
+            // Append sorted options
+            response.forEach(fam => {
+                // Exclude the last item (customer itself)
+                if (fam !== response[response.length - 1]) {
+                    let selected = (fam.fam_id == endorsename) ? 'selected' : '';
+                    $("#ownername_relationship_name").append(`<option value='${fam.fam_id}' ${selected}>${fam.fam_name}</option>`);
                 }
-
-                $("#ownername_relationship_name").append(`<option value='${fam_id}' ${selected}>${fam_name}</option>`);
-            }
-
-            {//To Order ag_group Alphabetically
-                var firstOption = $("#ownername_relationship_name option:first-child");
-                $("#ownername_relationship_name").html($("#ownername_relationship_name option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#ownername_relationship_name").prepend(firstOption);
-            }
-
+            });
         }
     });
 }
+
+
 
 function mortgageHolderName() {
     let cus_id = $('#cus_id').val();
+    let mortgageHolder = $("#mortgage_relation_name").val();
 
+    // Load family list HTML if needed (optional)
+    $.ajax({
+        url: 'verificationFile/verification_fam_list.php',
+        type: 'POST',
+        data: { "cus_id": cus_id },
+        cache: false,
+        success: function (html) {
+            $("#famList").empty().html(html);
+        }
+    });
+
+    // Load and populate property holder dropdown
     $.ajax({
         url: 'verificationFile/verificationFam.php',
-        type: 'post',
+        type: 'POST',
         data: { "cus_id": cus_id },
         dataType: 'json',
         success: function (response) {
 
-            var len = response.length;
-            let mortgageHolder = $("#mortgage_relation_name").val();
+            // ✅ Sort response alphabetically by fam_name
+            response.sort((a, b) => a.fam_name.localeCompare(b.fam_name));
 
-            $("#Propertyholder_relationship_name").empty();
-            $("#Propertyholder_relationship_name").append("<option value=''>Select Holder Name</option>");
+            // Reset dropdown
+            $("#Propertyholder_relationship_name").empty().append("<option value=''>Select Holder Name</option>");
 
-            for (var i = 0; i < len - 1; i++) {
-                // -1 because this ajax's response will contain customer value at the last of the response for verification person
-
-                var fam_name = response[i]['fam_name'];
-                var fam_id = response[i]['fam_id'];
-                let selected ='';
-                if(fam_id == mortgageHolder){
-                selected ='selected';
+            // Append sorted options (excluding last item - customer itself)
+            response.forEach((fam, index) => {
+                if (index < response.length - 1) {
+                    let selected = (fam.fam_id == mortgageHolder) ? 'selected' : '';
+                    $("#Propertyholder_relationship_name").append(`<option value='${fam.fam_id}' ${selected}>${fam.fam_name}</option>`);
                 }
-
-                $("#Propertyholder_relationship_name").append(`<option value='${fam_id}' ${selected}>${fam_name}</option>`);
-            }
-
-            {//To Order ag_group Alphabetically
-                var firstOption = $("#Propertyholder_relationship_name option:first-child");
-                $("#Propertyholder_relationship_name").html($("#Propertyholder_relationship_name option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#Propertyholder_relationship_name").prepend(firstOption);
-            }
-
+            });
         }
     });
 }
+
 
 function docHolderName(callback) {
     let cus_id = $('#cus_id').val();
@@ -1798,28 +1715,30 @@ function docHolderName(callback) {
         dataType: 'json',
         success: function (response) {
 
-            var len = response.length;
-            $("#docholder_relationship_name").empty();
-            $("#docholder_relationship_name").append("<option value=''>" + 'Select Holder Name' + "</option>");
-            for (var i = 0; i < len - 1; i++) {
-                var fam_name = response[i]['fam_name'];
-                var fam_id = response[i]['fam_id'];
-                $("#docholder_relationship_name").append("<option value='" + fam_id + "'>" + fam_name + "</option>");
-            }
-            {//To Order ag_group Alphabetically
-                var firstOption = $("#docholder_relationship_name option:first-child");
-                $("#docholder_relationship_name").html($("#docholder_relationship_name option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#docholder_relationship_name").prepend(firstOption);
-            }
+            // ✅ Sort response array alphabetically by fam_name
+            response.sort(function(a, b) {
+                return a.fam_name.localeCompare(b.fam_name);
+            });
 
-            if(typeof callback === "function"){
+            // Reset dropdown
+            $("#docholder_relationship_name").empty().append("<option value=''>Select Holder Name</option>");
+
+            // Append sorted options
+            response.forEach(function(item, index) {
+                // Exclude last item if it contains customer itself
+                if(index < response.length - 1) {
+                    $("#docholder_relationship_name").append(`<option value='${item.fam_id}'>${item.fam_name}</option>`);
+                }
+            });
+
+            // Call callback if provided
+            if (typeof callback === "function") {
                 callback();
             }
         }
     });
 }
+
 
 function resetsignInfo() {
     let req_id = $('#req_id').val();
@@ -1848,6 +1767,7 @@ function resetsignInfo() {
 
 function signTypeRelation() {
     let cus_id = $('#cus_id').val();
+
     $.ajax({
         url: 'verificationFile/verificationFam.php',
         type: 'post',
@@ -1855,26 +1775,28 @@ function signTypeRelation() {
         dataType: 'json',
         success: function (response) {
 
-            var len = response.length;
-            $("#signType_relationship").empty();
-            $("#signType_relationship").append("<option value=''>" + 'Select Relationship' + "</option>");
-            for (var i = 0; i < len - 1; i++) {
-                var fam_name = response[i]['fam_name'];
-                var fam_id = response[i]['fam_id'];
-                var relationship = response[i]['relationship'];
-                $("#signType_relationship").append("<option value='" + fam_id + "'>" + fam_name + ' - ' + relationship + "</option>");
-            }
-            {//To Order ag_group Alphabetically
-                var firstOption = $("#signType_relationship option:first-child");
-                $("#signType_relationship").html($("#signType_relationship option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#signType_relationship").prepend(firstOption);
-            }
+            // ✅ Sort response alphabetically by fam_name
+            response.sort(function(a, b) {
+                return a.fam_name.localeCompare(b.fam_name);
+            });
+
+            // Reset dropdown
+            $("#signType_relationship").empty().append("<option value=''>Select Relationship</option>");
+
+            // Append sorted options (excluding last item if it's customer itself)
+            response.forEach(function(item, index) {
+                if(index < response.length - 1) {
+                    let fam_name = item.fam_name;
+                    let fam_id = item.fam_id;
+                    let relationship = item.relationship;
+                    $("#signType_relationship").append(`<option value='${fam_id}'>${fam_name} - ${relationship}</option>`);
+                }
+            });
 
         }
     });
 }
+
 
 function getGuarentorName() {
     let req_id = $('#req_id').val();
@@ -2005,6 +1927,7 @@ function resetchequeInfo() {
 
 function chequeHolderName(editValue) {
     let cus_id = $('#cus_id').val();
+
     $.ajax({
         url: 'verificationFile/verificationFam.php',
         type: 'post',
@@ -2012,27 +1935,27 @@ function chequeHolderName(editValue) {
         dataType: 'json',
         success: function (response) {
 
-            var len = response.length;
-            $("#holder_relationship_name").empty();
-            $("#holder_relationship_name").append("<option value=''>Select Holder Name</option>");
-            for (var i = 0; i < len - 1; i++) {
-                var fam_name = response[i]['fam_name'];
-                var fam_id = response[i]['fam_id'];
-                let selected = (editValue == fam_id) ? 'selected': '';
+            // ✅ Sort response alphabetically by fam_name
+            response.sort(function(a, b) {
+                return a.fam_name.localeCompare(b.fam_name);
+            });
 
-                $("#holder_relationship_name").append(`<option value='${fam_id}' ${selected}>${fam_name}</option>`);
-            }
-            {//To Order ag_group Alphabetically
-                var firstOption = $("#holder_relationship_name option:first-child");
-                $("#holder_relationship_name").html($("#holder_relationship_name option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#holder_relationship_name").prepend(firstOption);
-            }
+            // Reset dropdown
+            $("#holder_relationship_name").empty().append("<option value=''>Select Holder Name</option>");
 
+            // Append sorted options (excluding last item if it's customer itself)
+            response.forEach(function(item, index) {
+                if(index < response.length - 1) {
+                    let fam_name = item.fam_name;
+                    let fam_id = item.fam_id;
+                    let selected = (editValue == fam_id) ? 'selected' : '';
+                    $("#holder_relationship_name").append(`<option value='${fam_id}' ${selected}>${fam_name}</option>`);
+                }
+            });
         }
     });
 }
+
 
 // function chequefilesCount() {
 //     var cnt = $('#cheque_count').val();

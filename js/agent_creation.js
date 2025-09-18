@@ -126,16 +126,20 @@ $('#more_info').on('input', function () {
 
 //get district dropdown
 function getDistrictDropdown(StateSelected) {
+    let optionsList = [];
 
-    var optionsList;
-    var htmlString = "<option value='Select District'>Select District</option>";
-    {
-        var TamilNadu = ["Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kancheepuram", "Kanniyakumari", "Karur", "Madurai", "Nagapattinam",
-            "Namakkal", "Nilgiris", "Perambalur", "Pudukottai", "Ramanathapuram", "Salem", "Sivagangai", "Thanjavur", "Theni", "Thiruvallur", "Tiruvannamalai", "Thiruvarur",
-            "Thoothukudi", "Tiruchirappalli", "Thirunelveli", "Vellore", "Viluppuram", "Virudhunagar", "Ariyalur", "Krishnagiri", "Tiruppur", "Chengalpattu", "Kallakurichi",
-            "Ranipet", "Tenkasi", "Tirupathur", "Mayiladuthurai"];
-        var Puducherry = ["Puducherry"];
-    }//District list
+    // District list
+    const TamilNadu = [
+        "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode",
+        "Kancheepuram", "Kanniyakumari", "Karur", "Madurai", "Nagapattinam", "Namakkal",
+        "Nilgiris", "Perambalur", "Pudukottai", "Ramanathapuram", "Salem", "Sivagangai",
+        "Thanjavur", "Theni", "Thiruvallur", "Tiruvannamalai", "Thiruvarur", "Thoothukudi",
+        "Tiruchirappalli", "Thirunelveli", "Vellore", "Viluppuram", "Virudhunagar", "Ariyalur",
+        "Krishnagiri", "Tiruppur", "Chengalpattu", "Kallakurichi", "Ranipet", "Tenkasi",
+        "Tirupathur", "Mayiladuthurai"
+    ];
+    const Puducherry = ["Puducherry"];
+
     switch (StateSelected) {
         case "TamilNadu":
             optionsList = TamilNadu;
@@ -148,212 +152,127 @@ function getDistrictDropdown(StateSelected) {
             break;
     }
 
-    var district_upd = $('#district_upd').val();
-    for (var i = 0; i < optionsList.length; i++) {
-        var selected = '';
-        if (district_upd != '' && district_upd == optionsList[i]) { selected = "selected"; }
-        htmlString = htmlString + "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
-    }
+    // sort list alphabetically first
+    optionsList.sort((a, b) => a.localeCompare(b));
+
+    const district_upd = $('#district_upd').val();
+
+    // build options
+    let htmlString = `<option value=''>Select District</option>`;
+    optionsList.forEach(district => {
+        const selected = (district_upd && district_upd === district) ? "selected" : "";
+        htmlString += `<option value='${district}' ${selected}>${district}</option>`;
+    });
+
     $("#district").html(htmlString);
     $("#district1").val(district_upd);
-
-    {//To Order district Alphabetically
-        var firstOption = $("#district option:first-child");
-        $("#district").html($("#district option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#district").prepend(firstOption);
-    }
-
 }
+
 
 //get Taluk Dropdown
 function getTalukDropdown(DistSelected) {
+    let optionsList = [];
 
-    var optionsList;
-    var htmlString = "<option value='Select Taluk'>Select Taluk</option>";
-    {
-        var Chennai = ["Alandur", "Ambattur", "Aminjikarai", "Ayanavaram", "Egmore", "Guindy", "Madhavaram", "Madhuravoyal", "Mambalam", "Mylapore", "Perambur", "Purasavakkam", "Sholinganallur", "Thiruvottriyur", "Tondiarpet", "Velacherry"];
-        var Coimbatore = ["Aanaimalai", "Annur", "Coimbatore(North)", "Coimbatore(South)", "Kinathukadavu", "Madukarai", "Mettupalayam", "Perur", "Pollachi", "Sulur", "Valparai"];
-        var Cuddalore = ["Cuddalore", "Bhuvanagiri", "Chidambaram", "Kattumannarkoil", "Kurinjipadi", "Panruti", "Srimushnam", "Thittakudi", "Veppur", "Virudhachalam"];
-        var Dharmapuri = ["Dharmapuri", "Harur", "Karimangalam", "Nallampalli", "Palacode", "Pappireddipatti", "Pennagaram"];
-        var Dindigul = ["Atthur", "Dindigul (East)", "Dindigul (West)", "Guziliyamparai", "Kodaikanal", "Natham", "Nilakottai", "Oddanchatram", "Palani", "Vedasandur"];
-        var Erode = ["Erode", "Anthiyur", "Bhavani", "Gobichettipalayam", "Kodumudi", "Modakurichi", "Nambiyur", "Perundurai", "Sathiyamangalam", "Thalavadi"];
-        var Kancheepuram = ["Kancheepuram", "Kundrathur", "Sriperumbudur", "Uthiramerur", "Walajabad"];
-        var Kanniyakumari = ["Agasteeswaram", "Kalkulam", "Killiyur", "Thiruvatar", "Thovalai", "Vilavankodu"];
-        var Karur = ["Karur", "Aravakurichi", "Kadavur", "Krishnarayapuram", "Kulithalai", "Manmangalam", "Pugalur"];
-        var Madurai = ["Kallikudi", "Madurai (East)", "Madurai (North)", "Madurai (South)", "Madurai (West)", "Melur", "Peraiyur", "Thirumangalam", "Thiruparankundram", "Usilampatti", "Vadipatti"];
-        var Nagapattinam = ["Nagapattinam", "Kilvelur", "Thirukkuvalai", "Vedaranyam"];
-        var Namakkal = ["Namakkal", "Kholli Hills", "Kumarapalayam", "Mohanoor", "Paramathi Velur", "Rasipuram", "Senthamangalam", "Tiruchengode"];
-        var Nilgiris = ["Udagamandalam", "Coonoor", "Gudalur", "Kothagiri", "Kundah", "Pandalur"];
-        var Perambalur = ["Perambalur", "Alathur", "Kunnam", "Veppanthattai"];
-        var Pudukottai = ["Pudukottai", "Alangudi", "Aranthangi", "Avudiyarkoil", "Gandarvakottai", "Iluppur", "Karambakudi", "Kulathur", "Manamelkudi", "Ponnamaravathi", "Thirumayam", "Viralimalai"];
-        var Ramanathapuram = ["Ramanathapuram", "Kadaladi", "Kamuthi", "Kezhakarai", "Mudukulathur", "Paramakudi", "Rajasingamangalam", "Rameswaram", "Tiruvadanai"];
-        var Salem = ["Salem", "Attur", "Edapadi", "Gangavalli", "Kadaiyampatti", "Mettur", "Omalur", "Pethanayakanpalayam", "Salem South", "Salem West", "Sankari", "Vazhapadi", "Yercaud"];
-        var Sivagangai = ["Sivagangai", "Devakottai", "Ilayankudi", "Kalaiyarkovil", "Karaikudi", "Manamadurai", "Singampunari", "Thirupuvanam", "Tirupathur"];
-        var Thanjavur = ["Thanjavur", "Boothalur", "Kumbakonam", "Orathanadu", "Papanasam", "Pattukottai", "Peravurani", "Thiruvaiyaru", "Thiruvidaimaruthur"];
-        var Theni = ["Theni", "Aandipatti", "Bodinayakanur", "Periyakulam", "Uthamapalayam"];
-        var Thiruvallur = ["Thiruvallur", "Avadi", "Gummidipoondi", "Pallipattu", "Ponneri", "Poonamallee", "R.K. Pet", "Tiruthani", "Uthukottai"];
-        var Tiruvannamalai = ["Thiruvannamalai", "Arni", "Chengam", "Chetpet", "Cheyyar", "Jamunamarathur", "Kalasapakkam", "Kilpennathur", "Polur", "Thandramet", "Vandavasi", "Vembakkam"];
-        var Thiruvarur = ["Thiruvarur", "Kodavasal", "Koothanallur", "Mannargudi", "Nannilam", "Needamangalam", "Thiruthuraipoondi", "Valangaiman"];
-        var Thoothukudi = ["Thoothukudi", "Eral", "Ettayapuram", "Kayathar", "Kovilpatti", "Ottapidaram", "Sattankulam", "Srivaikundam", "Tiruchendur", "Vilathikulam"];
-        var Tiruchirappalli = ["Lalgudi", "Manachanallur", "Manapparai", "Marungapuri", "Musiri", "Srirangam", "Thottiam", "Thuraiyur", "Tiruchirapalli (West)", "Tiruchirappalli (East)", "Tiruverumbur"];
-        var Thirunelveli = ["Tirunelveli", "Ambasamudram", "Cheranmahadevi", "Manur", "Nanguneri", "Palayamkottai", "Radhapuram", "Thisayanvilai"];
-        var Vellore = ["Vellore", "Aanikattu", "Gudiyatham", "K V Kuppam", "Katpadi", "Pernambut"];
-        var Viluppuram = ["Villupuram", "Gingee", "Kandachipuram", "Marakanam", "Melmalaiyanur", "Thiruvennainallur", "Tindivanam", "Vanur", "Vikravandi"];
-        var Virudhunagar = ["Virudhunagar", "Aruppukottai", "Kariyapatti", "Rajapalayam", "Sathur", "Sivakasi", "Srivilliputhur", "Tiruchuli", "Vembakottai", "Watrap"];
-        var Ariyalur = ["Ariyalur", "Andimadam", "Sendurai", "Udaiyarpalayam"];
-        var Krishnagiri = ["Krishnagiri", "Anjetty", "Bargur", "Hosur", "Pochampalli", "Sulagiri", "Thenkanikottai", "Uthangarai"];
-        var Tiruppur = ["Avinashi", "Dharapuram", "Kangeyam", "Madathukkulam", "Oothukuli", "Palladam", "Tiruppur (North)", "Tiruppur (South)", "Udumalaipettai"];
-        var Chengalpattu = ["Chengalpattu", "Cheyyur", "Maduranthakam", "Pallavaram", "Tambaram", "Thirukalukundram", "Tiruporur", "Vandalur"];
-        var Kallakurichi = ["Kallakurichi", "Chinnaselam", "Kalvarayan Hills", "Sankarapuram", "Tirukoilur", "Ulundurpet"];
-        var Ranipet = ["Arakkonam", "Arcot", "Kalavai", "Nemili", "Sholingur", "Walajah"];
-        var Tenkasi = ["Tenkasi", "Alangulam", "Kadayanallur", "Sankarankovil", "Shenkottai", "Sivagiri", "Thiruvengadam", "Veerakeralampudur"];
-        var Tirupathur = ["Tirupathur", "Ambur", "Natrampalli", "Vaniyambadi"];
-        var Mayiladuthurai = ["Mayiladuthurai", "Kuthalam", "Sirkali", "Tharangambadi"];
-        var Puducherry = ["Puducherry", "Oulgaret", "Villianur", "Bahour", "Karaikal", "Thirunallar", "Mahe", "Yanam"];
+    // Taluk list
+    const Chennai = ["Alandur", "Ambattur", "Aminjikarai", "Ayanavaram", "Egmore", "Guindy", "Madhavaram", "Madhuravoyal", "Mambalam", "Mylapore", "Perambur", "Purasavakkam", "Sholinganallur", "Thiruvottriyur", "Tondiarpet", "Velacherry"];
+    const Coimbatore = ["Aanaimalai", "Annur", "Coimbatore(North)", "Coimbatore(South)", "Kinathukadavu", "Madukarai", "Mettupalayam", "Perur", "Pollachi", "Sulur", "Valparai"];
+    const Cuddalore = ["Cuddalore", "Bhuvanagiri", "Chidambaram", "Kattumannarkoil", "Kurinjipadi", "Panruti", "Srimushnam", "Thittakudi", "Veppur", "Virudhachalam"];
+    const Dharmapuri = ["Dharmapuri", "Harur", "Karimangalam", "Nallampalli", "Palacode", "Pappireddipatti", "Pennagaram"];
+    const Dindigul = ["Atthur", "Dindigul (East)", "Dindigul (West)", "Guziliyamparai", "Kodaikanal", "Natham", "Nilakottai", "Oddanchatram", "Palani", "Vedasandur"];
+    const Erode = ["Erode", "Anthiyur", "Bhavani", "Gobichettipalayam", "Kodumudi", "Modakurichi", "Nambiyur", "Perundurai", "Sathiyamangalam", "Thalavadi"];
+    const Kancheepuram = ["Kancheepuram", "Kundrathur", "Sriperumbudur", "Uthiramerur", "Walajabad"];
+    const Kanniyakumari = ["Agasteeswaram", "Kalkulam", "Killiyur", "Thiruvatar", "Thovalai", "Vilavankodu"];
+    const Karur = ["Karur", "Aravakurichi", "Kadavur", "Krishnarayapuram", "Kulithalai", "Manmangalam", "Pugalur"];
+    const Madurai = ["Kallikudi", "Madurai (East)", "Madurai (North)", "Madurai (South)", "Madurai (West)", "Melur", "Peraiyur", "Thirumangalam", "Thiruparankundram", "Usilampatti", "Vadipatti"];
+    const Nagapattinam = ["Nagapattinam", "Kilvelur", "Thirukkuvalai", "Vedaranyam"];
+    const Namakkal = ["Namakkal", "Kholli Hills", "Kumarapalayam", "Mohanoor", "Paramathi Velur", "Rasipuram", "Senthamangalam", "Tiruchengode"];
+    const Nilgiris = ["Udagamandalam", "Coonoor", "Gudalur", "Kothagiri", "Kundah", "Pandalur"];
+    const Perambalur = ["Perambalur", "Alathur", "Kunnam", "Veppanthattai"];
+    const Pudukottai = ["Pudukottai", "Alangudi", "Aranthangi", "Avudiyarkoil", "Gandarvakottai", "Iluppur", "Karambakudi", "Kulathur", "Manamelkudi", "Ponnamaravathi", "Thirumayam", "Viralimalai"];
+    const Ramanathapuram = ["Ramanathapuram", "Kadaladi", "Kamuthi", "Kezhakarai", "Mudukulathur", "Paramakudi", "Rajasingamangalam", "Rameswaram", "Tiruvadanai"];
+    const Salem = ["Salem", "Attur", "Edapadi", "Gangavalli", "Kadaiyampatti", "Mettur", "Omalur", "Pethanayakanpalayam", "Salem South", "Salem West", "Sankari", "Vazhapadi", "Yercaud"];
+    const Sivagangai = ["Sivagangai", "Devakottai", "Ilayankudi", "Kalaiyarkovil", "Karaikudi", "Manamadurai", "Singampunari", "Thirupuvanam", "Tirupathur"];
+    const Thanjavur = ["Thanjavur", "Boothalur", "Kumbakonam", "Orathanadu", "Papanasam", "Pattukottai", "Peravurani", "Thiruvaiyaru", "Thiruvidaimaruthur"];
+    const Theni = ["Theni", "Aandipatti", "Bodinayakanur", "Periyakulam", "Uthamapalayam"];
+    const Thiruvallur = ["Thiruvallur", "Avadi", "Gummidipoondi", "Pallipattu", "Ponneri", "Poonamallee", "R.K. Pet", "Tiruthani", "Uthukottai"];
+    const Tiruvannamalai = ["Thiruvannamalai", "Arni", "Chengam", "Chetpet", "Cheyyar", "Jamunamarathur", "Kalasapakkam", "Kilpennathur", "Polur", "Thandramet", "Vandavasi", "Vembakkam"];
+    const Thiruvarur = ["Thiruvarur", "Kodavasal", "Koothanallur", "Mannargudi", "Nannilam", "Needamangalam", "Thiruthuraipoondi", "Valangaiman"];
+    const Thoothukudi = ["Thoothukudi", "Eral", "Ettayapuram", "Kayathar", "Kovilpatti", "Ottapidaram", "Sattankulam", "Srivaikundam", "Tiruchendur", "Vilathikulam"];
+    const Tiruchirappalli = ["Lalgudi", "Manachanallur", "Manapparai", "Marungapuri", "Musiri", "Srirangam", "Thottiam", "Thuraiyur", "Tiruchirapalli (West)", "Tiruchirappalli (East)", "Tiruverumbur"];
+    const Thirunelveli = ["Tirunelveli", "Ambasamudram", "Cheranmahadevi", "Manur", "Nanguneri", "Palayamkottai", "Radhapuram", "Thisayanvilai"];
+    const Vellore = ["Vellore", "Aanikattu", "Gudiyatham", "K V Kuppam", "Katpadi", "Pernambut"];
+    const Viluppuram = ["Villupuram", "Gingee", "Kandachipuram", "Marakanam", "Melmalaiyanur", "Thiruvennainallur", "Tindivanam", "Vanur", "Vikravandi"];
+    const Virudhunagar = ["Virudhunagar", "Aruppukottai", "Kariyapatti", "Rajapalayam", "Sathur", "Sivakasi", "Srivilliputhur", "Tiruchuli", "Vembakottai", "Watrap"];
+    const Ariyalur = ["Ariyalur", "Andimadam", "Sendurai", "Udaiyarpalayam"];
+    const Krishnagiri = ["Krishnagiri", "Anjetty", "Bargur", "Hosur", "Pochampalli", "Sulagiri", "Thenkanikottai", "Uthangarai"];
+    const Tiruppur = ["Avinashi", "Dharapuram", "Kangeyam", "Madathukkulam", "Oothukuli", "Palladam", "Tiruppur (North)", "Tiruppur (South)", "Udumalaipettai"];
+    const Chengalpattu = ["Chengalpattu", "Cheyyur", "Maduranthakam", "Pallavaram", "Tambaram", "Thirukalukundram", "Tiruporur", "Vandalur"];
+    const Kallakurichi = ["Kallakurichi", "Chinnaselam", "Kalvarayan Hills", "Sankarapuram", "Tirukoilur", "Ulundurpet"];
+    const Ranipet = ["Arakkonam", "Arcot", "Kalavai", "Nemili", "Sholingur", "Walajah"];
+    const Tenkasi = ["Tenkasi", "Alangulam", "Kadayanallur", "Sankarankovil", "Shenkottai", "Sivagiri", "Thiruvengadam", "Veerakeralampudur"];
+    const Tirupathur = ["Tirupathur", "Ambur", "Natrampalli", "Vaniyambadi"];
+    const Mayiladuthurai = ["Mayiladuthurai", "Kuthalam", "Sirkali", "Tharangambadi"];
+    const Puducherry = ["Puducherry", "Oulgaret", "Villianur", "Bahour", "Karaikal", "Thirunallar", "Mahe", "Yanam"];
 
-    }//taluk list
     switch (DistSelected) {
-        case "Ariyalur":
-            optionsList = Ariyalur;
-            break;
-        case "Chengalpattu":
-            optionsList = Chengalpattu;
-            break;
-        case "Chennai":
-            optionsList = Chennai;
-            break;
-        case "Coimbatore":
-            optionsList = Coimbatore;
-            break;
-        case "Dharmapuri":
-            optionsList = Dharmapuri;
-            break;
-        case "Erode":
-            optionsList = Erode;
-            break;
-        case "Cuddalore":
-            optionsList = Cuddalore;
-            break;
-        case "Dindigul":
-            optionsList = Dindigul;
-            break;
-        case "Kallakurichi":
-            optionsList = Kallakurichi;
-            break;
-        case "Kanniyakumari":
-            optionsList = Kanniyakumari;
-            break;
-        case "Krishnagiri":
-            optionsList = Krishnagiri;
-            break;
-        case "Nagapattinam":
-            optionsList = Nagapattinam;
-            break;
-        case "Perambalur":
-            optionsList = Perambalur;
-            break;
-        case "Ramanathapuram":
-            optionsList = Ramanathapuram;
-            break;
-        case "Salem":
-            optionsList = Salem;
-            break;
-        case "Tenkasi":
-            optionsList = Tenkasi;
-            break;
-        case "Theni":
-            optionsList = Theni;
-            break;
-        case "Thirunelveli":
-            optionsList = Thirunelveli;
-            break;
-        case "Thiruvarur":
-            optionsList = Thiruvarur;
-            break;
-        case "Tirupathur":
-            optionsList = Tirupathur;
-            break;
-        case "Tiruvannamalai":
-            optionsList = Tiruvannamalai;
-            break;
-        case "Vellore":
-            optionsList = Vellore;
-            break;
-        case "Virudhunagar":
-            optionsList = Virudhunagar;
-            break;
-        case "Kancheepuram":
-            optionsList = Kancheepuram;
-            break;
-        case "Karur":
-            optionsList = Karur;
-            break;
-        case "Madurai":
-            optionsList = Madurai;
-            break;
-        case "Namakkal":
-            optionsList = Namakkal;
-            break;
-        case "Pudukottai":
-            optionsList = Pudukottai;
-            break;
-        case "Ranipet":
-            optionsList = Ranipet;
-            break;
-        case "Sivagangai":
-            optionsList = Sivagangai;
-            break;
-        case "Thanjavur":
-            optionsList = Thanjavur;
-            break;
-        case "Nilgiris":
-            optionsList = Nilgiris;
-            break;
-        case "Thiruvallur":
-            optionsList = Thiruvallur;
-            break;
-        case "Thoothukudi":
-            optionsList = Thoothukudi;
-            break;
-        case "Tiruppur":
-            optionsList = Tiruppur;
-            break;
-        case "Tiruchirappalli":
-            optionsList = Tiruchirappalli;
-            break;
-        case "Viluppuram":
-            optionsList = Viluppuram;
-            break;
-        case "Mayiladuthurai":
-            optionsList = Mayiladuthurai;
-            break;
-        case "Puducherry":
-            optionsList = Puducherry;
-            break;
-        case "Select District":
-            optionsList = [];
-            break;
+        case "Ariyalur": optionsList = Ariyalur; break;
+        case "Chengalpattu": optionsList = Chengalpattu; break;
+        case "Chennai": optionsList = Chennai; break;
+        case "Coimbatore": optionsList = Coimbatore; break;
+        case "Dharmapuri": optionsList = Dharmapuri; break;
+        case "Erode": optionsList = Erode; break;
+        case "Cuddalore": optionsList = Cuddalore; break;
+        case "Dindigul": optionsList = Dindigul; break;
+        case "Kallakurichi": optionsList = Kallakurichi; break;
+        case "Kanniyakumari": optionsList = Kanniyakumari; break;
+        case "Krishnagiri": optionsList = Krishnagiri; break;
+        case "Nagapattinam": optionsList = Nagapattinam; break;
+        case "Perambalur": optionsList = Perambalur; break;
+        case "Ramanathapuram": optionsList = Ramanathapuram; break;
+        case "Salem": optionsList = Salem; break;
+        case "Tenkasi": optionsList = Tenkasi; break;
+        case "Theni": optionsList = Theni; break;
+        case "Thirunelveli": optionsList = Thirunelveli; break;
+        case "Thiruvarur": optionsList = Thiruvarur; break;
+        case "Tirupathur": optionsList = Tirupathur; break;
+        case "Tiruvannamalai": optionsList = Tiruvannamalai; break;
+        case "Vellore": optionsList = Vellore; break;
+        case "Virudhunagar": optionsList = Virudhunagar; break;
+        case "Kancheepuram": optionsList = Kancheepuram; break;
+        case "Karur": optionsList = Karur; break;
+        case "Madurai": optionsList = Madurai; break;
+        case "Namakkal": optionsList = Namakkal; break;
+        case "Pudukottai": optionsList = Pudukottai; break;
+        case "Ranipet": optionsList = Ranipet; break;
+        case "Sivagangai": optionsList = Sivagangai; break;
+        case "Thanjavur": optionsList = Thanjavur; break;
+        case "Nilgiris": optionsList = Nilgiris; break;
+        case "Thiruvallur": optionsList = Thiruvallur; break;
+        case "Thoothukudi": optionsList = Thoothukudi; break;
+        case "Tiruppur": optionsList = Tiruppur; break;
+        case "Tiruchirappalli": optionsList = Tiruchirappalli; break;
+        case "Viluppuram": optionsList = Viluppuram; break;
+        case "Mayiladuthurai": optionsList = Mayiladuthurai; break;
+        case "Puducherry": optionsList = Puducherry; break;
+        case "Select District": optionsList = []; break;
     }
-    var taluk_upd = $('#taluk_upd').val();
-    for (var i = 0; i < optionsList.length; i++) {
-        var selected = '';
-        if (taluk_upd != '' && taluk_upd == optionsList[i]) { selected = "selected"; }
-        htmlString = htmlString + "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
-    }
+
+    // Sort alphabetically first
+    optionsList.sort((a, b) => a.localeCompare(b));
+
+    const taluk_upd = $('#taluk_upd').val();
+
+    // Build options
+    let htmlString = `<option value=''>Select Taluk</option>`;
+    optionsList.forEach(taluk => {
+        const selected = (taluk_upd && taluk_upd === taluk) ? "selected" : "";
+        htmlString += `<option value='${taluk}' ${selected}>${taluk}</option>`;
+    });
+
     $("#taluk").html(htmlString);
     $("#taluk1").val(taluk_upd);
-
-    {//To Order taluk Alphabetically
-        var firstOption = $("#taluk option:first-child");
-        $("#taluk").html($("#taluk option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#taluk").prepend(firstOption);
-    }
-
 }
+
 
 //Get Agent Code 
 function getAgentCode() {
@@ -597,31 +516,30 @@ function getSchemeValues(loan_cat) {
     });
 
     function closeModal() {
-        $.ajax({
-            url: 'agentCreationFile/ajaxGetAgentGroup.php',
-            type: 'post',
-            data: {},
-            dataType: 'json',
-            success: function (response) {
+    $.ajax({
+        url: 'agentCreationFile/ajaxGetAgentGroup.php',
+        type: 'post',
+        dataType: 'json',
+        success: function (response) {
+            // ✅ Sort response alphabetically by agent_group_name
+            response.sort(function (a, b) {
+                return a.agent_group_name.localeCompare(b.agent_group_name);
+            });
 
-                var len = response.length;
-                $("#ag_group").empty();
-                $("#ag_group").append("<option value=''>" + 'Select Agent Group' + "</option>");
-                for (var i = 0; i < len; i++) {
-                    var agent_group_id = response[i]['agent_group_id'];
-                    var agent_group_name = response[i]['agent_group_name'];
-                    $("#ag_group").append("<option value='" + agent_group_id + "'>" + agent_group_name + "</option>");
-                }
-                {//To Order ag_group Alphabetically
-                    var firstOption = $("#ag_group option:first-child");
-                    $("#ag_group").html($("#ag_group option:not(:first-child)").sort(function (a, b) {
-                        return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                    }));
-                    $("#ag_group").prepend(firstOption);
-                }
+            // ✅ Build dropdown options
+            let htmlString = "<option value=''>Select Agent Group</option>";
+            for (let i = 0; i < response.length; i++) {
+                let agent_group_id = response[i]['agent_group_id'];
+                let agent_group_name = response[i]['agent_group_name'];
+                htmlString += "<option value='" + agent_group_id + "'>" + agent_group_name + "</option>";
             }
-        });
-    }
+
+            // ✅ Append final HTML
+            $("#ag_group").html(htmlString);
+        }
+    });
+}
+
 
 }
 
@@ -669,6 +587,7 @@ function getSchemeValues(loan_cat) {
 //Get BranchDropdown Based on Company id
 function getBranchDropdown(company_id) {
     var branch_id_upd = $('#branch_id_upd').val();
+
     $.ajax({
         url: 'areaMapping/getBranchDropdown.php',
         type: 'post',
@@ -676,26 +595,24 @@ function getBranchDropdown(company_id) {
         data: { 'company_id': company_id },
         cache: false,
         success: function (response) {
-            $('#branch_id').empty();
-            $('#branch_id').append('<option>Select Branch</option>');
+            // Sort response alphabetically by branch_name
+            response.sort(function (a, b) {
+                return a.branch_name.localeCompare(b.branch_name);
+            });
+
+            // Build options
+            let htmlString = "<option value=''>Select Branch</option>";
             for (var i = 0; i < response.length; i++) {
-                // console.log(response[i]['branch_id'])
-                var selected = '';
-                if (branch_id_upd != '' && branch_id_upd == response[i]['branch_id']) {
-                    selected = "selected";
-                }
-                $('#branch_id').append("<option value ='" + response[i]['branch_id'] + "' " + selected + " > " + response[i]['branch_name'] + " </option>");
+                let selected = (branch_id_upd != '' && branch_id_upd == response[i]['branch_id']) ? "selected" : "";
+                htmlString += "<option value='" + response[i]['branch_id'] + "' " + selected + ">" + response[i]['branch_name'] + "</option>";
             }
-            {//To Order Branch Alphabetically
-                var firstOption = $("#branch_id option:first-child");
-                $("#branch_id").html($("#branch_id option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#branch_id").prepend(firstOption);
-            }
+
+            // Append to dropdown
+            $('#branch_id').html(htmlString);
         }
-    })
+    });
 }
+
 
 //Validation
 function validateAgentGroup(ag_name) {
@@ -731,31 +648,29 @@ function validateAgentGroup(ag_name) {
 //reset Agent Group dropdown
 function getAgentGroupDropdown() {
     var ag_group_upd = $('#ag_group_upd').val();
+
     $.ajax({
         url: 'agentCreationFile/ajaxGetAgentGroup.php',
         type: 'post',
-        data: {},
         dataType: 'json',
         success: function (response) {
-            var len = response.length;
-            $("#ag_group").empty();
-            $("#ag_group").append("<option value=''>" + 'Select Agent Group' + "</option>");
-            for (var i = 0; i < len; i++) {
+            // ✅ Sort response alphabetically by agent_group_name
+            response.sort(function (a, b) {
+                return a.agent_group_name.localeCompare(b.agent_group_name);
+            });
+
+            // ✅ Build HTML string
+            let htmlString = "<option value=''>Select Agent Group</option>";
+            for (var i = 0; i < response.length; i++) {
                 var agent_group_id = response[i]['agent_group_id'];
                 var agent_group_name = response[i]['agent_group_name'];
-                var selected = "";
-                if (ag_group_upd != '' && ag_group_upd == agent_group_id) {
-                    selected = 'selected';
-                }
-                $("#ag_group").append("<option value='" + agent_group_id + "' " + selected + " >" + agent_group_name + "</option>");
+
+                let selected = (ag_group_upd != '' && ag_group_upd == agent_group_id) ? "selected" : "";
+                htmlString += "<option value='" + agent_group_id + "' " + selected + ">" + agent_group_name + "</option>";
             }
-            {//To Order ag_group Alphabetically
-                var firstOption = $("#ag_group option:first-child");
-                $("#ag_group").html($("#ag_group option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#ag_group").prepend(firstOption);
-            }
+
+            // ✅ Append to dropdown
+            $("#ag_group").html(htmlString);
         }
     });
 }

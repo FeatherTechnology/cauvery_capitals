@@ -445,6 +445,16 @@ $('#trans_category').change(function(){
         
         // getRefId(category);
     });
+    $("#debit_amt").blur(function () {
+    var debit_amt = $(this).val();               // value from this input
+    var bank_amount = $("#bank_amt").val();      // value from another input (id="bank_amt")
+
+    var response = bankCashvalidatio(debit_amt, bank_amount);
+
+    if (response === 1) {
+        alert("Debit amount cannot be greater than Bank amount!");
+    }
+});
 
 })//Document ready END
 
@@ -1343,7 +1353,7 @@ function cdValidation() {
 //reset Bank Deposit table when Cash Deposit modal closed
 function closCdModal() {
     //reset bank deposit modal
-    var cash_type = $('input[name=cash_type]:checked').val();
+    var cash_type = $('input[name=cashs_type]:checked').val();
     getCashDepositDetails(cash_type);
 }
 
@@ -1426,7 +1436,7 @@ function getCashWithdrawalDetails() {
         }
     })
 
-    var bank_id = $('input[name=cash_type]:checked').val();
+    var bank_id = $('input[name=cashs_type]:checked').val();
 
     $.ajax({
         url: 'accountsFile/cashtally/contra/getBankDetails.php',
@@ -2035,7 +2045,7 @@ function getBankExchangeInputs() {
     $('#exchangeDiv').empty()
     $('#exchangeDiv').html(appendText);
 
-    var cash_type = $('input[name=cash_type]:checked').val();
+    var cash_type = $('input[name=cashs_type]:checked').val();
 
     $.ajax({
         url: 'accountsFile/cashtally/exchange/getBankExchangeInputs.php',
@@ -2123,7 +2133,12 @@ function bankExchangeValidation() {
     validateField(amt_bex, '#amt_bexCheck');
     return response;
 }
+function bankCashvalidatio(debit_amt, bank_amount) {
+    var entered_amount = parseFloat(debit_amt) || 0;
+    var bank_amount = parseFloat(bank_amount) || 0;
 
+    return entered_amount > bank_amount ? 1 : 0;
+}
 //to get Bank exchange credit input table
 function getCreditBexchangeDetails() {
     var bank_id = $('input[name=cashs_type]:checked').val();
@@ -2364,7 +2379,7 @@ function getBotherincomeDetails() {
     $('#submit_boti').click(function () {
         if (botiValidation() == 0) {
             var ref_code = $('#ref_code_boti').val(); var cat_info = $('#cat_info').val(); var trans_id = $('#trans_id').val(); var remark = $('#remark').val(); var amt = $('#amt').val();
-            var bank_id = $('input[name=cash_type]:checked').val(); var op_date = $('#op_date').text();
+            var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
             $.ajax({
                 url: 'accountsFile/cashtally/otherincome/submitBotherincome.php',
                 data: { 'bank_id': bank_id, 'ref_code': ref_code, 'cat_info': cat_info, 'trans_id': trans_id, 'remark': remark, 'amt': amt, 'op_date': op_date },
@@ -2689,21 +2704,20 @@ function hexpenseModalBtnClick() {
         cache: false,
         success: function (response) {
             $('#cat_hexp').empty();
-            $('#cat_hexp').append("<option value=''>Select Category</option>");
-            for (var i = 0; i < response.length; i++) {
-                $('#cat_hexp').append("<option value='" + response[i]['cat_id'] + "'>" + response[i]['cat_name'] + "</option>")
-            }
-            $('#user_id_hexp').val(response[0]['user_id'])
-            $('#username_hexp').val(response[0]['user_name'])
-            $('#usertype_hexp').val(response[0]['user_type'])
+        $('#cat_hexp').append("<option value=''>Select Category</option>");
 
-            {
-                var firstOption = $("#cat_hexp option:first-child");
-                $("#cat_hexp").html($("#cat_hexp option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#cat_hexp").prepend(firstOption);
-            }
+        // Sort the response alphabetically by cat_name before appending
+        response.sort(function(a, b) {
+            return a.cat_name.localeCompare(b.cat_name);
+        });
+
+        for (var i = 0; i < response.length; i++) {
+            $('#cat_hexp').append("<option value='" + response[i]['cat_id'] + "'>" + response[i]['cat_name'] + "</option>");
+        }
+
+        $('#user_id_hexp').val(response[0]['user_id']);
+        $('#username_hexp').val(response[0]['user_name']);
+        $('#usertype_hexp').val(response[0]['user_type']);
         }
     }).then(function(){
         //Auto Generate Voucher ID.
@@ -2964,30 +2978,33 @@ function bexpenseModalBtnClick() {
         type: 'post',
         cache: false,
         success: function (response) {
-            $('#cat_bexp').empty();
-            $('#cat_bexp').append("<option value=''>Select Category</option>");
-            for (var i = 0; i < response.length; i++) {
-                $('#cat_bexp').append("<option value='" + response[i]['cat_id'] + "'>" + response[i]['cat_name'] + "</option>")
-            }
-            $('#user_id_bexp').val(response[0]['user_id'])
-            $('#username_bexp').val(response[0]['user_name'])
-            $('#usertype_bexp').val(response[0]['user_type'])
+           $('#cat_bexp').empty();
+    $('#cat_bexp').append("<option value=''>Select Category</option>");
 
-            {
-                var firstOption = $("#cat_bexp option:first-child");
-                $("#cat_bexp").html($("#cat_bexp option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#cat_bexp").prepend(firstOption);
-            }
+    // Sort the response alphabetically by cat_name before appending
+    response.sort(function(a, b) {
+        return a.cat_name.localeCompare(b.cat_name);
+    });
+
+    for (var i = 0; i < response.length; i++) {
+        $('#cat_bexp').append("<option value='" + response[i]['cat_id'] + "'>" + response[i]['cat_name'] + "</option>");
+    }
+
+    $('#user_id_bexp').val(response[0]['user_id']);
+    $('#username_bexp').val(response[0]['user_name']);
+    $('#usertype_bexp').val(response[0]['user_type']);
         }
     }).then(function () {
         $('#submit_bexp').click(function () {
+            
             if (bexpenseValidation() == 0) {
+                var amt_bexp = $('#amt_bexp').val();
+                if(amt_bexp){
+                                   
 
                 var user_id = $('#user_id_bexp').val(); var username = $('#username_bexp').val(); var usertype = $('#usertype_bexp').val(); var ref_code = $('#ref_code_bexp').val(); var cat_bexp = $('#cat_bexp').val();
                 var bank_id = $('#bank_id_bexp').val(); var part_bexp = $('#part_bexp').val(); var vou_id_bexp = $('#vou_id_bexp').val(); var trans_id_bexp = $('#trans_id_bexp').val(); var rec_per_bexp = $('#rec_per_bexp').val(); var remark_bexp = $('#remark_bexp').val();
-                var amt_bexp = $('#amt_bexp').val(); var upd_bexp = $('#upd_bexp')[0].files[0]; var op_date = $('#op_date').text();
+                 var upd_bexp = $('#upd_bexp')[0].files[0]; var op_date = $('#op_date').text();
 
                 var upload = $("#upd_bexp")[0];
                 var file = upload.files[0];
@@ -3038,6 +3055,7 @@ function bexpenseModalBtnClick() {
                     }
                 })
             }
+        }
         })
 
 
@@ -3335,7 +3353,7 @@ function getCBinvDetails() {
         if (await binvvalidation('cr') == 0) {
             var ref_code = $('#ref_code_binv').val(); var name = $('#name_binv').val(); var area = $('#area_binv').val(); var ident = $('#ident_binv').val();
             var trans_id = $('#trans_id_binv').val(); var remark = $('#remark_binv').val(); var amt = $('#amt_binv').val();
-            var bank_id = $('input[name=cash_type]:checked').val(); var op_date = $('#op_date').text();
+            var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
 
             $.ajax({
                 url: 'accountsFile/cashtally/investment/submitCBinvestment.php',
@@ -3440,7 +3458,7 @@ function getDBinvDetails() {
         if (await binvvalidation('db') == 0) {
             var ref_code = $('#ref_code_binv').val(); var name = $('#name_binv').val(); var area = $('#area_binv').val(); var ident = $('#ident_binv').val();
             var trans_id = $('#trans_id_binv').val(); var remark = $('#remark_binv').val(); var amt = $('#amt_binv').val();
-            var bank_id = $('input[name=cash_type]:checked').val(); var op_date = $('#op_date').text();
+            var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
 
             $.ajax({
                 url: 'accountsFile/cashtally/investment/submitDBinvestment.php',
@@ -3759,7 +3777,7 @@ function getCBDepDetails() {
     $('#submit_bdeposit').click(async function () { //cr bank cash
         if (await bdepositvalidation('cr') == 0) { 
             var ref_code = $('#ref_code_bdeposit').val(); var name = $('#name_bdeposit').val(); var area = $('#area_bdeposit').val(); var ident = $('#ident_bdeposit').val();
-            var trans_id = $('#trans_id_bdeposit').val(); var remark = $('#remark_bdeposit').val(); var amt = $('#amt_bdeposit').val(); var bank_id = $('input[name=cash_type]:checked').val(); var op_date = $('#op_date').text();
+            var trans_id = $('#trans_id_bdeposit').val(); var remark = $('#remark_bdeposit').val(); var amt = $('#amt_bdeposit').val(); var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
 
             $.ajax({
                 url: 'accountsFile/cashtally/deposit/submitCBdeposit.php',
@@ -3863,7 +3881,7 @@ function getDBDepDetails() {
     $('#submit_bdeposit').click(async function () {  //dr bank cash
         if (await bdepositvalidation('db') == 0) {
             var ref_code = $('#ref_code_bdeposit').val(); var name = $('#name_bdeposit').val(); var area = $('#area_bdeposit').val(); var ident = $('#ident_bdeposit').val();
-            var trans_id = $('#trans_id_bdeposit').val(); var remark = $('#remark_bdeposit').val(); var amt = $('#amt_bdeposit').val(); var bank_id = $('input[name=cash_type]:checked').val(); var op_date = $('#op_date').text();
+            var trans_id = $('#trans_id_bdeposit').val(); var remark = $('#remark_bdeposit').val(); var amt = $('#amt_bdeposit').val(); var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
 
             $.ajax({
                 url: 'accountsFile/cashtally/deposit/submitDBdeposit.php',
@@ -4181,7 +4199,7 @@ function getCBelDetails() {
 
     $('#submit_bel').click(async function () { //credit bank cash
         if (await belvalidation() == 0) {
-            var ref_code = $('#ref_code_bel').val(); var name = $('#name_bel').val(); var area = $('#area_bel').val(); var ident = $('#ident_bel').val(); var trans_id = $('#trans_id_bel').val(); var remark = $('#remark_bel').val(); var amt = $('#amt_bel').val(); var bank_id = $('input[name=cash_type]:checked').val(); var op_date = $('#op_date').text();
+            var ref_code = $('#ref_code_bel').val(); var name = $('#name_bel').val(); var area = $('#area_bel').val(); var ident = $('#ident_bel').val(); var trans_id = $('#trans_id_bel').val(); var remark = $('#remark_bel').val(); var amt = $('#amt_bel').val(); var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
 
             $.ajax({
                 url: 'accountsFile/cashtally/el/submitCBel.php',
@@ -4284,7 +4302,7 @@ function getDBelDetails() {
 
     $('#submit_bel').click(async function () { //debit bank cash
         if (await belvalidation() == 0) {
-            var ref_code = $('#ref_code_bel').val(); var name = $('#name_bel').val(); var area = $('#area_bel').val(); var ident = $('#ident_bel').val(); var trans_id = $('#trans_id_bel').val(); var remark = $('#remark_bel').val(); var amt = $('#amt_bel').val(); var bank_id = $('input[name=cash_type]:checked').val(); var op_date = $('#op_date').text();
+            var ref_code = $('#ref_code_bel').val(); var name = $('#name_bel').val(); var area = $('#area_bel').val(); var ident = $('#ident_bel').val(); var trans_id = $('#trans_id_bel').val(); var remark = $('#remark_bel').val(); var amt = $('#amt_bel').val(); var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
 
             $.ajax({
                 url: 'accountsFile/cashtally/el/submitDBel.php',
@@ -4599,7 +4617,7 @@ function getExfDetails() {
 
     $('#exfDiv').empty();
     $('#exfDiv').html(appendTxt);
-    var bank_id = $('input[name=cash_type]:checked').val();
+    var bank_id = $('input[name=cashs_type]:checked').val();
 
 
     $.ajax({//For fetching Ref code
@@ -4644,7 +4662,7 @@ function getExfDetails() {
         if (exfValidation() == 0) {
             var ucl_ref_code_exf = $('#ucl_ref_code_exf').val(); var ref_code_exf = $('#ref_code_exf').val(); var ucl_trans_id_exf = $('#ucl_trans_id_exf').val();
             var trans_id_exf = $('#trans_id_exf').val(); var remark_exf = $('#remark_exf').val(); var amt_exf = $('#amt_exf').val();
-            var username_exf = $('#username_exf').val(); var usertype_exf = $('#usertype_exf').val(); var bank_id = $('input[name=cash_type]:checked').val(); var op_date = $('#op_date').text();
+            var username_exf = $('#username_exf').val(); var usertype_exf = $('#usertype_exf').val(); var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
             var formtosend = { bank_id: bank_id, username_exf: username_exf, usertype_exf: usertype_exf, ucl_ref_code_exf: ucl_ref_code_exf, ref_code_exf: ref_code_exf, ucl_trans_id_exf: ucl_trans_id_exf, trans_id_exf: trans_id_exf, remark_exf: remark_exf, amt_exf: amt_exf, op_date: op_date };
             $.ajax({
                 url: 'accountsFile/cashtally/excessfund/submitExf.php',
@@ -4941,7 +4959,7 @@ function getCBagDetails() {
     $('#submit_ag').off('click');
     $('#submit_ag').click(function () {
         if (agBValidation() == 0) {
-            var ag_id = $('#ag_id').val(); var ref_code_ag = $('#ref_code_ag').val(); var trans_id_ag = $('#trans_id_ag').val(); var remark_ag = $('#remark_ag').val(); var amt_ag = $('#amt_ag').val(); var bank_id = $('input[name=cash_type]:checked').val(); var op_date = $('#op_date').text();
+            var ag_id = $('#ag_id').val(); var ref_code_ag = $('#ref_code_ag').val(); var trans_id_ag = $('#trans_id_ag').val(); var remark_ag = $('#remark_ag').val(); var amt_ag = $('#amt_ag').val(); var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
             var formtosend = { ag_id: ag_id, bank_id: bank_id, ref_code: ref_code_ag, trans_id: trans_id_ag, remark: remark_ag, amt: amt_ag, op_date: op_date };
             $.ajax({
                 url: 'accountsFile/cashtally/agent/submitCBag.php',
@@ -5039,7 +5057,7 @@ function getDBagDetails() {
 
     $('#submit_ag').click(function () {
         if (agBValidation() == 0) {
-            var ag_id = $('#ag_id').val(); var ref_code_ag = $('#ref_code_ag').val(); var trans_id_ag = $('#trans_id_ag').val(); var remark_ag = $('#remark_ag').val(); var amt_ag = $('#amt_ag').val(); var bank_id = $('input[name=cash_type]:checked').val(); var op_date = $('#op_date').text();
+            var ag_id = $('#ag_id').val(); var ref_code_ag = $('#ref_code_ag').val(); var trans_id_ag = $('#trans_id_ag').val(); var remark_ag = $('#remark_ag').val(); var amt_ag = $('#amt_ag').val(); var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
             var formtosend = { ag_id: ag_id, bank_id: bank_id, ref_code: ref_code_ag, trans_id: trans_id_ag, remark: remark_ag, amt: amt_ag, op_date: op_date };
             $.ajax({
                 url: 'accountsFile/cashtally/agent/submitDBag.php',
@@ -5084,7 +5102,9 @@ function validateHandCash(amt) {
 
 //this function will check the amount entered were lesser or equal to hand closing balance
 function validateBankCash(amt) {
-    var cash_type = $('input[name=cash_type]:checked').val(); // selected bank ID
+    console.log("kkk")
+    var cash_type = $('input[name=expense_cash_type]:checked').val() || $('input[name=cash_tally]:checked').val();
+    console.log("kkii",cash_type);
     var entered_amt = parseInt(amt.value) || 0;
 
     if (cash_type) {

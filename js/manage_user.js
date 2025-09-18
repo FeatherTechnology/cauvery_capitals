@@ -553,28 +553,28 @@ function getStaffTypeDropdown() {
         dataType: 'json',
         success: function (response) {
 
-            var len = response.length;
-            $("#role_type").empty();
-            $("#role_type").append("<option value=''>Select Role Type</option>");
-            for (var i = 0; i < len; i++) {
-                var staff_type_id = response[i]['staff_type_id'];
-                var staff_type_name = response[i]['staff_type_name'];
+            // Sort response alphabetically by staff_type_name
+            var sortedResponse = response.slice().sort(function(a, b) {
+                return a.staff_type_name.localeCompare(b.staff_type_name);
+            });
+
+            var htmlString = "<option value=''>Select Role Type</option>";
+
+            for (var i = 0; i < sortedResponse.length; i++) {
+                var staff_type_id = sortedResponse[i]['staff_type_id'];
+                var staff_type_name = sortedResponse[i]['staff_type_name'];
                 var selected = '';
                 if (role_type_upd != '' && role_type_upd == staff_type_id) {
                     selected = 'selected';
                 }
-                $("#role_type").append("<option value='" + staff_type_id + "' " + selected + ">" + staff_type_name + "</option>");
+                htmlString += "<option value='" + staff_type_id + "' " + selected + ">" + staff_type_name + "</option>";
             }
-            {//To Order role_type Alphabetically
-                var firstOption = $("#role_type option:first-child");
-                $("#role_type").html($("#role_type option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#role_type").prepend(firstOption);
-            }
+
+            $("#role_type").html(htmlString);
         }
     });
 }
+
 
 //get Director Name dropdown
 function getDirectorName(dir_type) {
@@ -585,28 +585,29 @@ function getDirectorName(dir_type) {
         data: { 'dir_type': dir_type },
         dataType: 'json',
         success: function (response) {
-            var len = response.length;
-            $("#dir_name").empty();
-            $("#dir_name").append("<option value=''>Select Director Name</option>");
-            for (var i = 0; i < len; i++) {
-                var dir_id = response[i]['dir_id'];
-                var dir_name = response[i]['dir_name'];
+
+            // Sort response alphabetically by dir_name
+            var sortedResponse = response.slice().sort(function(a, b) {
+                return a.dir_name.localeCompare(b.dir_name);
+            });
+
+            var htmlString = "<option value=''>Select Director Name</option>";
+
+            for (var i = 0; i < sortedResponse.length; i++) {
+                var dir_id = sortedResponse[i]['dir_id'];
+                var dir_name = sortedResponse[i]['dir_name'];
                 var selected = '';
                 if (dir_id_upd != '' && dir_id_upd == dir_id) {
                     selected = 'selected';
                 }
-                $("#dir_name").append("<option value='" + dir_id + "' " + selected + ">" + dir_name + "</option>");
+                htmlString += "<option value='" + dir_id + "' " + selected + ">" + dir_name + "</option>";
             }
-            {//To Order dir_name Alphabetically
-                var firstOption = $("#dir_name option:first-child");
-                $("#dir_name").html($("#dir_name option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#dir_name").prepend(firstOption);
-            }
+
+            $("#dir_name").html(htmlString);
         }
     });
 }
+
 
 //get Staff Name dropdown
 function getStaffName(role_type) {
@@ -618,28 +619,28 @@ function getStaffName(role_type) {
         dataType: 'json',
         success: function (response) {
 
-            var len = response.length;
-            $("#staff_name").empty();
-            $("#staff_name").append("<option value=''>Select Staff Name</option>");
-            for (var i = 0; i < len; i++) {
-                var staff_id = response[i]['staff_id'];
-                var staff_name = response[i]['staff_name'];
+            // Sort response alphabetically by staff_name
+            var sortedResponse = response.slice().sort(function(a, b) {
+                return a.staff_name.localeCompare(b.staff_name);
+            });
+
+            var htmlString = "<option value=''>Select Staff Name</option>";
+
+            for (var i = 0; i < sortedResponse.length; i++) {
+                var staff_id = sortedResponse[i]['staff_id'];
+                var staff_name = sortedResponse[i]['staff_name'];
                 var selected = '';
                 if (staff_id_upd != '' && staff_id_upd == staff_id) {
                     selected = 'selected';
                 }
-                $("#staff_name").append("<option value='" + staff_id + "' " + selected + ">" + staff_name + "</option>");
+                htmlString += "<option value='" + staff_id + "' " + selected + ">" + staff_name + "</option>";
             }
-            {//To Order staff_name Alphabetically
-                var firstOption = $("#staff_name option:first-child");
-                $("#staff_name").html($("#staff_name option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#staff_name").prepend(firstOption);
-            }
+
+            $("#staff_name").html(htmlString);
         }
     });
 }
+
 
 
 //Table View

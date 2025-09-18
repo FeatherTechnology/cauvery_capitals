@@ -713,28 +713,28 @@ function guarentorName() {
         dataType: 'json',
         success: function (response) {
 
-            var len = response.length;
-            $("#guarentor_name").empty();
-            $("#guarentor_name").append("<option value=''>" + 'Select Guarantor' + "</option>");
-            for (var i = 0; i < len; i++) {
-                var fam_name = response[i]['fam_name'];
-                var fam_id = response[i]['fam_id'];
+            // Sort response alphabetically by fam_name
+            var sortedResponse = response.slice().sort(function(a, b) {
+                return a.fam_name.localeCompare(b.fam_name);
+            });
+
+            var htmlString = "<option value=''>" + 'Select Guarantor' + "</option>";
+
+            for (var i = 0; i < sortedResponse.length; i++) {
+                var fam_name = sortedResponse[i]['fam_name'];
+                var fam_id = sortedResponse[i]['fam_id'];
                 var selected = '';
                 if (guarentor_name != '' && guarentor_name == fam_id) {
                     selected = 'selected';
                 }
-                $("#guarentor_name").append("<option value='" + fam_id + "' " + selected + ">" + fam_name + "</option>");
+                htmlString += "<option value='" + fam_id + "' " + selected + ">" + fam_name + "</option>";
             }
-            {//To Order ag_group Alphabetically
-                var firstOption = $("#guarentor_name option:first-child");
-                $("#guarentor_name").html($("#guarentor_name option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#guarentor_name").prepend(firstOption);
-            }
+
+            $("#guarentor_name").html(htmlString);
         }
     });
 }
+
 
 //Loan Category
 function getLc() {

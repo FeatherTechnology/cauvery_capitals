@@ -86,9 +86,15 @@ function DropDownCourse() {
         dataType: 'json',
         success: function (response) {
 
+            // Sort the response alphabetically by concern_subject
+            response.sort(function(a, b) {
+                return a.concern_subject.localeCompare(b.concern_subject);
+            });
+
             var len = response.length;
             $("#com_sub").empty();
             $("#com_sub").append("<option value=''>" + 'Select Concern Subject' + "</option>");
+            
             for (var i = 0; i < len; i++) {
                 var concern_sub_id = response[i]['concern_sub_id'];
                 var concern_subject = response[i]['concern_subject'];
@@ -96,20 +102,16 @@ function DropDownCourse() {
                 if (concern_sub_id != '' && concern_sub_id == sub) {
                     selected = 'selected';
                 }
-                $("#com_sub").append("<option value='" + concern_sub_id + "' " + selected + " >" + concern_subject + "</option>");
-
-            }
-            {//To Order Alphabetically
-                var firstOption = $("#com_sub option:first-child");
-                $("#com_sub").html($("#com_sub option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#com_sub").prepend(firstOption);
+                $("#com_sub").append("<option value='" + concern_sub_id + "' " + selected + ">" + concern_subject + "</option>");
             }
 
+            // First option remains unchanged
+            var firstOption = $("#com_sub option:first-child");
+            $("#com_sub").prepend(firstOption);
         }
     });
 }
+
 
 function solutionSubmitValidation() {
     var com = $('#Com_for_solution').val(); var upd = $('#concern_upload').val(); var solutionRemark = $('#solution_remark').val();
