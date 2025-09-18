@@ -178,7 +178,7 @@ if ($idupd > 0) {
 									<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Agent Loan</label><span class="required">&nbsp;*</span>
-											<select class='form-control' id='agent_loan' name='agent_loan'>
+											<select class='form-control' id='agent_loan' name='agent_loan' tabindex="4">
 												<option value="">Select Agent Loan</option>
 												<option value="0" <?php if ($agent_loan == '0') echo 'selected'; ?>>Yes</option>
 												<option value="1" <?php if ($agent_loan == '1') echo 'selected'; ?>>No</option>
@@ -438,7 +438,7 @@ if ($idupd > 0) {
 								</div>
 
 								<!-- EMI/Interest: single input field -->
-								<input type="number" step="0.01" tabindex="15" id="monthly_overdues" name="monthly_overdues"
+								<input type="number" step="0.01" tabindex="20" id="monthly_overdues" name="monthly_overdues"
 									class="form-control emi_only mt-2" placeholder="Enter Overdue"
 									value="<?php if (isset($overdue)) echo $overdue; ?>">
 							</div>

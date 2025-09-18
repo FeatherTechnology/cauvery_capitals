@@ -9,15 +9,6 @@ $(document).ready(function () {
 
     // remove delete option for last child
     $('#delete_row:last').filter(':last').removeClass("deleterow");
-
-    // {//To Order Alphabetically
-    //     var firstOption = $("#loan_category_name option:first-child");
-    //     $("#loan_category_name").html($("#loan_category_name option:not(:first-child)").sort(function (a, b) {
-    //         return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-    //     }));
-    //     $("#loan_category_name").prepend(firstOption);
-    // }
-
     // Modal Box for Category Name
     {
         $("#loancategorynameCheck").hide();
@@ -919,7 +910,7 @@ let filledInputs = inputs.filter(function () {
 let schemeFilled = scheme_choices.getValue().length > 0;
 
 // Total inputs including the multi-select
-let totalInputs = inputs.length + 1; // +1 for scheme_choices
+let totalInputs = inputs.length ; 
 let totalFilled = filledInputs + (schemeFilled ? 1 : 0);
 
 // Validation rules
