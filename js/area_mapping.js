@@ -500,95 +500,89 @@ function getArea2() {
 //Get BranchDropdown Based on Company id
 function getBranchDropdown() {
     var branch_id_upd = $('#branch_id_upd').val();
-    var company_id = (!$('#company_id_upd').val()) ? $('#company_id').val() : $('#company_id_upd').val();
+    var company_id = $('#company_id_upd').val() || $('#company_id').val();
+
     $.ajax({
         url: 'areaMapping/getBranchDropdown.php',
         type: 'post',
         dataType: 'json',
-        data: { 'company_id': company_id },
+        data: { company_id: company_id },
         cache: false,
         success: function (response) {
-            $('#branch').empty();
-            $('#branch').append('<option>Select Branch</option>');
-            for (var i = 0; i < response.length; i++) {
-                var selected = '';
-                if (branch_id_upd != '' && branch_id_upd == response[i]['branch_id']) {
-                    selected = "selected";
-                }
-                $('#branch').append("<option value ='" + response[i]['branch_id'] + "' " + selected + " > " + response[i]['branch_name'] + " </option>");
-            }
-            {//To Order Alphabetically
-                var firstOption = $("#branch option:first-child");
-                $("#branch").html($("#branch option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#branch").prepend(firstOption);
-            }
+            var $branch = $('#branch');
+            $branch.empty().append('<option value="">Select Branch</option>');
+
+            // Sort response alphabetically by branch_name
+            response.sort(function (a, b) {
+                return a.branch_name.localeCompare(b.branch_name);
+            });
+
+            // Append sorted options
+            response.forEach(function (item) {
+                var selected = (branch_id_upd && branch_id_upd == item.branch_id) ? "selected" : "";
+                $branch.append(`<option value="${item.branch_id}" ${selected}>${item.branch_name}</option>`);
+            });
         }
-    })
+    });
 }
+
 
 //Get BranchDropdown Based on Company id
 function getBranchDropdown1() {
     var branch_id_upd = $('#branch_id_upd1').val();
-    var company_id = (!$('#company_id_upd1').val()) ? $('#company_id1').val() : $('#company_id_upd1').val();
+    var company_id = $('#company_id_upd1').val() || $('#company_id1').val();
+
     $.ajax({
         url: 'areaMapping/getBranchDropdown.php',
         type: 'post',
         dataType: 'json',
-        data: { 'company_id': company_id },
+        data: { company_id: company_id },
         cache: false,
         success: function (response) {
+            var $branch = $('#branch1');
+            $branch.empty().append('<option value="">Select Branch</option>');
 
-            $('#branch1').empty();
-            $('#branch1').append('<option>Select Branch</option>');
-            for (var i = 0; i < response.length; i++) {
-                var selected = '';
-                if (branch_id_upd != '' && branch_id_upd == response[i]['branch_id']) {
-                    selected = "selected";
-                }
-                $('#branch1').append("<option value = '" + response[i]['branch_id'] + "' " + selected + " > " + response[i]['branch_name'] + " </option>");
-            }
-            {//To Order Alphabetically
-                var firstOption = $("#branch1 option:first-child");
-                $("#branch1").html($("#branch1 option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#branch1").prepend(firstOption);
-            }
+            // Sort response alphabetically by branch_name
+            response.sort(function (a, b) {
+                return a.branch_name.localeCompare(b.branch_name);
+            });
+
+            // Append sorted options
+            response.forEach(function (item) {
+                var selected = (branch_id_upd && branch_id_upd == item.branch_id) ? "selected" : "";
+                $branch.append(`<option value="${item.branch_id}" ${selected}>${item.branch_name}</option>`);
+            });
         }
-    })
+    });
 }
+
 
 //Get BranchDropdown Based on Company id
 function getBranchDropdown2() {
     return new Promise((resolve, reject) => {
         var branch_id_upd = $('#branch_id_upd2').val();
-        var company_id = (!$('#company_id_upd2').val()) ? $('#company_id2').val() : $('#company_id_upd2').val();
+        var company_id = $('#company_id_upd2').val() || $('#company_id2').val();
+
         $.ajax({
             url: 'areaMapping/getBranchDropdown.php',
             type: 'post',
             dataType: 'json',
-            data: { 'company_id': company_id },
+            data: { company_id: company_id },
             cache: false,
             success: function (response) {
+                var $branch = $('#branch2');
+                $branch.empty().append('<option value="">Select Branch</option>');
 
-                $('#branch2').empty();
-                $('#branch2').append('<option value="">Select Branch</option>');
-                for (var i = 0; i < response.length; i++) {
-                    var selected = '';
-                    if (branch_id_upd != '' && branch_id_upd == response[i]['branch_id']) {
-                        selected = "selected";
-                    }
-                    $('#branch2').append("<option value = '" + response[i]['branch_id'] + "' " + selected + " > " + response[i]['branch_name'] + " </option>");
-                }
-                {//To Order Alphabetically
-                    var firstOption = $("#branch2 option:first-child");
-                    $("#branch2").html($("#branch2 option:not(:first-child)").sort(function (a, b) {
-                        return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                    }));
-                    $("#branch2").prepend(firstOption);
-                }
+                // Sort response alphabetically by branch_name
+                response.sort(function (a, b) {
+                    return a.branch_name.localeCompare(b.branch_name);
+                });
+
+                // Append sorted options
+                response.forEach(function (item) {
+                    var selected = (branch_id_upd && branch_id_upd == item.branch_id) ? "selected" : "";
+                    $branch.append(`<option value="${item.branch_id}" ${selected}>${item.branch_name}</option>`);
+                });
 
                 resolve(); // Notify completion
             },
@@ -598,6 +592,7 @@ function getBranchDropdown2() {
         });
     });
 }
+
 
 // function getLineNameDropdown(branchid){
 //     return new Promise((resolve, reject) => {

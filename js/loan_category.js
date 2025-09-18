@@ -10,13 +10,13 @@ $(document).ready(function () {
     // remove delete option for last child
     $('#delete_row:last').filter(':last').removeClass("deleterow");
 
-    {//To Order Alphabetically
-        var firstOption = $("#loan_category_name option:first-child");
-        $("#loan_category_name").html($("#loan_category_name option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#loan_category_name").prepend(firstOption);
-    }
+    // {//To Order Alphabetically
+    //     var firstOption = $("#loan_category_name option:first-child");
+    //     $("#loan_category_name").html($("#loan_category_name option:not(:first-child)").sort(function (a, b) {
+    //         return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
+    //     }));
+    //     $("#loan_category_name").prepend(firstOption);
+    // }
 
     // Modal Box for Category Name
     {
@@ -526,25 +526,24 @@ function DropDownCourse() {
         success: function (response) {
 
             var len = response.length;
-            $("#loan_category_name").empty();
-            $("#loan_category_name").append("<option value=''>" + 'Select Loan Category' + "</option>");
-            for (var i = 0; i < len; i++) {
-                var loan_category_creation_id = response[i]['loan_category_creation_id'];
-                var loan_category_creation_name = response[i]['loan_category_creation_name'];
-                $("#loan_category_name").append("<option value='" + loan_category_creation_id + "'>" + loan_category_creation_name + "</option>");
+            var htmlString = "<option value=''>" + 'Select Loan Category' + "</option>";
 
-            }
-            {//To Order Alphabetically
-                var firstOption = $("#loan_category_name option:first-child");
-                $("#loan_category_name").html($("#loan_category_name option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#loan_category_name").prepend(firstOption);
+            // Sort the response alphabetically by loan_category_creation_name before appending
+            var sortedResponse = response.slice().sort(function(a, b) {
+                return a.loan_category_creation_name.localeCompare(b.loan_category_creation_name);
+            });
+
+            for (var i = 0; i < sortedResponse.length; i++) {
+                var loan_category_creation_id = sortedResponse[i]['loan_category_creation_id'];
+                var loan_category_creation_name = sortedResponse[i]['loan_category_creation_name'];
+                htmlString += "<option value='" + loan_category_creation_id + "'>" + loan_category_creation_name + "</option>";
             }
 
+            $("#loan_category_name").html(htmlString);
         }
     });
 }
+
 function getSchemeTable() {
     
     var table = $('#loan_scheme_inner_table').DataTable();

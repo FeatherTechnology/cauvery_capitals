@@ -270,6 +270,7 @@ function getCustomerLoanCounts() {
 function guarentorName() {
     let cus_id = $('#cus_id').val();
     var guarentor_name = $('#guarentor_name_upd').val();
+
     $.ajax({
         url: 'verificationFile/verificationFam.php',
         type: 'post',
@@ -277,10 +278,16 @@ function guarentorName() {
         dataType: 'json',
         success: function (response) {
 
-            var len = response.length;
+            // 🔹 Sort the response by fam_name before appending
+            response.sort(function (a, b) {
+                return a.fam_name.localeCompare(b.fam_name);
+            });
+
             $("#guarentor_name").empty();
             $("#guarentor_name").append("<option value=''>" + 'Select Guarantor' + "</option>");
-            for (var i = 0; i < len; i++) {
+
+            // 🔹 Append in sorted order
+            for (var i = 0; i < response.length; i++) {
                 var fam_name = response[i]['fam_name'];
                 var fam_id = response[i]['fam_id'];
                 var selected = '';
@@ -289,16 +296,10 @@ function guarentorName() {
                 }
                 $("#guarentor_name").append("<option value='" + fam_id + "' " + selected + ">" + fam_name + "</option>");
             }
-            {//To Order ag_group Alphabetically
-                var firstOption = $("#guarentor_name option:first-child");
-                $("#guarentor_name").html($("#guarentor_name option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#guarentor_name").prepend(firstOption);
-            }
         }
     });
 }
+
 
 //Loan Category
 function getLc() {

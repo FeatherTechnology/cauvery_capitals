@@ -20,58 +20,58 @@ if($crdb == 'Credit' ){
         $qry .= "coll_code as ref_code,total_paid_track AS amt FROM collection WHERE trans_id = '$trans_id' AND bank_id = '$bank_id' ";
 
     }elseif($clr_cat == 3){//other income
-        $qry .= "ref_code, amt FROM ct_cr_boti WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND to_bank_id = '$bank_id'";
+        $qry .= "ref_code, amt FROM ct_cr_boti WHERE  trans_id = '$trans_id' AND to_bank_id = '$bank_id'";
 
     }elseif($clr_cat == 4){//Exchange
-        $qry .= "ref_code, amt FROM ct_cr_bexchange WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND to_bank_id = '$bank_id'";
+        $qry .= "ref_code, amt FROM ct_cr_bexchange WHERE  trans_id = '$trans_id' AND to_bank_id = '$bank_id'";
 
     }elseif($clr_cat == 5){//Cash deposit
-        $qry .= "ref_code, amt FROM ct_cr_cash_deposit WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND to_bank_id = '$bank_id'";
+        $qry .= "ref_code, amt FROM ct_cr_cash_deposit WHERE  trans_id = '$trans_id' AND to_bank_id = '$bank_id'";
 
     }elseif($clr_cat == 8){//Agent
-        $qry .= "ref_code, amt FROM ct_cr_bag WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND bank_id = '$bank_id'";
+        $qry .= "ref_code, amt FROM ct_cr_bag WHERE  trans_id = '$trans_id' AND bank_id = '$bank_id'";
         
     }elseif($clr_cat == 9){//investment
-        $qry .= "ref_code, amt FROM ct_cr_binvest WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND bank_id = '$bank_id'";
+        $qry .= "ref_code, amt FROM ct_cr_binvest WHERE  trans_id = '$trans_id' AND bank_id = '$bank_id'";
         
     }elseif($clr_cat == 10){//Deposit
-        $qry .= "ref_code, amt FROM ct_cr_bdeposit WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND bank_id = '$bank_id'";
+        $qry .= "ref_code, amt FROM ct_cr_bdeposit WHERE  trans_id = '$trans_id' AND bank_id = '$bank_id'";
         
     }elseif($clr_cat == 11){//EL
-        $qry .= "ref_code, amt FROM ct_cr_bel WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND bank_id = '$bank_id'";
+        $qry .= "ref_code, amt FROM ct_cr_bel WHERE  trans_id = '$trans_id' AND bank_id = '$bank_id'";
 
     }elseif($clr_cat == 15){// Uncleared
-        $qry .= "ucl_ref_code as ref_code, amt FROM ct_db_exf WHERE insert_login_id = '$user_id' AND ucl_trans_id = '$trans_id' AND bank_id = '$bank_id'";
+        $qry .= "ucl_ref_code as ref_code, amt FROM ct_db_exf WHERE  ucl_trans_id = '$trans_id' AND bank_id = '$bank_id'";
 
     }
     
 }else if($crdb == 'Debit'){
     if($clr_cat == 4){ // Exchange
-        $qry .= "ref_code, amt FROM ct_db_bexchange WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND from_acc_id = '$bank_id' ";
+        $qry .= "ref_code, amt FROM ct_db_bexchange WHERE  trans_id = '$trans_id' AND from_acc_id = '$bank_id' ";
 
     }elseif($clr_cat == 7){//Cash Withdrawal
-        $qry .= "ref_code, amt FROM ct_db_cash_withdraw WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND from_bank_id = '$bank_id'";
+        $qry .= "ref_code, amt FROM ct_db_cash_withdraw WHERE  trans_id = '$trans_id' AND from_bank_id = '$bank_id'";
 
     }elseif($clr_cat == 8){//Agent
-        $qry .= "ref_code, amt FROM ct_db_bag WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND bank_id = '$bank_id'";
+        $qry .= "ref_code, amt FROM ct_db_bag WHERE  trans_id = '$trans_id' AND bank_id = '$bank_id'";
 
     }elseif($clr_cat == 9){//Investment
-        $qry .= "ref_code, amt FROM ct_db_binvest WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND bank_id = '$bank_id'";
+        $qry .= "ref_code, amt FROM ct_db_binvest WHERE  trans_id = '$trans_id' AND bank_id = '$bank_id'";
 
     }elseif($clr_cat == 10){//Deposit
-        $qry .= "ref_code, amt FROM ct_db_bdeposit WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND bank_id = '$bank_id'";
+        $qry .= "ref_code, amt FROM ct_db_bdeposit WHERE  trans_id = '$trans_id' AND bank_id = '$bank_id'";
         
     }elseif($clr_cat == 11){//EL
-        $qry .= "ref_code, amt FROM ct_db_bel WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND bank_id = '$bank_id'";
+        $qry .= "ref_code, amt FROM ct_db_bel WHERE  trans_id = '$trans_id' AND bank_id = '$bank_id'";
         
     }elseif($clr_cat == 12){//Excess Fund
-        $qry .= "ref_code, amt FROM ct_db_exf WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND bank_id = '$bank_id'";
+        $qry .= "ref_code, amt FROM ct_db_exf WHERE  trans_id = '$trans_id' AND bank_id = '$bank_id'";
         
     }elseif($clr_cat == 13){// issued
-        $qry .= "ref_code, netcash AS amt FROM ct_db_bissued WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND li_bank_id = '$bank_id'";
+        $qry .= "ref_code, netcash AS amt FROM ct_db_bissued WHERE  trans_id = '$trans_id' AND li_bank_id = '$bank_id'";
 
     }elseif($clr_cat == 14){// Expenses
-        $qry .= "ref_code, amt FROM ct_db_bexpense WHERE insert_login_id = '$user_id' AND trans_id = '$trans_id' AND bank_id = '$bank_id'";
+        $qry .= "ref_code, amt FROM ct_db_bexpense WHERE  trans_id = '$trans_id' AND bank_id = '$bank_id'";
 
     }
 }

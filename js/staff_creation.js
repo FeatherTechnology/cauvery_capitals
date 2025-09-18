@@ -69,14 +69,15 @@ $(function () {
 function getDistrictDropdown(StateSelected) {
 
     var optionsList;
-    var htmlString = "<option value='Select District'>Select District</option>";
+    var district_upd = $('#district_upd').val();
     {
         var TamilNadu = ["Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kancheepuram", "Kanniyakumari", "Karur", "Madurai", "Nagapattinam",
             "Namakkal", "Nilgiris", "Perambalur", "Pudukottai", "Ramanathapuram", "Salem", "Sivagangai", "Thanjavur", "Theni", "Thiruvallur", "Tiruvannamalai", "Thiruvarur",
             "Thoothukudi", "Tiruchirappalli", "Thirunelveli", "Vellore", "Viluppuram", "Virudhunagar", "Ariyalur", "Krishnagiri", "Tiruppur", "Chengalpattu", "Kallakurichi",
             "Ranipet", "Tenkasi", "Tirupathur", "Mayiladuthurai"];
         var Puducherry = ["Puducherry"];
-    }//District list
+    }
+
     switch (StateSelected) {
         case "TamilNadu":
             optionsList = TamilNadu;
@@ -89,29 +90,32 @@ function getDistrictDropdown(StateSelected) {
             break;
     }
 
-    var district_upd = $('#district_upd').val();
-    for (var i = 0; i < optionsList.length; i++) {
+    // Sort the options alphabetically first
+    optionsList.sort();
+
+    // Build HTML string
+    var htmlString = "<option value='Select District'>Select District</option>";
+    optionsList.forEach(function(district) {
         var selected = '';
-        if (district_upd != '' && district_upd == optionsList[i]) { selected = "selected"; }
-        htmlString = htmlString + "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
-    }
+        if (district_upd != '' && district_upd == district) {
+            selected = "selected";
+        }
+        htmlString += "<option value='" + district + "' " + selected + ">" + district + "</option>";
+    });
+
     $("#district").html(htmlString);
     $("#district1").val(district_upd);
-
-    {//To Order loan_category Alphabetically
-        var firstOption = $("#district option:first-child");
-        $("#district").html($("#district option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#district").prepend(firstOption);
-    }
 }
+
 
 //get Taluk Dropdown
 function getTalukDropdown(DistSelected) {
 
-    var optionsList;
+    var optionsList = [];
     var htmlString = "<option value='Select Taluk'>Select Taluk</option>";
+    var taluk_upd = $('#taluk_upd').val();
+
+    // Taluk lists
     {
         var Chennai = ["Alandur", "Ambattur", "Aminjikarai", "Ayanavaram", "Egmore", "Guindy", "Madhavaram", "Madhuravoyal", "Mambalam", "Mylapore", "Perambur", "Purasavakkam", "Sholinganallur", "Thiruvottriyur", "Tondiarpet", "Velacherry"];
         var Coimbatore = ["Aanaimalai", "Annur", "Coimbatore(North)", "Coimbatore(South)", "Kinathukadavu", "Madukarai", "Mettupalayam", "Perur", "Pollachi", "Sulur", "Valparai"];
@@ -145,154 +149,67 @@ function getTalukDropdown(DistSelected) {
         var Ariyalur = ["Ariyalur", "Andimadam", "Sendurai", "Udaiyarpalayam"];
         var Krishnagiri = ["Krishnagiri", "Anjetty", "Bargur", "Hosur", "Pochampalli", "Sulagiri", "Thenkanikottai", "Uthangarai"];
         var Tiruppur = ["Avinashi", "Dharapuram", "Kangeyam", "Madathukkulam", "Oothukuli", "Palladam", "Tiruppur (North)", "Tiruppur (South)", "Udumalaipettai"];
-        var Chengalpattu = ["Chengalpattu", "Cheyyur", "Maduranthakam", "Pallavaram", "Tambaram", "Thirukalukundram", "Tiruporur", "Vandalur"];
-        var Kallakurichi = ["Kallakurichi", "Chinnaselam", "Kalvarayan Hills", "Sankarapuram", "Tirukoilur", "Ulundurpet"];
-        var Ranipet = ["Arakkonam", "Arcot", "Kalavai", "Nemili", "Sholingur", "Walajah"];
-        var Tenkasi = ["Tenkasi", "Alangulam", "Kadayanallur", "Sankarankovil", "Shenkottai", "Sivagiri", "Thiruvengadam", "Veerakeralampudur"];
-        var Tirupathur = ["Tirupathur", "Ambur", "Natrampalli", "Vaniyambadi"];
-        var Mayiladuthurai = ["Mayiladuthurai", "Kuthalam", "Sirkali", "Tharangambadi"];
         var Puducherry = ["Puducherry", "Oulgaret", "Villianur", "Bahour", "Karaikal", "Thirunallar", "Mahe", "Yanam"];
+    }
 
-    }//taluk list
+    // Assign taluks based on district
     switch (DistSelected) {
-        case "Ariyalur":
-            optionsList = Ariyalur;
-            break;
-        case "Chengalpattu":
-            optionsList = Chengalpattu;
-            break;
-        case "Chennai":
-            optionsList = Chennai;
-            break;
-        case "Coimbatore":
-            optionsList = Coimbatore;
-            break;
-        case "Dharmapuri":
-            optionsList = Dharmapuri;
-            break;
-        case "Erode":
-            optionsList = Erode;
-            break;
-        case "Cuddalore":
-            optionsList = Cuddalore;
-            break;
-        case "Dindigul":
-            optionsList = Dindigul;
-            break;
-        case "Kallakurichi":
-            optionsList = Kallakurichi;
-            break;
-        case "Kanniyakumari":
-            optionsList = Kanniyakumari;
-            break;
-        case "Krishnagiri":
-            optionsList = Krishnagiri;
-            break;
-        case "Nagapattinam":
-            optionsList = Nagapattinam;
-            break;
-        case "Perambalur":
-            optionsList = Perambalur;
-            break;
-        case "Ramanathapuram":
-            optionsList = Ramanathapuram;
-            break;
-        case "Salem":
-            optionsList = Salem;
-            break;
-        case "Tenkasi":
-            optionsList = Tenkasi;
-            break;
-        case "Theni":
-            optionsList = Theni;
-            break;
-        case "Thirunelveli":
-            optionsList = Thirunelveli;
-            break;
-        case "Thiruvarur":
-            optionsList = Thiruvarur;
-            break;
-        case "Tirupathur":
-            optionsList = Tirupathur;
-            break;
-        case "Tiruvannamalai":
-            optionsList = Tiruvannamalai;
-            break;
-        case "Vellore":
-            optionsList = Vellore;
-            break;
-        case "Virudhunagar":
-            optionsList = Virudhunagar;
-            break;
-        case "Kancheepuram":
-            optionsList = Kancheepuram;
-            break;
-        case "Karur":
-            optionsList = Karur;
-            break;
-        case "Madurai":
-            optionsList = Madurai;
-            break;
-        case "Namakkal":
-            optionsList = Namakkal;
-            break;
-        case "Pudukottai":
-            optionsList = Pudukottai;
-            break;
-        case "Ranipet":
-            optionsList = Ranipet;
-            break;
-        case "Sivagangai":
-            optionsList = Sivagangai;
-            break;
-        case "Thanjavur":
-            optionsList = Thanjavur;
-            break;
-        case "Nilgiris":
-            optionsList = Nilgiris;
-            break;
-        case "Thiruvallur":
-            optionsList = Thiruvallur;
-            break;
-        case "Thoothukudi":
-            optionsList = Thoothukudi;
-            break;
-        case "Tiruppur":
-            optionsList = Tiruppur;
-            break;
-        case "Tiruchirappalli":
-            optionsList = Tiruchirappalli;
-            break;
-        case "Viluppuram":
-            optionsList = Viluppuram;
-            break;
-        case "Mayiladuthurai":
-            optionsList = Mayiladuthurai;
-            break;
-        case "Puducherry":
-            optionsList = Puducherry;
-            break;
-        case "Select District":
-            optionsList = [];
-            break;
+        case "Ariyalur": optionsList = Ariyalur; break;
+        case "Chengalpattu": optionsList = Chengalpattu; break;
+        case "Chennai": optionsList = Chennai; break;
+        case "Coimbatore": optionsList = Coimbatore; break;
+        case "Dharmapuri": optionsList = Dharmapuri; break;
+        case "Erode": optionsList = Erode; break;
+        case "Cuddalore": optionsList = Cuddalore; break;
+        case "Dindigul": optionsList = Dindigul; break;
+        case "Kallakurichi": optionsList = Kallakurichi; break;
+        case "Kanniyakumari": optionsList = Kanniyakumari; break;
+        case "Krishnagiri": optionsList = Krishnagiri; break;
+        case "Nagapattinam": optionsList = Nagapattinam; break;
+        case "Perambalur": optionsList = Perambalur; break;
+        case "Ramanathapuram": optionsList = Ramanathapuram; break;
+        case "Salem": optionsList = Salem; break;
+        case "Tenkasi": optionsList = Tenkasi; break;
+        case "Theni": optionsList = Theni; break;
+        case "Thirunelveli": optionsList = Thirunelveli; break;
+        case "Thiruvarur": optionsList = Thiruvarur; break;
+        case "Tirupathur": optionsList = Tirupathur; break;
+        case "Tiruvannamalai": optionsList = Tiruvannamalai; break;
+        case "Vellore": optionsList = Vellore; break;
+        case "Virudhunagar": optionsList = Virudhunagar; break;
+        case "Kancheepuram": optionsList = Kancheepuram; break;
+        case "Karur": optionsList = Karur; break;
+        case "Madurai": optionsList = Madurai; break;
+        case "Namakkal": optionsList = Namakkal; break;
+        case "Pudukottai": optionsList = Pudukottai; break;
+        case "Ranipet": optionsList = Ranipet; break;
+        case "Sivagangai": optionsList = Sivagangai; break;
+        case "Thanjavur": optionsList = Thanjavur; break;
+        case "Nilgiris": optionsList = Nilgiris; break;
+        case "Thiruvallur": optionsList = Thiruvallur; break;
+        case "Thoothukudi": optionsList = Thoothukudi; break;
+        case "Tiruppur": optionsList = Tiruppur; break;
+        case "Tiruchirappalli": optionsList = Tiruchirappalli; break;
+        case "Viluppuram": optionsList = Viluppuram; break;
+        case "Mayiladuthurai": optionsList = Mayiladuthurai; break;
+        case "Puducherry": optionsList = Puducherry; break;
+        case "Select District": optionsList = []; break;
     }
-    var taluk_upd = $('#taluk_upd').val();
-    for (var i = 0; i < optionsList.length; i++) {
-        var selected = '';
-        if (taluk_upd != '' && taluk_upd == optionsList[i]) { selected = "selected"; }
-        htmlString = htmlString + "<option value='" + optionsList[i] + "' " + selected + " >" + optionsList[i] + "</option>";
-    }
+
+    // Sort taluks alphabetically first
+    optionsList.sort();
+
+    // Build HTML with selected value preserved
+    optionsList.forEach(function(taluk){
+        var selected = (taluk_upd && taluk_upd === taluk) ? "selected" : "";
+        htmlString += "<option value='" + taluk + "' " + selected + ">" + taluk + "</option>";
+    });
+
+    // Update the dropdown
     $("#taluk").html(htmlString);
     $("#taluk1").val(taluk_upd);
-
-    {//To Order taluk Alphabetically
-        var firstOption = $("#taluk option:first-child");
-        $("#taluk").html($("#taluk option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#taluk").prepend(firstOption);
-    }
 }
+
 
 //Get Staff Code 
 function getStaffCode() {
@@ -319,10 +236,15 @@ function getStaffTypeDropdown() {
         dataType: 'json',
         success: function (response) {
 
-            var len = response.length;
+            // 🔹 Sort response by staff_type_name first
+            response.sort(function (a, b) {
+                return a.staff_type_name.localeCompare(b.staff_type_name);
+            });
+
             $("#staff_type").empty();
             $("#staff_type").append("<option value=''>" + 'Select Staff Type' + "</option>");
-            for (var i = 0; i < len; i++) {
+
+            for (var i = 0; i < response.length; i++) {
                 var staff_type_id = response[i]['staff_type_id'];
                 var staff_type_name = response[i]['staff_type_name'];
                 var selected = '';
@@ -331,16 +253,10 @@ function getStaffTypeDropdown() {
                 }
                 $("#staff_type").append("<option value='" + staff_type_id + "' " + selected + ">" + staff_type_name + "</option>");
             }
-            {//To Order staff_type Alphabetically
-                var firstOption = $("#staff_type option:first-child");
-                $("#staff_type").html($("#staff_type option:not(:first-child)").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                }));
-                $("#staff_type").prepend(firstOption);
-            }
         }
     });
 }
+
 
 //Staff Type Modal
 {
@@ -495,32 +411,34 @@ function getStaffTypeDropdown() {
         });
     });
 
-    function closeModal() {
-        $.ajax({
-            url: 'staffCreation/ajaxGetStaffType.php',
-            type: 'post',
-            data: {},
-            dataType: 'json',
-            success: function (response) {
+   function closeModal() {
+    $.ajax({
+        url: 'staffCreation/ajaxGetStaffType.php',
+        type: 'post',
+        data: {},
+        dataType: 'json',
+        success: function (response) {
 
-                var len = response.length;
-                $("#staff_type").empty();
-                $("#staff_type").append("<option value=''>" + 'Select Staff Type' + "</option>");
-                for (var i = 0; i < len; i++) {
-                    var staff_type_id = response[i]['staff_type_id'];
-                    var staff_type_name = response[i]['staff_type_name'];
-                    $("#staff_type").append("<option value='" + staff_type_id + "'>" + staff_type_name + "</option>");
-                }
-                {//To Order staff_type Alphabetically
-                    var firstOption = $("#staff_type option:first-child");
-                    $("#staff_type").html($("#staff_type option:not(:first-child)").sort(function (a, b) {
-                        return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                    }));
-                    $("#staff_type").prepend(firstOption);
-                }
+            var len = response.length;
+            $("#staff_type").empty();
+            $("#staff_type").append("<option value=''>" + 'Select Staff Type' + "</option>");
+
+            // Sort the response alphabetically based on staff_type_name
+            response.sort(function(a, b){
+                return a.staff_type_name.localeCompare(b.staff_type_name);
+            });
+
+            // Append sorted options
+            for (var i = 0; i < len; i++) {
+                var staff_type_id = response[i]['staff_type_id'];
+                var staff_type_name = response[i]['staff_type_name'];
+                $("#staff_type").append("<option value='" + staff_type_id + "'>" + staff_type_name + "</option>");
             }
-        });
-    }
+
+        }
+    });
+}
+
 
 }
 
