@@ -397,7 +397,7 @@ $(document).ready(function () {
         if (total_due != '' && advance_due == '') {
             $('#due_period').val(total_due);
         } else if (total_due != '' && advance_due != '') {
-            var due_period = total_due - advance_due; console.log(due_period)
+            var due_period = total_due - advance_due;
             $('#due_period').val(due_period);
         } else if (total_due == '' && advance_due == '') {
             $('#due_period').val('');
@@ -456,26 +456,26 @@ $(document).ready(function () {
     ChangeSchemStatus(id);
 });
 
-    $('#monthly_duetype').on('change', function () {
-        var due_type = $(this).val();
+    // $('#monthly_duetype').on('change', function () {
+    //     var due_type = $(this).val();
 
-        if (due_type == 'emi') {
-            $(".intrest_method").hide();
-            $(".emi_method").show();
-            $("#loan_scheme_card").show();
-            $('#monthly_overdues').val("");
-        } else if (due_type == 'intrest') {
-            $(".intrest_method").show();
-            $(".emi_method").hide();
-            $("#loan_scheme_card").hide();
-            $('#monthly_overdues').val("");
-        } else {
-            $(".intrest_method").hide();
-            $(".emi_method").hide();
-            $("#loan_scheme_card").hide();
-            $('#monthly_overdues').val("");
-        }
-    });
+    //     if (due_type == 'emi') {
+    //         $(".intrest_method").hide();
+    //         $(".emi_method").show();
+    //         $("#loan_scheme_card").show();
+    //         $('#monthly_overdues').val("");
+    //     } else if (due_type == 'intrest') {
+    //         $(".intrest_method").show();
+    //         $(".emi_method").hide();
+    //         $("#loan_scheme_card").hide();
+    //         $('#monthly_overdues').val("");
+    //     } else {
+    //         $(".intrest_method").hide();
+    //         $(".emi_method").hide();
+    //         $("#loan_scheme_card").hide();
+    //         $('#monthly_overdues').val("");
+    //     }
+    // });
 
 });
 
@@ -800,9 +800,9 @@ function submitScheme(data) {
         
 
         if (response == 1) {
-            alert("Scheme Updated !");
+            swalSuccess('Success',"Scheme Updated !");
         } else if (response == 2) {
-            alert("Scheme Submitted !");
+            swalSuccess('Success',"Scheme Submitted !");
         }
 
         $('#scheme_id').val('');
@@ -886,15 +886,43 @@ function swalError(title, text) {
     });
 }
 
+function swalSuccess(title, text) {
+	Swal.fire({
+		icon: 'success',
+		title: title,
+		text: text,
+		showConfirmButton: false,
+		timerProgressBar: true,
+		timer: 2000,
+	})
+}
+
 function checkAllInputs() {
-var inputs = $(
-    '#monthly_intrests_rate_min, #monthly_intrests_rate_max, ' +
-    '#monthly_due_periods_min, #monthly_due_periods_max, ' +
-    '#monthly_document_charges_min, #monthly_document_charges_max, ' +
-    '#monthly_processing_fees_min, #monthly_processing_fees_max, ' +
-    '#monthly_overdues, ' +
-    '#monthly_profit_method' // any other select input
-);
+
+    let monthly_duetype = $("#monthly_duetype").val();
+    // Default input list
+    let inputs;
+    if (monthly_duetype === "emi") {
+        inputs = $(
+            '#monthly_intrests_rate_min, #monthly_intrests_rate_max, ' +
+            '#monthly_due_periods_min, #monthly_due_periods_max, ' +
+            '#monthly_document_charges_min, #monthly_document_charges_max, ' +
+            '#monthly_processing_fees_min, #monthly_processing_fees_max, ' +
+            '#monthly_overdues, ' +
+            '#monthly_profit_method'+'#scheme_name' // any other select input
+        );
+    } else if (monthly_duetype === "intrest") {
+        inputs = $(
+            '#int_profit_method, #calculate_method,'+
+            '#monthly_intrests_rate_min, #monthly_intrests_rate_max, ' +
+            '#monthly_due_periods_min, #monthly_due_periods_max, ' +
+            '#monthly_document_charges_min, #monthly_document_charges_max, ' +
+            '#monthly_processing_fees_min, #monthly_processing_fees_max, ' +
+            '#monthly_overdues'
+        );
+    } else {
+        return false; // nothing selected
+    }
 
 // Count filled normal inputs
 let filledInputs = inputs.filter(function () {
@@ -911,6 +939,7 @@ let schemeFilled = scheme_choices.getValue().length > 0;
 
 // Total inputs including the multi-select
 let totalInputs = inputs.length ; 
+
 let totalFilled = filledInputs + (schemeFilled ? 1 : 0);
 
 // Validation rules

@@ -1,6 +1,28 @@
 <?php
 include '../ajaxconfig.php';
 // include 'getLoanDetailsClass.php';
+
+function moneyFormatIndia($num)
+{
+    $explrestunits = "";
+    if (strlen($num) > 3) {
+        $lastthree = substr($num, strlen($num) - 3, strlen($num));
+        $restunits = substr($num, 0, strlen($num) - 3);
+        $restunits = (strlen($restunits) % 2 == 1) ? "0" . $restunits : $restunits;
+        $expunit = str_split($restunits, 2);
+        for ($i = 0; $i < sizeof($expunit); $i++) {
+            if ($i == 0) {
+                $explrestunits .= (int)$expunit[$i] . ",";
+            } else {
+                $explrestunits .= $expunit[$i] . ",";
+            }
+        }
+        $thecash = $explrestunits . $lastthree;
+    } else {
+        $thecash = $num;
+    }
+    return $thecash;
+}
 ?>
 <table class="table custom-table table-responsive" id='dueChartListTable'>
 
@@ -8,7 +30,7 @@ include '../ajaxconfig.php';
     $req_id = $_POST['req_id'];
     $curDateChecker = true;
 
-    $loanStart = $connect->query("SELECT alc.due_start_from,alc.maturity_month,alc.due_method_calc,alc.due_method_scheme FROM acknowlegement_loan_calculation alc WHERE alc.`req_id`= '$req_id' ");
+    $loanStart = $connect->query("SELECT alc.due_start_from,alc.maturity_month,alc.due_method_calc,alc.due_method_scheme , alc.int_rate , alc.calc_method FROM acknowlegement_loan_calculation alc WHERE alc.`req_id`= '$req_id' ");
     $loanFrom = $loanStart->fetch();
     //If Due method is Monthly, Calculate penalty by checking the month has ended or not
     $due_start_from = $loanFrom['due_start_from'];
@@ -84,7 +106,13 @@ include '../ajaxconfig.php';
                 <th> Interest Amount </th>
             <?php } ?>
             <th> Balance Amount </th>
-            <th> Pre Closure </th>
+            <?php if ($loan_type == 'emi') { ?>
+                <th> Pre Closure </th>
+            <?php } ?>
+            <?php if ($loan_type == 'interest') { ?>
+                <th> Principal Waiver </th>
+                <th> Interest Waiver </th>
+            <?php } ?>
             <th> Role </th>
             <th width="8%"> User ID </th>
             <th> Collection Method </th>
@@ -125,6 +153,9 @@ include '../ajaxconfig.php';
 
             <td><?php echo $loan_amt; ?></td>
             <td></td>
+            <?php if ($loan_type == 'interest') { ?>
+                <td></td>
+            <?php } ?>
             <td></td>
             <td></td>
             <td></td>
@@ -137,8 +168,8 @@ include '../ajaxconfig.php';
             /*( MONTH(c.coll_date) >= MONTH('$issued') AND YEAR(c.coll_date) = YEAR('$issued') )
             AND 
                 ( MONTH(c.trans_date) >= MONTH('$issued') AND YEAR(c.trans_date) = YEAR('$issued') )
-                    AND */ 
-            $run = $connect->query("SELECT c.coll_code, c.due_amt, c.tot_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.princ_amt_track, c.int_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role
+                    AND */
+            $run = $connect->query("SELECT c.coll_code, c.due_amt, c.tot_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.princ_amt_track, c.int_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role , c.principal_waiver, c.interest_waiver
             FROM `collection` c
             LEFT JOIN user u ON c.insert_login_id = u.user_id
             WHERE c.`req_id` = '$req_id' AND (c.due_amt_track != '' or c.pre_close_waiver!='' OR c.princ_amt_track != '' OR c.int_amt_track != '')
@@ -168,7 +199,7 @@ include '../ajaxconfig.php';
         } else
         if ($loanFrom['due_method_scheme'] == '2') {
             //Query For Weekly.
-            $run = $connect->query("SELECT c.coll_code, c.due_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role
+            $run = $connect->query("SELECT c.coll_code, c.due_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role , c.principal_waiver, c.interest_waiver
             FROM `collection` c
             LEFT JOIN user u ON c.insert_login_id = u.user_id
             WHERE c.`req_id` = '$req_id' AND (c.due_amt_track != '' or c.pre_close_waiver!='' OR c.princ_amt_track != '')
@@ -203,7 +234,7 @@ include '../ajaxconfig.php';
         } else
         if ($loanFrom['due_method_scheme'] == '3') {
             //Query For Day.
-            $run = $connect->query("SELECT c.coll_code, c.due_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role
+            $run = $connect->query("SELECT c.coll_code, c.due_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role , c.principal_waiver, c.interest_waiver
             FROM `collection` c
             LEFT JOIN user u ON c.insert_login_id = u.user_id
             WHERE c.`req_id` = '$req_id' AND (c.due_amt_track != '' or c.pre_close_waiver!='')
@@ -217,9 +248,12 @@ include '../ajaxconfig.php';
         $totalPaid = 0;
         $totalPreClose = 0;
         $totalpaid = 0;
+        $totalPaidPrinc = 0;
 
         $due_amt_track = 0;
         $waiver = 0;
+        $principal_waiver = 0;
+        $interest_waiver  = 0;
         $last_bal_amt = 0;
         $bal_amt = $loan_amt;
         if ($run->rowCount() > 0) {
@@ -228,13 +262,15 @@ include '../ajaxconfig.php';
                 $collectionAmnt = intVal($row['due_amt_track']);
                 $due_amt_track = $due_amt_track + intVal($row['due_amt_track']);
                 $waiver = $waiver + intVal($row['pre_close_waiver']);
+                $principal_waiver = $principal_waiver + intVal($row['principal_waiver']);
                 if ($loan_type == 'interest') {
                     $PcollectionAmnt = intVal($row['princ_amt_track']);
                     $IcollectionAmnt = intVal($row['int_amt_track']);
+                    $InterestwaiverAmnt =  intVal($row['interest_waiver']);
                     if ($last_bal_amt != 0) {
-                        $bal_amt = $last_bal_amt - $PcollectionAmnt - $waiver;
+                        $bal_amt = $last_bal_amt - $PcollectionAmnt - $principal_waiver;
                     } else {
-                        $bal_amt = $loan_amt - $PcollectionAmnt - $waiver;
+                        $bal_amt = $loan_amt - $PcollectionAmnt - $principal_waiver;
                     }
                 } else {
                     $bal_amt = $loan_amt - $due_amt_track - $waiver;
@@ -274,29 +310,58 @@ include '../ajaxconfig.php';
 
                     <?php if ($loan_type == 'interest') { ?>
                         <td>
-                            <?php if ($PcollectionAmnt > 0) {
+                            <?php
+                            if ($PcollectionAmnt > 0) {
                                 $totalPaidPrinc += $PcollectionAmnt;
-
-                                echo $PcollectionAmnt;
-                            } elseif ($row['pre_close_waiver'] > 0) {
-                                $totalPreClose += $row['pre_close_waiver'];
-
-                                echo $row['pre_close_waiver'];
-                            } ?>
+                                echo moneyFormatIndia($PcollectionAmnt);
+                            } else {
+                                echo 0;
+                            }
+                            ?>
                         </td>
                         <td>
-                            <?php if ($IcollectionAmnt > 0) {
-                                echo $IcollectionAmnt;
-                            } ?>
+                            <?php
+                            if ($IcollectionAmnt > 0) {
+                                echo moneyFormatIndia($IcollectionAmnt);
+                            } else {
+                                echo 0;
+                            }
+                            ?>
                         </td>
                     <?php } ?>
 
-                    <td><?php echo $bal_amt; ?></td>
-                    <td><?php if ($row['pre_close_waiver'] > 0) {
-                            echo $row['pre_close_waiver'];
-                        } else {
-                            echo '0';
-                        } ?></td>
+                    <td><?php echo moneyFormatIndia($bal_amt); ?></td>
+
+                    <?php if ($loan_type != 'interest') { ?>
+                        <td>
+                            <?php
+                            if ($row['pre_close_waiver'] > 0) {
+                                echo moneyFormatIndia($row['pre_close_waiver']);
+                            } else {
+                                echo '0';
+                            }
+                            ?>
+                        </td>
+                    <?php } else { ?>
+                        <td>
+                            <?php
+                            if ($row['principal_waiver'] > 0) {
+                                echo moneyFormatIndia($row['principal_waiver']);
+                            } else {
+                                echo '0';
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            if ($InterestwaiverAmnt > 0) {
+                                echo moneyFormatIndia($InterestwaiverAmnt);
+                            } else {
+                                echo 0;
+                            }
+                            ?>
+                        </td>
+                    <?php } ?>
                     <td><?php if (isset($role) && $role == '1') {
                             echo 'Director';
                         } else if (isset($role) && $role == '2') {
@@ -340,14 +405,14 @@ include '../ajaxconfig.php';
         foreach ($dueMonth as $cusDueMonth) {
             if ($loanFrom['due_method_calc'] == 'Monthly' || $loanFrom['due_method_scheme'] == '1') {
                 //Query for Monthly.
-                $run = $connect->query("SELECT c.coll_code, c.due_amt, c.tot_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.princ_amt_track, c.int_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role FROM `collection` c LEFT JOIN user u ON c.insert_login_id = u.user_id WHERE c.req_id = $req_id AND (c.due_amt_track != '' OR c.princ_amt_track != '' OR c.int_amt_track != '' OR c.pre_close_waiver != '') AND ((c.trans_date IS NOT NULL AND c.trans_date != '0000-00-00' AND MONTH(c.trans_date) = MONTH('$cusDueMonth') AND YEAR(c.trans_date) = YEAR('$cusDueMonth'))OR (c.trans_date IS NULL OR c.trans_date = '0000-00-00' AND MONTH(c.coll_date) = MONTH('$cusDueMonth') AND YEAR(c.coll_date) = YEAR('$cusDueMonth')));");
+                $run = $connect->query("SELECT c.coll_code, c.due_amt, c.tot_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.princ_amt_track, c.int_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role , c.principal_waiver, c.interest_waiver FROM `collection` c LEFT JOIN user u ON c.insert_login_id = u.user_id WHERE c.req_id = $req_id AND (c.due_amt_track != '' OR c.princ_amt_track != '' OR c.int_amt_track != '' OR c.pre_close_waiver != '' or c.principal_waiver !='' or c.interest_waiver !='') AND ((c.trans_date IS NOT NULL AND c.trans_date != '0000-00-00' AND MONTH(c.trans_date) = MONTH('$cusDueMonth') AND YEAR(c.trans_date) = YEAR('$cusDueMonth'))OR (c.trans_date IS NULL OR c.trans_date = '0000-00-00' AND MONTH(c.coll_date) = MONTH('$cusDueMonth') AND YEAR(c.coll_date) = YEAR('$cusDueMonth')));");
             } elseif ($loanFrom['due_method_scheme'] == '2') {
                 //Query For Weekly.
-                $run = $connect->query("SELECT c.coll_code, c.due_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role FROM `collection` c LEFT JOIN user u ON c.insert_login_id = u.user_id WHERE c.req_id = $req_id AND (c.due_amt_track != '' OR c.pre_close_waiver != '') AND ((c.trans_date IS NOT NULL AND c.trans_date != '0000-00-00' AND WEEK(c.trans_date) = WEEK '$cusDueMonth') AND YEAR(c.trans_date) = YEAR('$cusDueMonth')) OR (c.trans_date IS NULL OR c.trans_date = '0000-00-00' AND WEEK(c.coll_date) = WEEK('$cusDueMonth') AND YEAR(c.coll_date) = YEAR('$cusDueMonth')));
+                $run = $connect->query("SELECT c.coll_code, c.due_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, alc.due_start_from, u.fullname, u.role , c.principal_waiver, c.interest_waiver FROM `collection` c LEFT JOIN user u ON c.insert_login_id = u.user_id WHERE c.req_id = $req_id AND (c.due_amt_track != '' OR c.pre_close_waiver != '') AND ((c.trans_date IS NOT NULL AND c.trans_date != '0000-00-00' AND WEEK(c.trans_date) = WEEK '$cusDueMonth') AND YEAR(c.trans_date) = YEAR('$cusDueMonth')) OR (c.trans_date IS NULL OR c.trans_date = '0000-00-00' AND WEEK(c.coll_date) = WEEK('$cusDueMonth') AND YEAR(c.coll_date) = YEAR('$cusDueMonth')));
 ");
             } elseif ($loanFrom['due_method_scheme'] == '3') {
                 //Query For Day.
-                $run = $connect->query("SELECT c.coll_code, c.due_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role FROM `collection` c LEFT JOIN user u ON c.insert_login_id = u.user_id WHERE c.req_id = $req_id AND (c.due_amt_track != '' OR c.pre_close_waiver != '') AND ((c.trans_date IS NOT NULL AND c.trans_date != '0000-00-00' AND DAY(c.trans_date) = DAY('$cusDueMonth') AND MONTH(c.trans_date) = MONTH('$cusDueMonth')  AND YEAR(c.trans_date) = YEAR('$cusDueMonth'))  OR (c.trans_date IS NULL OR c.trans_date = '0000-00-00' AND DAY(c.coll_date) = DAY('$cusDueMonth') AND MONTH(c.coll_date) = MONTH('$cusDueMonth') AND YEAR(c.coll_date) = YEAR('$cusDueMonth')));");
+                $run = $connect->query("SELECT c.coll_code, c.due_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, alc.due_start_from, u.fullname, u.role , c.principal_waiver, c.interest_waiver FROM `collection` c LEFT JOIN user u ON c.insert_login_id = u.user_id WHERE c.req_id = $req_id AND (c.due_amt_track != '' OR c.pre_close_waiver != '') AND ((c.trans_date IS NOT NULL AND c.trans_date != '0000-00-00' AND DAY(c.trans_date) = DAY('$cusDueMonth') AND MONTH(c.trans_date) = MONTH('$cusDueMonth')  AND YEAR(c.trans_date) = YEAR('$cusDueMonth'))  OR (c.trans_date IS NULL OR c.trans_date = '0000-00-00' AND DAY(c.coll_date) = DAY('$cusDueMonth') AND MONTH(c.coll_date) = MONTH('$cusDueMonth') AND YEAR(c.coll_date) = YEAR('$cusDueMonth')));");
             }
 
             if ($run->rowCount() > 0) {
@@ -358,13 +423,16 @@ include '../ajaxconfig.php';
                     if ($loanFrom['due_method_calc'] == 'Monthly' || $loanFrom['due_method_scheme'] == '1') {
                         $princ_amt_track = intVal($row['princ_amt_track']);
                         $int_amt_track = intVal($row['int_amt_track']);
+                        $interest_waiver = intVal($row['interest_waiver']);
                     }
 
                     $waiver = intVal($row['pre_close_waiver']);
+                    $principal_waiver = intVal($row['principal_waiver']);
+
                     if ($loan_type == 'emi') {
                         $bal_amt = intVal($row['bal_amt']) - $due_amt_track - $waiver;
                     } else {
-                        $bal_amt = intVal($last_princ_amt) - $princ_amt_track - $waiver;
+                        $bal_amt = intVal($last_princ_amt) - $princ_amt_track - $principal_waiver;
                     }
 
                 ?>
@@ -392,23 +460,45 @@ include '../ajaxconfig.php';
                                 </td>
 
                                 <?php if ($loan_type == 'emi') { ?>
-                                    <td><?php echo $row['due_amt']; ?></td>
+                                    <td><?php echo moneyFormatIndia($row['due_amt']); ?></td>
                                 <?php } ?>
                                 <?php if ($loan_type == 'interest') { ?>
-                                    <td><?php echo $last_princ_amt; ?></td>
-                                    <td><?php echo $row['due_amt'];
-                                        $last_int_amt = $row['due_amt']; ?></td>
+                                    <td><?php echo moneyFormatIndia($last_princ_amt); ?></td>
+                                    <td>
+                                        <?php
+                                        $interest_rate_calc = $loanFrom['int_rate'];
+                                        $current_principal = $last_princ_amt;
+                                        $interest_calculate = $loanFrom['calc_method']; // 'Month' or 'Days'
+
+                                        // Interest calculation
+                                        if ($interest_calculate == 'Monthly') {
+                                            $int = $current_principal * ($interest_rate_calc / 100);
+                                        } else if ($interest_calculate == 'Days') {
+                                            $int = ($current_principal * ($interest_rate_calc / 100) / 30);
+                                        } else {
+                                            $int = 0; // default fallback
+                                        }
+
+                                        // Round up to next multiple of 5
+                                        $curInterest = ceil($int / 5) * 5;
+                                        if ($curInterest < $int) {
+                                            $curInterest += 5;
+                                        }
+
+                                        echo moneyFormatIndia($curInterest);
+                                        ?>
+                                    </td>
                                 <?php } ?>
 
 
                             <?php } else { ?>
                                 <td></td>
                                 <td></td>
-                                <?php if ($loan_type == 'interest') { ?>
+                                <td></td>
+                                <td></td>
+                                <?php if ($loan_type != 'emi') { ?>
                                     <td></td>
                                 <?php } ?>
-                                <td></td>
-                                <td></td>
                             <?php }
                         } else { //this is for weekly and daily loan to check lastcusduemonth comparision
                             if (date('Y-m-d', strtotime($lastCusdueMonth)) != date('Y-m-d', strtotime($row['coll_date']))) {
@@ -480,35 +570,54 @@ include '../ajaxconfig.php';
 
                         <?php if ($loan_type == 'interest') { ?>
                             <td>
-                                <?php if ($princ_amt_track > 0) {
-                                    $totalPaidPrinc += $princ_amt_track;
-
-                                    echo $princ_amt_track;
-                                } elseif ($row['pre_close_waiver'] > 0) {
-                                    $totalPreClose += $row['pre_close_waiver'];
-
-                                    echo $row['pre_close_waiver'];
-                                } ?>
+                                <?php
+                                if ($princ_amt_track > 0) {
+                                    echo moneyFormatIndia($princ_amt_track);
+                                } else {
+                                    echo 0;
+                                }
+                                ?>
                             </td>
                             <td>
-                                <?php if ($int_amt_track > 0) {
-                                    echo $int_amt_track;
-                                } ?>
+                                <?php
+                                if ($int_amt_track > 0) {
+                                    echo moneyFormatIndia($int_amt_track);
+                                } else {
+                                    echo 0;
+                                }
+                                ?>
                             </td>
-                        <?php } 
-                        $totalpaid = ($loan_type == 'emi') ? $totalPaid : $totalPaidPrinc;
-                        ?>
+                        <?php } ?>
 
-
-                        <td><?php echo $bal_amt;
+                        <td>
+                            <?php echo moneyFormatIndia($bal_amt);
                             if ($loan_type == 'interest') {
                                 $last_princ_amt = $bal_amt;
-                            } ?></td>
-                        <td><?php if ($row['pre_close_waiver'] > 0) {
-                                echo $row['pre_close_waiver'];
+                            } ?>
+                        </td>
+
+                        <td>
+                            <?php
+                            if ($loan_type == 'emi') {
+                                echo ($row['pre_close_waiver'] > 0)
+                                    ? moneyFormatIndia($row['pre_close_waiver'])
+                                    : '0';
                             } else {
-                                echo '0';
-                            } ?></td>
+                                echo ($row['principal_waiver'] > 0)
+                                    ? moneyFormatIndia($row['principal_waiver'])
+                                    : '0';
+                            }
+                            ?>
+                        </td>
+
+                        <?php if ($loan_type == 'interest') { ?>
+                            <td>
+                                <?php echo ($row['interest_waiver'] > 0)
+                                    ? moneyFormatIndia($row['interest_waiver'])
+                                    : '0'; ?>
+                            </td>
+                        <?php } ?>
+
                         <td><?php if (isset($role) && $role == '1') {
                                 echo 'Director';
                             } else if (isset($role) && $role == '2') {
@@ -530,7 +639,7 @@ include '../ajaxconfig.php';
 
                 <?php $lastCusdueMonth = date('d-m-Y', strtotime($cusDueMonth)); //assign this cusDueMonth to check if coll date is already showed before
                 }
-            } else {
+            } else { //if not paid on due month. else part will show.
                 ?>
                 <tr>
                     <td><?php echo $i; ?></td>
@@ -554,8 +663,31 @@ include '../ajaxconfig.php';
                         <td><?php echo $due_amt_1; ?></td>
                     <?php } ?>
                     <?php if ($loan_type == 'interest') { ?>
-                        <td><?php echo $last_princ_amt; ?></td>
-                        <td><?php echo $last_int_amt; ?></td>
+                        <td><?php echo moneyFormatIndia($last_princ_amt); ?></td>
+                        <td>
+                            <?php
+                            $interest_rate_calc = $loanFrom['int_rate'];
+                            $current_principal = $last_princ_amt;
+                            $interest_calculate = $loanFrom['calc_method']; // 'Month' or 'Days'
+
+                            // Interest calculation
+                            if ($interest_calculate == 'Monthly') {
+                                $int = $current_principal * ($interest_rate_calc / 100);
+                            } else if ($interest_calculate == 'Days') {
+                                $int = ($current_principal * ($interest_rate_calc / 100) / 30);
+                            } else {
+                                $int = 0; // default fallback
+                            }
+
+                            // Round up to next multiple of 5
+                            $curInterest = ceil($int / 5) * 5;
+                            if ($curInterest < $int) {
+                                $curInterest += 5;
+                            }
+
+                            echo moneyFormatIndia($curInterest);
+                            ?>
+                        </td>
                     <?php } ?>
 
                     <?php
@@ -629,6 +761,9 @@ include '../ajaxconfig.php';
                     <td> <?php echo $bal_amt; ?></td>
                     <td></td>
                     <td></td>
+                    <?php if ($loan_type == 'interest') { ?>
+                        <td></td>
+                    <?php } ?>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -654,10 +789,10 @@ include '../ajaxconfig.php';
             $last_date = $maturity_month_last_date.' '.$endTime;
 
             //Query for Monthly.
-            $run = $connect->query("SELECT c.coll_code, c.due_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.princ_amt_track,c.int_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role
+            $run = $connect->query("SELECT c.coll_code, c.due_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.princ_amt_track,c.int_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role , c.principal_waiver, c.interest_waiver
             FROM `collection` c
             LEFT JOIN user u ON c.insert_login_id = u.user_id
-            WHERE c.`req_id` = '$req_id' AND (c.due_amt_track != '' or c.pre_close_waiver!='')
+            WHERE c.`req_id` = '$req_id' AND (c.due_amt_track != '' or c.pre_close_waiver!='' or c.principal_waiver!='' or c.interest_waiver !='')
             AND 
             (
                 (c.coll_date BETWEEN '$maturity_month' AND '$currentMonth') OR (c.trans_date BETWEEN '$maturity_month' AND '$currentMonth' AND c.trans_date != '0000-00-00')
@@ -678,11 +813,11 @@ include '../ajaxconfig.php';
 
             $maturity_month_last_date = (clone $maturity_month_obj)->modify('last day of this week')->format('Y-m-d');
             $maturity_month = (clone $maturity_month_obj)->modify('+1 week')->format('Y-m-d');
-            $maturity_month = $maturity_month.' '.$startTime;
-            $last_date = $maturity_month_last_date.' '.$endTime;
+            $maturity_month = $maturity_month . ' ' . $startTime;
+            $last_date = $maturity_month_last_date . ' ' . $endTime;
 
             //Query For Weekly.
-            $run = $connect->query("SELECT c.coll_code, c.due_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role
+            $run = $connect->query("SELECT c.coll_code, c.due_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role , c.principal_waiver, c.interest_waiver
             FROM `collection` c
             LEFT JOIN user u ON c.insert_login_id = u.user_id
             WHERE c.`req_id` = '$req_id' 
@@ -714,7 +849,7 @@ include '../ajaxconfig.php';
             $last_date = $maturity_month_last_date.' '.$endTime;
 
             //Query For Day.
-            $run = $connect->query("SELECT c.coll_code, c.due_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role
+            $run = $connect->query("SELECT c.coll_code, c.due_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role , c.principal_waiver, c.interest_waiver
             FROM `collection` c
             LEFT JOIN user u ON c.insert_login_id = u.user_id
             WHERE c.`req_id` = '$req_id' AND (c.due_amt_track != '' or c.pre_close_waiver!='')
@@ -747,7 +882,17 @@ include '../ajaxconfig.php';
                 $collectionAmnt = intVal($row['due_amt_track']);
                 $due_amt_track = intVal($row['due_amt_track']);
                 $waiver = intVal($row['pre_close_waiver']);
-                $bal_amt = $bal_amt - $due_amt_track - $waiver;
+                if ($loan_type == 'interest') {
+                    $PcollectionAmnt = intVal($row['princ_amt_track']);
+                    $IcollectionAmnt = intVal($row['int_amt_track']);
+                    if ($last_bal_amt != 0) {
+                        $bal_amt = $last_bal_amt - $PcollectionAmnt - $principal_waiver;
+                    } else {
+                        $bal_amt = $loan_amt - $PcollectionAmnt - $principal_waiver;
+                    }
+                } else {
+                    $bal_amt = $loan_amt - $due_amt_track - $waiver;
+                }
             ?>
                 <tr>
                     <td></td>
@@ -788,24 +933,57 @@ include '../ajaxconfig.php';
                     <?php if ($loan_type == 'interest') { ?>
                         <td>
                             <?php if ($PcollectionAmnt > 0) {
-                                echo $PcollectionAmnt;
-                            } elseif ($row['pre_close_waiver'] > 0) {
-                                echo $row['pre_close_waiver'];
+                                $totalPaidPrinc += $PcollectionAmnt;
+                                echo moneyFormatIndia($PcollectionAmnt);
+                            } else {
+                                echo 0;
                             } ?>
                         </td>
                         <td>
                             <?php if ($IcollectionAmnt > 0) {
-                                echo $IcollectionAmnt;
+                                echo moneyFormatIndia($IcollectionAmnt);
+                            } else {
+                                echo 0;
                             } ?>
                         </td>
                     <?php } ?>
 
                     <td><?php echo $bal_amt; ?></td>
-                    <td><?php if ($row['pre_close_waiver'] > 0) {
-                            echo $row['pre_close_waiver'];
-                        } else {
-                            echo '0';
-                        } ?></td>
+
+                    <?php if ($loan_type != 'interest') { ?>
+                        <td>
+                            <?php
+                            if ($row['pre_close_waiver'] > 0) {
+                                echo moneyFormatIndia($row['pre_close_waiver']);
+                            } else {
+                                echo '0';
+                            }
+                            ?>
+                        </td>
+                    <?php } else { ?>
+                        <td>
+                            <?php
+                            if ($row['principal_waiver'] > 0) {
+                                echo moneyFormatIndia($row['principal_waiver']);
+                            } else {
+                                echo '0';
+                            }
+                            ?>
+                        </td>
+                    <?php } ?>
+
+                    <?php if ($loan_type == 'interest') { ?>
+                        <td>
+                            <?php
+                            if ($row['interest_waiver'] > 0) {
+                                echo moneyFormatIndia($row['interest_waiver']);
+                            } else {
+                                echo '0';
+                            }
+                            ?>
+                        </td>
+                    <?php } ?>
+
                     <td><?php if (isset($role) && $role == '1') {
                             echo 'Director';
                         } else if (isset($role) && $role == '2') {
@@ -814,7 +992,9 @@ include '../ajaxconfig.php';
                             echo 'Staff';
                         } ?>
                     </td>
+
                     <td><?php echo $row['fullname']; ?></td>
+
                     <td><?php if ($row['coll_location'] == '1') {
                             echo 'By Self';
                         } elseif ($row['coll_location'] == '2') {

@@ -129,7 +129,7 @@ $query = "SELECT
         LEFT JOIN agent_creation ac ON iv.agent_id = ac.ag_id
         LEFT JOIN closed_status cls ON iv.req_id = cls.req_id
 
-        WHERE iv.cus_status >= 14 
+        WHERE iv.cus_status >= 14 AND lc.due_type = 'EMI'
         AND $where ";
 
 if (isset($_POST['search'])) {

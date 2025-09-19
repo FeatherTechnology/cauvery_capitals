@@ -1355,6 +1355,23 @@
     if ($current_page == 'due_list_report') { ?>
         <script src="js/due_list_report.js"></script>
     <?php }
+
+    if ($current_page == 'interest_ledger_report') { ?>
+        <script src="js/interest_ledger_report.js"></script>
+    <?php }
+    if ($current_page == 'interest_loan_issue_report') { ?>
+        <script src="js/interest_loan_issue_report.js"></script>
+    <?php }
+    if ($current_page == 'interest_collection_report') { ?>
+        <script src="js/interest_collection_report.js"></script>
+    <?php }
+    if ($current_page == 'interest_balance_report') { ?>
+        <script src="js/interest_balance_report.js"></script>
+    <?php }
+    if ($current_page == 'interest_closed_report') { ?>
+        <script src="js/interest_closed_report.js"></script>
+    <?php }
+
     if ($current_page == 'search_module') { ?>
         <script src="js/search_module.js"></script>
     <?php }
