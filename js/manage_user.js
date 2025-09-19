@@ -60,27 +60,27 @@ const updateScreen = new Choices('#update_screen', {
 // Document is ready
 $(document).ready(function () {
 
-    {//To Order role Alphabetically
-        var firstOption = $("#role option:first-child");
-        $("#role").html($("#role option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#role").prepend(firstOption);
-    }
-    {//To Order ag_name Alphabetically
-        var firstOption = $("#ag_name option:first-child");
-        $("#ag_name").html($("#ag_name option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#ag_name").prepend(firstOption);
-    }
-    {//To Order role_type Alphabetically
-        var firstOption = $("#role_type option:first-child");
-        $("#role_type").html($("#role_type option:not(:first-child)").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-        }));
-        $("#role_type").prepend(firstOption);
-    }
+    // {//To Order role Alphabetically
+    //     var firstOption = $("#role option:first-child");
+    //     $("#role").html($("#role option:not(:first-child)").sort(function (a, b) {
+    //         return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
+    //     }));
+    //     $("#role").prepend(firstOption);
+    // }
+     // {//To Order ag_name Alphabetically
+    //     var firstOption = $("#ag_name option:first-child");
+    //     $("#ag_name").html($("#ag_name option:not(:first-child)").sort(function (a, b) {
+    //         return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
+    //     }));
+    //     $("#ag_name").prepend(firstOption);
+    // }
+    // {//To Order role_type Alphabetically
+    //     var firstOption = $("#role_type option:first-child");
+    //     $("#role_type").html($("#role_type option:not(:first-child)").sort(function (a, b) {
+    //         return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
+    //     }));
+    //     $("#role_type").prepend(firstOption);
+    // }
 
     $('#role').change(function () {
 
@@ -344,11 +344,6 @@ $(document).ready(function () {
         var reportmodule = document.querySelector('#reportmodule');
         checkbox(checkboxesToEnable, reportmodule);
     });
-    // $("#reportmodule_interest").on("change", function () {
-    //     const checkboxesToEnable = document.querySelectorAll("input.interest-report-checkbox");
-    //     var reportmodule_interest = document.querySelector('#reportmodule_interest');
-    //     checkbox(checkboxesToEnable, reportmodule_interest);
-    // });
     $("#searchmodule").on("change", function () {
         const checkboxesToEnable = document.querySelectorAll("input.search-checkbox");
         var searchmodule = document.querySelector('#searchmodule');
@@ -424,6 +419,7 @@ $(document).ready(function () {
     });
 
     $('#submit_manage_user').click(function () {
+        console.log("jjj");
 
         multiselectValue();// for taking selected values from multiselect to hidden input field. so that it can be passed as comma imploded string
 
@@ -520,7 +516,6 @@ $(function () {
         var accountsmodule = document.getElementById('accountsmodule');
         var followupmodule = document.getElementById('followupmodule');
         var reportmodule = document.getElementById('reportmodule');
-        // var reportmodule_interest = document.getElementById('reportmodule_interest');
         var searchmodule = document.getElementById('searchmodule');
         var bulk_upload_module = document.getElementById('bulk_upload_module');
         var loan_track_module = document.getElementById('loan_track_module');
@@ -541,7 +536,6 @@ $(function () {
         if (accountsmodule.checked) { const checkboxesToEnable = document.querySelectorAll("input.accounts-checkbox"); var accountsmodule = document.querySelector('#accountsmodule'); checkbox(checkboxesToEnable, accountsmodule); }
         if (followupmodule.checked) { const checkboxesToEnable = document.querySelectorAll("input.followup-checkbox"); var followupmodule = document.querySelector('#followupmodule'); checkbox(checkboxesToEnable, followupmodule); }
         if (reportmodule.checked) { const checkboxesToEnable = document.querySelectorAll("input.report-checkbox"); var reportmodule = document.querySelector('#reportmodule'); checkbox(checkboxesToEnable, reportmodule); }
-        // if (reportmodule_interest.checked) { const checkboxesToEnable = document.querySelectorAll("input.interest-report-checkbox"); var reportmodule_interest = document.querySelector('#reportmodule_interest'); checkbox(checkboxesToEnable, reportmodule_interest); }
         if (searchmodule.checked) { const checkboxesToEnable = document.querySelectorAll("input.search-checkbox"); var searchmodule = document.querySelector('#searchmodule'); checkbox(checkboxesToEnable, searchmodule); }
         if (bulk_upload_module.checked) { const checkboxesToEnable = document.querySelectorAll("input.bulk_upload-checkbox"); var bulk_upload_module = document.querySelector('#bulk_upload_module'); checkbox(checkboxesToEnable, bulk_upload_module); }
         if (loan_track_module.checked) { const checkboxesToEnable = document.querySelectorAll("input.loan_track-checkbox"); var loan_track_module = document.querySelector('#loan_track_module'); checkbox(checkboxesToEnable, loan_track_module); }
@@ -1297,6 +1291,7 @@ function validation() {
         console.log("kkk", $('#promotion_activity_line_or_duefollowup').val())
     } else{
          if(PAGroupOrDuefollowup ==''){
+            console.log("hhh")
             event.preventDefault();
             $('.promotion_activity_div').show();
             $('.promotionactivityCheck').show();
