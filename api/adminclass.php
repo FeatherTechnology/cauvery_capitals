@@ -109,6 +109,13 @@ class admin
 			$detailrecords['other_trans_report'] = strip_tags($row->other_trans_report);
 			$detailrecords['day_end_report'] = strip_tags($row->day_end_report);
 
+			$detailrecords['reportmodule_interest'] = strip_tags($row->reportmodule_interest);
+			$detailrecords['interest_ledger_report'] = strip_tags($row->interest_ledger_report);
+			$detailrecords['interest_loan_issue_report'] = strip_tags($row->interest_loan_issue_report);
+			$detailrecords['interest_collection_report'] = strip_tags($row->interest_collection_report);
+			$detailrecords['interest_balance_report'] = strip_tags($row->interest_balance_report);
+			$detailrecords['interest_closed_report'] = strip_tags($row->interest_closed_report);
+
 			$detailrecords['search_module'] = strip_tags($row->search_module);
 			$detailrecords['search'] = strip_tags($row->search);
 			$detailrecords['bulk_upload_module'] = strip_tags($row->bulk_upload_module);
@@ -301,12 +308,32 @@ class admin
 		if (isset($_POST['monthly_due_method'])) {
 			$due_method = $_POST['monthly_due_method'];
 		}
-		if (isset($_POST['due_type'])) {
-			$due_type = $_POST['due_type'];
+		// if (isset($_POST['due_type'])) {
+		// 	$due_type = $_POST['due_type'];
+		// }
+		// if (isset($_POST['monthly_profit_method'])) {
+		// 	$profit_methods = $_POST['monthly_profit_method'];
+		// 	$profit_method = implode(",", $profit_methods);
+		// }
+		if (isset($_POST['monthly_duetype'])) {
+			$due_type = $_POST['monthly_duetype'];
+		} 
+		if (isset($_POST['monthly_duetype']) && $_POST['monthly_duetype'] == 'emi') {
+			// EMI → take from select (array)
+			if (isset($_POST['monthly_profit_method'])) {
+				$profit_methods = $_POST['monthly_profit_method'];  // array
+				$profit_method = implode(",", $profit_methods); // store as CSV
+			}
+		} elseif (isset($_POST['monthly_duetype']) && $_POST['monthly_duetype'] == 'intrest') {
+			// Interest → take from readonly input
+			if (isset($_POST['int_profit_method'])) {
+				// since your readonly input value is "After Benefit", 
+				// but DB expects "after_intrest"
+				$profit_method = "after_intrest";
+			}
 		}
-		if (isset($_POST['monthly_profit_method'])) {
-			$profit_methods = $_POST['monthly_profit_method'];
-			$profit_method = implode(",", $profit_methods);
+		if (isset($_POST['calculate_method'])) {
+			$calculate_method = $_POST['calculate_method'];
 		}
 
 		if (isset($_POST['monthly_intrests_rate_min'])) {
@@ -339,6 +366,9 @@ class admin
 		if (isset($_POST['monthly_processing_fee_max'])) {
 			$processing_fee_max = $_POST['monthly_processing_fee_max'];
 		}
+		if (isset($_POST['overdue_type'])) {
+			$overdue_type = $_POST['overdue_type'];
+		}
 		if (isset($_POST['monthly_overdues'])) {
 			$overdue = $_POST['monthly_overdues'];
 		}
@@ -358,14 +388,14 @@ class admin
 			VALUES('" . strip_tags($loan_category_ref_name[$i]) . "', '" . strip_tags($loan_category_id) . "') ");
 		}
 
-		if (isset($loan_category_name, $due_method, $due_type, $profit_method, $intrest_rate_min, $intrest_rate_max, $due_period_min, $due_period_max, $doc_charge_type, $document_charge_min, $document_charge_max, $proc_fee_type, $processing_fee_min, $processing_fee_max,  $overdue, $collection_info) && $_POST['loan_id_upd'] === '') {
+		if (isset($intrest_rate_min) && $_POST['loan_id_upd'] === '') {
 
-			$loanInsert = "INSERT INTO loan_calculation(loan_category_id, loan_category, due_method, due_type, profit_method, intrest_rate_min,
+			$loanInsert = "INSERT INTO loan_calculation(loan_category_id, loan_category, due_method, due_type, profit_method, calculate_method, intrest_rate_min,
 		intrest_rate_max, due_period_min, due_period_max,doc_charge_type, document_charge_min, document_charge_max, proc_fee_type,processing_fee_min, processing_fee_max,
-	    overdue, collection_info, insert_login_id)
-		VALUES('" . strip_tags($loan_category_id) . "','" . strip_tags($loan_category_name) . "', '" . strip_tags($due_method) . "','" . strip_tags($due_type) . "', '" . strip_tags($profit_method) . "',
+	    overdue_type , overdue, collection_info, insert_login_id)
+		VALUES('" . strip_tags($loan_category_id) . "','" . strip_tags($loan_category_name) . "', '" . strip_tags($due_method) . "','" . strip_tags($due_type) . "', '" . strip_tags($profit_method) . "', '" . strip_tags($calculate_method) . "',
 		 '" . strip_tags($intrest_rate_min) . "', '" . strip_tags($intrest_rate_max) . "',  '" . strip_tags($due_period_min) . "','" . strip_tags($due_period_max) . "', '" . strip_tags($doc_charge_type) . "','" . strip_tags($document_charge_min) . "',
-		'" . strip_tags($document_charge_max) . "','" . strip_tags($proc_fee_type) . "', '" . strip_tags($processing_fee_min) . "', '" . strip_tags($processing_fee_max) . "', '" . strip_tags($overdue) . "', '" . strip_tags($collection_info) . "', '" . strip_tags($userid) . "' )";
+		'" . strip_tags($document_charge_max) . "','" . strip_tags($proc_fee_type) . "', '" . strip_tags($processing_fee_min) . "', '" . strip_tags($processing_fee_max) . "', '" . strip_tags($overdue_type) . "', '" . strip_tags($overdue) . "', '" . strip_tags($collection_info) . "', '" . strip_tags($userid) . "' )";
 			$insresult = $mysqli->query($loanInsert) or die("Error " . $mysqli->error);
 		}
 
@@ -377,10 +407,7 @@ class admin
 
 			$update_unselected = "UPDATE `loan_scheme` SET `loan_category_id`= '',`loan_category` = '', `updated_date` = CURRENT_TIMESTAMP() WHERE `loan_category` = '$loan_category_name' AND `scheme_id` NOT IN ($scheme_id_str);";
 			$mysqli->query($update_unselected) or die("Error (unselected update): " . $mysqli->error);
-		} else {
-			$update_unselected = "UPDATE `loan_scheme` SET `loan_category_id`= '',`loan_category` = '',`updated_date` = CURRENT_TIMESTAMP()  WHERE `loan_category` = '$loan_category_name'";
-			$mysqli->query($update_unselected) or die("Error (unselected update): " . $mysqli->error);
-		}
+		} 
 
 	}
 
@@ -445,17 +472,32 @@ class admin
 		if (isset($_POST['monthly_due_method'])) {
 			$due_method = $_POST['monthly_due_method'];
 		}
-		if (isset($_POST['due_type'])) {
-			$due_type = $_POST['due_type'];
-			// $due_type = implode(",",$due_types);
+		// if (isset($_POST['due_type'])) {
+		// 	$due_type = $_POST['due_type'];
+		// }
+		// if (isset($_POST['monthly_profit_method'])) {
+		// 	$profit_methods = $_POST['monthly_profit_method'];
+		// 	$profit_method = implode(",", $profit_methods);
+		// }
+		if (isset($_POST['monthly_duetype'])) {
+			$due_type = $_POST['monthly_duetype'];
 		}
-		if (isset($_POST['monthly_profit_method'])) {
-			$profit_methods = $_POST['monthly_profit_method'];
-			if (is_array($profit_methods)) {
-				$profit_method = implode(",", $profit_methods);
-			} else {
-				$profit_method = $profit_methods;
+		if (isset($_POST['monthly_duetype']) && $_POST['monthly_duetype'] == 'emi') {
+			// EMI → take from select (array)
+			if (isset($_POST['monthly_profit_method'])) {
+				$profit_methods = $_POST['monthly_profit_method'];  // array
+				$profit_method = implode(",", $profit_methods); // store as CSV
 			}
+		} elseif (isset($_POST['monthly_duetype']) && $_POST['monthly_duetype'] == 'intrest') {
+			// Interest → take from readonly input
+			if (isset($_POST['int_profit_method'])) {
+				// since your readonly input value is "After Benefit", 
+				// but DB expects "after_intrest"
+				$profit_method = "after_intrest";
+			}
+		}
+		if (isset($_POST['calculate_method'])) {
+			$calculate_method = $_POST['calculate_method'];
 		}
 
 		if (isset($_POST['monthly_intrests_rate_min'])) {
@@ -488,6 +530,9 @@ class admin
 		if (isset($_POST['monthly_processing_fee_max'])) {
 			$processing_fee_max = $_POST['monthly_processing_fee_max'];
 		}
+		if (isset($_POST['overdue_type'])) {
+			$overdue_type = $_POST['overdue_type'];
+		}
 		if (isset($_POST['monthly_overdues'])) {
 			$overdue = $_POST['monthly_overdues'];
 		}
@@ -497,20 +542,20 @@ class admin
 		if (isset($_POST['userid'])) {
 			$userid = $_POST['userid'];
 		}
-		if (isset($loan_category_name, $due_method, $due_type, $profit_method, $intrest_rate_min, $intrest_rate_max, $due_period_min, $due_period_max, $doc_charge_type, $document_charge_min, $document_charge_max, $proc_fee_type, $processing_fee_min, $processing_fee_max,  $overdue, $collection_info) && $_POST['loan_id_upd'] === '') {
-			$loanInsert = "INSERT INTO loan_calculation(`loan_category_id`,loan_category, due_method, due_type, profit_method, intrest_rate_min,
+		if (isset($loan_category_name, $due_method, $due_type, $profit_method, $calculate_method, $intrest_rate_min, $intrest_rate_max, $due_period_min, $due_period_max, $doc_charge_type, $document_charge_min, $document_charge_max, $proc_fee_type, $processing_fee_min, $processing_fee_max,  $overdue, $collection_info) && $_POST['loan_id_upd'] === '') {
+			$loanInsert = "INSERT INTO loan_calculation(`loan_category_id`,loan_category, due_method, due_type, profit_method, calculate_method, intrest_rate_min,
 		intrest_rate_max, due_period_min, due_period_max,doc_charge_type, document_charge_min, document_charge_max, proc_fee_type,processing_fee_min, processing_fee_max,
-	    overdue, collection_info, insert_login_id)
-		VALUES('" . strip_tags($id) . "','" . strip_tags($loan_category_name) . "', '" . strip_tags($due_method) . "','" . strip_tags($due_type) . "', '" . strip_tags($profit_method) . "',
+	    overdue_type ,overdue, collection_info, insert_login_id)
+		VALUES('" . strip_tags($id) . "','" . strip_tags($loan_category_name) . "', '" . strip_tags($due_method) . "','" . strip_tags($due_type) . "', '" . strip_tags($profit_method) . "', calculate_method = '" . strip_tags($calculate_method) . "',
 		 '" . strip_tags($intrest_rate_min) . "', '" . strip_tags($intrest_rate_max) . "',  '" . strip_tags($due_period_min) . "','" . strip_tags($due_period_max) . "', '" . strip_tags($doc_charge_type) . "','" . strip_tags($document_charge_min) . "',
-		'" . strip_tags($document_charge_max) . "','" . strip_tags($proc_fee_type) . "', '" . strip_tags($processing_fee_min) . "', '" . strip_tags($processing_fee_max) . "', '" . strip_tags($overdue) . "', '" . strip_tags($collection_info) . "', '" . strip_tags($userid) . "' )";
+		'" . strip_tags($document_charge_max) . "','" . strip_tags($proc_fee_type) . "', '" . strip_tags($processing_fee_min) . "', '" . strip_tags($processing_fee_max) . "', overdue_type = '" . strip_tags($overdue_type) . "', '" . strip_tags($overdue) . "', '" . strip_tags($collection_info) . "', '" . strip_tags($userid) . "' )";
 
 			$insresult = $mysqli->query($loanInsert) or die("Error " . $mysqli->error);
 		}
 
 		if (isset($_POST['loan_id_upd'])) {
 			$loan_cat_id = $_POST['loan_id_upd'];
-			$loanInsert = "UPDATE loan_calculation SET loan_category = '" . strip_tags($loan_category_name) . "',due_method = '" . strip_tags($due_method) . "',due_type = '" . strip_tags($due_type) . "',profit_method = '" . strip_tags($profit_method) . "',intrest_rate_min = '" . strip_tags($intrest_rate_min) . "',intrest_rate_max = '" . strip_tags($intrest_rate_max) . "',due_period_min = '" . strip_tags($due_period_min) . "',due_period_max = '" . strip_tags($due_period_max) . "',doc_charge_type = '" . strip_tags($doc_charge_type) . "',document_charge_min = '" . strip_tags($document_charge_min) . "',document_charge_max = '" . strip_tags($document_charge_max) . "',proc_fee_type = '" . strip_tags($proc_fee_type) . "',processing_fee_min = '" . strip_tags($processing_fee_min) . "',processing_fee_max = '" . strip_tags($processing_fee_max) . "',overdue = '" . strip_tags($overdue) . "',collection_info = '" . strip_tags($collection_info) . "',insert_login_id = '" . strip_tags($userid) . "',updated_date = current_timestamp() WHERE loan_cal_id = '" . strip_tags($loan_cat_id) . "'";
+			$loanInsert = "UPDATE loan_calculation SET loan_category = '" . strip_tags($loan_category_name) . "',due_method = '" . strip_tags($due_method) . "',due_type = '" . strip_tags($due_type) . "',profit_method = '" . strip_tags($profit_method) . "', calculate_method = '" . strip_tags($calculate_method) . "', intrest_rate_min = '" . strip_tags($intrest_rate_min) . "',intrest_rate_max = '" . strip_tags($intrest_rate_max) . "',due_period_min = '" . strip_tags($due_period_min) . "',due_period_max = '" . strip_tags($due_period_max) . "',doc_charge_type = '" . strip_tags($doc_charge_type) . "',document_charge_min = '" . strip_tags($document_charge_min) . "',document_charge_max = '" . strip_tags($document_charge_max) . "',proc_fee_type = '" . strip_tags($proc_fee_type) . "',processing_fee_min = '" . strip_tags($processing_fee_min) . "',processing_fee_max = '" . strip_tags($processing_fee_max) . "',overdue_type = '" . strip_tags($overdue_type) . "',overdue = '" . strip_tags($overdue) . "',collection_info = '" . strip_tags($collection_info) . "',insert_login_id = '" . strip_tags($userid) . "',updated_date = current_timestamp() WHERE loan_cal_id = '" . strip_tags($loan_cat_id) . "'";
 			$insresult = $mysqli->query($loanInsert) or die("Error " . $mysqli->error);
 		}
 		if (isset($_POST['scheme_name'])) {
@@ -817,6 +862,7 @@ class admin
 			$detailrecords['processing_fee_min'] = $row->processing_fee_min;
 			$detailrecords['processing_fee_max'] = $row->processing_fee_max;
 			// $detailrecords['loan_limit']           = $row->loan_limit;
+			$detailrecords['overdue_type']            = $row->overdue_type;
 			$detailrecords['overdue']            = $row->overdue;
 			$detailrecords['collection_info']    = $row->collection_info;
 		}
@@ -2792,6 +2838,36 @@ class admin
 		} else {
 			$other_trans_report = 1;
 		}
+		if (isset($_POST['reportmodule_interest']) &&    $_POST['reportmodule_interest'] == 'Yes') {
+			$reportmodule_interest = 0;
+		} else {
+			$reportmodule_interest = 1;
+		}
+		if (isset($_POST['interest_ledger_report']) &&    $_POST['interest_ledger_report'] == 'Yes') {
+			$interest_ledger_report = 0;
+		} else {
+			$interest_ledger_report = 1;
+		}
+		if (isset($_POST['interest_loan_issue_report']) &&    $_POST['interest_loan_issue_report'] == 'Yes') {
+			$interest_loan_issue_report = 0;
+		} else {
+			$interest_loan_issue_report = 1;
+		}
+		if (isset($_POST['interest_collection_report']) &&    $_POST['interest_collection_report'] == 'Yes') {
+			$interest_collection_report = 0;
+		} else {
+			$interest_collection_report = 1;
+		}
+		if (isset($_POST['interest_balance_report']) &&    $_POST['interest_balance_report'] == 'Yes') {
+			$interest_balance_report = 0;
+		} else {
+			$interest_balance_report = 1;
+		}
+		if (isset($_POST['interest_closed_report']) &&    $_POST['interest_closed_report'] == 'Yes') {
+			$interest_closed_report = 0;
+		} else {
+			$interest_closed_report = 1;
+		}
 		if (isset($_POST['searchmodule']) &&    $_POST['searchmodule'] == 'Yes') {
 			$searchmodule = 0;
 		} else {
@@ -2832,7 +2908,7 @@ class admin
 		} else {
 			$sms_generation = 1;
 		}
-		$insertQry = "INSERT INTO user(`fullname`, `emailid`, `user_name`, `user_password`, `role`, `role_type`, `dir_id`, `ag_id`, `staff_id`, `company_id`, `branch_id`, `loan_cat`, `agentforstaff`, `line_id`, `group_id`, `download_access`, `report_access`, `pro_aty_access`, `mastermodule`, `company_creation`, `branch_creation`, `loan_category`,  `area_creation`, `area_mapping`, `area_approval`, `adminmodule`, `director_creation`, `agent_creation`, `staff_creation`, `manage_user`, `doc_mapping`, `bank_creation`, `requestmodule`, `request`, `request_list_access`, `verificationmodule`, `verification`, `approvalmodule`, `approval`, `acknowledgementmodule`, `acknowledgement`, `loanissuemodule`, `loan_issue`, `collectionmodule`, `collection`, `collection_access`, `closedmodule`, `closed`, `nocmodule`, `noc`, `doctrackmodule`, `doctrack`, `doc_rec_access`, `updatemodule`, `update_screen`, `update_screen_id`, `concernmodule`, `concern_creation`, `concern_solution`, `concern_feedback`, `accountsmodule`, `cash_tally`, `cash_tally_access`,`cash_tally_admin`, `bank_details`, `bank_clearance`, `finance_insight`, `accounts_loan_issue`, `followupmodule`, `promotion_activity`,`promo_act_area_access`,`loan_followup`, `confirmation_followup`,`conf_follow_area_access`, `due_followup`, `due_followup_lines`, `reportmodule`, `ledger_report`, `request_report`, `cancel_revoke_report`, `cus_profile_report`, `loan_issue_report`, `collection_report`,`principal_interest_report`, `balance_report`, `due_list_report`, `in_closed_report`, `closed_report`, `confirmation_followup_report`, `agent_report`, `no_due_pay_report`,`other_trans_report`,`search_module`, `search`, `bulk_upload_module`, `bulk_upload`, `loan_track_module`, `loan_track`, `sms_module`, `sms_generation`, `insert_login_id`, `created_date`) VALUES('" . strip_tags($full_name) . "', '" . strip_tags($email) . "', '" . strip_tags($user_name) . "', '" . strip_tags($user_password) . "', '" . strip_tags($role) . "', '" . strip_tags($role_type) . "', '" . strip_tags($dir_name) . "', '" . strip_tags($ag_name) . "', '" . strip_tags($staff_name) . "', '" . strip_tags($company_id) . "', '" . strip_tags($branch_id) . "', '" . strip_tags($loan_cat) . "', '" . strip_tags($agentforstaff) . "', '" . strip_tags($line) . "', '" . strip_tags($group) . "', '" . strip_tags($download_access) . "',  '" . strip_tags($report_access) . "',  '" . strip_tags($pro_aty_access) . "',  '" . strip_tags($mastermodule) . "', '" . strip_tags($company_creation) . "',  '" . strip_tags($branch_creation) . "', '" . strip_tags($loan_category) . "', '" . strip_tags($area_creation) . "',  '" . strip_tags($area_mapping) . "', '" . strip_tags($area_approval) . "', '" . strip_tags($adminmodule) . "', '" . strip_tags($director_creation) . "',  '" . strip_tags($agent_creation) . "', '" . strip_tags($staff_creation) . "', '" . strip_tags($manage_user) . "', '" . strip_tags($doc_mapping) . "', '" . strip_tags($bank_creation) . "', '" . strip_tags($requestmodule) . "', '" . strip_tags($request) . "',  '" . strip_tags($request_list_access) . "', '" . strip_tags($verificationmodule) . "', '" . strip_tags($verification) . "', '" . strip_tags($approvalmodule) . "', '" . strip_tags($approval) . "',  '" . strip_tags($acknowledgementmodule) . "', '" . strip_tags($acknowledgement) . "', '" . strip_tags($loanissuemodule) . "', '" . strip_tags($loan_issue) . "', '" . strip_tags($collectionmodule) . "', '" . strip_tags($collection) . "', '" . strip_tags($collection_access) . "', '" . strip_tags($closedmodule) . "', '" . strip_tags($closed) . "',  '" . strip_tags($nocmodule) . "', '" . strip_tags($noc) . "', '" . strip_tags($doctrackmodule) . "', '" . strip_tags($doctrack) . "', '" . strip_tags($doc_rec_access) . "', '" . strip_tags($updatemodule) . "', '" . strip_tags($update_screen) . "', '" . strip_tags($update_screen_id) . "', '" . strip_tags($concernmodule) . "', '" . strip_tags($concernCreation) . "', '" . strip_tags($concernSolution) . "', '" . strip_tags($concernFeedback) . "',  '" . strip_tags($accountsmodule) . "', '" . strip_tags($cash_tally) . "', '" . strip_tags($cash_tally_admin) . "', '" . strip_tags($bank_details) . "',  '" . strip_tags($bank_clearance) . "', '" . strip_tags($finance_insight) . "', '" . strip_tags($accounts_loan_issue) . "', '" . strip_tags($followupmodule) . "', '" . strip_tags($promotion_activity) . "','" . strip_tags($promotion_activity_Access) . "', '" . strip_tags($loan_followup) . "', '" . strip_tags($conf_followup) . "', '" . strip_tags($conf_followup_Access) . "', '" . strip_tags($due_followup) . "', '" . strip_tags($due_follup_line) . "', '" . strip_tags($reportmodule) . "', '" . strip_tags($ledger_report) . "', '" . strip_tags($request_report) . "', '" . strip_tags($cancel_revoke_report) . "', '" . strip_tags($cus_profile_report) . "',  '" . strip_tags($loan_issue_report) . "',  '" . strip_tags($collection_report) . "', '" . strip_tags($principal_interest_report) . "',  '" . strip_tags($balance_report) . "',  '" . strip_tags($due_list_report) . "', '" . strip_tags($in_closed_report) . "', '" . strip_tags($closed_report) . "',  '" . strip_tags($confirmation_followup_report) . "',  '" . strip_tags($agent_report) . "', '" . strip_tags($no_due_pay_report) . "', '" . strip_tags($other_trans_report) . "','" . strip_tags($searchmodule) . "',  '" . strip_tags($search_screen) . "', '" . strip_tags($bulk_upload_module) . "',  '" . strip_tags($bulk_upload) . "', '" . strip_tags($loan_track_module) . "',  '" . strip_tags($loan_track) . "', '" . strip_tags($sms_module) . "', '" . strip_tags($sms_generation) . "', '" . strip_tags($userid) . "', now() )";
+		$insertQry = "INSERT INTO user(`fullname`, `emailid`, `user_name`, `user_password`, `role`, `role_type`, `dir_id`, `ag_id`, `staff_id`, `company_id`, `branch_id`, `loan_cat`, `agentforstaff`, `line_id`, `group_id`, `download_access`, `report_access`, `pro_aty_access`, `mastermodule`, `company_creation`, `branch_creation`, `loan_category`,  `area_creation`, `area_mapping`, `area_approval`, `adminmodule`, `director_creation`, `agent_creation`, `staff_creation`, `manage_user`, `doc_mapping`, `bank_creation`, `requestmodule`, `request`, `request_list_access`, `verificationmodule`, `verification`, `approvalmodule`, `approval`, `acknowledgementmodule`, `acknowledgement`, `loanissuemodule`, `loan_issue`, `collectionmodule`, `collection`, `collection_access`, `closedmodule`, `closed`, `nocmodule`, `noc`, `doctrackmodule`, `doctrack`, `doc_rec_access`, `updatemodule`, `update_screen`, `update_screen_id`, `concernmodule`, `concern_creation`, `concern_solution`, `concern_feedback`, `accountsmodule`, `cash_tally`, `cash_tally_access`,`cash_tally_admin`, `bank_details`, `bank_clearance`, `finance_insight`, `accounts_loan_issue`, `followupmodule`, `promotion_activity`,`promo_act_area_access`,`loan_followup`, `confirmation_followup`,`conf_follow_area_access`, `due_followup`, `due_followup_lines`, `reportmodule`, `ledger_report`, `request_report`, `cancel_revoke_report`, `cus_profile_report`, `loan_issue_report`, `collection_report`,`principal_interest_report`, `balance_report`, `due_list_report`, `in_closed_report`, `closed_report`, `confirmation_followup_report`, `agent_report`, `no_due_pay_report`,`other_trans_report`, `reportmodule_interest`,`interest_ledger_report`,`interest_loan_issue_report`,`interest_collection_report`,`interest_balance_report`,`interest_closed_report`,`search_module`, `search`, `bulk_upload_module`, `bulk_upload`, `loan_track_module`, `loan_track`, `sms_module`, `sms_generation`, `insert_login_id`, `created_date`) VALUES('" . strip_tags($full_name) . "', '" . strip_tags($email) . "', '" . strip_tags($user_name) . "', '" . strip_tags($user_password) . "', '" . strip_tags($role) . "', '" . strip_tags($role_type) . "', '" . strip_tags($dir_name) . "', '" . strip_tags($ag_name) . "', '" . strip_tags($staff_name) . "', '" . strip_tags($company_id) . "', '" . strip_tags($branch_id) . "', '" . strip_tags($loan_cat) . "', '" . strip_tags($agentforstaff) . "', '" . strip_tags($line) . "', '" . strip_tags($group) . "', '" . strip_tags($download_access) . "',  '" . strip_tags($report_access) . "',  '" . strip_tags($pro_aty_access) . "',  '" . strip_tags($mastermodule) . "', '" . strip_tags($company_creation) . "',  '" . strip_tags($branch_creation) . "', '" . strip_tags($loan_category) . "', '" . strip_tags($area_creation) . "',  '" . strip_tags($area_mapping) . "', '" . strip_tags($area_approval) . "', '" . strip_tags($adminmodule) . "', '" . strip_tags($director_creation) . "',  '" . strip_tags($agent_creation) . "', '" . strip_tags($staff_creation) . "', '" . strip_tags($manage_user) . "', '" . strip_tags($doc_mapping) . "', '" . strip_tags($bank_creation) . "', '" . strip_tags($requestmodule) . "', '" . strip_tags($request) . "',  '" . strip_tags($request_list_access) . "', '" . strip_tags($verificationmodule) . "', '" . strip_tags($verification) . "', '" . strip_tags($approvalmodule) . "', '" . strip_tags($approval) . "',  '" . strip_tags($acknowledgementmodule) . "', '" . strip_tags($acknowledgement) . "', '" . strip_tags($loanissuemodule) . "', '" . strip_tags($loan_issue) . "', '" . strip_tags($collectionmodule) . "', '" . strip_tags($collection) . "', '" . strip_tags($collection_access) . "', '" . strip_tags($closedmodule) . "', '" . strip_tags($closed) . "',  '" . strip_tags($nocmodule) . "', '" . strip_tags($noc) . "', '" . strip_tags($doctrackmodule) . "', '" . strip_tags($doctrack) . "', '" . strip_tags($doc_rec_access) . "', '" . strip_tags($updatemodule) . "', '" . strip_tags($update_screen) . "', '" . strip_tags($update_screen_id) . "', '" . strip_tags($concernmodule) . "', '" . strip_tags($concernCreation) . "', '" . strip_tags($concernSolution) . "', '" . strip_tags($concernFeedback) . "',  '" . strip_tags($accountsmodule) . "', '" . strip_tags($cash_tally) . "', '" . strip_tags($cash_tally_admin) . "', '" . strip_tags($bank_details) . "',  '" . strip_tags($bank_clearance) . "', '" . strip_tags($finance_insight) . "', '" . strip_tags($accounts_loan_issue) . "', '" . strip_tags($followupmodule) . "', '" . strip_tags($promotion_activity) . "','" . strip_tags($promotion_activity_Access) . "', '" . strip_tags($loan_followup) . "', '" . strip_tags($conf_followup) . "', '" . strip_tags($conf_followup_Access) . "', '" . strip_tags($due_followup) . "', '" . strip_tags($due_follup_line) . "', '" . strip_tags($reportmodule) . "', '" . strip_tags($ledger_report) . "', '" . strip_tags($request_report) . "', '" . strip_tags($cancel_revoke_report) . "', '" . strip_tags($cus_profile_report) . "',  '" . strip_tags($loan_issue_report) . "',  '" . strip_tags($collection_report) . "', '" . strip_tags($principal_interest_report) . "',  '" . strip_tags($balance_report) . "',  '" . strip_tags($due_list_report) . "', '" . strip_tags($in_closed_report) . "', '" . strip_tags($closed_report) . "',  '" . strip_tags($confirmation_followup_report) . "',  '" . strip_tags($agent_report) . "', '" . strip_tags($no_due_pay_report) . "', '" . strip_tags($other_trans_report) . "', '" . strip_tags($reportmodule_interest) . "','" . strip_tags($interest_ledger_report) . "','" . strip_tags($interest_loan_issue_report) . "','" . strip_tags($interest_collection_report) . "','" . strip_tags($interest_balance_report) . "','" . strip_tags($interest_closed_report) . "','" . strip_tags($searchmodule) . "',  '" . strip_tags($search_screen) . "', '" . strip_tags($bulk_upload_module) . "',  '" . strip_tags($bulk_upload) . "', '" . strip_tags($loan_track_module) . "',  '" . strip_tags($loan_track) . "', '" . strip_tags($sms_module) . "', '" . strip_tags($sms_generation) . "', '" . strip_tags($userid) . "', now() )";
 		$insresult = $mysqli->query($insertQry) or die("Error " . $mysqli->error);
 	}
 
@@ -3269,6 +3345,36 @@ class admin
 		} else {
 			$other_trans_report = 1;
 		}
+		if (isset($_POST['reportmodule_interest']) &&    $_POST['reportmodule_interest'] == 'Yes') {
+			$reportmodule_interest = 0;
+		} else {
+			$reportmodule_interest = 1;
+		}
+		if (isset($_POST['interest_ledger_report']) &&    $_POST['interest_ledger_report'] == 'Yes') {
+			$interest_ledger_report = 0;
+		} else {
+			$interest_ledger_report = 1;
+		}
+		if (isset($_POST['interest_loan_issue_report']) &&    $_POST['interest_loan_issue_report'] == 'Yes') {
+			$interest_loan_issue_report = 0;
+		} else {
+			$interest_loan_issue_report = 1;
+		}
+		if (isset($_POST['interest_collection_report']) &&    $_POST['interest_collection_report'] == 'Yes') {
+			$interest_collection_report = 0;
+		} else {
+			$interest_collection_report = 1;
+		}
+		if (isset($_POST['interest_balance_report']) &&    $_POST['interest_balance_report'] == 'Yes') {
+			$interest_balance_report = 0;
+		} else {
+			$interest_balance_report = 1;
+		}
+		if (isset($_POST['interest_closed_report']) &&    $_POST['interest_closed_report'] == 'Yes') {
+			$interest_closed_report = 0;
+		} else {
+			$interest_closed_report = 1;
+		}
 		if (isset($_POST['searchmodule']) &&    $_POST['searchmodule'] == 'Yes') {
 			$searchmodule = 0;
 		} else {
@@ -3311,7 +3417,7 @@ class admin
 			$sms_generation = 1;
 		}
 
-		$updateQry = "UPDATE `user` SET `fullname` = '" . strip_tags($full_name) . "', `emailid` = '" . strip_tags($email) . "', `user_name` = '" . strip_tags($user_name) . "', `user_password` = '" . strip_tags($user_password) . "', `role` = '" . strip_tags($role) . "', `role_type` = '" . strip_tags($role_type) . "', `dir_id` = '" . strip_tags($dir_name) . "',`ag_id` = '" . strip_tags($ag_name) . "', `staff_id` = '" . strip_tags($staff_name) . "', `company_id` = '" . strip_tags($company_id) . "', `branch_id` = '" . strip_tags($branch_id) . "', `loan_cat` = '" . strip_tags($loan_cat) . "', agentforstaff='" . strip_tags($agentforstaff) . "', `line_id` = '" . strip_tags($line) . "', `group_id` = '" . strip_tags($group) . "', `download_access` = '" . strip_tags($download_access) . "', `report_access` = '" . strip_tags($report_access) . "', `pro_aty_access` = '" . strip_tags($pro_aty_access) . "',  `mastermodule` = '" . strip_tags($mastermodule) . "', `company_creation` = '" . strip_tags($company_creation) . "', `branch_creation` = '" . strip_tags($branch_creation) . "', `loan_category` = '" . strip_tags($loan_category) . "', `area_creation` = '" . strip_tags($area_creation) . "', `area_mapping` = '" . strip_tags($area_mapping) . "', `area_approval` = '" . strip_tags($area_approval) . "', `adminmodule` = '" . strip_tags($adminmodule) . "', `director_creation` = '" . strip_tags($director_creation) . "', `agent_creation` = '" . strip_tags($agent_creation) . "', `staff_creation` = '" . strip_tags($staff_creation) . "', `manage_user` = '" . strip_tags($manage_user) . "', `doc_mapping`='" . strip_tags($doc_mapping) . "', `bank_creation`='" . strip_tags($bank_creation) . "', `requestmodule`='" . strip_tags($requestmodule) . "', `request`='" . strip_tags($request) . "', `request_list_access`='" . strip_tags($request_list_access) . "',`verificationmodule`='" . strip_tags($verificationmodule) . "', `verification`='" . strip_tags($verification) . "', `approvalmodule`='" . strip_tags($approvalmodule) . "', `approval`='" . strip_tags($approval) . "', `acknowledgementmodule`='" . strip_tags($acknowledgementmodule) . "', `acknowledgement`='" . strip_tags($acknowledgement) . "', `loanissuemodule`='" . strip_tags($loanissuemodule) . "', `loan_issue`='" . strip_tags($loan_issue) . "', `collectionmodule` = '" . strip_tags($collectionmodule) . "',  `collection` = '" . strip_tags($collection) . "',  `collection_access` = '" . strip_tags($collection_access) . "', `closedmodule` = '" . strip_tags($closedmodule) . "',  `closed` = '" . strip_tags($closed) . "',  `nocmodule` = '" . strip_tags($nocmodule) . "', `noc` = '" . strip_tags($noc) . "', `doctrackmodule` = '" . strip_tags($doctrackmodule) . "', `doctrack` = '" . strip_tags($doctrack) . "', `doc_rec_access` = '" . strip_tags($doc_rec_access) . "', `updatemodule` = '" . strip_tags($updatemodule) . "', `update_screen` = '" . strip_tags($update_screen) . "', `update_screen_id` = '" . strip_tags($update_screen_id) . "', `concernmodule`='" . strip_tags($concernmodule) . "', `concern_creation`='" . strip_tags($concernCreation) . "', `concern_solution`='" . strip_tags($concernSolution) . "', `concern_feedback`='" . strip_tags($concernFeedback) . "', `accountsmodule`='" . strip_tags($accountsmodule) . "', `cash_tally`='" . strip_tags($cash_tally) . "', `cash_tally_access`='" . strip_tags($cash_tally_access) . "', `cash_tally_admin`='" . strip_tags($cash_tally_admin) . "', `bank_details`='" . strip_tags($bank_details) . "',`bank_clearance`='" . strip_tags($bank_clearance) . "', `finance_insight`='" . strip_tags($finance_insight) . "', `accounts_loan_issue`='" . strip_tags($accounts_loan_issue) . "', `followupmodule`='" . strip_tags($followupmodule) . "', `promotion_activity`='" . strip_tags($promotion_activity) . "',`promo_act_area_access`='" . strip_tags($promotion_activity_Access) . "', `loan_followup`='" . strip_tags($loan_followup) . "', `confirmation_followup`='" . strip_tags($conf_followup) . "', `conf_follow_area_access`='" . strip_tags($conf_followup_Access) . "',  `due_followup`='" . strip_tags($due_followup) . "',  `due_followup_lines`='" . strip_tags($due_follup_line) . "',`reportmodule` = '" . strip_tags($reportmodule) . "', `ledger_report` = '" . strip_tags($ledger_report) . "', `request_report` = '" . strip_tags($request_report) . "', `cancel_revoke_report` = '" . strip_tags($cancel_revoke_report) . "', `cus_profile_report` = '" . strip_tags($cus_profile_report) . "', `loan_issue_report` = '" . strip_tags($loan_issue_report) . "', `collection_report` = '" . strip_tags($collection_report) . "', `principal_interest_report` = '" . strip_tags($principal_interest_report) . "', `balance_report` = '" . strip_tags($balance_report) . "', `due_list_report` = '" . strip_tags($due_list_report) . "', `in_closed_report` = '" . strip_tags($in_closed_report) . "', `closed_report` = '" . strip_tags($closed_report) . "', `confirmation_followup_report` = '" . strip_tags($confirmation_followup_report) . "', `agent_report` = '" . strip_tags($agent_report) . "', `no_due_pay_report` = '" . strip_tags($no_due_pay_report) . "', `other_trans_report` = '" . strip_tags($other_trans_report) . "',`search_module` = '" . strip_tags($searchmodule) . "', `search` = '" . strip_tags($search_screen) . "', `bulk_upload_module` = '" . strip_tags($bulk_upload_module) . "', `bulk_upload` = '" . strip_tags($bulk_upload) . "', `loan_track_module` = '" . strip_tags($loan_track_module) . "', `loan_track` = '" . strip_tags($loan_track) . "', `sms_module` = '" . strip_tags($sms_module) . "', `sms_generation` = '" . strip_tags($sms_generation) . "', `status` = 0, `update_login_id` = '" . strip_tags($user_id) . "', `updated_date` = current_timestamp() WHERE user_id = '" . strip_tags($id) . "' ";
+		$updateQry = "UPDATE `user` SET `fullname` = '" . strip_tags($full_name) . "', `emailid` = '" . strip_tags($email) . "', `user_name` = '" . strip_tags($user_name) . "', `user_password` = '" . strip_tags($user_password) . "', `role` = '" . strip_tags($role) . "', `role_type` = '" . strip_tags($role_type) . "', `dir_id` = '" . strip_tags($dir_name) . "',`ag_id` = '" . strip_tags($ag_name) . "', `staff_id` = '" . strip_tags($staff_name) . "', `company_id` = '" . strip_tags($company_id) . "', `branch_id` = '" . strip_tags($branch_id) . "', `loan_cat` = '" . strip_tags($loan_cat) . "', agentforstaff='" . strip_tags($agentforstaff) . "', `line_id` = '" . strip_tags($line) . "', `group_id` = '" . strip_tags($group) . "', `download_access` = '" . strip_tags($download_access) . "', `report_access` = '" . strip_tags($report_access) . "', `pro_aty_access` = '" . strip_tags($pro_aty_access) . "',  `mastermodule` = '" . strip_tags($mastermodule) . "', `company_creation` = '" . strip_tags($company_creation) . "', `branch_creation` = '" . strip_tags($branch_creation) . "', `loan_category` = '" . strip_tags($loan_category) . "', `area_creation` = '" . strip_tags($area_creation) . "', `area_mapping` = '" . strip_tags($area_mapping) . "', `area_approval` = '" . strip_tags($area_approval) . "', `adminmodule` = '" . strip_tags($adminmodule) . "', `director_creation` = '" . strip_tags($director_creation) . "', `agent_creation` = '" . strip_tags($agent_creation) . "', `staff_creation` = '" . strip_tags($staff_creation) . "', `manage_user` = '" . strip_tags($manage_user) . "', `doc_mapping`='" . strip_tags($doc_mapping) . "', `bank_creation`='" . strip_tags($bank_creation) . "', `requestmodule`='" . strip_tags($requestmodule) . "', `request`='" . strip_tags($request) . "', `request_list_access`='" . strip_tags($request_list_access) . "',`verificationmodule`='" . strip_tags($verificationmodule) . "', `verification`='" . strip_tags($verification) . "', `approvalmodule`='" . strip_tags($approvalmodule) . "', `approval`='" . strip_tags($approval) . "', `acknowledgementmodule`='" . strip_tags($acknowledgementmodule) . "', `acknowledgement`='" . strip_tags($acknowledgement) . "', `loanissuemodule`='" . strip_tags($loanissuemodule) . "', `loan_issue`='" . strip_tags($loan_issue) . "', `collectionmodule` = '" . strip_tags($collectionmodule) . "',  `collection` = '" . strip_tags($collection) . "',  `collection_access` = '" . strip_tags($collection_access) . "', `closedmodule` = '" . strip_tags($closedmodule) . "',  `closed` = '" . strip_tags($closed) . "',  `nocmodule` = '" . strip_tags($nocmodule) . "', `noc` = '" . strip_tags($noc) . "', `doctrackmodule` = '" . strip_tags($doctrackmodule) . "', `doctrack` = '" . strip_tags($doctrack) . "', `doc_rec_access` = '" . strip_tags($doc_rec_access) . "', `updatemodule` = '" . strip_tags($updatemodule) . "', `update_screen` = '" . strip_tags($update_screen) . "', `update_screen_id` = '" . strip_tags($update_screen_id) . "', `concernmodule`='" . strip_tags($concernmodule) . "', `concern_creation`='" . strip_tags($concernCreation) . "', `concern_solution`='" . strip_tags($concernSolution) . "', `concern_feedback`='" . strip_tags($concernFeedback) . "', `accountsmodule`='" . strip_tags($accountsmodule) . "', `cash_tally`='" . strip_tags($cash_tally) . "', `cash_tally_access`='" . strip_tags($cash_tally_access) . "', `cash_tally_admin`='" . strip_tags($cash_tally_admin) . "', `bank_details`='" . strip_tags($bank_details) . "',`bank_clearance`='" . strip_tags($bank_clearance) . "', `finance_insight`='" . strip_tags($finance_insight) . "', `accounts_loan_issue`='" . strip_tags($accounts_loan_issue) . "', `followupmodule`='" . strip_tags($followupmodule) . "', `promotion_activity`='" . strip_tags($promotion_activity) . "',`promo_act_area_access`='" . strip_tags($promotion_activity_Access) . "', `loan_followup`='" . strip_tags($loan_followup) . "', `confirmation_followup`='" . strip_tags($conf_followup) . "', `conf_follow_area_access`='" . strip_tags($conf_followup_Access) . "',  `due_followup`='" . strip_tags($due_followup) . "',  `due_followup_lines`='" . strip_tags($due_follup_line) . "',`reportmodule` = '" . strip_tags($reportmodule) . "', `ledger_report` = '" . strip_tags($ledger_report) . "', `request_report` = '" . strip_tags($request_report) . "', `cancel_revoke_report` = '" . strip_tags($cancel_revoke_report) . "', `cus_profile_report` = '" . strip_tags($cus_profile_report) . "', `loan_issue_report` = '" . strip_tags($loan_issue_report) . "', `collection_report` = '" . strip_tags($collection_report) . "', `principal_interest_report` = '" . strip_tags($principal_interest_report) . "', `balance_report` = '" . strip_tags($balance_report) . "', `due_list_report` = '" . strip_tags($due_list_report) . "', `in_closed_report` = '" . strip_tags($in_closed_report) . "', `closed_report` = '" . strip_tags($closed_report) . "', `confirmation_followup_report` = '" . strip_tags($confirmation_followup_report) . "', `agent_report` = '" . strip_tags($agent_report) . "', `no_due_pay_report` = '" . strip_tags($no_due_pay_report) . "', `other_trans_report` = '" . strip_tags($other_trans_report) . "',`reportmodule_interest` = '" . strip_tags($reportmodule_interest) . "', `interest_ledger_report` = '" . strip_tags($interest_ledger_report) . "', `interest_loan_issue_report` = '" . strip_tags($interest_loan_issue_report) . "', `interest_collection_report` = '" . strip_tags($interest_collection_report) . "', `interest_balance_report` = '" . strip_tags($interest_balance_report) . "', `interest_closed_report` = '" . strip_tags($interest_closed_report) . "', `search_module` = '" . strip_tags($searchmodule) . "', `search` = '" . strip_tags($search_screen) . "', `bulk_upload_module` = '" . strip_tags($bulk_upload_module) . "', `bulk_upload` = '" . strip_tags($bulk_upload) . "', `loan_track_module` = '" . strip_tags($loan_track_module) . "', `loan_track` = '" . strip_tags($loan_track) . "', `sms_module` = '" . strip_tags($sms_module) . "', `sms_generation` = '" . strip_tags($sms_generation) . "', `status` = 0, `update_login_id` = '" . strip_tags($user_id) . "', `updated_date` = current_timestamp() WHERE user_id = '" . strip_tags($id) . "' ";
 
 		$result = $mysqli->query($updateQry) or die;
 	}

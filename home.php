@@ -461,6 +461,31 @@ if (isset($getuserdetails['download_access'])) {
 				<?php include "include/templates/due_list_report.php" ?>
 			<?php } else ?>
 
+			<!-- Interest Ledger Report -->
+			<?php if ($current_page == 'interest_ledger_report') { ?>
+				<?php include "include/templates/interest_ledger_report.php" ?>
+			<?php } else ?>
+			
+			<!-- Interest Loan Issue Report -->
+			<?php if ($current_page == 'interest_loan_issue_report') { ?>
+				<?php include "include/templates/interest_loan_issue_report.php" ?>
+			<?php } else ?>
+			
+			<!-- Interest Collection Report -->
+			<?php if ($current_page == 'interest_collection_report') { ?>
+				<?php include "include/templates/interest_collection_report.php" ?>
+			<?php } else ?>
+			
+			<!-- Interest Balance Report -->
+			<?php if ($current_page == 'interest_balance_report') { ?>
+				<?php include "include/templates/interest_balance_report.php" ?>
+			<?php } else ?>
+			
+			<!-- Interest Closed Report -->
+			<?php if ($current_page == 'interest_closed_report') { ?>
+				<?php include "include/templates/interest_closed_report.php" ?>
+			<?php } else ?>
+
 			<!-- Search Module -->
 			<?php if ($current_page == 'search_module') { ?>
 				<?php include "include/templates/search_module.php" ?>

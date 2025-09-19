@@ -244,6 +244,9 @@ if (sizeof($getCusInfoForLoanCal) > 0) {
 		$mobile_lc = $getCusInfoForLoanCal['mobile'];
 	}
 }
+
+$emicheck = 0;
+
 //Get Loan Calculation info for edit
 $getLoanCalculation = $userObj->getLoanCalculationForVerification($mysqli, $req_id);
 if (sizeof($getLoanCalculation) > 0) {
@@ -294,6 +297,8 @@ if (sizeof($getLoanCalculation) > 0) {
 	if ($loan_cal_id > 0) {
 		$getLoanCalCategory = $userObj->getVerificationLoanCalCategory($mysqli, $loan_cal_id);
 	}
+
+	$emicheck = strpos($due_type_lc, 'EMI') !== false;
 }
 
 
@@ -2403,13 +2408,13 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 												<input type="text" class="form-control" readonly id="int_amt_cal" name="int_amt_cal" value='<?php if (isset($int_amt_cal)) echo $int_amt_cal; ?>' tabindex='37'>
 											</div>
 										</div>
-										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 emi_div" style="display: <?php echo ($emicheck ? 'block' : 'none'); ?>;">
 											<div class="form-group">
 												<label for="tot_amt_cal">Total Amount</label>&nbsp;<span class="text-danger">*</span>
 												<input type="text" class="form-control" readonly id="tot_amt_cal" name="tot_amt_cal" value='<?php if (isset($tot_amt_cal)) echo $tot_amt_cal; ?>' tabindex='38'>
 											</div>
 										</div>
-										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 emi_div" style="display: <?php echo ($emicheck ? 'block' : 'none'); ?>;">
 											<div class="form-group">
 												<label for="due_amt_cal">Due Amount</label>&nbsp;<span class="text-danger due-diff">*</span>
 												<input type="text" class="form-control" readonly id="due_amt_cal" name="due_amt_cal" value='<?php if (isset($due_amt_cal)) echo $due_amt_cal; ?>' tabindex='39'>

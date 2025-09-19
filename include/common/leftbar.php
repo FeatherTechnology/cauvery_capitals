@@ -71,6 +71,9 @@ else if ($current_page == 'edit_concern_creation' || $current_page == 'edit_conc
 ) {
 
 	$current_module = 'report';
+}else if($current_page == 'interest_ledger_report' || $current_page == 'interest_loan_issue_report' ||$current_page == 'interest_balance_report' ||$current_page == 'interest_collection_report' ||$current_page == 'interest_closed_report' ){
+	$current_module = 'interest_report';
+
 } else if ($current_page == 'search_module') {
 
 	$current_module = 'search_module';
@@ -189,6 +192,12 @@ $agent_report = '';
 $no_due_pay_report = '';
 $other_transaction_report = '';
 $day_end_report = '';
+$reportmodule_interest = '';
+$interest_ledger_report = '';
+$interest_loan_issue_report = '';
+$interest_collection_report = '';
+$interest_balance_report = '';
+$interest_closed_report = '';
 $search_module = '';
 $search = '';
 $bulk_upload_module = '';
@@ -282,6 +291,13 @@ if (sizeof($getUser) > 0) {
 		$no_due_pay_report          		     = $getUser['no_due_pay_report'];
 		$other_transaction_report          		     = $getUser['other_trans_report'];
 		$day_end_report          		     = $getUser['day_end_report'];
+
+		$reportmodule_interest          		 = $getUser['reportmodule_interest'];
+		$interest_ledger_report          		 = $getUser['interest_ledger_report'];
+		$interest_loan_issue_report          	 = $getUser['interest_loan_issue_report'];
+		$interest_collection_report          	 = $getUser['interest_collection_report'];
+		$interest_balance_report          		 = $getUser['interest_balance_report'];
+		$interest_closed_report          		 = $getUser['interest_closed_report'];
 
 		$search_module          		     = $getUser['search_module'];
 		$search          		     = $getUser['search'];
@@ -809,7 +825,7 @@ if (sizeof($getUser) > 0) {
 					<li class="sidebar-dropdown ">
 						<a href="javascript:void(0)">
 							<i class='icon-area-graph'></i>
-							<span class="menu-text">Reports</span>
+							<span class="menu-text">Reports - EMI</span>
 						</a>
 						<div class="sidebar-submenu" <?php if ($current_module == 'report') echo 'style="display:block" '; ?>>
 							<ul>
@@ -893,6 +909,43 @@ if (sizeof($getUser) > 0) {
 										<a href="day_end_report"><i class='icon-area-graph'></i>Day End Report</a>
 									</li>
 								<?php  } ?>
+							</ul>
+						</div>
+					</li>
+				<?php  } ?>
+				<?php if ($reportmodule_interest == 0) { ?>
+					<li class="sidebar-dropdown ">
+						<a href="javascript:void(0)">
+							<i class='icon-area-graph'></i>
+							<span class="menu-text">Reports - Interest</span>
+						</a>
+						<div class="sidebar-submenu" <?php if ($current_module == 'interest_report') echo 'style="display:block" '; ?>>
+							<ul>
+								<?php if ($interest_ledger_report == 0) { ?>
+									<li>
+										<a href="interest_ledger_report"><i class='icon-area-graph'></i>Ledger View</a>
+									</li>
+								<?php  } ?>
+								<?php if ($interest_loan_issue_report == 0) { ?>
+									<li>
+										<a href="interest_loan_issue_report"><i class='icon-area-graph'></i>Loan Issue</a>
+									</li>
+								<?php  } ?>
+								<?php if ($interest_collection_report == 0) { ?>
+									<li>
+										<a href="interest_collection_report"><i class='icon-area-graph'></i>Collection</a>
+									</li>
+								<?php  } ?>
+								<?php if ($interest_balance_report == 0) { ?>
+									<li>
+										<a href="interest_balance_report"><i class='icon-area-graph'></i>Balance</a>
+									</li>
+								<?php  } ?>
+								<?php if ($interest_closed_report == 0) { ?>
+									<li>
+										<a href="interest_closed_report"><i class='icon-area-graph'></i>Closed</a>
+									</li>
+								<?php  } ?>                
 							</ul>
 						</div>
 					</li>
@@ -1059,6 +1112,12 @@ $agent_report = '';
 $no_due_pay_report = '';
 $other_transaction_report = '';
 $day_end_report = '';
+$reportmodule_interest = '';
+$interest_ledger_report = '';
+$interest_loan_issue_report = '';
+$interest_collection_report = '';
+$interest_balance_report = '';
+$interest_closed_report = '';
 $search_module = '';
 $search = '';
 $bulk_upload_module = '';

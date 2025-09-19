@@ -5,7 +5,7 @@ if (isset($_SESSION["userid"])) {
 }
 
 $id = 0;
-$emicheck = 0;
+$emicheck = true;
 $calcheck = 0;
 $typeofaccount;
 $loanCategoryCreationList = $userObj->getLoanCategoryCreation($mysqli);
@@ -69,7 +69,7 @@ $profit_method ='';
 		for ($ibranch = 0; $ibranch < sizeof($getLoanCalculation); $ibranch++) {
 
 			$loan_cal_id            = $getLoanCalculation['loan_cal_id'];
-			// $due_type               = $getLoanCalculation['due_type'];
+			$due_type               = $getLoanCalculation['due_type'];
 			$profit_method          = $getLoanCalculation['profit_method'];
 			$calculate_method       = $getLoanCalculation['calculate_method'];
 			$intrest_rate_min       = $getLoanCalculation['intrest_rate_min'];
@@ -82,14 +82,14 @@ $profit_method ='';
 			$proc_fee_type    = $getLoanCalculation['proc_fee_type'];
 			$processing_fee_min     = $getLoanCalculation['processing_fee_min'];
 			$processing_fee_max     = $getLoanCalculation['processing_fee_max'];
-			// $overdue_type           = $getLoanCalculation['overdue_type'];
+			$overdue_type           = $getLoanCalculation['overdue_type'];
 			$overdue                = $getLoanCalculation['overdue'];
 			$collection_info        = $getLoanCalculation['collection_info'];
 		}
 	}
 
-	// $emicheck = strpos($due_type, 'emi') !== false;
-	// $calcheck = strpos($due_type, 'intrest') !== false;
+	$emicheck = strpos($due_type, 'emi') !== false;
+	$calcheck = strpos($due_type, 'intrest') !== false;
 
 	$profit_method = explode(',', $profit_method);
 }
@@ -271,30 +271,24 @@ if ($idupd > 0) {
 								<input type="text" id="monthly_due_method" name="monthly_due_method" class="form-control" value="Monthly" tabindex='5' readonly>
 							</div>
 						</div>
-						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+						<!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="disabledInput">Due Type</label><span class="required">&nbsp;*</span>
 								<input type="hidden" class="form-control" id="monthly_due_type" name="due_type" value="emi">
 								<input tabindex="6" type="text" class="form-control" id="monthly_duetype" name="monthly_duetype" value="EMI" title="Select Due Type" readonly>
 							</div>
-						</div>
-						<!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+						</div> -->
+						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 							<div class="form-group">
 								<label for="disabledInput">Due Type</label><span class="required">&nbsp;*</span>
-								<select tabindex="4" type="text" class="form-control" id="monthly_duetype" name="monthly_duetype" title="Select Due Type" required>
+								<select tabindex="4" type="text" class="form-control" id="monthly_duetype" name="monthly_duetype" title="Select Due Type" required onmousedown="event.preventDefault()">
 									<option value=''>Select Due Type</option>
-									<option <?php if (isset($due_type)) {
-												if ($due_type == "emi") echo 'selected';
-											}
-											?> value="emi">EMI</option>
-									<option <?php if (isset($due_type)) {
-												if ($due_type == "intrest") echo 'selected';
-											}
-											?> value="intrest">Interest</option>
+									<option <?php #if (isset($due_type)) {if ($due_type == "emi") echo 'selected';}?> value="emi" selected>EMI</option>
+									<!-- <option <?php #if (isset($due_type)) {if ($due_type == "intrest") echo 'selected';}?> value="intrest">Interest</option> -->
 								</select>
 							</div>
-						</div> -->
-						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 emi_method">
+						</div>
+						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 emi_method" style="display: <?php echo ($emicheck ? 'block' : 'none'); ?>;">
 							<div class="form-group">
 								<label for="disabledInput">Profit Method</label><span class="required">&nbsp;*</span>
 								<select tabindex="7" type="text" class="form-control selectpicker" id="monthly_profit_method" name="monthly_profit_method[]" data-live-search="true" multiple data-actions-box="true" title="Select Profit Method">
@@ -324,13 +318,13 @@ if ($idupd > 0) {
 								<select tabindex="4" type="text" class="form-control" id="calculate_method" name="calculate_method" title="Select Calculate Method">
 									<option value=''>Select Calculate Method</option>
 									<option <?php if (isset($calculate_method)) {
-												if ($calculate_method == "monthly") echo 'selected';
+												if ($calculate_method == "Monthly") echo 'selected';
 											}
-											?> value="monthly">Monthly</option>
+											?> value="Monthly">Monthly</option>
 									<option <?php if (isset($calculate_method)) {
-												if ($calculate_method == "days") echo 'selected';
+												if ($calculate_method == "Days") echo 'selected';
 											}
-											?> value="days">Days</option>
+											?> value="Days">Days</option>
 								</select>
 							</div>
 						</div>
@@ -458,7 +452,7 @@ if ($idupd > 0) {
 					</div>
 				</div>
 				<!--- ---------------------- Loan scheme  START----------------------------- -->
-				<div class="card" id="loan_scheme_card">
+				<div class="card" id="loan_scheme_card" style="display: <?php echo ($emicheck ? 'block' : 'none'); ?>;" >
 					<div class="card-header d-flex align-items-center justify-content-between">
 						<h5 class="card-title mb-0">Loan Scheme</h5>
 						<button type="button" class="btn btn-primary modalBtnCss card-head-btn" data-toggle="modal" data-target="#add_loan_scheme_modal" tabindex="23" onclick="getSchemeTable();"><span class="icon-add"></span></button>

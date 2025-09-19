@@ -126,7 +126,7 @@ $query = "SELECT
         LEFT JOIN agent_creation ac ON iv.agent_id = ac.ag_id
         LEFT JOIN verification_family_info vfi_received_by ON li.relationship !='Customer' AND li.cash_guarentor_name = vfi_received_by.relation_aadhar
 
-        WHERE ii.cus_status >= 14 
+        WHERE ii.cus_status >= 14 AND lc.due_type = 'EMI'
         $where GROUP BY ii.loan_id";
 
 if (isset($_POST['search'])) {

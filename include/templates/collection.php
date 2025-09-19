@@ -462,10 +462,22 @@ if ($idupd > 0) {
 
 									<!-- Only if user has collection access can have the waiver details -->
 									<?php if (isset($collection_access) && $collection_access == '0') { ?>
-										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 emiLoanDiv">
 											<div class="form-group">
 												<label for="disabledInput">Pre Closure</label>
 												<input type="text" class="form-control" id="pre_close_waiver" name="pre_close_waiver" value='' placeholder='Enter Pre Closure Amount' tabindex='28'>
+											</div>
+										</div>
+										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 intLoanDiv" style="display: none;">
+											<div class="form-group">
+												<label for="disabledInput">Principle Waiver</label>
+												<input type="text" class="form-control" id="principal_waiver" name="principal_waiver" value='' placeholder='Enter Principle Waiver Amount' tabindex='28'>
+											</div>
+										</div>
+										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 intLoanDiv" style="display: none;">
+											<div class="form-group">
+												<label for="disabledInput">Interest Waiver</label>
+												<input type="text" class="form-control" id="interest_waiver" name="interest_waiver" value='' placeholder='Enter Interest Waiver Amount' tabindex='28'>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">

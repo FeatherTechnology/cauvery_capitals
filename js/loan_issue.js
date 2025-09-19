@@ -370,13 +370,14 @@ $(document).on('change', '.verification_bank_update', function () {
     $('#refresh_cal').click(function () {
 
         var profit_method = $('#profit_method').val(); // if profit method changes, due type is EMI
-        if (profit_method == 'after_intrest') {
+        var due_type = $('#due_type').val();
+
+        if (profit_method == "after_intrest" && due_type == "EMI") {
             getLoanAfterInterest(); changeInttoBen()
         } else if (profit_method == 'pre_intrest') {
             getLoanPreInterest(); changeInttoBen()
         }
 
-        var due_type = $('#due_type').val(); //If Changes not found in profit method, calculate loan amt for monthly basis
         if (due_type == 'Interest') {
             getLoanInterest(); changeInttoBen()
         }
@@ -402,8 +403,10 @@ $(document).on('change', '.verification_bank_update', function () {
             if (due_type.value == 'Interest') {
                 // Set its value to 'Benefit Amount'
                 int_label.previousElementSibling.previousElementSibling.textContent = 'Benefit Amount';
+                $('.emi_div').hide();
             } else {
                 int_label.previousElementSibling.previousElementSibling.textContent = 'Interest Amount';
+                $('.emi_div').show();
             }
         }
     });
@@ -840,6 +843,9 @@ function profitCalculationInfo() {
         $('#day_scheme').val(''); // to clear day scheme selection 
         $('#scheme_name').val(''); // to clear scheme name selection 
 
+        $("#doc_charge").val("");
+        $("#proc_fee").val("");
+
         $('#int_rate').val(''); $('#int_rate').attr('readonly', false);
         $('#due_period').val(''); $('#due_period').attr('readonly', false);
         $('.min-max-int').text('*');
@@ -980,38 +986,58 @@ function profitCalAjax(profit_type,  loan_cat) {
                     //                     if( parseFloat($(this).val()) < '`+ response['processing_fee_min'] + `' && parseInt($(this).val()) != '' ){ alert("Enter Higher Value"); $(this).val(""); } `); //To check value between rage
                     // $('#proc_fee').val(proc_fee_upd);
 
-                } else if (response['due_type'] == 'intrest') {
+                } else if (response["due_type"] == "intrest") {
+          $(".emi-calculation").hide();
+          $(".interest-calculation").show();
+          $("#due_type").val("Interest");
+          $("#profit_method").empty();
 
-                    $('.emi-calculation').hide();
-                    $('.interest-calculation').show();
-                    $('#due_type').val('Interest');
-                    $('#profit_method').empty();
-                    $('#calc_method').val(response['calculate_method']);
-                    //To set min and maximum 
-                    $('.min-max-int').text('* (' + response['intrest_rate_min'] + '% - ' + response['intrest_rate_max'] + '%) ');
-                    $('#int_rate').attr('onChange', `if( parseFloat($(this).val()) > '` + response['intrest_rate_max'] + `' ){ alert("Enter Lesser Value"); $(this).val(""); }else
-                                        if( parseFloat($(this).val()) < '`+ response['intrest_rate_min'] + `' && parseFloat($(this).val()) != '' ){ alert("Enter Higher Value"); $(this).val(""); } `); //To check value between rage
-                    $('#int_rate').val(int_rate_upd);
+          $("#calc_method").val(response["calculate_method"]);
 
-                    $('.min-max-due').text('* (' + response['due_period_min'] + ' - ' + response['due_period_max'] + ') ');
-                    $('#due_period').attr('onChange', `if( parseInt($(this).val()) > '` + response['due_period_max'] + `' ){ alert("Enter Lesser Value"); $(this).val(""); }else
-                                        if( parseInt($(this).val()) < '`+ response['due_period_min'] + `' && parseInt($(this).val()) != '' ){ alert("Enter Higher Value"); $(this).val(""); } `); //To check value between rage
-                    $('#due_period').val(due_period_upd);
-                    if (response['doc_charge_type'] == 'amt') { type = '₹' } else if (response['doc_charge_type'] == 'percentage') { type = '%'; } //Setting symbols
-                    $('.min-max-doc').text('* (' + response['document_charge_min'] + ' ' + type + ' - ' + response['document_charge_max'] + ' ' + type + ') '); //setting min max values in span
-                    $('#doc_charge').attr('onChange', `if( parseInt($(this).val()) > '` + response['document_charge_max'] + `' ){ alert("Enter Lesser Value"); $(this).val(""); }else
-                                            if( parseInt($(this).val()) < '`+ response['document_charge_min'] + `' && parseInt($(this).val()) != '' ){ alert("Enter Higher Value"); $(this).val(""); } `); //To check value between rage
-                    $('#doc_charge').val(doc_charge_upd);
-                    // $('.min-max-doc').text('* (' + response['document_charge_min'] + '% - ' + response['document_charge_max'] + '%) ');
-                    // $('#doc_charge').attr('onChange', `if( parseFloat($(this).val()) > '` + response['document_charge_max'] + `' ){ alert("Enter Lesser Value"); $(this).val(""); }else
-                    //                     if( parseFloat($(this).val()) < '`+ response['document_charge_min'] + `' && parseFloat($(this).val()) != '' ){ alert("Enter Higher Value"); $(this).val(""); } `); //To check value between rage
-                    // $('#doc_charge').val(doc_charge_upd);
+          //To set min and maximum
+          $(".min-max-int").text("* (" + response["intrest_rate_min"] + "% - " + response["intrest_rate_max"] + "%) ");
+          $("#int_rate").attr("onChange", `if( parseFloat($(this).val()) > '` + response["intrest_rate_max"] + `' ){ alert("Enter Lesser Value"); 
+            $(this).val(""); }
+            else if( parseFloat($(this).val()) < '` + response["intrest_rate_min"] + `' && parseFloat($(this).val()) != '' ){ alert("Enter Higher Value"); 
+            $(this).val(""); } `); //To check value between rage
+          $("#int_rate").val(int_rate_upd);
 
-                    $('.min-max-proc').text('* (' + response['processing_fee_min'] + '% - ' + response['processing_fee_max'] + '%) ');
-                    $('#proc_fee').attr('onChange', `if( parseFloat($(this).val()) > '` + response['processing_fee_max'] + `' ){ alert("Enter Lesser Value"); $(this).val(""); }else
-                                        if( parseFloat($(this).val()) < '`+ response['processing_fee_min'] + `' && parseFloat($(this).val()) != '' ){ alert("Enter Higher Value"); $(this).val(""); } `); //To check value between rage
-                    $('#proc_fee').val(proc_fee_upd);
-                }
+          $(".min-max-due").text("* (" + response["due_period_min"] + " - " + response["due_period_max"] + ") ");
+
+          $("#due_period").attr("onChange", `if( parseInt($(this).val()) > '` + response["due_period_max"] + `' ){ alert("Enter Lesser Value");
+            $(this).val(""); }
+            else if( parseInt($(this).val()) < '` + response["due_period_min"] + `' && parseInt($(this).val()) != '' ){ alert("Enter Higher Value"); $(this).val(""); } `); //To check value between rage
+
+          $("#due_period").val(due_period_upd);
+
+          if (response["doc_charge_type"] == "amt") {
+            type = "₹";
+          } else if (response["doc_charge_type"] == "percentage") {
+            type = "%";
+          } //Setting symbols
+          $(".min-max-doc").text("* (" + response["document_charge_min"] + " " + type + " - " + response["document_charge_max"] + " " + type + ") "); //setting min max values in span
+
+          $("#doc_charge").attr("onChange", `if( parseInt($(this).val()) > '` + response["document_charge_max"] + `' ){ alert("Enter Lesser Value"); 
+            $(this).val(""); }
+            else if( parseInt($(this).val()) < '` + response["document_charge_min"] + `' && parseInt($(this).val()) != '' ){ alert("Enter Higher Value");
+            $(this).val(""); } `); //To check value between rage
+
+          $("#doc_charge").val(doc_charge_upd);
+
+          if (response["proc_fee_type"] == "amt") {
+            type = "₹";  // Set ₹ symbol before the numbers
+          } else if (response["proc_fee_type"] == "percentage") {
+            type = "%"; // Set % symbol after the numbers
+          }
+
+          $(".min-max-proc").text("* (" + response["processing_fee_min"] + " " + type + " - " + response["processing_fee_max"] + " " + type + ") "); //setting min max values in span
+
+          $("#proc_fee").attr("onChange", `if( parseFloat($(this).val()) > '` + response["processing_fee_max"] + `' ){ alert("Enter Lesser Value"); $(this).val(""); }
+            else if( parseFloat($(this).val()) < '` + response["processing_fee_min"] + `' && parseFloat($(this).val()) != '' ){ alert("Enter Higher Value");
+            $(this).val(""); } `); //To check value between rage
+
+          $("#proc_fee").val(proc_fee_upd);
+        }
             }
         })
     } else if (profit_type == '2') { //if Scheme selected
@@ -1273,35 +1299,63 @@ function getLoanPreInterest() {
 
 //To Get Loan Calculation for Interest due type
 function getLoanInterest() {
-    var loan_amt = $('#loan_amt').val();
-    var int_rate = $('#int_rate').val();
-    var due_period = $('#due_period').val();
-    var doc_charge = $('#doc_charge').val();
-    var proc_fee = $('#proc_fee').val();
+  var loan_amt = $("#loan_amt").val();
+  var int_rate = $("#int_rate").val();
+  var doc_charge = $("#doc_charge").val();
+  var proc_fee = $("#proc_fee").val();
+  var calc_method = $("#calc_method").val();
 
-    $('#loan_amt_cal').val(parseInt(loan_amt).toFixed(0)); //get loan amt from loan info card
-    $('#principal_amt_cal').val(parseInt(loan_amt).toFixed(0));
+  $("#loan_amt_cal").val(parseInt(loan_amt).toFixed(0));
+  $("#principal_amt_cal").val(parseInt(loan_amt).toFixed(0));
 
-    $('#tot_amt_cal').val('');
-    $('#due_amt_cal').val('');//Due period will be monthly by default so no need of due amt
+  let int_amt;
 
-    var int_amt = (parseInt(loan_amt) * (parseFloat(int_rate) / 100)).toFixed(0); //Calculate interest rate 
+  if (calc_method === 'Monthly') {
+    int_amt = (loan_amt * (int_rate / 100)).toFixed(0);
+  } else if (calc_method === 'Days') {
+    int_amt = (loan_amt * (int_rate / 100) / 30).toFixed(0);
+  }
 
-    var roundedInterest = Math.ceil(int_amt / 5) * 5;
-    if (roundedInterest < int_amt) {
-        roundedInterest += 5;
-    }
-    $('.int-diff').text('* (Difference: +' + parseInt(roundedInterest - int_amt) + ')'); //To show the difference amount
-    $('#int_amt_cal').val(parseInt(roundedInterest));
+  var roundedInterest = Math.ceil(int_amt / 5) * 5;
+  if (roundedInterest < int_amt) {
+    roundedInterest += 5;
+  }
 
-    var doc_charge = parseInt(loan_amt) * (parseFloat(doc_charge) / 100); //Get document charge from loan info and multiply with loan amt to get actual doc charge
-    $('#doc_charge_cal').val(parseInt(doc_charge).toFixed(0));
+  $(".int-diff").text("* (Difference: +" + parseInt(roundedInterest - int_amt) + ")");
+  $("#int_amt_cal").val(parseInt(roundedInterest));
 
-    var proc_fee = parseInt(loan_amt) * (parseFloat(proc_fee) / 100);//Get processing fee from loan info and multiply with loan amt to get actual proc fee
-    $('#proc_fee_cal').val(parseInt(proc_fee).toFixed(0));
+  var doc_type = $(".min-max-doc").text();
+  if (doc_type.includes("₹")) {
+    var doc_charge = parseInt(doc_charge);
+  } else if (doc_type.includes("%")) {
+    var doc_charge = parseInt(loan_amt) * (parseFloat(doc_charge) / 100);
+  }
 
-    var net_cash = parseInt(loan_amt) - parseInt(doc_charge) - parseInt(proc_fee); //Net cash will be calculated by subracting other charges
-    $('#net_cash_cal').val(parseInt(net_cash).toFixed(0));
+  var roundeddoccharge = Math.ceil(doc_charge / 5) * 5;
+  if (roundeddoccharge < doc_charge) {
+    roundeddoccharge += 5;
+  }
+
+  $(".doc-diff").text("* (Difference: +" + parseInt(roundeddoccharge - doc_charge) + ")");
+  $("#doc_charge_cal").val(parseInt(roundeddoccharge));
+
+  var proc_type = $(".min-max-proc").text();
+  if (proc_type.includes("₹")) {
+    var proc_fee = parseInt(proc_fee);
+  } else if (proc_type.includes("%")) {
+    var proc_fee = parseInt(loan_amt) * (parseInt(proc_fee) / 100);
+  }
+
+  var roundeprocfee = Math.ceil(proc_fee / 5) * 5;
+  if (roundeprocfee < proc_fee) {
+    roundeprocfee += 5;
+  }
+
+  $(".proc-diff").text("* (Difference: +" + parseInt(roundeprocfee - proc_fee) + ")");
+  $("#proc_fee_cal").val(parseInt(roundeprocfee));
+
+  var net_cash = parseInt(loan_amt) - parseInt(doc_charge) - parseInt(proc_fee);
+  $("#net_cash_cal").val(parseInt(net_cash).toFixed(0));
 }
 function getSchemeAfterIntreset() {
     var loan_amt = $('#loan_amt').val();
