@@ -141,7 +141,7 @@ include '../ajaxconfig.php';
             $run = $connect->query("SELECT c.coll_code, c.due_amt, c.tot_amt, c.pending_amt, c.payable_amt, c.coll_date, c.trans_date, c.due_amt_track, c.princ_amt_track, c.int_amt_track, c.bal_amt, c.coll_charge_track, c.coll_location, c.pre_close_waiver, u.fullname, u.role
             FROM `collection` c
             LEFT JOIN user u ON c.insert_login_id = u.user_id
-            WHERE c.`req_id` = '$req_id' AND (c.due_amt_track != '' or c.pre_close_waiver!='' OR c.princ_amt_track != '' OR c.int_amt_track != '')
+            WHERE c.`req_id` = '$req_id' AND (c.due_amt_track != '' or c.pre_close_waiver!='' OR c.princ_amt_track != '' OR c.int_amt_track != '' or c.principal_waiver!='' or c.interest_waiver !='')
             AND (
                 (
                     ( 
