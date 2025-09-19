@@ -80,7 +80,7 @@ $coll_modes = ['1' => 'Cash', '2' => 'Cheque', '3' => 'ECS', '4' => 'IMPS/NEFT/R
 
 <div class="frame" id="dettable" style="background-color: #ffffff; font-size: 8px; display: flex;flex-direction: column; align-items: flex-start;">
 
-    <div style="display: flex; justify-content: center;padding-bottom:10px;"><img class="mar-logo" alt="Cauvery Capitals" src="img/logo.png" style="width: 224px; height: auto;" /></div>
+    <div style="display: flex; justify-content: center;padding-bottom:10px;"><img class="mar-logo" alt="Cauvery Capitals" src="img/cauvery_capitals_logo.jpeg" style="width: 224px; height: auto;" /></div>
     <div class="overlap-group" style="display: flex; justify-content: center; gap: 10px;">
 
         <div class="captions" style="display: flex; flex-direction: column; align-items: flex-end;">

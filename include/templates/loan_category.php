@@ -63,7 +63,7 @@ if ($idupd > 0) {
 }
 
 if ($idupd > 0) {
-	$getLoanCalculation = $userObj->getLoanCalculation($mysqli, $loan_category_id);
+	$getLoanCalculation = $userObj->getLoanCalculation($mysqli, $idupd);
 $profit_method ='';
 	if (sizeof($getLoanCalculation) > 0) {
 		for ($ibranch = 0; $ibranch < sizeof($getLoanCalculation); $ibranch++) {
@@ -87,9 +87,10 @@ $profit_method ='';
 			$collection_info        = $getLoanCalculation['collection_info'];
 		}
 	}
+//FOR INTREST LOAN 
 
-	$emicheck = strpos($due_type, 'emi') !== false;
-	$calcheck = strpos($due_type, 'intrest') !== false;
+	// $emicheck = strpos($due_type, 'emi') !== false;
+	// $calcheck = strpos($due_type, 'intrest') !== false;
 
 	$profit_method = explode(',', $profit_method);
 }
@@ -288,7 +289,8 @@ if ($idupd > 0) {
 								</select>
 							</div>
 						</div>
-						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 emi_method" style="display: <?php echo ($emicheck ? 'block' : 'none'); ?>;">
+						<!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 emi_method" style="display: <?php #echo ($emicheck ? 'block' : 'none'); ?>;"></div>  FOR INTREST LOAN-->
+						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 emi_method">
 							<div class="form-group">
 								<label for="disabledInput">Profit Method</label><span class="required">&nbsp;*</span>
 								<select tabindex="7" type="text" class="form-control selectpicker" id="monthly_profit_method" name="monthly_profit_method[]" data-live-search="true" multiple data-actions-box="true" title="Select Profit Method">
@@ -306,13 +308,15 @@ if ($idupd > 0) {
 								</select>
 							</div>
 						</div>
-						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 intrest_method" style="display: <?php echo ($calcheck ? 'block' : 'none'); ?>;">
+						<!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 intrest_method" style="display: <?php #echo ($calcheck ? 'block' : 'none'); ?>;">  FOR INTREST LOAN-->
+						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 intrest_method"  style="display:none">
 							<div class="form-group">
 								<label for="disabledInput">Profit Method</label>
 								<input type="text" readonly id="int_profit_method" name="int_profit_method" class="form-control" value="After Benefit" tabindex='3'>
 							</div>
 						</div>
-						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 intrest_method" style="display: <?php echo ($calcheck ? 'block' : 'none'); ?>;">
+						<!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 intrest_method" style="display: <?php #echo ($calcheck ? 'block' : 'none'); ?>;"> FOR INTREST LOAN -->
+						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 intrest_method" style="display:none">
 							<div class="form-group">
 								<label for="inputReadOnly">Calculate Method</label><span class="required">&nbsp;*</span>
 								<select tabindex="4" type="text" class="form-control" id="calculate_method" name="calculate_method" title="Select Calculate Method">
@@ -452,7 +456,8 @@ if ($idupd > 0) {
 					</div>
 				</div>
 				<!--- ---------------------- Loan scheme  START----------------------------- -->
-				<div class="card" id="loan_scheme_card" style="display: <?php echo ($emicheck ? 'block' : 'none'); ?>;" >
+				<!-- <div class="card" id="loan_scheme_card" style="display: <?php #echo ($emicheck ? 'block' : 'none'); ?>;" >   FOR INTREST LOAN ADDED -->  
+				<div class="card" id="loan_scheme_card" >
 					<div class="card-header d-flex align-items-center justify-content-between">
 						<h5 class="card-title mb-0">Loan Scheme</h5>
 						<button type="button" class="btn btn-primary modalBtnCss card-head-btn" data-toggle="modal" data-target="#add_loan_scheme_modal" tabindex="23" onclick="getSchemeTable();"><span class="icon-add"></span></button>

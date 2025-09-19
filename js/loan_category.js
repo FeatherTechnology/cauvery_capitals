@@ -909,7 +909,7 @@ function checkAllInputs() {
             '#monthly_document_charges_min, #monthly_document_charges_max, ' +
             '#monthly_processing_fees_min, #monthly_processing_fees_max, ' +
             '#monthly_overdues, ' +
-            '#monthly_profit_method'+'#scheme_name' // any other select input
+            '#monthly_profit_method' // any other select input
         );
     } else if (monthly_duetype === "intrest") {
         inputs = $(
@@ -936,14 +936,20 @@ let filledInputs = inputs.filter(function () {
 
 // Count multi-select (scheme_choices)
 let schemeFilled = scheme_choices.getValue().length > 0;
+let docradioChecked = $("#monthly_docamt, #monthly_docpercentage").is(":checked");
+let proradioChecked = $("#monthly_procamt, #monthly_procpercentage").is(":checked");
 
 // Total inputs including the multi-select
-let totalInputs = inputs.length ; 
+let totalInputs = inputs.length +2; 
+console.log("totalInputs",totalInputs);
 
-let totalFilled = filledInputs + (schemeFilled ? 1 : 0);
+let totalFilled = filledInputs + (docradioChecked ? 1 : 0)+ (proradioChecked ? 1 : 0);
+console.log("totalFilled",totalFilled);
+console.log("schemeFilled",schemeFilled);
+
 
 // Validation rules
-if (totalFilled === 0) {
+if (totalFilled === 0 && !schemeFilled) {
     return false; // None filled → invalid
 } else if (totalFilled === totalInputs || (filledInputs === 0 && schemeFilled)) {
     return true; // All filled OR only multi-select filled → valid
