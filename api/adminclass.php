@@ -531,6 +531,8 @@ class admin
 		}
 		if (isset($_POST['overdue_type'])) {
 			$overdue_type = $_POST['overdue_type'];
+		}else{
+			$overdue_type =" ";
 		}
 		if (isset($_POST['monthly_overdues'])) {
 			$overdue = $_POST['monthly_overdues'];
@@ -554,7 +556,7 @@ class admin
 
 		// 	$insresult = $mysqli->query($loanInsert) or die("Error " . $mysqli->error);
 		// }
-		$checkQry = "SELECT COUNT(*) as cnt FROM loan_calculation WHERE  loan_cal_id = '" . strip_tags($cat_id) . "'";
+		$checkQry = "SELECT COUNT(*) as cnt FROM loan_calculation WHERE  loan_category_id = '" . strip_tags($cat_id) . "'";
 		$result = $mysqli->query($checkQry);
 		$row = $result->fetch_assoc();
 
@@ -588,7 +590,7 @@ class admin
 		}
 
 
-		$updateQry = 'UPDATE loan_category SET loan_category_name = "' . strip_tags($loan_category_name) . '",loan_limit = "' . strip_tags($loan_limit) . '",agent_loan = "' . strip_tags($agent_loan) . '", status = "0" WHERE loan_category_id = "' . mysqli_real_escape_string($mysqli, $id) . '" ';
+		$updateQry = 'UPDATE loan_category SET loan_category_name = "' . strip_tags($loan_category_name) . '",loan_limit = "' . strip_tags($loan_limit) . '",agent_loan = "' . strip_tags($agent_loan) . '", status = "0" WHERE loan_category_id = "' . mysqli_real_escape_string($mysqli, $cat_id) . '" ';
 		$res = $mysqli->query($updateQry) or die("Error in in update Query!." . $mysqli->error);
 
 		$DeleterrRef = $mysqli->query("DELETE FROM loan_category_ref WHERE loan_category_id = '" . $cat_id . "' ");

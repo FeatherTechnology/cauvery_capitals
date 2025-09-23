@@ -82,7 +82,7 @@ $profit_method ='';
 			$proc_fee_type    = $getLoanCalculation['proc_fee_type'];
 			$processing_fee_min     = $getLoanCalculation['processing_fee_min'];
 			$processing_fee_max     = $getLoanCalculation['processing_fee_max'];
-			$overdue_type           = $getLoanCalculation['overdue_type'];
+			// $overdue_type           = $getLoanCalculation['overdue_type'];
 			$overdue                = $getLoanCalculation['overdue'];
 			$collection_info        = $getLoanCalculation['collection_info'];
 		}
