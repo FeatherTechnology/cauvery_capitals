@@ -941,12 +941,8 @@ let proradioChecked = $("#monthly_procamt, #monthly_procpercentage").is(":checke
 
 // Total inputs including the multi-select
 let totalInputs = inputs.length +2; 
-console.log("totalInputs",totalInputs);
 
 let totalFilled = filledInputs + (docradioChecked ? 1 : 0)+ (proradioChecked ? 1 : 0);
-console.log("totalFilled",totalFilled);
-console.log("schemeFilled",schemeFilled);
-
 
 // Validation rules
 if (totalFilled === 0 && !schemeFilled) {
