@@ -188,8 +188,9 @@ function customerStatusOnClickEvents() {
 
     $('.personal-info').off('click').click(function () {
         let cus_id = $(this).data('cusid');
+        let req_id = $(this).data('req_id');
         $.post('followupFiles/promotion/getPersonalInfo.php', {
-            cus_id
+            cus_id,req_id
         }, function (html) {
             $('#personalInfoDiv').empty().html(html);
         })

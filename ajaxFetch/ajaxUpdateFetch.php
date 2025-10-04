@@ -45,8 +45,9 @@ $column = array(
 );
 
 if ($userid == 1) {
-    $query = "SELECT rc.req_id, rc.cus_id, rc.cus_name, rc.mobile1,rc.area ,rc.area, rc.cus_status, rc.cus_data 
+    $query = "SELECT rc.req_id, cr.cus_id, cr.customer_name as cus_name, cr.mobile1, cr.area_confirm_area as area , rc.cus_status, rc.cus_data 
 FROM request_creation rc
+left join customer_register cr on cr.req_ref_id = rc.req_id
 INNER JOIN (
     SELECT cus_id, MAX(req_id) AS last_req_id 
     FROM request_creation  
@@ -55,8 +56,9 @@ INNER JOIN (
 WHERE (rc.cus_data = 'Existing' AND rc.cus_status >= 1) OR (rc.cus_data = 'New' AND rc.cus_status > 13)";
 
 } else {
-    $query = "SELECT rc.req_id, rc.cus_id, rc.cus_name, rc.mobile1,rc.area ,rc.area, rc.cus_status, rc.cus_data
+    $query = "SELECT rc.req_id,cr.cus_id, cr.customer_name as cus_name, cr.mobile1, cr.area_confirm_area as area , rc.cus_status, rc.cus_data
 FROM request_creation rc
+left join customer_register cr on cr.req_ref_id = rc.req_id
 INNER JOIN ( SELECT cus_id, MAX(req_id) AS last_req_id FROM request_creation GROUP BY cus_id) latest ON rc.cus_id = latest.cus_id AND rc.req_id = latest.last_req_id
 WHERE rc.area IN ($area_list) AND ( (rc.cus_data = 'Existing' AND rc.cus_status >= 1) OR (rc.cus_data = 'New' AND rc.cus_status > 13))";
 }
@@ -66,7 +68,7 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
     $query .= "
         and (rc.cus_id LIKE '%" . $_POST['search'] . "%'
         OR rc.cus_name LIKE '%" . $_POST['search'] . "%'
-        OR rc.mobile1 LIKE '%" . $_POST['search'] . "%' ) ";
+        OR cr.mobile1 LIKE '%" . $_POST['search'] . "%' ) ";
 }
 
 // $query .= " GROUP BY rc.cus_id ";
@@ -106,31 +108,18 @@ foreach ($result as $row) {
     $sub_array[] = $cus_id;
     $sub_array[] = $row['cus_name'];
     $sub_array[] = $row['mobile1'];
-
-    $areaqry = $connect->query("SELECT CASE 
-    WHEN ( SELECT COUNT(*) FROM customer_profile WHERE cus_id = $cus_id ) > 0 
-    THEN ( SELECT area_name FROM area_list_creation WHERE area_id = ( SELECT area_confirm_area FROM customer_profile WHERE cus_id = $cus_id ORDER BY `id` DESC LIMIT 1 ) ) 
-    ELSE ( SELECT area_name FROM area_list_creation WHERE area_id = ( SELECT `area` FROM request_creation WHERE cus_id = $cus_id ORDER BY `req_id` DESC LIMIT 1 ) ) END AS `area_name`
-    ");
-    $sub_array[] = $areaqry->fetch()['area_name'];
     $area= $row['area'];
-    $branchqry = $connect->query("SELECT bc.branch_name FROM area_group_mapping agm JOIN branch_creation bc ON agm.branch_id = bc.branch_id join area_group_mapping_area agma where  $area = agma.area_id ");
+
+    $areaqry = $connect->query("SELECT area_name FROM area_list_creation WHERE area_id = '$area' ") ;
+    $sub_array[] = $areaqry->fetch()['area_name'];
+    
+    $branchqry = $connect->query("SELECT bc.branch_name FROM area_group_mapping agm JOIN branch_creation bc ON agm.branch_id = bc.branch_id join area_group_mapping_area agma where  '$area' = agma.area_id ");
     $sub_array[] = $branchqry->fetch()['branch_name'];
 
-    $lineqry = $connect->query("SELECT CASE 
-    WHEN ( SELECT COUNT(*) FROM customer_profile WHERE cus_id = $cus_id ) > 0 
-    THEN ( SELECT alm.line_name FROM area_line_mapping alm join area_line_mapping_area alma on alma.line_map_id = alm.map_id WHERE  ( SELECT area_confirm_area FROM customer_profile WHERE cus_id = $cus_id ORDER BY `id` DESC LIMIT 1 ) = alma.area_id) 
-    ELSE ( SELECT alm.line_name FROM area_line_mapping alm join area_line_mapping_area alma on alma.line_map_id = alm.map_id WHERE( SELECT area FROM request_creation WHERE cus_id = $cus_id ORDER BY `req_id` DESC LIMIT 1 )= alma.area_id )
-    END AS `line_name`
-    ");
+    $lineqry = $connect->query(" SELECT alm.line_name FROM area_line_mapping alm join area_line_mapping_area alma on alma.line_map_id = alm.map_id WHERE '$area' = alma.area_id ");
     $sub_array[] = $lineqry->fetch()['line_name'];
 
-    $grpqry = $connect->query("SELECT CASE 
-    WHEN ( SELECT COUNT(*) FROM customer_profile WHERE cus_id = $cus_id ) > 0 
-    THEN ( SELECT agm.group_name FROM area_group_mapping agm join area_group_mapping_area agma on agma.group_map_id = agm.map_id  WHERE  ( SELECT area_confirm_area FROM customer_profile WHERE cus_id = $cus_id ORDER BY `id` DESC LIMIT 1 ) = agma.area_id)  
-    ELSE ( SELECT agm.group_name FROM area_group_mapping agm join area_group_mapping_area agma on agma.group_map_id = agm.map_id  WHERE ( SELECT area FROM request_creation WHERE cus_id = $cus_id ORDER BY `req_id` DESC LIMIT 1 ) = agma.area_id )
-    END AS `group_name`
-    ");
+    $grpqry = $connect->query(" SELECT agm.group_name FROM area_group_mapping agm join area_group_mapping_area agma on agma.group_map_id = agm.map_id  WHERE  '$area' = agma.area_id ");
     $sub_array[] = $grpqry->fetch()['group_name'];
 
     if (getDocumentStatus($connect, $cus_id) == false) {
