@@ -3,6 +3,7 @@
 include('../../ajaxconfig.php');
 
 $cus_id = $_POST['cus_id'];
+$req_id = $_POST['req_id'];
 
 $sql = '';
 
@@ -13,7 +14,7 @@ $query1 = $connect->query("SELECT cp.cus_id,cp.cus_name,cp.cus_pic,cp.mobile1,al
     JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
     JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id
     LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id
-    WHERE cp.cus_id = " . $cus_id . " ORDER BY cp.id DESC LIMIT 1");
+    WHERE cp.cus_id = " . $cus_id . "  and cp.req_id ='$req_id' ORDER BY cp.id DESC LIMIT 1");
 
 $query2 = $connect->query("SELECT rc.cus_id, rc.cus_name, rc.mobile1, rc.pic as cus_pic, al.area_name,alm.line_name as area_line,bc.branch_name FROM request_creation rc
     JOIN area_list_creation al ON rc.area = al.area_id
@@ -22,7 +23,7 @@ $query2 = $connect->query("SELECT rc.cus_id, rc.cus_name, rc.mobile1, rc.pic as 
      JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
     JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id 
     LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id
-    WHERE rc.cus_id = '$cus_id' ORDER BY rc.req_id DESC LIMIT 1");
+    WHERE rc.cus_id = '$cus_id' and rc.req_id ='$req_id' ORDER BY rc.req_id DESC LIMIT 1");
 
 if ($query1->rowCount() > 0) {
     $sql = $query1;

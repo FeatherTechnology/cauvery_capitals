@@ -39,22 +39,29 @@ if ($cus_id != '') {
     $sql = "SELECT cus_id from customer_register WHERE customer_name LIKE '%$cus_name%' ";
     $fam_sql = "SELECT id from verification_family_info WHERE famname LIKE '%$cus_name%' ";
 } else if ($mobile != '') {
-    $sql = "SELECT cus_id from customer_register WHERE mobile1 LIKE '%$mobile%' or mobile2 LIKE '%$mobile%' ";
-    $fam_sql = "SELECT id from verification_family_info WHERE relation_Mobile LIKE '%$mobile%' ";
+    $sql = "SELECT COALESCE(cr.cus_id, rc.cus_id) AS cus_id FROM request_creation rc LEFT JOIN customer_register cr 
+       ON cr.req_ref_id = rc.req_id WHERE cr.mobile1 LIKE '%$mobile%' OR cr.mobile2 LIKE '%$mobile%' OR rc.mobile1 LIKE '%$mobile%' OR rc.mobile2 LIKE '%$mobile%' LIMIT 1";
 } else if ($area != '') {
-    $sql = "SELECT cr.cus_id from area_list_creation ac 
-        JOIN customer_register cr ON 
-        CASE 
-        WHEN (cr.area_confirm_area IS NOT NULL OR cr.area_confirm_area != '') THEN ac.area_id = cr.area_confirm_area 
-        ELSE ac.area_id = cr.area 
-        END
-        WHERE ac.area_name LIKE '%$area%' GROUP BY cr.cus_id ";
+    $sql = "SELECT DISTINCT cr.cus_id
+FROM customer_register cr
+LEFT JOIN request_creation rc ON rc.cus_id = cr.cus_id
+JOIN area_list_creation ac
+    ON (
+        -- customer register confirmed or fallback
+        (cr.area_confirm_area IS NOT NULL AND cr.area_confirm_area != '' AND ac.area_id = cr.area_confirm_area)
+        OR
+        ((cr.area_confirm_area IS NULL OR cr.area_confirm_area = '') AND ac.area_id = cr.area)
+        -- OR request creation area
+        OR (ac.area_id = rc.area)
+    )
+WHERE ac.area_name LIKE '%$area%';
+";
 }else if ($loan_id != '') {
     $sql = "SELECT cus_id from in_issue where loan_id = '$loan_id' ";
 }
 
-// echo $sql;
-$runSql = $connect->query($sql);
+// echo $sql;die;
+$runSql = $connect->query(query: $sql);
 if ($runSql->rowCount() > 0) {
     while ($row = $runSql->fetch())
         $cus_id_fetched[] = $row['cus_id'];
@@ -64,7 +71,7 @@ if ($runSql->rowCount() > 0) {
 
 if (!empty($cus_id_fetched)) {
     foreach ($cus_id_fetched as $cus_id) {
-        $sql = $connect->query("SELECT req_id,cus_id,cus_status From request_creation where cus_id = $cus_id ORDER BY req_id DESC LIMIT 1 ");
+        $sql = $connect->query("SELECT rc.req_id,cr.cus_id,rc.cus_status From request_creation rc left join customer_register cr on cr.req_ref_id = rc.req_id where cr.cus_id = $cus_id ORDER BY rc.req_id DESC LIMIT 1 ");
         $row = $sql->fetch();
         $req_id[] = $row['req_id'];
         $cus_status[] = $row['cus_status'];
@@ -76,9 +83,10 @@ $data = array();
 if (!empty($req_id)) {
     foreach ($req_id as $req) {
         if ($cus_status[$x] == '0' || $cus_status[$x] == '1' || $cus_status[$x] == '4' || $cus_status[$x] == '5' || $cus_status[$x] == '8' || $cus_status[$x] == '9') {
-            $req_sql = $connect->query("SELECT req.cus_id,req.cus_name,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,req.mobile1,req.mobile2 
-                        From request_creation req 
-                        LEFT JOIN area_list_creation ac ON req.area = ac.area_id
+            $req_sql = $connect->query("SELECT cr.cus_id,cr.customer_name as cus_name ,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,cr.mobile1,cr.mobile2 
+                        From request_creation req
+                        left join customer_register cr on cr.req_ref_id = req.req_id
+                        LEFT JOIN area_list_creation ac ON cr.area_confirm_area = ac.area_id
                         JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
                         JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
                         JOIN area_group_mapping_area agma ON agma.area_id = ac.area_id
@@ -86,15 +94,15 @@ if (!empty($req_id)) {
                         LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id 
                         where req.req_id = $req ");
         } else {
-            $req_sql = $connect->query("SELECT cp.cus_id,cp.cus_name,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,cp.mobile1,cp.mobile2 
-                    FROM customer_profile cp
-                    LEFT JOIN area_list_creation ac ON cp.area_confirm_area = ac.area_id 
+            $req_sql = $connect->query("SELECT cr.cus_id,cr.customer_name as cus_name,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,cr.mobile1,cr.mobile2 
+                    FROM customer_register cr
+                    LEFT JOIN area_list_creation ac ON cr.area_confirm_area = ac.area_id 
                     JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
                     JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
                     JOIN area_group_mapping_area agma ON agma.area_id = ac.area_id
                     JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id
                     LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id 
-                    WHERE cp.req_id = $req  ");
+                    WHERE cr.req_ref_id = $req  ");
         }
         $x++;
         while ($req_row = $req_sql->fetch()) {

@@ -91,7 +91,7 @@ if ($result->rowCount() > 0) {
         //for info 
         $records[$i]['info_action'] = "<div class='dropdown'><button class='btn btn-outline-secondary'><i class='fa'>&#xf107;</i></button><div class='dropdown-content'> ";
 
-        $records[$i]['info_action'] .= "<a class='personal-info' data-toggle='modal' data-target='#personalInfoModal' data-cusid='" . $cus_id . "'><span>Personal Info</span></a>";
+        $records[$i]['info_action'] .= "<a class='personal-info' data-toggle='modal' data-target='#personalInfoModal' data-cusid='" . $cus_id . "' data-req_id='" . $req_id . "'><span>Personal Info</span></a>";
 
         if ($cus_status >= 2 and $cus_status != 4 and $cus_status != 5 and $cus_status != 8 and $cus_status != 9) {
             $records[$i]['info_action'] .= "<a class='cust-profile' data-reqid='" . $req_id . "' data-cusid='" . $cus_id . "'><span>Customer Profile</span></a>

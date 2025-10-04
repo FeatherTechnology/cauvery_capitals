@@ -858,13 +858,13 @@ function validations() {
         $('.mem_relation_nameCheck').hide()
     }
 
-    if (fingerprint != 'disabled') {
-        $('.scanBtnCheck').show()
-        event.preventDefault();
-        res = false;
-    } else {
-        $('.scanBtnCheck').hide()
-    }
+    // if (fingerprint != 'disabled') {
+    //     $('.scanBtnCheck').show()
+    //     event.preventDefault();
+    //     res = false;
+    // } else {
+    //     $('.scanBtnCheck').hide()
+    // }
 
     if (sign_checklist == '' && cheque_checklist == '' && gold_checklist == '' && mort_checklist == '' && endorse_checklist == '' && doc_checklist == '') {
         if (sign_checkDisabled != true) {
