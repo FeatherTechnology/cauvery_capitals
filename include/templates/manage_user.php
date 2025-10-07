@@ -550,8 +550,9 @@ if($idupd>0)
 											<select tabindex="15" type="text" class="form-control" id="pro_aty_access" name="pro_aty_access" multiple>
 												<option value="">Select Promotion Activity</option>
 												<option value="1">Existing</option>
-												<option value="2">New</option>
+												<!-- <option value="2">New</option> -->
 												<option value="3">Repromotion</option>
+												<option value="4">Events</option>
 											</select>
 											<span class="text-danger" style='display:none' id='proCheck'>Please select Promotion Activity Access</span>
                                         </div>
