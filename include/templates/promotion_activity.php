@@ -39,8 +39,9 @@ if (sizeof($getUser) > 0) {
 		<div class="row gutters">
 			<div class="toggle-container col-12">
 				<input type="button" class="toggle-button" value='Existing' id="existing_button">
-				<input type="button" class="toggle-button" value='New'  id="new_button">
-				<input type="button" class="toggle-button" value='Repromotion'  id="repromotion_button">
+				<input type="button" class="toggle-button" value='New' id="new_button">
+				<input type="button" class="toggle-button" value='Repromotion' id="repromotion_button">
+				<input type="button" class="toggle-button" value='Events' id="events_button">
 			</div>
 		</div>
 
@@ -244,6 +245,101 @@ if (sizeof($getUser) > 0) {
 			</div>
 		</div>
 
+		<div class="row gutters event_card" style="display:none">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				<div class="card">
+					<div class="card-header">Events</div>
+					<div style="display:flex ; align-items: center; justify-content: right; margin-right: 25px;"><button type="button" class="btn btn-primary" id="add_event"><span class="icon-add"></span>&nbsp; Add Events</button></div>
+					<div class="card-body eventsdiv" style="overflow-x: auto;">
+						<table class="table custom-table" id='event_list' data-id="event" style="width: 100%;">
+							<thead>
+								<th>S.No</th>
+								<th>Date</th>
+								<th>Event Name</th>
+								<th>Area Name</th>
+								<th>Total Customer</th>
+								<th>Action</th>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row gutters add_event_card" style="display:none">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				<div class="card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<span>Add Events</span>
+						<button type="button" class="btn btn-primary" id="back">Back</button>
+					</div>
+
+					<div class="card-body">
+						<div class="row">
+							<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="disabledInput">Event Name</label>&nbsp;<span class="required">*</span>
+									<input type="hidden" name="event_area_id" id="event_area_id">
+									<input type="hidden" name="event_hidden_id" id="event_hidden_id">
+									<input type="text" class="form-control" id="event_name" name="event_name" value="" placeholder="Enter Event Name">
+								</div>
+							</div>
+							<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="disabledInput">Area Name</label><span class="required">&nbsp;*</span>
+									<select type="text" class="form-control" id="area_name" name="area_name" multiple>
+										<option value="">Select Area Name</option>
+									</select>
+
+								</div>
+							</div>
+						</div><br><br><br>
+						<div class="row">
+							<div class="col-12">
+								<table id="moduleTable" class="table custom-table">
+									<thead>
+										<tr>
+											<th>Date</th>
+											<th>Name</th>
+											<th>Mobile</th>
+											<th>Area</th>
+											<th>Sub Area</th>
+											<th colspan="2">Action</th>
+										</tr>
+									</thead>
+										<tbody>
+											<tr>
+												<td class="current_date"></td>
+												<td><input type="text"  name="cus_name" id="cus_name" class="form-control cus_name" value="" placeholder="Enter Customer Name"></td>
+												<td>
+												<input type="number" class="form-control cus_mobile_num" id="cus_mobile_num" name="cus_mobile_num" value='' placeholder="Enter Mobile Number"></td>
+
+												<td><select type="text" class="form-control cus_area_name" id="cus_area_name" name="area_name" >
+														<option value="">Select Area Name</option>
+													</select></td>
+
+												<!-- <td><select type="text" class="form-control sub_area_name" id="sub_area_name" name="sub_area_name" >
+														<option value="">Select Sub Area Name</option>
+													</select></td> -->
+												<td>
+
+													<button type="button"  id="add_event_mem" name="add_event_mem" value="Submit" class="btn btn-primary add_event_mem">Add</button>
+												</td>
+												<td>
+													<span class='icon-trash-2 delet_event'></span>
+												</td>
+											</tr>
+										</tbody>
+								</table>
+							</div>
+						</div>
+						<div style="display:flex ; align-items: center; justify-content: right; margin-right: 25px;"><button type="button" class="btn btn-primary" id="submit_event">Submit</button></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
 	</form>
 </div>
 
@@ -365,7 +461,7 @@ if (sizeof($getUser) > 0) {
 			</div>
 			<div class="modal-footer">
 				<button class='btn btn-primary' name="sumit_add_promo" id="sumit_add_promo" tabindex="8">Submit</button>
-				<button class="btn btn-secondary closeModal" data-dismiss="modal" tabindex="9" >Close</button>
+				<button class="btn btn-secondary closeModal" data-dismiss="modal" tabindex="9">Close</button>
 			</div>
 		</div>
 	</div>

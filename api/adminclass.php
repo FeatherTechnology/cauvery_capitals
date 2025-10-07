@@ -296,7 +296,7 @@ class admin
 			$loan_category_name = $_POST['loan_category_name'];
 		}
 		if (isset($_POST['loan_limit'])) {
-			$loan_limit = $_POST['loan_limit'];
+			$loan_limit = str_replace([',', ' '], '', $_POST['loan_limit']);
 		}
 		if (isset($_POST['agent_loan'])) {
 			$agent_loan = $_POST['agent_loan'];
@@ -459,7 +459,7 @@ class admin
 			$loan_cat_id = $_POST['loan_id_upd'];
 		}
 		if (isset($_POST['loan_limit'])) {
-			$loan_limit = $_POST['loan_limit'];
+			$loan_limit = str_replace([',', ' '], '', $_POST['loan_limit']);
 		}
 		if (isset($_POST['agent_loan'])) {
 			$agent_loan = $_POST['agent_loan'];

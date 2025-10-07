@@ -205,90 +205,6 @@ $(document).ready(function () {
 
     // Submit Button 
     $('#submitLoanCategory').click(function (event) {
-        // let isValid = true;
-        // let dueType = $('#monthly_duetype').val();
-
-        // // Overdue Value
-        // let overdue = $('#monthly_overdues').val();
-        // if (!overdue) {
-        //     swalError("Warning", "Please enter Overdue Penalty value");
-        //     isValid = false;
-        // }
-
-        // // Overdue Type Radios
-        // if (dueType === "intrest") {
-        //     if (!$("input[name='overdue_type']:checked").val()) {
-        //         swalError("Warning", "Please select Overdue Penalty Type");
-        //         isValid = false;
-        //     }
-        // }
-
-        // // Processing Fee Min/Max
-        // let procMin = $('#monthly_processing_fees_min').val();
-        // let procMax = $('#monthly_processing_fees_max').val();
-        // if (!procMin || !procMax) {
-        //     swalError("Warning", "Please enter both Processing Fee Min and Max");
-        //     isValid = false;
-        // }
-
-        // // Processing Fee Radios
-        // if (!$("input[name='proc_fees_type']:checked").val()) {
-        //     swalError("Warning", "Please select Processing Fee Type");
-        //     isValid = false;
-        // }
-
-        // // Document Charge Min/Max
-        // let docMin = $('#monthly_document_charges_min').val();
-        // let docMax = $('#monthly_document_charges_max').val();
-        // if (!docMin || !docMax) {
-        //     swalError("Warning", "Please enter both Document Charge Min and Max");
-        //     isValid = false;
-        // }
-
-        // // Document Charge Radios
-        // if (!$("input[name='monthly_doc_charges_type']:checked").val()) {
-        //     swalError("Warning", "Please select Document Charge Type");
-        //     isValid = false;
-        // }
-
-        // // Due Period Min/Max
-        // let dueMin = $('#monthly_due_periods_min').val();
-        // let dueMax = $('#monthly_due_periods_max').val();
-        // if (!dueMin || !dueMax) {
-        //     swalError("Warning", "Please enter both Due Period Min and Max");
-        //     isValid = false;
-        // }
-
-        // // Interest Rate Min/Max
-        // let intRateMin = $('#monthly_intrests_rate_min').val();
-        // let intRateMax = $('#monthly_intrests_rate_max').val();
-        // if (!intRateMin || !intRateMax) {
-        //     swalError("Warning", "Please enter both Interest Rate Min and Max");
-        //     isValid = false;
-        // }
-
-        // if (dueType === "emi") {
-        //     // Profit Method
-        //     let profitMethod = $('#monthly_profit_method').val();
-        //     if (!profitMethod || profitMethod.length === 0) {
-        //         swalError("Warning", "Please select at least one Profit Method");
-        //         isValid = false;
-        //     }
-        // } else if (dueType === "intrest") {
-        //     // Calculate Method
-        //     let calcMethod = $('#calculate_method').val();
-        //     if (!calcMethod) {
-        //         swalError("Warning", "Please select a Calculate Method");
-        //         isValid = false;
-        //     }
-        // }
-
-        // let monthly_duetype = $('#monthly_duetype').val();
-        // if (!monthly_duetype) {
-        //     swalError("Warning", "Please Select Due Type");
-        //     isValid = false;
-        // }
-
         // Run other existing validation
         validation();
         validateLoanCategoryTable();
@@ -297,6 +213,11 @@ $(document).ready(function () {
         event.preventDefault();
         swalError('Please fill Loan Calculation or Loan Scheme');
     }
+    let confirmAction = confirm("Are you sure you want to submit Loan Category?");
+        if (!confirmAction) {
+            event.preventDefault(); // Stop form submission if canceled
+            return false;
+        }
     });
 
     $('#scheme_name').change(function () {
