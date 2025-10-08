@@ -3640,25 +3640,25 @@ class admin
 		}
 		$tot_value = '';
 		if (isset($_POST['tot_value'])) {
-			$tot_value = $_POST['tot_value'];
+			$tot_value = str_replace([',', ' '], '', $_POST['tot_value']);
 		}
 		$ad_amt = '';
 		if (isset($_POST['ad_amt'])) {
-			$ad_amt = $_POST['ad_amt'];
+			$ad_amt = str_replace([',', ' '], '', $_POST['ad_amt']);
 		}
 		$ad_perc = '';
 		if (isset($_POST['ad_perc'])) {
 			$ad_perc = $_POST['ad_perc'];
 		}
 		if (isset($_POST['loan_amt'])) {
-			$loan_amt = $_POST['loan_amt'];
+			$loan_amt = str_replace([',', ' '], '', $_POST['loan_amt']);
 		}
 		if (isset($_POST['poss_type'])) {
 			$poss_type = $_POST['poss_type'];
 		}
 		$due_amt = '';
 		if (isset($_POST['due_amt'])) {
-			$due_amt = $_POST['due_amt'];
+			$due_amt = str_replace([',', ' '], '', $_POST['due_amt']);
 		}
 		$due_period = '';
 		if (isset($_POST['due_period'])) {
@@ -3928,25 +3928,25 @@ class admin
 		}
 		$tot_value = '';
 		if (isset($_POST['tot_value'])) {
-			$tot_value = $_POST['tot_value'];
+			$tot_value = str_replace([',', ' '], '', $_POST['tot_value']);
 		}
 		$ad_amt = '';
 		if (isset($_POST['ad_amt'])) {
-			$ad_amt = $_POST['ad_amt'];
+			$ad_amt = str_replace([',', ' '], '', $_POST['ad_amt']);
 		}
 		$ad_perc = '';
 		if (isset($_POST['ad_perc'])) {
 			$ad_perc = $_POST['ad_perc'];
 		}
 		if (isset($_POST['loan_amt'])) {
-			$loan_amt = $_POST['loan_amt'];
+			$loan_amt = str_replace([',', ' '], '', $_POST['loan_amt']);
 		}
 		if (isset($_POST['poss_type'])) {
 			$poss_type = $_POST['poss_type'];
 		}
 		$due_amt = '';
 		if (isset($_POST['due_amt'])) {
-			$due_amt = $_POST['due_amt'];
+			$due_amt = str_replace([',', ' '], '', $_POST['due_amt']);
 		}
 		$due_period = '';
 		if (isset($_POST['due_period'])) {
@@ -4273,23 +4273,23 @@ class admin
 			$cus_travel_cmpy = $_POST['cus_travel_cmpy'];
 		}
 		if (isset($_POST['cus_monthly_income'])) {
-			$cus_monthly_income = $_POST['cus_monthly_income'];
+			$cus_monthly_income = str_replace([',', ' '], '', $_POST['cus_monthly_income']);
 		}
 		if (isset($_POST['cus_other_income'])) {
-			$cus_other_income = $_POST['cus_other_income'];
+			$cus_other_income = str_replace([',', ' '], '', $_POST['cus_other_income']);
 		}
 		if (isset($_POST['cus_support_income'])) {
-			$cus_support_income = $_POST['cus_support_income'];
+			$cus_support_income = str_replace([',', ' '], '', $_POST['cus_support_income']);
 		}
 		if (isset($_POST['cus_Commitment'])) {
-			$cus_Commitment = $_POST['cus_Commitment'];
+			$cus_Commitment = str_replace([',', ' '], '', $_POST['cus_Commitment']);
 		}
 		if (isset($_POST['cus_monDue_capacity'])) {
-			$cus_monDue_capacity = $_POST['cus_monDue_capacity'];
+			$cus_monDue_capacity = str_replace([',', ' '], '', $_POST['cus_monDue_capacity']);
 		}
 		$cus_loan_limit = '';
 		if (isset($_POST['cus_loan_limit'])) {
-			$cus_loan_limit = $_POST['cus_loan_limit'];
+			$cus_loan_limit = str_replace([',', ' '], '', $_POST['cus_loan_limit']);
 		}
 		if (isset($_POST['about_cus'])) {
 			$about_cus = $_POST['about_cus'];
@@ -4693,14 +4693,14 @@ class admin
 		}
 		$tot_value = '';
 		if (isset($_POST['tot_value'])) {
-			$tot_value = $_POST['tot_value'];
+			$tot_value = str_replace([',', ' '], '', $_POST['tot_value']);
 		}
 		$ad_amt = '';
 		if (isset($_POST['ad_amt'])) {
-			$ad_amt = $_POST['ad_amt'];
+			$ad_amt = str_replace([',', ' '], '', $_POST['ad_amt']);
 		}
 		if (isset($_POST['loan_amt'])) {
-			$loan_amt = $_POST['loan_amt'];
+			$loan_amt = str_replace([',', ' '], '', $_POST['loan_amt']);
 		}
 		if (isset($_POST['profit_type'])) {
 			$profit_type = $_POST['profit_type'];
@@ -4774,30 +4774,30 @@ class admin
 			$proc_fee = $_POST['proc_fee'];
 		}
 		if (isset($_POST['loan_amt_cal'])) {
-			$loan_amt_cal = $_POST['loan_amt_cal'];
+			$loan_amt_cal = str_replace([',', ' '], '', $_POST['loan_amt_cal']);
 		}
 		if (isset($_POST['principal_amt_cal'])) {
-			$principal_amt_cal = $_POST['principal_amt_cal'];
+			$principal_amt_cal = str_replace([',', ' '], '', $_POST['principal_amt_cal']);
 		}
 		if (isset($_POST['int_amt_cal'])) {
-			$int_amt_cal = $_POST['int_amt_cal'];
+			$int_amt_cal = str_replace([',', ' '], '', $_POST['int_amt_cal']);
 		}
 		$tot_amt_cal = '';
 		if (isset($_POST['tot_amt_cal'])) {
-			$tot_amt_cal = $_POST['tot_amt_cal'];
+			$tot_amt_cal = str_replace([',', ' '], '', $_POST['tot_amt_cal']);
 		}
 		$due_amt_cal = '';
 		if (isset($_POST['due_amt_cal'])) {
-			$due_amt_cal = $_POST['due_amt_cal'];
+			$due_amt_cal = str_replace([',', ' '], '', $_POST['due_amt_cal']);
 		}
 		if (isset($_POST['doc_charge_cal'])) {
-			$doc_charge_cal = $_POST['doc_charge_cal'];
+			$doc_charge_cal = str_replace([',', ' '], '', $_POST['doc_charge_cal']);
 		}
 		if (isset($_POST['proc_fee_cal'])) {
-			$proc_fee_cal = $_POST['proc_fee_cal'];
+			$proc_fee_cal = str_replace([',', ' '], '', $_POST['proc_fee_cal']);
 		}
 		if (isset($_POST['net_cash_cal'])) {
-			$net_cash_cal = $_POST['net_cash_cal'];
+			$net_cash_cal = str_replace([',', ' '], '', $_POST['net_cash_cal']);
 		}
 		if (isset($_POST['due_start_from'])) {
 			$due_start_from = $_POST['due_start_from'];
@@ -5761,14 +5761,14 @@ class admin
 		$due_period         = sanitize($mysqli, $_POST['due_period'] ?? '');
 		$doc_charge         = sanitize($mysqli, $_POST['doc_charge'] ?? '');
 		$proc_fee           = sanitize($mysqli, $_POST['proc_fee'] ?? '');
-		$principal_amt_cal  = sanitize($mysqli, $_POST['principal_amt_cal'] ?? '');
-		$int_amt_cal        = sanitize($mysqli, $_POST['int_amt_cal'] ?? '');
-		$tot_amt_cal        = sanitize($mysqli, $_POST['tot_amt_cal'] ?? '');
-		$due_amt_cal        = sanitize($mysqli, $_POST['due_amt_cal'] ?? '');
-		$doc_charge_cal     = sanitize($mysqli, $_POST['doc_charge_cal'] ?? '');
-		$proc_fee_cal       = sanitize($mysqli, $_POST['proc_fee_cal'] ?? '');
-		$loan_amt_cal       = sanitize($mysqli, $_POST['loan_amt_cal'] ?? '');
-		$net_cash_cal       = sanitize($mysqli, $_POST['net_cash_cal'] ?? '');
+		$principal_amt_cal = sanitize($mysqli, preg_replace('/[,\s]+/', '', $_POST['principal_amt_cal'] ?? ''));
+		$int_amt_cal       =   sanitize($mysqli, preg_replace('/[,\s]+/', '', $_POST['int_amt_cal'] ?? ''));
+		$tot_amt_cal    = sanitize($mysqli, preg_replace('/[,\s]+/', '', $_POST['tot_amt_cal'] ?? ''));
+		$due_amt_cal    = sanitize($mysqli, preg_replace('/[,\s]+/', '', $_POST['due_amt_cal'] ?? ''));
+		$doc_charge_cal = sanitize($mysqli, preg_replace('/[,\s]+/', '', $_POST['doc_charge_cal'] ?? ''));
+		$proc_fee_cal   = sanitize($mysqli, preg_replace('/[,\s]+/', '', $_POST['proc_fee_cal'] ?? ''));
+		$loan_amt_cal   = sanitize($mysqli, preg_replace('/[,\s]+/', '', $_POST['loan_amt_cal'] ?? ''));
+		$net_cash_cal   = sanitize($mysqli, preg_replace('/[,\s]+/', '', $_POST['net_cash_cal'] ?? ''));
 		$issue_to           = sanitize($mysqli, $_POST['issue_to'] ?? '');
 		$agent_id           = sanitize($mysqli, $_POST['agent_id'] ?? '');
 		$issued_mode        = sanitize($mysqli, $_POST['issued_mode'] ?? '');
@@ -6627,22 +6627,22 @@ class admin
 			$cus_travel_cmpy = $_POST['cus_travel_cmpy'];
 		}
 		if (isset($_POST['cus_monthly_income'])) {
-			$cus_monthly_income = $_POST['cus_monthly_income'];
+			$cus_monthly_income = str_replace([',', ' '], '', $_POST['cus_monthly_income']);
 		}
 		if (isset($_POST['cus_other_income'])) {
-			$cus_other_income = $_POST['cus_other_income'];
+			$cus_other_income = str_replace([',', ' '], '', $_POST['cus_other_income']);
 		}
 		if (isset($_POST['cus_support_income'])) {
-			$cus_support_income = $_POST['cus_support_income'];
+			$cus_support_income = str_replace([',', ' '], '', $_POST['cus_support_income']);
 		}
 		if (isset($_POST['cus_Commitment'])) {
-			$cus_Commitment = $_POST['cus_Commitment'];
+			$cus_Commitment = str_replace([',', ' '], '', $_POST['cus_Commitment']);
 		}
 		if (isset($_POST['cus_monDue_capacity'])) {
-			$cus_monDue_capacity = $_POST['cus_monDue_capacity'];
+			$cus_monDue_capacity = str_replace([',', ' '], '', $_POST['cus_monDue_capacity']);
 		}
 		if (isset($_POST['cus_loan_limit'])) {
-			$cus_loan_limit = $_POST['cus_loan_limit'];
+			$cus_loan_limit = str_replace([',', ' '], '', $_POST['cus_loan_limit']);
 		}
 		if (isset($_POST['about_cus'])) {
 			$about_cus = $_POST['about_cus'];

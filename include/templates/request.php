@@ -644,7 +644,7 @@ if ($idupd > 0) {
 						<?php echo (isset($due_amt) && $due_amt != '') ? '' : 'style="display:none"'; ?>>
 						<div class="form-group">
 							<label for="due_amt">Due Amount</label><span class="required">&nbsp;*</span>
-							<input type="number" class="form-control" id="due_amt" name="due_amt"
+							<input type="text" class="form-control" id="due_amt" name="due_amt"
 								value='<?php echo isset($due_amt) ? moneyFormatIndia($due_amt) : ''; ?>' tabindex='39'>
 							<span class="text-danger" style='display:none' id='dueamtCheck'>Please Enter Due Amount</span>
 						</div>

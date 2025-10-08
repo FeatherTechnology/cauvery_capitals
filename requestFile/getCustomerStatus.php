@@ -1,5 +1,6 @@
 <?php
 include('../ajaxconfig.php');
+include '../moneyFormatIndia.php';
 
 if (isset($_POST['cus_id'])) {
     $cus_id = preg_replace('/\D/', '', $_POST['cus_id']);
@@ -21,7 +22,7 @@ if ($result->rowCount() > 0) {
         $row1 = $qry->fetch();
         $records[$i]['loan_category'] = $row1['loan_category_creation_name'];
 
-        $records[$i]['loan_amt'] = $row['loan_amt'];
+        $records[$i]['loan_amt'] = moneyFormatIndia($row['loan_amt']);
         $records[$i]['remark'] = $row['prompt_remark'] ?? '';
         $cus_status = $row['cus_status'];
         // if($cus_status != '10' and $cus_status != '11'){

@@ -205,19 +205,24 @@ $(document).ready(function () {
 
     // Submit Button 
     $('#submitLoanCategory').click(function (event) {
-        // Run other existing validation
-        validation();
-        validateLoanCategoryTable();
-
-         if (!checkAllInputs()) {
+        
+    if (!checkAllInputs()) {
         event.preventDefault();
         swalError('Please fill Loan Calculation or Loan Scheme');
-    }
-    let confirmAction = confirm("Are you sure you want to submit Loan Category?");
-        if (!confirmAction) {
-            event.preventDefault(); // Stop form submission if canceled
+    }else{
+        if(validation() && validateLoanCategoryTable()){
+        let confirmAction = confirm("Are you sure you want to submit Loan Category?");
+            if (!confirmAction) {
+                event.preventDefault(); // Stop form submission if canceled
+                return false;
+            }
+        }else{
+            event.preventDefault();
             return false;
         }
+
+    }
+   
     });
 
     $('#scheme_name').change(function () {
@@ -403,10 +408,12 @@ $(document).ready(function () {
 function validation() {
      let loancategoryValue = $('#loan_category_name').val(); let loanlimit = $('#loan_limit').val();
      let agent_loan = $('#agent_loan').val();
+     var validation =  true ;
 
     if (loancategoryValue.length == '') {
         $('#loanCategoryCheck').show();
         event.preventDefault();
+        validation =  false ;
     }
     else {
         $('#loanCategoryCheck').hide();
@@ -415,6 +422,7 @@ function validation() {
     if (loanlimit.length == '') {
         $('#loan_limitCheck').show();
         event.preventDefault();
+        validation =  false ;
     }
     else {
         $('#loan_limitCheck').hide();
@@ -422,10 +430,12 @@ function validation() {
     if (agent_loan== '') {
         $('#agent_loanCheck').show();
         event.preventDefault();
+        validation =  false ;
     }
     else {
         $('#agent_loanCheck').hide();
     }
+    return validation;
 }
 
 

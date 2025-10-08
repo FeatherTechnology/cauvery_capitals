@@ -66,7 +66,7 @@ $(document).ready(function () {
         $('#transaction_value').val('');
         $('#transaction_remark').val('');
         var type = $(this).val();
-        var netcash = $('#net_cash').val();
+        var netcash = $('#net_cash').val().replace(/,/g, '');
         let issue_mode = $('#issued_mode').val();
         if(issue_mode == 0){
             if (type == '0') {
@@ -624,10 +624,15 @@ $(document).on('change', '.verification_bank_update', function () {
     $('#submit_loanIssue').click(function () { // loan Issue Submit Validation.
         hideCheckSpan();
         //   $('#refresh_cal').trigger('click');
-        loanIssueSumitValidation();
+        if(loanIssueSumitValidation()){
         let confirmAction = confirm("Are you sure you want to submit Loan Issue ?");
         if (!confirmAction) {
             event.preventDefault(); // Stop form submission if canceled
+            return false;
+        }}
+        else{
+            event.preventDefault();
+            return false;
         }
 
     });
@@ -1646,7 +1651,7 @@ function checkBalance() {
         dataType: 'json',
         success: function (response) {
             if (response['rowCnt'] > '0') {
-                $('#net_cash').val(response['balance_amount']);
+                $('#net_cash').val(moneyFormatIndia(response['balance_amount']));
                 BalanceAmount = response['balance_amount'];
                 if (response['balance_amount'] > '0') {
                     $('#int_rate').attr('readonly', true);
@@ -1668,7 +1673,7 @@ function checkBalance() {
                     $('#submit_loanIssue').hide();
                 }
             } else {
-                var netcashamnt = parseInt($('#net_cash_cal').val());
+                var netcashamnt = $('#net_cash_cal').val(); 
                 $('#net_cash').val(netcashamnt);
 
             }
@@ -1682,11 +1687,12 @@ function checkBalance() {
 function loanIssueSumitValidation() {
     var issueMode = $('#issued_mode').val(); var paymenType = $('#payment_type').val(); var cash = $('#cash').val(); var guarentorName = $('#cash_guarentor_name').val();
     // var fingerMatch = $('#fingerValidation').val();
-    var ag_id = $('#agent_id').val(); var bank_id = $('#bank_id').val();
+    var ag_id = $('#agent_id').val(); var bank_id = $('#bank_id').val(); var validation = true ;
     //Check Issue Mode
     if (issueMode == '') {
         event.preventDefault();
         $('#issue').show();
+        validation = false ;
     } else {
         $('#issue').hide();
     }
@@ -1695,6 +1701,7 @@ function loanIssueSumitValidation() {
     if (paymenType == '') {
         event.preventDefault();
         $('#pay_type').show();
+        validation = false ;
     } else {
         $('#pay_type').hide();
     }
@@ -1704,6 +1711,7 @@ function loanIssueSumitValidation() {
         if (cash == '') {
             event.preventDefault();
             $('#cash_amnt').show();
+            validation = false ;
         } else {
             $('#cash_amnt').hide();
         }
@@ -1713,6 +1721,7 @@ function loanIssueSumitValidation() {
         if (bank_id == '') {
             event.preventDefault();
             $('#bank_idCheck').show();
+            validation = false ;
         } else {
             $('#bank_idCheck').hide();
         }
@@ -1720,6 +1729,7 @@ function loanIssueSumitValidation() {
         if (!isAnyCheckboxChecked()) {
             event.preventDefault(); // Prevent form submission if no checkbox is checked
             alert('Please select Bank Info.'); // Show error message
+            validation = false ;
         }
     }
 
@@ -1728,6 +1738,7 @@ function loanIssueSumitValidation() {
             if (guarentorName == '') {
                 event.preventDefault();
                 $('#cash_guarentor').show();
+                validation = false ;
             } else {
                 $('#cash_guarentor').hide();
             }
@@ -1740,6 +1751,7 @@ function loanIssueSumitValidation() {
             // }
         }
     }
+    return validation;
 }
 
 //Span Hide

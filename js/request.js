@@ -194,9 +194,16 @@ $(document).ready(function () {
     })
 
     $('#submit_request').click(function (event) {
-        var submit_btn = $(this);
-        submit_btn.attr('disabled', true);
-        validation(submit_btn, event);
+        if(validation(event)){
+            let confirmAction = confirm("Are you sure you want to submit Request ?");
+            if (!confirmAction) {
+            event.preventDefault();
+            return false; 
+            }
+        }else{
+            event.preventDefault();
+            return false;
+    }
     })
       $('input[name="mobile_whatsapp"]').on('change', function () {
         let selectedValue = $(this).val();
@@ -925,11 +932,13 @@ function callresetCustomerStatus(cus_id) {
 function validation(submit_btn, event) {
     var idupd = $('#id').val();
     var role = $('#role_load').val();
+    var validation = true;
     if (role == '1') {
         var declaration = $('#declaration').val();
         if (declaration == '') {
             $('#declarationCheck').show();
             event.preventDefault();
+            validation = false;
         } else {
             $('#declarationCheck').hide();
         }
@@ -938,6 +947,7 @@ function validation(submit_btn, event) {
         if (declaration == '') {
             $('#declarationCheck').show();
             event.preventDefault();
+             validation = false
         } else {
             $('#declarationCheck').hide();
         }
@@ -947,6 +957,7 @@ function validation(submit_btn, event) {
         if (remark == '') {
             $('#remarkCheck').show();
             event.preventDefault();
+             validation = false
         } else {
             $('#remarkCheck').hide();
         }
@@ -956,6 +967,7 @@ function validation(submit_btn, event) {
     if (responsible == '' && $('.responsible').css('display') != 'none') {
         $('#responsibleCheck').show();
         event.preventDefault();
+         validation = false
     } else {
         $('#responsibleCheck').hide();
     }
@@ -967,6 +979,7 @@ function validation(submit_btn, event) {
         if (!agent) {
             event.preventDefault();
             $('#agentCheck').show();
+             validation = false
         } else {
             $('#agentCheck').hide();
         }
@@ -976,24 +989,28 @@ function validation(submit_btn, event) {
     if (!cus_id) {
         event.preventDefault();
         $('#cusidCheck').show();
+         validation = false
     } else {
         $('#cusidCheck').hide();
     }
     if (!cus_name) {
         event.preventDefault();
         $('#cusnameCheck').show();
+         validation = false
     } else {
         $('#cusnameCheck').hide();
     }
     if (!dob) {
         event.preventDefault();
         $('#dobCheck').show();
+         validation = false
     } else {
         $('#dobCheck').hide();
     }
     if (!gender) {
         event.preventDefault();
         $('#genderCheck').show();
+         validation = false
     } else {
         $('#genderCheck').hide();
     }
@@ -1002,6 +1019,7 @@ function validation(submit_btn, event) {
         if (pic == '' && $('#pic').attr('style') != 'display: none;') {
             event.preventDefault();
             $('#picCheck').show();
+             validation = false
         } else {
             $('#picCheck').hide();
         }
@@ -1009,65 +1027,76 @@ function validation(submit_btn, event) {
     if (state == 'SelectState') {
         event.preventDefault();
         $('#stateCheck').show();
+         validation = false
     } else {
         $('#stateCheck').hide();
     }
     if (!district) {
         event.preventDefault();
         $('#districtCheck').show();
+         validation = false
     } else {
         $('#districtCheck').hide();
     }
     if (!taluk ) {
         event.preventDefault();
         $('#talukCheck').show();
+         validation = false
     } else {
         $('#talukCheck').hide();
     }
     if (!area)  {
         event.preventDefault();
         $('#areaCheck').show();
+         validation = false
     } else {
         $('#areaCheck').hide();
     }
     if (!address) {
         event.preventDefault();
         $('#addressCheck').show();
+         validation = false
     } else {
         $('#addressCheck').hide();
     }
     if (!mobile1  || mobile1.length < 10) {
         event.preventDefault();
         $('#mobile1Check').show();
+         validation = false
     } else {
         $('#mobile1Check').hide();
     }
     if (mobile2 != '' && mobile2.length < 10) {
         event.preventDefault();
         $('#mobile2Check').show();
+         validation = false
     } else {
         $('#mobile2Check').hide();
     }
     if (!father_name) {
         event.preventDefault();
         $('#fathernameCheck').show();
+         validation = false
     } else {
         $('#fathernameCheck').hide();
     }
     if (!mother_name) {
         event.preventDefault();
         $('#mothernameCheck').show();
+         validation = false
     } else {
         $('#mothernameCheck').hide();
     }
     if (!marital) {
         event.preventDefault();
         $('#maritalCheck').show();
+         validation = false
     } else {
         $('#maritalCheck').hide();
         if (marital == '1' && spouse_name == '') {
             event.preventDefault();
             $('#spousenameCheck').show();
+             validation = false
         } else {
             $('#spousenameCheck').hide();
         }
@@ -1075,18 +1104,21 @@ function validation(submit_btn, event) {
     if (!occupation_type) {
         event.preventDefault();
         $('#occupationtypeCheck').show();
+         validation = false
     } else {
         $('#occupationtypeCheck').hide();
     }
     if (!occupation) {
         event.preventDefault();
         $('#occupationCheck').show();
+         validation = false
     } else {
         $('#occupationCheck').hide();
     }
     if (!loan_category) {
         event.preventDefault();
         $('#loancategoryCheck').show();
+         validation = false
     } else {
         $('#loancategoryCheck').hide();
     }
@@ -1094,12 +1126,14 @@ function validation(submit_btn, event) {
     if (!poss_type) {
         event.preventDefault();
         $('#posstypeCheck').show();
+         validation = false
     } else {
         $('#posstypeCheck').hide();
         if (poss_type == '1') {
             if (due_amt == '') {
                 event.preventDefault();
                 $('#dueamtCheck').show();
+                 validation = false
             } else {
                 $('#dueamtCheck').hide();
                 $('#due_period').val('');
@@ -1108,13 +1142,12 @@ function validation(submit_btn, event) {
             if (due_period == '') {
                 event.preventDefault();
                 $('#dueperiodCheck').show();
+                 validation = false
             } else {
                 $('#dueperiodCheck').hide();
                 $('#due_amt').val('');
             }
         }
     }
-
-    submit_btn.removeAttr('disabled');
-
+return validation;
 }
