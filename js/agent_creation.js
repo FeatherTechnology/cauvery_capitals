@@ -78,28 +78,17 @@ $(document).ready(function () {
 
 
     $('#submit_agent_creation').click(function () {
-        //Validation
-        var ag_name = $('#ag_name').val(); var ag_group = $('#ag_group').val(); var company_id = $('#company_id').val();/*var branch_id = $('#branch_id').val();*/var state = $('#state').val(); var district = $('#district1').val(); var taluk = $('#taluk1').val(); var place = $('#place').val(); var pincode = $('#pincode').val();
-        var name = $('#name').val(); var designation = $('#designation').val(); var mobile = $('#mobile').val(); var whatsapp = $('#whatsapp').val(); var loan_category = $('#loan_category').val();
-        var loan_pay = $('input[name=loan_pay]:checked').val(); var responsible = $('input[name=responsible]:checked').val(); var coll_point = $('input[name=coll_point]:checked').val(); var bank_name = $('#bank_name').val();
-        var branch_name = $('#bank_branch_name').val(); var acc_no = $('#acc_no').val(); var ifsc = $('#ifsc').val(); var holder_name = $('#holder_name').val();
-        if (ag_name === '' || ag_group == '' || state === '' || district === '' || taluk === '' || place === '' || pincode === '' || name === '' ||
-            designation === '' || mobile === '' || whatsapp === '' || loan_category === '' || loan_pay == undefined || responsible == undefined ||
-            coll_point == undefined || bank_name === '' || branch_name === '' || acc_no === '' || ifsc === '' || holder_name === '') {
-            Swal.fire({
-                timerProgressBar: true,
-                timer: 2000,
-                title: 'Please Fill out Mandatory fields!',
-                icon: 'error',
-                showConfirmButton: true,
-                confirmButtonColor: '#0c70ab'
-            });
-            event.preventDefault();
-        }
+       
+        if (validateAgentForm()) {
         let confirmAction = confirm("Are you sure you want to submit Agent Creation?");
         if (!confirmAction) {
             event.preventDefault(); // Stop form submission if canceled
+            return false;
         }
+    } else {
+        event.preventDefault(); 
+        return false;
+    }
     })
 
 });
@@ -677,4 +666,25 @@ function getAgentGroupDropdown() {
             $("#ag_group").html(htmlString);
         }
     });
+}
+function validateAgentForm() {
+ //Validation
+        var ag_name = $('#ag_name').val(); var ag_group = $('#ag_group').val(); var company_id = $('#company_id').val();/*var branch_id = $('#branch_id').val();*/var state = $('#state').val(); var district = $('#district1').val(); var taluk = $('#taluk1').val(); var place = $('#place').val(); var pincode = $('#pincode').val();
+        var name = $('#name').val(); var designation = $('#designation').val(); var mobile = $('#mobile').val(); var whatsapp = $('#whatsapp').val(); var loan_category = $('#loan_category').val();
+        var loan_pay = $('input[name=loan_pay]:checked').val(); var responsible = $('input[name=responsible]:checked').val(); var coll_point = $('input[name=coll_point]:checked').val(); var bank_name = $('#bank_name').val();
+        var branch_name = $('#bank_branch_name').val(); var acc_no = $('#acc_no').val(); var ifsc = $('#ifsc').val(); var holder_name = $('#holder_name').val();
+        if (ag_name === '' || ag_group == '' || state === '' || district === '' || taluk === '' || place === '' || pincode === '' || name === '' ||
+            designation === '' || mobile === '' || whatsapp === '' || loan_category === '' || loan_pay == undefined || responsible == undefined ||
+            coll_point == undefined || bank_name === '' || branch_name === '' || acc_no === '' || ifsc === '' || holder_name === '') {
+            Swal.fire({
+                timerProgressBar: true,
+                timer: 2000,
+                title: 'Please Fill out Mandatory fields!',
+                icon: 'error',
+                showConfirmButton: true,
+                confirmButtonColor: '#0c70ab'
+            });
+            return false; 
+        }
+        return true; 
 }

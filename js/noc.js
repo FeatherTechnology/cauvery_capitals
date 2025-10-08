@@ -107,10 +107,16 @@ $(document).ready(function () {
 
     $('#submit_noc').click(function () {
 
-        event.preventDefault();
         if (validations() == true) {
-            updateCheckedDetails();
-            updateNocTable();
+            let confirmAction = confirm("Are you sure you want to submit NOC ?");
+            if (confirmAction) {
+                updateCheckedDetails();
+                updateNocTable();
+               
+            }else{
+                event.preventDefault(); // Stop form submission if canceled
+                return false;
+            }
         }
     })
 

@@ -2368,16 +2368,19 @@ function docinfoList() {
 
 //Documentation Submit Validation
 $('#submit_documentation').click(function () {
-    var submit_btn = $(this);
-    submit_btn.attr('disabled', true);
-    doc_submit_validation(submit_btn);
+       if(doc_submit_validation()){
     let confirmAction = confirm("Are you sure you want to submit Documentation ?");
         if (!confirmAction) {
             event.preventDefault(); // Stop form submission if canceled
+            return false;
         }
+    }else{
+         event.preventDefault();
+         return false;
+    }
 });
 
-function doc_submit_validation(submit_btn) {
+function doc_submit_validation() {
  
     var cus_id_doc = $('#cus_id_doc').val(); var mortgage_process = $('#mortgage_process').val(); var Propertyholder_type = $('#Propertyholder_type').val(); var doc_property_pype = $('#doc_property_pype').val(); var doc_property_measurement = $('#doc_property_measurement').val(); var doc_property_location = $('#doc_property_location').val(); var doc_property_value = $('#doc_property_value').val();
     var endorsement_process = $('#endorsement_process').val(); var owner_type = $('#owner_type').val(); var vehicle_type = $('#vehicle_type').val(); var vehicle_process = $('#vehicle_process').val();
@@ -2391,6 +2394,7 @@ function doc_submit_validation(submit_btn) {
 
     var vehicle_reg_no = $('#vehicle_reg_no').val();
     var endorsement_name = $('#endorsement_name').val(); var en_RC = $('#en_RC').val(); var en_Key = $('#en_Key').val();
+    var validation = true ;
 
     if (cus_id_doc == '') {
         Swal.fire({
@@ -2402,11 +2406,13 @@ function doc_submit_validation(submit_btn) {
             confirmButtonColor: '#0c70ab'
         });
         event.preventDefault();
+        validation = false ;
     }
 
     if (mortgage_process == '') {
         event.preventDefault();
         $('#mortgageprocessCheck').show();
+        validation = false ;
     } else {
         $('#mortgageprocessCheck').hide();
     }
@@ -2415,66 +2421,77 @@ function doc_submit_validation(submit_btn) {
         if (Propertyholder_type == '') {
             event.preventDefault();
             $('#propertyholdertypeCheck').show();
+            validation = false ;
         } else {
             $('#propertyholdertypeCheck').hide();
         }
         if (doc_property_pype == '') {
             event.preventDefault();
             $('#docpropertytypeCheck').show();
+            validation = false ;
         } else {
             $('#docpropertytypeCheck').hide();
         }
         if (doc_property_measurement == '') {
             event.preventDefault();
             $('#docpropertymeasureCheck').show();
+            validation = false ;
         } else {
             $('#docpropertymeasureCheck').hide();
         }
         if (doc_property_location == '') {
             event.preventDefault();
             $('#docpropertylocCheck').show();
+            validation = false ;
         } else {
             $('#docpropertylocCheck').hide();
         }
         if (doc_property_value == '') {
             event.preventDefault();
             $('#docpropertyvalueCheck').show();
+            validation = false ;
         } else {
             $('#docpropertyvalueCheck').hide();
         }
         if (mortgage_name == '') {
             event.preventDefault();
             $('#mortgagenameCheck').show();
+            validation = false ;
         } else {
             $('#mortgagenameCheck').hide();
         }
         if (mortgage_dsgn == '') {
             event.preventDefault();
             $('#mortgagedsgnCheck').show();
+            validation = false ;
         } else {
             $('#mortgagedsgnCheck').hide();
         }
         if (mortgage_nuumber == '') {
             event.preventDefault();
             $('#mortgagenumCheck').show();
+            validation = false ;
         } else {
             $('#mortgagenumCheck').hide();
         }
         if (reg_office == '') {
             event.preventDefault();
             $('#regofficeCheck').show();
+            validation = false ;
         } else {
             $('#regofficeCheck').hide();
         }
         if (mortgage_value == '') {
             event.preventDefault();
             $('#mortgagevalueCheck').show();
+            validation = false ;
         } else {
             $('#mortgagevalueCheck').hide();
         }
         if (mortgage_document == '') {// check if document dropdown selected or not
             event.preventDefault();
             $('#mortgagedocCheck').show();
+            validation = false ;
         } else {//if selected then check if document dropdown is YES(0) then check for document uploaded now or already
             // if (mortgage_document == '0' && (mortgage_old_doc_upd == '' && mortgage_document_upd == '')) { //if yes, then check both document upload are not empty
             //     event.preventDefault();
@@ -2490,6 +2507,7 @@ function doc_submit_validation(submit_btn) {
     if (endorsement_process == '') {
         event.preventDefault();
         $('#endorsementprocessCheck').show();
+        validation = false ;
     } else {
         $('#endorsementprocessCheck').hide();
     }
@@ -2498,48 +2516,56 @@ function doc_submit_validation(submit_btn) {
         if (owner_type == '') {
             event.preventDefault();
             $('#ownertypeCheck').show();
+            validation = false ;
         } else {
             $('#ownertypeCheck').hide();
         }
         if (vehicle_type == '') {
             event.preventDefault();
             $('#vehicletypeCheck').show();
+            validation = false ;
         } else {
             $('#vehicletypeCheck').hide();
         }
         if (vehicle_process == '') {
             event.preventDefault();
             $('#vehicleprocessCheck').show();
+            validation = false ;
         } else {
             $('#vehicleprocessCheck').hide();
         }
         if (en_Company == '') {
             event.preventDefault();
             $('#enCompanyCheck').show();
+            validation = false ;
         } else {
             $('#enCompanyCheck').hide();
         }
         if (en_Model == '') {
             event.preventDefault();
             $('#enModelCheck').show();
+            validation = false ;
         } else {
             $('#enModelCheck').hide();
         }
         if (endorsement_name == '') {
             event.preventDefault();
             $('#endorsementnameCheck').show();
+            validation = false ;
         } else {
             $('#endorsementnameCheck').hide();
         }
         if (en_Key == '') {
             event.preventDefault();
             $('#enKeyCheck').show();
+            validation = false ;
         } else {
             $('#enKeyCheck').hide();
         }
         if (en_RC == '') { // check if document dropdown selected or not
             event.preventDefault();
             $('#enRCCheck').show();
+            validation = false ;
         } else { //if selected then check if document dropdown is YES(0) then check for document uploaded now or already
             // if (en_RC == '0' && (RC_old_document_upd == '' && RC_document_upd == '')) { //if yes, then check both document upload are not empty
             //     event.preventDefault();
@@ -2555,6 +2581,7 @@ function doc_submit_validation(submit_btn) {
     if(!storeDocInfo.signDocInfo){
         event.preventDefault();
         $('#signed_infoCheck, #signed_doc_card').show();
+        validation = false ;
         
     }else{
         $('#signed_infoCheck').hide();
@@ -2569,8 +2596,7 @@ function doc_submit_validation(submit_btn) {
     //         $('.fingerSpan').hide();
     //     }
     // }
-    submit_btn.removeAttr('disabled');
-
+    return validation ;
 }
 
 async function getDocumentFunc(){
@@ -2695,7 +2721,12 @@ $('#submit_loan_calculation').click(function (e) {
         const isValid = loan_calc_validation(submit_btn);
     
         if (isValid) {
-            submitLoanCalculation(submit_btn);
+            let confirmAction = confirm("Are you sure you want to submit Loan Calculation?");
+            if (confirmAction) {
+                submitLoanCalculation(submit_btn); // Proceed
+            } else {
+                submit_btn.prop('disabled', false); // Re-enable button if cancelled
+            }
         } else {
             submit_btn.prop('disabled', false);
         }
@@ -3488,11 +3519,11 @@ function getSchemeAfterIntreset() {
     $('#net_cash_cal').val(parseInt(net_cash).toFixed(0));
 }
 function getSchemePreIntreset() {
-    var loan_amt = $('#loan_amt').val();
-    var int_rate = $('#int_rate').val();
-    var due_period = $('#due_period').val();
-    var doc_charge = $('#doc_charge').val();
-    var proc_fee = $('#proc_fee').val();
+    var loan_amt   = $('#loan_amt').val().replace(/[, ]+/g, '');
+    var int_rate   = $('#int_rate').val().replace(/[, ]+/g, '');
+    var due_period = $('#due_period').val().replace(/[, ]+/g, '');
+    var doc_charge = $('#doc_charge').val().replace(/[, ]+/g, '');
+    var proc_fee   = $('#proc_fee').val().replace(/[, ]+/g, '');
 
     $('#loan_amt_cal').val(parseInt(loan_amt).toFixed(0)); //get loan amt from loan info card
 

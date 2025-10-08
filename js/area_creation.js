@@ -94,25 +94,13 @@ $(document).ready(function () {
 
     //on submit add sub area list to hidden input
     $('#submit_area_creation').click(function () {
-        //Validation
-        var state = $('#state').val(); var district = $('#district').val(); var taluk = $('#taluk').val(); var area = $('#area').val();
-        if (state == '' || district == '' || taluk == '' || area == '') {
-            Swal.fire({
-                timerProgressBar: true,
-                timer: 2000,
-                title: 'Please Fill out Mandatory fields!',
-                icon: 'error',
-                showConfirmButton: true,
-                confirmButtonColor: '#0c70ab'
-            });
-            return false;
-        }
            // Confirmation before submit
-        let confirmAction = confirm("Are you sure you want to submit Area Creation?");
-        if (confirmAction) {
-            $(this).closest("form").submit(); // manually submit
-        } else {
-            return false; // cancel submit
+        if (validateAreaForm()) {
+           let confirmAction = confirm("Are you sure you want to submit Area Creation?");
+            if (!confirmAction) {
+                event.preventDefault();
+                return false; 
+            }
         }
 
     })
@@ -573,6 +561,21 @@ function swaparea(area_id,states,districts,taluks,pincodes) {
             }
         });
 }    
+}
+function validateAreaForm() {
+    var state = $('#state').val(); var district = $('#district').val(); var taluk = $('#taluk').val(); var area = $('#area').val();
+        if (state == 'SelectState' || district == 'Select District' || taluk == 'Select Taluk' || area == '') {
+            Swal.fire({
+                timerProgressBar: true,
+                timer: 2000,
+                title: 'Please Fill out Mandatory fields!',
+                icon: 'error',
+                showConfirmButton: true,
+                confirmButtonColor: '#0c70ab'
+            });
+            return false;
+        }
+         return true; // validation passed
 }
 
 // ************************************************************************************************************************************************

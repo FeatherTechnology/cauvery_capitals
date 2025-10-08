@@ -2966,12 +2966,19 @@ $('#cus_responsible').change(function () {
 ////////////////////////////////////////////////Submit Verification //////////////////////////////////////////////////////////////////////////////
 
 $("#submit_verification").click(function (event) {
-  var submit_btn = $(this);
-  submit_btn.attr("disabled", true);
-  validation(submit_btn, event);
+    if(validation(event)){
+            let confirmAction = confirm("Are you sure you want to Customer Profile?");
+            if (!confirmAction) {
+            event.preventDefault();
+            return false; 
+            }
+        }else{
+            event.preventDefault();
+            return false;
+    }
 });
 
-function validation(submit_btn, event) {
+function validation(event) {
   var cus_id = $("#cus_id").val();
   var cus_name = $("#cus_name").val();
   var dob = $("#dob").val();
@@ -3008,11 +3015,13 @@ function validation(submit_btn, event) {
   var cus_loan_limit = $("#cus_loan_limit").val();
   var about_cus = $("#about_cus").val();
   var req_id = $("#req_id").val();
+  var validation = true;
 
   var responsible = $("#cus_responsible").val();
   if (responsible == "" && $(".responsible").css("display") != "none") {
     event.preventDefault();
     $("#cusResponsibleCheck").show();
+    validation = false;
   } else {
     $("#cusResponsibleCheck").hide();
   }
@@ -3020,29 +3029,34 @@ function validation(submit_btn, event) {
   if (cus_id == "") {
     event.preventDefault();
     $("#cusidCheck").show();
+    validation = false;
   } else {
     $("#cusidCheck").hide();
   }
   if (cus_name == "") {
     event.preventDefault();
     $("#cusnameCheck").show();
+    validation = false;
   } else {
     $("#cusnameCheck").hide();
   }
   if (dob == "") {
     event.preventDefault();
     $("#dobCheck").show();
+    validation = false;
   } else {
     $("#dobCheck").hide();
   }
   if (gender == "") {
     event.preventDefault();
     $("#genderCheck").show();
+    validation = false;
   } else {
     $("#genderCheck").hide();
   }
   if (mobile1 == "" || mobile1.length < 10) {
     event.preventDefault();
+    validation = false;
     $("#mobile1Check").show();
   } else {
     $("#mobile1Check").hide();
@@ -3050,17 +3064,20 @@ function validation(submit_btn, event) {
   if (mobile2 != "" && mobile2.length < 10) {
     event.preventDefault();
     $("#mobile2Check").show();
+    validation = false;
   } else {
     $("#mobile2Check").hide();
   }
   if (whatsapp_no != "" && whatsapp_no.length < 10) {
     event.preventDefault();
     $("#whatsapp_noCheck").show();
+    validation = false;
   } else {
     $("#whatsapp_noCheck").hide();
   }
   if (guarentor_name == "") {
     event.preventDefault();
+    validation = false;
     $("#guarentor_nameCheck").show();
   } else {
     $("#guarentor_nameCheck").hide();
@@ -3068,6 +3085,7 @@ function validation(submit_btn, event) {
   if (guarentor_image == "") {
     if (guarentorpic == "") {
       event.preventDefault();
+      validation = false;
       $("#guarentorpicCheck").show();
     } else {
       $("#guarentorpicCheck").hide();
@@ -3082,6 +3100,7 @@ function validation(submit_btn, event) {
       cus_res_native == ""
     ) {
       event.preventDefault();
+      validation = false;
       $("#occ_infoCheck").hide();
       $("#res_infoCheck").show();
     } else {
@@ -3099,6 +3118,7 @@ function validation(submit_btn, event) {
       cus_occ_abt == ""
     ) {
       event.preventDefault();
+      validation = false;
       $("#res_infoCheck").hide();
       $("#occ_infoCheck").show();
     } else {
@@ -3107,64 +3127,75 @@ function validation(submit_btn, event) {
     }
   } else {
     event.preventDefault();
+    validation = false;
     $("#areacnfrmCheck").show();
   }
   if (state == "SelectState") {
     event.preventDefault();
+    validation = false;
     $("#stateCheck").show();
   } else {
     $("#stateCheck").hide();
   }
   if (district == "") {
     event.preventDefault();
+    validation = false;
     $("#districtCheck").show();
   } else {
     $("#districtCheck").hide();
   }
   if (taluk == "") {
     event.preventDefault();
+    validation = false;
     $("#talukCheck").show();
   } else {
     $("#talukCheck").hide();
   }
   if (area == "") {
     event.preventDefault();
+    validation = false;
     $("#areaCheck").show();
   } else {
     $("#areaCheck").hide();
   }
   if (cus_how_know == "") {
     event.preventDefault();
+    validation = false;
     $("#howToKnowCheck").show();
   } else {
     $("#howToKnowCheck").hide();
   }
   if (cus_monthly_income == "") {
     event.preventDefault();
+    validation = false;
     $("#monthlyIncomeCheck").show();
   } else {
     $("#monthlyIncomeCheck").hide();
   }
   if (cus_other_income == "") {
     event.preventDefault();
+    validation = false;
     $("#otherIncomeCheck").show();
   } else {
     $("#otherIncomeCheck").hide();
   }
   if (cus_support_income == "") {
     event.preventDefault();
+    validation = false;
     $("#supportIncomeCheck").show();
   } else {
     $("#supportIncomeCheck").hide();
   }
   if (cus_Commitment == "") {
     event.preventDefault();
+    validation = false;
     $("#commitmentCheck").show();
   } else {
     $("#commitmentCheck").hide();
   }
   if (cus_monDue_capacity == "") {
     event.preventDefault();
+    validation = false;
     $("#monthlyDueCapacityCheck").show();
   } else {
     $("#monthlyDueCapacityCheck").hide();
@@ -3177,6 +3208,7 @@ function validation(submit_btn, event) {
   // }
   if (about_cus == "") {
     event.preventDefault();
+    validation = false;
     $("#aboutcusCheck").show();
   } else {
     $("#aboutcusCheck").hide();
@@ -3190,6 +3222,7 @@ function validation(submit_btn, event) {
     success: function (response) {
       if (response == "0") {
         event.preventDefault();
+        validation = false;
         $("#family_infoCheck").show();
       } else if (response == "1") {
         $("#family_infoCheck").hide();
@@ -3204,14 +3237,14 @@ function validation(submit_btn, event) {
     success: function (response) {
       if (response == "0") {
         event.preventDefault();
+        validation = false;
         $("#kyc_infoCheck").show();
       } else if (response == "1") {
         $("#kyc_infoCheck").hide();
       }
     },
   });
-
-  submit_btn.removeAttr("disabled");
+return validation;
 }
 
 $("#Communitcation_to_cus").change(function () {
@@ -4225,9 +4258,17 @@ function getDocumentHistory() {
 
 //Documentation Submit Validation
 $("#submit_documentation").click(function () {
-  var submit_btn = $(this);
-  submit_btn.attr("disabled", true);
-  doc_submit_validation(submit_btn);
+  if(doc_submit_validation()){
+     let confirmAction = confirm("Are you sure you want to submit Documentation ?");
+        if (!confirmAction) {
+            event.preventDefault(); 
+            return false;
+        }
+      }else{
+        event.preventDefault();
+        return false;
+      }
+  
 });
 
 function doc_submit_validation(submit_btn) {
@@ -4244,11 +4285,12 @@ function doc_submit_validation(submit_btn) {
   var vehicle_process = $("#vehicle_process").val();
   var en_Company = $("#en_Company").val();
   var en_Model = $("#en_Model").val();
-
+  var validation = true ; 
   var responsible = $("#doc_responsible").val();
   if (responsible == "" && $(".responsible").css("display") != "none") {
     $("#docResponsibleCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#docResponsibleCheck").hide();
   }
@@ -4263,11 +4305,13 @@ function doc_submit_validation(submit_btn) {
       confirmButtonColor: "#0c70ab",
     });
     event.preventDefault();
+    validation = false;
   }
 
   if (mortgage_process == "") {
     event.preventDefault();
     $("#mortgageprocessCheck").show();
+    validation = false;
   } else {
     $("#mortgageprocessCheck").hide();
   }
@@ -4275,30 +4319,35 @@ function doc_submit_validation(submit_btn) {
   if (mortgage_process == "0") {
     if (Propertyholder_type == "") {
       event.preventDefault();
+      validation = false;
       $("#propertyholdertypeCheck").show();
     } else {
       $("#propertyholdertypeCheck").hide();
     }
     if (doc_property_pype == "") {
       event.preventDefault();
+      validation = false;
       $("#docpropertytypeCheck").show();
     } else {
       $("#docpropertytypeCheck").hide();
     }
     if (doc_property_measurement == "") {
       event.preventDefault();
+      validation = false;
       $("#docpropertymeasureCheck").show();
     } else {
       $("#docpropertymeasureCheck").hide();
     }
     if (doc_property_location == "") {
       event.preventDefault();
+      validation = false;
       $("#docpropertylocCheck").show();
     } else {
       $("#docpropertylocCheck").hide();
     }
     if (doc_property_value == "") {
       event.preventDefault();
+      validation = false;
       $("#docpropertyvalueCheck").show();
     } else {
       $("#docpropertyvalueCheck").hide();
@@ -4307,6 +4356,7 @@ function doc_submit_validation(submit_btn) {
 
   if (endorsement_process == "") {
     event.preventDefault();
+    validation = false;
     $("#endorsementprocessCheck").show();
   } else {
     $("#endorsementprocessCheck").hide();
@@ -4315,37 +4365,41 @@ function doc_submit_validation(submit_btn) {
   if (endorsement_process == "0") {
     if (owner_type == "") {
       event.preventDefault();
+      validation = false;
       $("#ownertypeCheck").show();
     } else {
       $("#ownertypeCheck").hide();
     }
     if (vehicle_type == "") {
       event.preventDefault();
+      validation = false;
       $("#vehicletypeCheck").show();
     } else {
       $("#vehicletypeCheck").hide();
     }
     if (vehicle_process == "") {
       event.preventDefault();
+      validation = false;
       $("#vehicleprocessCheck").show();
     } else {
       $("#vehicleprocessCheck").hide();
     }
     if (en_Company == "") {
       event.preventDefault();
+      validation = false;
       $("#enCompanyCheck").show();
     } else {
       $("#enCompanyCheck").hide();
     }
     if (en_Model == "") {
       event.preventDefault();
+      validation = false;
       $("#enModelCheck").show();
     } else {
       $("#enModelCheck").hide();
     }
   }
-
-  submit_btn.removeAttr("disabled");
+return validation;
 }
 
 async function getDocumentFunc() {
@@ -4504,9 +4558,16 @@ $("#submit_loan_calculation").click(function () {
   $('#due_start_from').trigger('change'); 
   $("#refresh_cal").trigger("click"); //For calculate once again if user missed to refresh calculation
 
-  var submit_btn = $(this);
-  submit_btn.attr("disabled", true);
-  loan_calc_validation(submit_btn);
+  if(loan_calc_validation()){
+        let confirmAction = confirm("Are you sure you want to submit Loan Calculation?");
+        if (!confirmAction) {
+            event.preventDefault(); // Stop form submission if canceled
+            return false ;
+        }
+  }else{
+    event.preventDefault();
+    return false;
+  }
 });
 
 function getGroupandLine(area_id) {
@@ -5497,11 +5558,11 @@ function schemeCalAjax(scheme_id) {
 
 //To Get Loan Calculation for After Interest
 function getLoanAfterInterest() {
-  var loan_amt = $("#loan_amt").val();
-  var int_rate = $("#int_rate").val();
-  var due_period = $("#due_period").val();
-  var doc_charge = $("#doc_charge").val();
-  var proc_fee = $("#proc_fee").val();
+  var loan_amt = $("#loan_amt").val().replace(/[, ]+/g, '');
+  var int_rate = $("#int_rate").val().replace(/[, ]+/g, '');
+  var due_period = $("#due_period").val().replace(/[, ]+/g, '');
+  var doc_charge = $("#doc_charge").val().replace(/[, ]+/g, '');
+  var proc_fee = $("#proc_fee").val().replace(/[, ]+/g, '');
 
   $("#loan_amt_cal").val(parseInt(loan_amt).toFixed(0)); //get loan amt from loan info card
   $("#principal_amt_cal").val(parseInt(loan_amt).toFixed(0)); // principal amt as same as loan amt for after interest
@@ -5592,11 +5653,11 @@ function getLoanAfterInterest() {
 
 //To Get Loan Calculation for Pre Interest
 function getLoanPreInterest() {
-  var loan_amt = $("#loan_amt").val();
-  var int_rate = $("#int_rate").val();
-  var due_period = $("#due_period").val();
-  var doc_charge = $("#doc_charge").val();
-  var proc_fee = $("#proc_fee").val();
+    var loan_amt   = $("#loan_amt").val().replace(/[, ]+/g, '');
+    var int_rate   = $("#int_rate").val().replace(/[, ]+/g, '');
+    var due_period = $("#due_period").val().replace(/[, ]+/g, '');
+    var doc_charge = $("#doc_charge").val().replace(/[, ]+/g, '');
+    var proc_fee   = $("#proc_fee").val().replace(/[, ]+/g, '');
   $("#loan_amt_cal").val(parseInt(loan_amt).toFixed(0)); //get loan amt from loan info card
 
   var int_amt = (
@@ -5681,11 +5742,11 @@ function getLoanPreInterest() {
 
 //To Get Loan Calculation for Interest due type
 function getLoanInterest() {
-  var loan_amt = $("#loan_amt").val();
-  var int_rate = $("#int_rate").val();
-  var doc_charge = $("#doc_charge").val();
-  var proc_fee = $("#proc_fee").val();
-  var calc_method = $("#calc_method").val();
+   var loan_amt = $("#loan_amt").val().replace(/[, ]+/g, '');
+   var int_rate = $("#int_rate").val().replace(/[, ]+/g, '');
+   var doc_charge = $("#doc_charge").val().replace(/[, ]+/g, '');
+   var proc_fee = $("#proc_fee").val().replace(/[, ]+/g, '');
+   var calc_method = $("#calc_method").val();
 
   $("#loan_amt_cal").val(parseInt(loan_amt).toFixed(0));
   $("#principal_amt_cal").val(parseInt(loan_amt).toFixed(0));
@@ -5742,11 +5803,11 @@ function getLoanInterest() {
 
 //To Get Loan Calculation for Monthly Scheme method
 function getSchemePreIntreset() {
-  var loan_amt = $("#loan_amt").val();
-  var int_rate = $("#int_rate").val();
-  var due_period = $("#due_period").val();
-  var doc_charge = $("#doc_charge").val();
-  var proc_fee = $("#proc_fee").val();
+    var loan_amt   = $("#loan_amt").val().replace(/[, ]+/g, '');
+    var int_rate   = $("#int_rate").val().replace(/[, ]+/g, '');
+    var due_period = $("#due_period").val().replace(/[, ]+/g, '');
+    var doc_charge = $("#doc_charge").val().replace(/[, ]+/g, '');
+    var proc_fee   = $("#proc_fee").val().replace(/[, ]+/g, '');
 
   $("#loan_amt_cal").val(parseInt(loan_amt).toFixed(0)); //get loan amt from loan info card
   var intreset_type = $(".min-max-int").text(); //Scheme may have document charge in rupees or percentage . so getting symbol from span
@@ -5919,11 +5980,11 @@ function getSchemePreIntreset() {
 
 //To Get Loan Calculation for Weekly Scheme method
 function getSchemeAfterIntreset() {
-  var loan_amt = $("#loan_amt").val();
-  var int_rate = $("#int_rate").val();
-  var due_period = $("#due_period").val();
-  var doc_charge = $("#doc_charge").val();
-  var proc_fee = $("#proc_fee").val();
+  var loan_amt = $("#loan_amt").val().replace(/[, ]+/g, '');
+  var int_rate = $("#int_rate").val().replace(/[, ]+/g, '');
+  var due_period = $("#due_period").val().replace(/[, ]+/g, '');
+  var doc_charge = $("#doc_charge").val().replace(/[, ]+/g, '');
+  var proc_fee = $("#proc_fee").val().replace(/[, ]+/g, '');
   $("#loan_amt_cal").val(parseInt(loan_amt).toFixed(0)); //get loan amt from loan info card
   $("#principal_amt_cal").val(parseInt(loan_amt).toFixed(0)); // principal amt as same as loan amt for after interest
   var intreset_type = $(".min-max-int").text(); //Scheme may have document charge in rupees or percentage . so getting symbol from span
@@ -6097,7 +6158,7 @@ function getSchemeAfterIntreset() {
 // }
 
 //Validation for Loan calculation
-function loan_calc_validation(submit_btn) {
+function loan_calc_validation() {
   var cus_id_loan = $("#cus_id_loan").val(); //if this is empty means , customer profile is not submitted yet
   var loan_category = $("#loan_category").val();
   var tot_value = $("#tot_value").val();
@@ -6127,11 +6188,14 @@ function loan_calc_validation(submit_btn) {
   var collection_method = $("#collection_method").val();
   var Communitcation_to_cus = $("#Communitcation_to_cus").val();
   var verification_location = $("#verification_location").val();
+  var validation = true ;
 
   var responsible = $("#loan_responsible").val();
   if (responsible == "" && $(".responsible").css("display") != "none") {
     $("#loanResponsibleCheck").show();
     event.preventDefault();
+    validation = false;
+    validation = false;
   } else {
     $("#loanResponsibleCheck").hide();
   }
@@ -6154,18 +6218,21 @@ function loan_calc_validation(submit_btn) {
 
   if (Communitcation_to_cus == "") {
     event.preventDefault();
+    validation = false;
     $("#communicationCheck").show();
   } else {
     $("#communicationCheck").hide();
   }
   if (person_list.length == 0) {
     event.preventDefault();
+    validation = false;
     $("#verificationPersonCheck").show();
   } else {
     $("#verificationPersonCheck").hide();
   }
   if (verification_location == "") {
     event.preventDefault();
+    validation = false;
     $("#verificationLocCheck").show();
   } else {
     $("#verificationLocCheck").hide();
@@ -6181,11 +6248,13 @@ function loan_calc_validation(submit_btn) {
       confirmButtonColor: "#0c70ab",
     });
     event.preventDefault();
+    validation = false;
   }
 
   if (loan_category == "") {
     $("#loancategoryCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#loancategoryCheck").hide();
   }
@@ -6193,6 +6262,7 @@ function loan_calc_validation(submit_btn) {
   if (tot_value == "" && $(".advance_yes").css("display") != "none") {
     $("#total_valueCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#total_valueCheck").hide();
   }
@@ -6200,6 +6270,7 @@ function loan_calc_validation(submit_btn) {
   if (ad_amt == "" && $(".advance_yes").css("display") != "none") {
     $("#ad_amtCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#ad_amtCheck").hide();
   }
@@ -6207,6 +6278,7 @@ function loan_calc_validation(submit_btn) {
   if (loan_amt == "") {
     $("#loan_amtCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#loan_amtCheck").hide();
   }
@@ -6214,6 +6286,7 @@ function loan_calc_validation(submit_btn) {
   if (profit_type == "") {
     $("#profit_typeCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#profit_typeCheck").hide();
   }
@@ -6221,6 +6294,7 @@ function loan_calc_validation(submit_btn) {
   if (profit_method == "" && due_type == "EMI") {
     $("#profit_methodCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#profit_methodCheck").hide();
   }
@@ -6228,6 +6302,7 @@ function loan_calc_validation(submit_btn) {
   if (due_method_scheme == "" && $(".scheme").css("display") != "none") {
     $("#due_method_schemeCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#due_method_schemeCheck").hide();
   }
@@ -6237,12 +6312,14 @@ function loan_calc_validation(submit_btn) {
   ) {
     $("#scheme_methodCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#scheme_methodCheck").hide();
   }
   if (day_scheme == "" && $(".day_scheme").css("display") != "none") {
     $("#day_schemeCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#day_schemeCheck").hide();
   }
@@ -6250,6 +6327,7 @@ function loan_calc_validation(submit_btn) {
   if (scheme_name == "" && $(".scheme").css("display") != "none") {
     $("#scheme_nameCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#scheme_nameCheck").hide();
   }
@@ -6257,6 +6335,7 @@ function loan_calc_validation(submit_btn) {
   if (int_rate == "") {
     $("#int_rateCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#int_rateCheck").hide();
   }
@@ -6264,6 +6343,7 @@ function loan_calc_validation(submit_btn) {
   if (due_period == "") {
     $("#due_periodCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#due_periodCheck").hide();
   }
@@ -6271,6 +6351,7 @@ function loan_calc_validation(submit_btn) {
   if (doc_charge == "") {
     $("#doc_chargeCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#doc_chargeCheck").hide();
   }
@@ -6278,6 +6359,7 @@ function loan_calc_validation(submit_btn) {
   if (proc_fee == "") {
     $("#proc_feeCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#proc_feeCheck").hide();
   }
@@ -6285,6 +6367,7 @@ function loan_calc_validation(submit_btn) {
   if (due_start_from == "") {
     $("#due_start_fromCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#due_start_fromCheck").hide();
   }
@@ -6292,6 +6375,7 @@ function loan_calc_validation(submit_btn) {
   if (maturity_month == "") {
     $("#maturity_monthCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#maturity_monthCheck").hide();
   }
@@ -6299,11 +6383,11 @@ function loan_calc_validation(submit_btn) {
   if (collection_method == "") {
     $("#collection_methodCheck").show();
     event.preventDefault();
+    validation = false;
   } else {
     $("#collection_methodCheck").hide();
   }
-
-  submit_btn.removeAttr("disabled");
+return validation;
 }
 function fingerprintTable() {//To Get family member's name are required for scanning fingerprint
     var cus_name = $('#cus_name').val();

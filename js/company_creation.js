@@ -19,24 +19,17 @@ $(document).ready(function () {
     })
 
     $('#submit_company_creation').click(function () {
-        //Validation
-        var company_name = $('#company_name').val(); var address1 = $('#address1').val();/*var address2 = $('#address2').val();*/ var state = $('#state').val(); var district = $('#district1').val(); var taluk = $('#taluk1').val(); var pincode = $('#pincode').val(); var mobile = $('#mobile').val();
-        if (company_name === '' || address1 === '' || state === '' || district === '' || taluk === '' || pincode === '' || (mobile != '' && mobile.length < 10)) {
-            Swal.fire({
-                timerProgressBar: true,
-                timer: 2000,
-                title: 'Please Fill out Mandatory fields!',
-                icon: 'error',
-                showConfirmButton: true,
-                confirmButtonColor: '#0c70ab'
-            });
+        if(companyValidation()){
+            let confirmAction = confirm("Are you sure you want to submit Company Creation?");
+            if (!confirmAction) {
+                event.preventDefault(); 
+                return false;
+            }
+        }else{
+            event.preventDefault(); 
             return false;
         }
-         let confirmAction = confirm("Are you sure you want to submit Company Creation?");
-        if (!confirmAction) {
-            event.preventDefault(); // Stop form submission if canceled
-            return false;
-        }
+         
     })
 
 });
@@ -195,4 +188,20 @@ function getTalukDropdown(DistSelected) {
 
     $("#taluk").html(htmlString);
     $("#taluk1").val(taluk_upd);
+}
+function companyValidation(){
+
+        var company_name = $('#company_name').val(); var address1 = $('#address1').val();/*var address2 = $('#address2').val();*/ var state = $('#state').val(); var district = $('#district1').val(); var taluk = $('#taluk1').val(); var pincode = $('#pincode').val(); var mobile = $('#mobile').val();
+        if (company_name === '' || address1 === '' || state === '' || district === '' || taluk === '' || pincode === '' || (mobile != '' && mobile.length < 10)) {
+            Swal.fire({
+                timerProgressBar: true,
+                timer: 2000,
+                title: 'Please Fill out Mandatory fields!',
+                icon: 'error',
+                showConfirmButton: true,
+                confirmButtonColor: '#0c70ab'
+            });
+            return false;
+        }
+        return true;
 }
