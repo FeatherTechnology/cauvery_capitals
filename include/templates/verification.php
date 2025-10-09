@@ -1226,7 +1226,7 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 									<div class="form-group">
 										<label for="cus_other_income"> Other Income </label> <span class="required">*</span>
 										<input type="text" class="form-control" name="cus_other_income" id="cus_other_income" placeholder="Enter Other Income" value="<?php if (isset($other_income)) {
-																																											moneyFormatIndia($other_income);
+																																										echo moneyFormatIndia($other_income);
 																																										} ?>" tabindex="56">
 										<span class="text-danger" style='display:none' id='otherIncomeCheck'>Please Enter Other Income </span>
 									</div>

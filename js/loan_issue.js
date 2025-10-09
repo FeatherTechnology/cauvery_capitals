@@ -1579,7 +1579,7 @@ function checkIssuedAmount(type) {
         var chequeValue = parseInt($('#chequeValue').val());
         var transactionValue = parseInt($('#transaction_value').val());
         totalValue = (isNaN(cashValue) ? 0 : cashValue) + (isNaN(chequeValue) ? 0 : chequeValue) + (isNaN(transactionValue) ? 0 : transactionValue);
-        netCash = parseInt($('#net_cash').val());
+        netCash = parseInt($('#net_cash').val().replace(/[, ]+/g, ''));
         var bal = parseInt(netCash) - parseInt(totalValue);
         if (bal >= 0) {
             $('#balance').val(bal);

@@ -581,7 +581,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                     <div class="form-group">
                                         <label for="disabledInput">Loan Amount</label>
                                         <input type="text" class="form-control" id="loan_amt" name="loan_amt" value='<?php if (isset($loan_amt_lc)) {
-                                                                                                                            moneyFormatIndia($loan_amt_lc);
+                                                                                                                            echo moneyFormatIndia($loan_amt_lc);
                                                                                                                         } elseif (isset($loan_amt)) {
                                                                                                                             echo moneyFormatIndia($loan_amt);
                                                                                                                         } ?>' readonly tabindex='16'>

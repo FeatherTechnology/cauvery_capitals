@@ -697,6 +697,7 @@ if (sizeof($getCustomerReg) > 0) {
 											<option value="TamilNadu" <?php if (isset($area_confirm_state) and $area_confirm_state == 'TamilNadu') echo 'selected'; ?>>Tamil Nadu</option>
 											<option value="Puducherry" <?php if (isset($area_confirm_state) and $area_confirm_state == 'Puducherry') echo 'selected'; ?>>Puducherry</option>
 										</select>
+										<span class="text-danger" style='display:none' id='areastateCheck'>Please Select State</span>
 									</div>
 								</div>
 
@@ -707,6 +708,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<select type="text" class="form-control" id="area_district" name="area_district" tabindex='37'>
 											<option value="Select District">Select District</option>
 										</select>
+										<span class="text-danger" style='display:none' id='areadistrictCheck'>Please Enter District </span>
 									</div>
 								</div>
 
@@ -717,6 +719,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<select type="text" class="form-control" id="area_taluk" name="area_taluk" tabindex="38">
 											<option value="Select Taluk">Select Taluk</option>
 										</select>
+										<span class="text-danger" style='display:none' id='areatalukCheck'>Please Enter Taluk </span>
 									</div>
 								</div>
 
@@ -726,6 +729,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<select tabindex="39" type="text" class="form-control" id="area_confirm" name="area_confirm">
 											<option value="">Select Area</option>
 										</select>
+										<span class="text-danger" style='display:none' id='areaconfirmCheck'>Please Enter Area </span>
 									</div>
 								</div>
 								<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
