@@ -4,32 +4,10 @@ include '../ajaxconfig.php';
 $cus_id = $_POST['cus_id'] ?? '';
 $cus_name = $_POST['cus_name'] ?? '';
 $area = $_POST['area'] ?? '';
-// $sub_area = $_POST['sub_area'] ?? '';
 $mobile = $_POST['mobile'] ?? '';
 $loan_id = $_POST['loan_id'] ?? '';
 
-$statusLabels = [
-    '0' => "In Request",
-    '1' => 'In Verification',
-    '2' => 'In Approval',
-    '3' => 'In Acknowledgement',
-    '4' => 'Cancel - Request',
-    '5' => 'Cancel - Verification',
-    '6' => 'Cancel - Approval',
-    '7' => 'Cancel - Acknowledgement',
-    '8' => 'Revoke - Request',
-    '9' => 'Revoke - Verification',
-    '10' => 'In Verification',
-    '11' => 'In Verification',
-    '12' => 'In Verification',
-    '13' => 'In Issue',
-    '14' => 'Collection',
-    '15' => 'Collection Error',
-    '16' => 'Collection Legal',
-    '17' => 'Collection',
-    '20' => 'Closed',
-    '21' => 'NOC',
-];
+$sql = '';
 $fam_sql = '';
 
 if ($cus_id != '') {
@@ -60,51 +38,62 @@ WHERE ac.area_name LIKE '%$area%';
     $sql = "SELECT cus_id from in_issue where loan_id = '$loan_id' ";
 }
 
-// echo $sql;die;
 $runSql = $connect->query(query: $sql);
-if ($runSql->rowCount() > 0) {
-    while ($row = $runSql->fetch())
-        $cus_id_fetched[] = $row['cus_id'];
-} else {
-    $cus_id_fetched = [];
-}
+// if ($runSql->rowCount() > 0) {
+//     while ($row = $runSql->fetch())
+//         $cus_id_fetched[] = $row['cus_id'];
+// } else {
+//     $cus_id_fetched = [];
+// }
 
-if (!empty($cus_id_fetched)) {
-    foreach ($cus_id_fetched as $cus_id) {
-        $sql = $connect->query("SELECT rc.req_id,cr.cus_id,rc.cus_status From request_creation rc left join customer_register cr on cr.req_ref_id = rc.req_id where cr.cus_id = $cus_id ORDER BY rc.req_id DESC LIMIT 1 ");
-        $row = $sql->fetch();
-        $req_id[] = $row['req_id'];
-        $cus_status[] = $row['cus_status'];
-    }
-}
+// if (!empty($cus_id_fetched)) {
+//     foreach ($cus_id_fetched as $cus_id) {
+//         $sql = $connect->query("SELECT rc.req_id,cr.cus_id,rc.cus_status From request_creation rc left join customer_register cr on cr.req_ref_id = rc.req_id where cr.cus_id = $cus_id ORDER BY rc.req_id DESC LIMIT 1 ");
+//         $row = $sql->fetch();
+//         $req_id[] = $row['req_id'];
+//         $cus_status[] = $row['cus_status'];
+//     }
+// }
 $i = 1;
-$x = 0;
+// $x = 0;
 $data = array();
-if (!empty($req_id)) {
-    foreach ($req_id as $req) {
-        if ($cus_status[$x] == '0' || $cus_status[$x] == '1' || $cus_status[$x] == '4' || $cus_status[$x] == '5' || $cus_status[$x] == '8' || $cus_status[$x] == '9') {
-            $req_sql = $connect->query("SELECT cr.cus_id,cr.customer_name as cus_name ,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,cr.mobile1,cr.mobile2 
-                        From request_creation req
-                        left join customer_register cr on cr.req_ref_id = req.req_id
-                        LEFT JOIN area_list_creation ac ON cr.area_confirm_area = ac.area_id
-                        JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
-                        JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
-                        JOIN area_group_mapping_area agma ON agma.area_id = ac.area_id
-                        JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id
-                        LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id 
-                        where req.req_id = $req ");
-        } else {
-            $req_sql = $connect->query("SELECT cr.cus_id,cr.customer_name as cus_name,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,cr.mobile1,cr.mobile2 
-                    FROM customer_register cr
+// if (!empty($req_id)) {
+//     foreach ($req_id as $req) {
+//         if ($cus_status[$x] == '0' || $cus_status[$x] == '1' || $cus_status[$x] == '4' || $cus_status[$x] == '5' || $cus_status[$x] == '8' || $cus_status[$x] == '9') {
+//             $req_sql = $connect->query("SELECT cr.cus_id,cr.customer_name as cus_name ,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,cr.mobile1,cr.mobile2 
+//                         From request_creation req
+//                         left join customer_register cr on cr.req_ref_id = req.req_id
+//                         LEFT JOIN area_list_creation ac ON cr.area_confirm_area = ac.area_id
+//                         JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
+//                         JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+//                         JOIN area_group_mapping_area agma ON agma.area_id = ac.area_id
+//                         JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id
+//                         LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id 
+//                         where req.req_id = $req ");
+//         } else {
+//             $req_sql = $connect->query("SELECT cr.cus_id,cr.customer_name as cus_name,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,cr.mobile1,cr.mobile2 
+//                     FROM customer_register cr
+//                     LEFT JOIN area_list_creation ac ON cr.area_confirm_area = ac.area_id 
+//                     JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
+//                     JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+//                     JOIN area_group_mapping_area agma ON agma.area_id = ac.area_id
+//                     JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id
+//                     LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id 
+//                     WHERE cr.req_ref_id = $req  ");
+//         }
+
+if ($runSql->rowCount() > 0) {
+    while ($row = $runSql->fetch()) {
+        $req_sql = $connect->query("SELECT cr.cus_id,cr.customer_name as cus_name,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,cr.mobile1,cr.mobile2 
+                    FROM customer_register cr 
                     LEFT JOIN area_list_creation ac ON cr.area_confirm_area = ac.area_id 
                     JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
                     JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
                     JOIN area_group_mapping_area agma ON agma.area_id = ac.area_id
                     JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id
                     LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id 
-                    WHERE cr.req_ref_id = $req  ");
-        }
-        $x++;
+                    WHERE cr.cus_id = '" . $row['cus_id'] . "'");
+
         while ($req_row = $req_sql->fetch()) {
             $sub_array = array();
             $sub_array['sno'] = $i++;

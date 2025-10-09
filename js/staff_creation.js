@@ -25,10 +25,9 @@ $(document).ready(function () {
               event.preventDefault(); 
               return false;
             }
-            else {
-                event.preventDefault(); 
-                return false;
-            }
+        }else {
+            event.preventDefault(); 
+            return false;
         }
     })
 

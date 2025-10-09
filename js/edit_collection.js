@@ -2,8 +2,10 @@ $(document).ready(function () {
  
     $('#due_nill_btn').click(function (event) {
         event.preventDefault();
-        let Customer_Status=$(this).val();
+        let Customer_Status=$(this).data('filter');
         getcustomerStatustable(Customer_Status);
+        // Change the heading text
+        $(".card-title").text("Due Nil List");
         $('#all_btn').show();
         $('#due_nill_btn').hide();
         $("#duenill_id").val('');
@@ -12,6 +14,8 @@ $(document).ready(function () {
     $('#all_btn').click(function (event) {
         event.preventDefault();
         getcustomerStatustable('');
+        // Reset heading text back to Collection List
+        $(".card-title").text("Collection List");
         $('#all_btn').hide();
         $('#due_nill_btn').show();
         $("#duenill_id").val('');

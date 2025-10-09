@@ -60,6 +60,12 @@ if (isset($_POST['cus_sts'])) {
     $sub_status_mapping = implode(',', $_POST['cus_sts']);
 }
 
+$commdate = isset($_POST['comm_date']) && !empty($_POST['comm_date']) ? $_POST['comm_date'] : '';
+$commitmentCondition = "";
+if (!empty($commdate) && $commdate != 1) {
+    $commitmentCondition = " AND (c1.comm_date IS NOT NULL AND c1.comm_date != '0000-00-00')";
+}
+
 // $comm_date_condition = '';
 if (isset($_POST['comm_date'])) {
     $comm_date = $_POST['comm_date']; // Get the comm_date from the form
@@ -75,7 +81,7 @@ if (isset($_POST['comm_date'])) {
         
     }
     elseif($comm_date =='5'){ //To Follow Date
-        $qry_cndtn = "AND cm.comm_date IS NULL ";
+        $qry_cndtn = "AND (cm.comm_date IS NULL OR cm.comm_date = '0000-00-00')";
         
     }else{
         $qry_cndtn = "";
@@ -127,12 +133,13 @@ JOIN branch_creation bc ON
     alm.branch_id = bc.branch_id
 JOIN in_verification iv ON
     cp.req_id = iv.req_id
-LEFT JOIN( SELECT cus_id, MAX(comm_date) AS comm_date,  SUBSTRING_INDEX( GROUP_CONCAT( comm_err ORDER BY  comm_date
-            DESC ),  ',', 1 ) AS comm_err, SUBSTRING_INDEX( GROUP_CONCAT(hint ORDER BY comm_date  DESC ),  ',',  1 ) AS hint
-    FROM
-        commitment
-    GROUP BY
-        cus_id) cm ON cp.cus_id = cm.cus_id
+LEFT JOIN commitment cm ON 
+cm.cus_id = cp.cus_id
+    AND cm.created_date = (
+        SELECT MAX(c1.created_date)
+        FROM commitment c1
+        WHERE c1.cus_id = cp.cus_id $commitmentCondition
+    )
 WHERE
     cs.payable_amnt > 0 AND ii.status = 0 AND ii.cus_status BETWEEN 14 AND 17 AND FIND_IN_SET(cs.sub_status,'$sub_status_mapping') $loan_agnt $search
 GROUP BY
@@ -264,7 +271,7 @@ foreach ($result as $row) {
 echo json_encode([
     "draw" => intval($_POST['draw']),
     "recordsTotal" => getTotalRecords($connect),
-    "recordsFiltered" => getFilteredRecords($connect, $data, $search, $sub_status_mapping, $loan_agnt),
+    "recordsFiltered" => getFilteredRecords($connect, $data, $search, $sub_status_mapping, $loan_agnt , $commitmentCondition),
     "data" => $data
 ]);
 
@@ -279,7 +286,7 @@ function getTotalRecords($connect)
     return $totals;
 }
 
-function getFilteredRecords($connect, $data, $search, $sub_status_mapping, $loan_agnt)
+function getFilteredRecords($connect, $data, $search, $sub_status_mapping, $loan_agnt , $commitmentCondition)
 {
     // Your database query to get the total number of filtered records
     // For example:
@@ -297,18 +304,21 @@ function getFilteredRecords($connect, $data, $search, $sub_status_mapping, $loan
             cp.req_id = cs.req_id
         JOIN area_list_creation alc ON
             cp.area_confirm_area = alc.area_id
-        JOIN area_line_mapping alm ON
-            FIND_IN_SET(alc.area_id, alm.area_id)
+        JOIN area_line_mapping_area alma ON 
+            alc.area_id = alma.area_id
+        JOIN area_line_mapping alm ON 
+            alm.map_id = alma.line_map_id
         JOIN branch_creation bc ON
             alm.branch_id = bc.branch_id
         JOIN in_verification iv ON
             cp.req_id = iv.req_id
-        LEFT JOIN( SELECT cus_id, MAX(comm_date) AS comm_date,  SUBSTRING_INDEX( GROUP_CONCAT( comm_err ORDER BY  comm_date
-                    DESC ),  ',', 1 ) AS comm_err, SUBSTRING_INDEX( GROUP_CONCAT(hint ORDER BY comm_date  DESC ),  ',',  1 ) AS hint
-            FROM
-                commitment
-            GROUP BY
-                cus_id) cm ON cp.cus_id = cm.cus_id
+        LEFT JOIN commitment cm ON 
+            cm.cus_id = cp.cus_id
+            AND cm.created_date = (
+                SELECT MAX(c1.created_date)
+                FROM commitment c1
+                WHERE c1.cus_id = cp.cus_id $commitmentCondition
+            )
         WHERE
             cs.payable_amnt > 0 AND FIND_IN_SET(cs.sub_status,'$sub_status_mapping') AND ii.status = 0 AND ii.cus_status BETWEEN 14 AND 17 $loan_agnt $search
         GROUP BY

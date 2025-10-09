@@ -11,10 +11,9 @@ $(document).ready(function () {
         let type = $(this).val();
         let append;
         if (type == 1) {//direct
-            append = `<option value="">Select Follow Up Status</option><option value='1'>Commitment</option><option value='2'>Unavailable</option>`;
+            append = `<option value="">Select Follow Up Status</option><option value='1'>Commitment</option><option value='2'>Unavailable</option><option value='8'>Paid</option>`;
         } else if (type == 2) {//mobile
-            append = `<option value="">Select Follow Up Status</option><option value='1'>Commitment</option><option value='3'>RNR</option><option value='4'>Not Reachable</option>
-            <option value='5'>Switch Off</option><option value='6'>Not in Use</option><option value='7'>Blocked</option>`;
+            append = `<option value="">Select Follow Up Status</option><option value='1'>Commitment</option><option value='3'>RNR</option><option value='4'>Not Reachable</option><option value='5'>Switch Off</option><option value='6'>Not in Use</option><option value='7'>Blocked</option><option value='8'>Paid</option>`;
         } else {
             append = `<option value="">Select Follow Up Status</option>`;
         }
@@ -352,7 +351,7 @@ function validateCommitment() {
     let response = true;
     let ftype = $('#comm_ftype').val(); let fstatus = $('#comm_fstatus').val(); let person_type = $('#comm_person_type').val();
     let person_name = $('#comm_person_name').val(); let person_name1 = $('#comm_person_name1').val(); let remark = $('#comm_remark').val();
-    let comm_date = $('#comm_date').val(); let hint = $('#comm_hint').val(); let err = $('#comm_err').val();
+    let comm_date = $('#comm_date').val(); let hint = $('#comm_hint').val();
 
     validateField(ftype, '#comm_ftypeCheck');
     validateField(fstatus, '#comm_fstatusCheck');
@@ -368,7 +367,6 @@ function validateCommitment() {
     }
     validateField(remark, '#comm_remarkCheck');
     validateField(hint, '#comm_hintCheck');
-    validateField(err, '#comm_errCheck');
 
     function validateField(value, fieldId) {
         if (value === '') {
