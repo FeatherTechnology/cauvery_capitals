@@ -114,14 +114,6 @@ function moneyFormatIndia($num)
                     collectionLayout: 'fixed four-column',
                 }
             ],
-            // "createdRow": function(row, data, dataIndex) {
-            //     $(row).find('td:first').html(dataIndex + 1);
-            // },
-            // "drawCallback": function(settings) {
-            //     this.api().column(0).nodes().each(function(cell, i) {
-            //         cell.innerHTML = i + 1;
-            //     });
-            // },
         });
     });
 </script>

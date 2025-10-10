@@ -15,15 +15,14 @@ $role_type = $userRow['role_type'];
 if ($role_type == 7) {
     // Role 7 (Admin)→ See all records
     $sql = $connect->query("
-        SELECT ncp.cus_id,ncp.cus_name,ncp.mobile,ncp.insert_login_id,ncp.created_date,a.area_name FROM new_cus_promo ncp JOIN area_list_creation a ON ncp.area = a.area_id
-        WHERE ncp.cus_id NOT IN (SELECT cus_id FROM customer_register)
+        SELECT ncp.id,ncp.cus_id,ncp.cus_name,ncp.mobile,ncp.insert_login_id,ncp.created_date,a.area_name FROM new_cus_promo ncp JOIN area_list_creation a ON ncp.area = a.area_id
+        WHERE 1
     ");
 } else {
     // Other roles → See only their own records
     $sql = $connect->query("
-        SELECT ncp.cus_id,ncp.cus_name,ncp.mobile,ncp.insert_login_id,ncp.created_date,a.area_name FROM new_cus_promo ncp JOIN area_list_creation a ON ncp.area = a.area_id
-        WHERE ncp.cus_id NOT IN (SELECT cus_id FROM customer_register)
-          AND ncp.insert_login_id = $user_id
+        SELECT ncp.id,ncp.cus_id,ncp.cus_name,ncp.mobile,ncp.insert_login_id,ncp.created_date,a.area_name FROM new_cus_promo ncp JOIN area_list_creation a ON ncp.area = a.area_id
+        WHERE ncp.insert_login_id = $user_id
     ");
 }
 
@@ -41,12 +40,13 @@ if ($role_type == 7) {
         <th>Action</th>
         <th>Promotion Chart</th>
         <th>Follow Date</th>
+        <th>Delete</th>
     </thead>
     <tbody>
         <?php while ($row =  $sql->fetch()) { ?>
             <tr>
                 <td><?php echo date('d-m-Y', strtotime($row['created_date'])); ?></td>
-                <td><?php echo $row['cus_id']; ?></td>
+                <td><?php echo isset($row['cus_id']) ? $row['cus_id'] : ''; ?></td>
                 <td><?php echo $row['cus_name']; ?></td>
                 <td><?php echo $row['mobile']; ?></td>
                 <td><?php echo $row['area_name']; ?></td>
@@ -90,6 +90,9 @@ if ($role_type == 7) {
                         echo '';
                     }
                     ?></td>
+                    <td> 
+                       <a id="delete_new_promotion" data-id="<?php echo $row['id']; ?>"> <span class='icon-trash-2'></span> </a>
+                    </td>
 
             </tr>
         <?php } ?>

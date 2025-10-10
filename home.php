@@ -475,6 +475,11 @@ if (isset($getuserdetails['download_access'])) {
 			<?php if ($current_page == 'customer_status_report') { ?>
 				<?php include "include/templates/customer_status_report.php" ?>
 			<?php } else ?>
+			
+			<!-- promotion activity Report -->
+			<?php if ($current_page == 'promotion_activity_report') { ?>
+				<?php include "include/templates/promotion_activity_report.php" ?>
+			<?php } else ?>
 
 			<!-- Interest Ledger Report -->
 			<?php if ($current_page == 'interest_ledger_report') { ?>

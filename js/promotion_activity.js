@@ -485,6 +485,33 @@ $(document).on('input', '.cus_mobile_num', function() {
     }
 });
 
+$(document).on('click', '#delete_new_promotion', function (event) {
+    var id = $(this).data('id');
+    var dlt = confirm("Do you want to delete this New Promotion ?");
+            if (dlt) {
+                    $.ajax({
+                    url: 'followupFiles/promotion/deletNewPromotion.php',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function(response){
+                       Swal.fire({
+                                title: response,
+                                icon: 'success',
+                                showConfirmButton: true,
+                                confirmButtonColor: '#0c70ab'
+                            });
+                            resetNewPromotionTable();
+                    },
+                    error: function(xhr, status, error){
+                        alert("Error deleting record: " + error);
+                    }
+                });
+
+            } else {
+                return false;
+            }
+   
+})
 
 });
 
@@ -591,7 +618,7 @@ function resetNewPromotionTable() {
 }
 
 function submitNewCustomer() {
-    let cus_id = $('#cus_id').val(); let cus_name = $('#cus_name').val(); let cus_mob = $('#cus_mob').val();
+    let cus_id = $('#cus_id').val(); let cus_name = $('#cus_names').val(); let cus_mob = $('#cus_mob').val();
     let area = $('#area').val();
     let args = { 'cus_id': cus_id, 'cus_name': cus_name, 'cus_mob': cus_mob, 'area': area }
     $.post('followupFiles/promotion/submitNewCustomer.php', args, function (response) {
@@ -611,7 +638,7 @@ function submitNewCustomer() {
 
 function validateNewCusAdd() {
     let response = true;
-    let cus_id = $('#cus_id').val(); let cus_name = $('#cus_name').val(); let cus_mob = $('#cus_mob').val();
+    let cus_name = $('#cus_names').val(); let cus_mob = $('#cus_mob').val();
     let area = $('#area').val(); 
 
     validateField(cus_name, '#cus_nameCheck');
@@ -627,11 +654,11 @@ function validateNewCusAdd() {
         }
 
     }
-    if (cus_id === '' || cus_id.length < 12) {
-        response = false;
-        event.preventDefault();
-        $("#cus_idCheck").show();
-    } else { $("#cus_idCheck").hide(); }
+    // if (cus_id === '' || cus_id.length < 12) {
+    //     response = false;
+    //     event.preventDefault();
+    //     $("#cus_idCheck").show();
+    // } else { $("#cus_idCheck").hide(); }
     if (cus_mob === '' || cus_mob.length < 10) {
         response = false;
         event.preventDefault();
@@ -683,6 +710,9 @@ function validatePromoAdd() {
 }
 
 function getUserBasedArea() {
+     $("#cus_id").val('');
+     $("#cus_names").val('');
+     $("#cus_mob").val('');
     $.ajax({
         url: "followupFiles/promotion/getAreaId.php",
         type: "post",
@@ -707,7 +737,7 @@ function getUserBasedArea() {
 }
 
 function update() {//this function will update customer details of after confirmation
-    let cus_id = $('#cus_id').val(); let cus_name = $('#cus_name').val(); let cus_mob = $('#cus_mob').val();
+    let cus_id = $('#cus_id').val(); let cus_name = $('#cus_names').val(); let cus_mob = $('#cus_mob').val();
     let area = $('#area').val();
     let args = { 'cus_id': cus_id, 'cus_name': cus_name, 'cus_mob': cus_mob, 'area': area, 'update': 'yes' }
     $.post('followupFiles/promotion/submitNewCustomer.php', args, function (response) {

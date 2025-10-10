@@ -27,14 +27,14 @@ $sql = $connect->query("SELECT * FROM customer_register WHERE cus_id = '$cus_id'
 // insert only if the customer id is not present in the customer register table
 if($sql->rowCount() == 0){
 
-    $sql = $connect->query("SELECT * FROM new_cus_promo WHERE cus_id = '$cus_id'");
+    $sql = $connect->query("SELECT * FROM new_cus_promo WHERE cus_name = '$cus_name'");
 
     if($sql->rowCount() > 0){
 
         if($update == 'yes'){
             //this update query will run only when user confirmed updating 
 
-            $sql = $connect->query("UPDATE new_cus_promo SET cus_name = '$cus_name', mobile = '$cus_mob', area = '$area', update_login_id = '$userid' WHERE cus_id = '$cus_id' ");
+            $sql = $connect->query("UPDATE new_cus_promo SET cus_name = '$cus_name', mobile = '$cus_mob', area = '$area', update_login_id = '$userid' WHERE cus_name = '$cus_name' ");
             //update customer details if customer id is already present in the table
             if($sql){
                 $response = 'Customer Updated Successfully';
@@ -43,8 +43,8 @@ if($sql->rowCount() == 0){
             }
         }else{
             //if update is not 'yes' then ask confirmation from user to update the customer details or not
-            $response = "Customer Already Added!";
-            echo json_encode($response);
+            $response = 'Customer Already Added!';
+            echo $response;
             return;
         }
 
@@ -54,7 +54,7 @@ if($sql->rowCount() == 0){
             VALUES('$cus_id', '$cus_name', '$cus_mob', '$area','$userid',now())");
         //insert customer details if customer id is not present in the table
         if($sql){
-            $response = 'Customer Added Successfully';
+            $response = 'Customer Inserted Successfully';
         }else{
             $response = 'Error While Inserting';
         }

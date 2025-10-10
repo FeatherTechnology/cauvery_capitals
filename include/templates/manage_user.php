@@ -96,6 +96,7 @@ $other_trans_report = '';
 $due_followup_customer_count_report = '';
 $uncleared_report = '';
 $customer_status_report = '';
+$promotion_activity_report = '';
 $reportmodule_interest = '';
 $interest_ledger_report = '';
 $interest_loan_issue_report = '';
@@ -249,6 +250,7 @@ if($idupd>0)
 			$due_followup_customer_count_report  = $getUser['due_followup_customer_count_report'];
 			$uncleared_report  = $getUser['uncleared_report'];
 			$customer_status_report  = $getUser['customer_status_report'];
+			$promotion_activity_report  = $getUser['promotion_activity_report'];
 
 			$reportmodule_interest          		     = $getUser['reportmodule_interest'];
 			$interest_ledger_report          		     = $getUser['interest_ledger_report'];
@@ -556,9 +558,9 @@ if($idupd>0)
 											<select tabindex="15" type="text" class="form-control" id="pro_aty_access" name="pro_aty_access" multiple>
 												<option value="">Select Promotion Activity</option>
 												<option value="1">Existing</option>
-												<!-- <option value="2">New</option> -->
+												<option value="2">New</option>
 												<option value="3">Repromotion</option>
-												<option value="4">Events</option>
+												<!-- <option value="4">Events</option> -->
 											</select>
 											<span class="text-danger" style='display:none' id='proCheck'>Please select Promotion Activity Access</span>
                                         </div>
@@ -1143,6 +1145,12 @@ if($idupd>0)
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($customer_status_report==0){ echo'checked'; }} ?> tabindex="82" class="report-checkbox" id="customer_status_report" name="customer_status_report" disabled>&nbsp;&nbsp;
                                 <label class="custom-control-label" for="customer_status_report">Customer Status Report</label>
+                            </div>
+                        </div>
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($promotion_activity_report==0){ echo'checked'; }} ?> tabindex="71" class="report-checkbox" id="promotion_activity_report" name="promotion_activity_report" disabled>&nbsp;&nbsp;
+                                <label class="custom-control-label" for="promotion_activity_report">Promotion Activity Report</label>
                             </div>
                         </div>
 					</div>
