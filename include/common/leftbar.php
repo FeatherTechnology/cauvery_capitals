@@ -68,6 +68,7 @@ else if ($current_page == 'edit_concern_creation' || $current_page == 'edit_conc
 } else if (
 	$current_page == 'ledger_report' || $current_page == 'request_report' || $current_page == 'cancel_revoke_report' ||  $current_page == 'cus_profile_report' || $current_page == 'loan_issue_report'
 	|| $current_page == 'collection_report' ||$current_page == 'principal_interest_report' || $current_page == 'balance_report' || $current_page == 'due_list_report' || $current_page == 'in_closed_report' || $current_page == 'closed_report' || $current_page == 'confirmation_followup_report' || $current_page == 'agent_report'|| $current_page == 'no_due_pay_report' || $current_page == 'other_transaction_report' || $current_page == 'day_end_report' || $current_page == 'due_followup_customer_count_report' || $current_page == 'uncleared_report' || $current_page == 'customer_status_report' || $current_page == 'commitment_report'
+
 ) {
 
 	$current_module = 'report';
@@ -195,6 +196,7 @@ $day_end_report = '';
 $due_followup_customer_count_report = '';
 $uncleared_report = '';
 $customer_status_report = '';
+$promotion_activity_report = '';
 $commitment_report = '';
 $reportmodule_interest = '';
 $interest_ledger_report = '';
@@ -298,7 +300,9 @@ if (sizeof($getUser) > 0) {
 		$due_followup_customer_count_report  = $getUser['due_followup_customer_count_report'];
 		$uncleared_report  = $getUser['uncleared_report'];
 		$customer_status_report  = $getUser['customer_status_report'];
+		$promotion_activity_report  = $getUser['promotion_activity_report'];
 		$commitment_report  = $getUser['commitment_report'];
+
 
 		$reportmodule_interest          		 = $getUser['reportmodule_interest'];
 		$interest_ledger_report          		 = $getUser['interest_ledger_report'];
@@ -1143,6 +1147,7 @@ $day_end_report = '';
 $due_followup_customer_count_report = '';
 $uncleared_report = '';
 $customer_status_report = '';
+$promotion_activity_report = '';
 $commitment_report = '';
 $reportmodule_interest = '';
 $interest_ledger_report = '';

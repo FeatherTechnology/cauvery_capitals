@@ -72,10 +72,7 @@ foreach ($result as $row) {
     END AS `group_name`
     ");
     $sub_array[] = $grpqry->fetch()['group_name'];
-
-    // $action = "<a href='' title='Update'>  <span class='icon-mail'></span> </a>";
-    
-    // $sub_array[] = $action;
+  
     $data[]      = $sub_array;
     $sno = $sno+1;
 }

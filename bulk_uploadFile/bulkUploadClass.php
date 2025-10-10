@@ -369,18 +369,6 @@ class bulkUploadClass
         }
         return $area_id;
     }
-    // function getSubAreaId($connect, $sub_area_name, $area_id)
-    // {
-    //     $query = "SELECT * FROM sub_area_list_creation where sub_area_name = '" . $sub_area_name . "' and area_id_ref = '" . $area_id . "' ";
-    //     $result1 = $connect->query($query) or die("Error ");
-    //     if ($result1->rowCount() > 0) {
-    //         $row = $result1->fetch();
-    //         $sub_area_id = $row["sub_area_id"];
-    //     } else {
-    //         $sub_area_id = 'Not Found';
-    //     }
-    //     return $sub_area_id;
-    // }
     function getLoanCategoryId($connect, $loan_category_name)
     {
         $query = "SELECT * FROM loan_category_creation where loan_category_creation_name = '" . $loan_category_name . "' ";
@@ -393,17 +381,6 @@ class bulkUploadClass
         }
         return $loan_cat_id;
     }
-    // function checkSubCategory($connect, $sub_cat_name)
-    // {
-    //     $query = "SELECT * FROM loan_category where sub_category_name = '" . $sub_cat_name . "' ";
-    //     $result1 = $connect->query($query) or die("Error ");
-    //     if ($result1->rowCount() > 0) {
-    //         $sub_categoryCheck = 'Available';
-    //     } else {
-    //         $sub_categoryCheck = 'Not Found';
-    //     }
-    //     return $sub_categoryCheck;
-    // }
     function getAreaGroup($connect, $area_id)
     {
         $group_name = 'Invalid';
@@ -610,14 +587,6 @@ class bulkUploadClass
             $errcolumns[] = 'Customer Name';
         }
 
-        // if ($data['dob'] == 'Invalid Date') {
-        //     $errcolumns[] = 'Date of Birth';
-        // }
-
-        // if (!preg_match('/^[0-9]+$/', $data['age'])) {
-        //     $errcolumns[] = 'Age';
-        // }
-
         if ($data['gender'] == 'Not Found') {
             $errcolumns[] = 'Gender';
         }
@@ -633,10 +602,6 @@ class bulkUploadClass
         if ($data['area_id'] == 'Not Found') {
             $errcolumns[] = 'Area ID';
         }
-
-        // if ($data['sub_area_id'] == 'Not Found') {
-        //     $errcolumns[] = 'Sub Area ID';
-        // }
 
         if ($data['address'] == '') {
             $errcolumns[] = 'Address';
@@ -689,10 +654,6 @@ class bulkUploadClass
         if ($data['loan_cat_id'] == 'Not Found') {
             $errcolumns[] = 'Loan Category ID';
         }
-
-        // if ($data['sub_categoryCheck'] == 'Not Found') {
-        //     $errcolumns[] = 'Sub Category Check';
-        // }
 
         if (!preg_match('/^\d+(\.\d{1,2})?$/', $data['tot_amt'])) {
             $errcolumns[] = 'Total Amount';

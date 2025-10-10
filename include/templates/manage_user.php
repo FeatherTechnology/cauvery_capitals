@@ -97,6 +97,7 @@ $day_end_report = '';
 $due_followup_customer_count_report = '';
 $uncleared_report = '';
 $customer_status_report = '';
+$promotion_activity_report = '';
 $commitment_report = '';
 $reportmodule_interest = '';
 $interest_ledger_report = '';
@@ -252,7 +253,9 @@ if($idupd>0)
 			$due_followup_customer_count_report  = $getUser['due_followup_customer_count_report'];
 			$uncleared_report  = $getUser['uncleared_report'];
 			$customer_status_report  = $getUser['customer_status_report'];
+			$promotion_activity_report  = $getUser['promotion_activity_report'];
 			$commitment_report  = $getUser['commitment_report'];
+
 
 			$reportmodule_interest          		     = $getUser['reportmodule_interest'];
 			$interest_ledger_report          		     = $getUser['interest_ledger_report'];
@@ -560,9 +563,9 @@ if($idupd>0)
 											<select tabindex="15" type="text" class="form-control" id="pro_aty_access" name="pro_aty_access" multiple>
 												<option value="">Select Promotion Activity</option>
 												<option value="1">Existing</option>
-												<!-- <option value="2">New</option> -->
+												<option value="2">New</option>
 												<option value="3">Repromotion</option>
-												<option value="4">Events</option>
+												<!-- <option value="4">Events</option> -->
 											</select>
 											<span class="text-danger" style='display:none' id='proCheck'>Please select Promotion Activity Access</span>
                                         </div>
@@ -1159,6 +1162,7 @@ if($idupd>0)
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($commitment_report==0){ echo'checked'; }} ?> tabindex="70" class="report-checkbox" id="commitment_report" name="commitment_report" disabled>&nbsp;&nbsp;
                                 <label class="custom-control-label" for="commitment_report">Commitment</label>
+
                             </div>
                         </div>
 					</div>

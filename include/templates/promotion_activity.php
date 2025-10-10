@@ -359,13 +359,13 @@ if (sizeof($getUser) > 0) {
 					<div class="col-12">
 						<div class="row">
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-								<label for="cus_id">Customer ID</label><span class="required">&nbsp;*</span>
+								<label for="cus_id">Customer ID</label>
 								<input type="text" name="cus_id" id="cus_id" class='form-control' placeholder="Enter Customer ID" tabindex="1" onKeyPress="if(this.value.length==14) return false;">
 								<span class="text-danger" id='cus_idCheck' style="display: none;">Please Enter Customer ID</span>
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 								<label for="cus_name">Customer Name</label><span class="required">&nbsp;*</span>
-								<input type="text" name="cus_name" id="cus_name" class='form-control' placeholder="Enter Customer Name" tabindex="2">
+								<input type="text" name="cus_names" id="cus_names" class='form-control' placeholder="Enter Customer Name" tabindex="2">
 								<span class="text-danger" id='cus_nameCheck' style="display: none;">Please Enter Customer Name</span>
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">

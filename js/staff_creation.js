@@ -420,6 +420,8 @@ function getStaffTypeDropdown() {
         }
     });
 }
+
+}
 function submitValidation() {
  //Validation
         var staff_name = $('#staff_name').val(); var staff_type = $('#staff_type').val(); var address = $('#address').val(); var state = $('#state').val(); var district = $('#district').val(); var taluk = $('#taluk').val(); var place = $('#place').val(); var pincode = $('#pincode').val(); let mobile1 = $('#mobile1').val(); let mobile2 = $('#mobile2').val(); let whatsapp = $('#whatsapp').val();
@@ -452,7 +454,5 @@ function submitValidation() {
         }
         return true;
  }
-
-}
 
 

@@ -1364,6 +1364,11 @@
     if ($current_page == 'customer_status_report') { ?>
         <script src="js/customer_status_report.js"></script>
     <?php }
+
+    if ($current_page == 'promotion_activity_report') { ?>
+        <script src="js/promotion_activity_report.js"></script>
+    <?php }
+
     if ($current_page == 'commitment_report') { ?>
         <script src="js/commitment_report.js"></script>
     <?php }
