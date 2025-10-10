@@ -1160,6 +1160,12 @@ if($idupd>0)
                         </div>
 						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($promotion_activity_report==0){ echo'checked'; }} ?> tabindex="71" class="report-checkbox" id="promotion_activity_report" name="promotion_activity_report" disabled>&nbsp;&nbsp;
+                                <label class="custom-control-label" for="promotion_activity_report">Promotion Activity Report</label>
+                            </div>
+                        </div>
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($commitment_report==0){ echo'checked'; }} ?> tabindex="70" class="report-checkbox" id="commitment_report" name="commitment_report" disabled>&nbsp;&nbsp;
                                 <label class="custom-control-label" for="commitment_report">Commitment</label>
 
