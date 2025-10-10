@@ -2,7 +2,7 @@
 <br><br>
 <div class="page-header">
 	<div style="background-color:#0c70ab; width:100%; padding:12px; color: #ffff; font-size: 20px; border-radius:5px;">
-		Cauvery Capitals - Day End Report
+		Marudham Capitals - Day End Report
 	</div>
 </div><br>
 
@@ -12,29 +12,19 @@
 	<form id="day_end_report_form" name="day_end_report_form" action="" method="post" enctype="multipart/form-data">
 
 		<div class="row gutters" id="day_end_card">
-
 			<div class="toggle-container col-12">
 				<input type="date" id='search_date' name='search_date' class="toggle-button" value=''>
-				<input type="button" id='reset_btn' name='reset_btn' class="toggle-button" style="background-color: #0c70ab;color:white" value='Reload'>
+				<input type="button" id='reset_btn' name='reset_btn' class="toggle-button" style="background-color: #0c70ab;color:white" value='Search'>
 			</div>
             
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="card">
-					<div class="card-header">Day End Report</div>
+					<div style="display: flex; align-items:centre; justify-content: space-between;">
+						<div class="card-header">Day End Report</div>
+						<div style="margin: 25px 30px 0px 0px;"><button type="button" id="print_day_end_report" class="toggle-button" style="background-color: #0c70ab;color:white; display:none">Print</button></div>
+					</div>
 					<div class="card-body">
-						<div id="day_end_div" class="table-divs" style="overflow-x: auto;">
-							<table id="day_end_report_table" class="table custom-table">
-								<thead>
-                                <th></th>
-                                <th>Hand Cash</th>
-                                <th>KVB</th>
-                                <th>CUB</th>
-                                <th>Total</th>
-                                <th>Till Now</th>
-								</thead>
-								<tbody></tbody>
-							</table>
-						</div>
+						<div id="day_end_div" class="table-divs" style="overflow-x: auto;"></div>
 					</div>
 				</div>
 			</div>

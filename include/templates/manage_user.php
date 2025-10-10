@@ -93,9 +93,11 @@ $confirmation_followup_report = '';
 $agent_report = '';
 $no_due_pay_report = '';
 $other_trans_report = '';
+$day_end_report = '';
 $due_followup_customer_count_report = '';
 $uncleared_report = '';
 $customer_status_report = '';
+$commitment_report = '';
 $reportmodule_interest = '';
 $interest_ledger_report = '';
 $interest_loan_issue_report = '';
@@ -246,9 +248,11 @@ if($idupd>0)
 			$agent_report          		     = $getUser['agent_report'];
 			$no_due_pay_report          		     = $getUser['no_due_pay_report'];
 			$other_trans_report          		     = $getUser['other_trans_report'];
+			$day_end_report          		     = $getUser['day_end_report'];
 			$due_followup_customer_count_report  = $getUser['due_followup_customer_count_report'];
 			$uncleared_report  = $getUser['uncleared_report'];
 			$customer_status_report  = $getUser['customer_status_report'];
+			$commitment_report  = $getUser['commitment_report'];
 
 			$reportmodule_interest          		     = $getUser['reportmodule_interest'];
 			$interest_ledger_report          		     = $getUser['interest_ledger_report'];
@@ -1129,6 +1133,12 @@ if($idupd>0)
                         </div>
 						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($day_end_report==0){ echo'checked'; }} ?> tabindex="72" class="report-checkbox" id="day_end_report" name="day_end_report" disabled>&nbsp;&nbsp;
+                                <label class="custom-control-label" for="day_end_report">Day End Report </label>
+                            </div>
+                        </div>
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($due_followup_customer_count_report==0){ echo'checked'; }} ?> tabindex="80" class="report-checkbox" id="due_followup_customer_count_report" name="due_followup_customer_count_report" disabled>&nbsp;&nbsp;
                                 <label class="custom-control-label" for="due_followup_customer_count_report">Due Follow Up Customer Count</label>
                             </div>
@@ -1143,6 +1153,12 @@ if($idupd>0)
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($customer_status_report==0){ echo'checked'; }} ?> tabindex="82" class="report-checkbox" id="customer_status_report" name="customer_status_report" disabled>&nbsp;&nbsp;
                                 <label class="custom-control-label" for="customer_status_report">Customer Status Report</label>
+                            </div>
+                        </div>
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($commitment_report==0){ echo'checked'; }} ?> tabindex="70" class="report-checkbox" id="commitment_report" name="commitment_report" disabled>&nbsp;&nbsp;
+                                <label class="custom-control-label" for="commitment_report">Commitment</label>
                             </div>
                         </div>
 					</div>
