@@ -12,10 +12,10 @@ if (isset($_SESSION["userid"])) {
 }
 if ($userid != 1) {
 
-    $userQry = $connect->query("SELECT group_id, loan_cat FROM USER WHERE user_id = $userid ");
+    $userQry = $connect->query("SELECT group_id, ver_loan_cat FROM USER WHERE user_id = $userid ");
     $rowuser = $userQry->fetch();
     $group_id = $rowuser['group_id'];
-    $loan_cat = $rowuser['loan_cat'];
+    $loan_cat = $rowuser['ver_loan_cat'];
 
     $group_id_array = explode(',', $group_id);
     $area_list_array = []; 
@@ -86,11 +86,8 @@ if ($userid == 1) {
     JOIN area_line_mapping_area alma ON alma.area_id = a.area_id
     JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = v.loan_category
-    WHERE v.status = 0 and (v.cus_status NOT IN(4, 5, 6, 7, 8, 9) and v.cus_status < 14) AND v.area IN ($area_list) "; //show only moved to verification list and cancelled at verification 
+    WHERE v.status = 0 and (v.cus_status NOT IN(4, 5, 6, 7, 8, 9) and v.cus_status < 14) AND v.area IN ($area_list) AND v.loan_category IN ($loan_cat) "; //show only moved to verification list and cancelled at verification 
 
-    if ($loan_cat != null and $loan_cat != '') {
-        $query .= "and v.loan_category IN ($loan_cat)"; // show only user's loan cat allocation
-    }
 }
 if (isset($_POST['search']) && $_POST['search'] != "") {
 

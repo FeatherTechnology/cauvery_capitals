@@ -929,7 +929,7 @@ function callresetCustomerStatus(cus_id) {
 }
 
 //Validations
-function validation(submit_btn, event) {
+function validation(event) {
     var idupd = $('#id').val();
     var role = $('#role_load').val();
     var validation = true;

@@ -34,18 +34,9 @@ if ($res->rowCount()>0)
             }else{
                 $detailrecords[$j]['disabled'] = false;
             }
-        }else if($map == 'duefollowup'){
-            $runQry = $connect->query("SELECT * From area_duefollowup_mapping_area where area_id = $area_id ");
-            if($runQry->rowCount()>0){
-                $detailrecords[$j]['disabled'] = true;
-            }else{
-                $detailrecords[$j]['disabled'] = false;
-            }
         }
-                
         $j++;
     }
- 
 }
 
 echo json_encode($detailrecords);
