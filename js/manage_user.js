@@ -3,20 +3,15 @@ const branchMultiselect = new Choices('#branch_id1', {
     removeItemButton: true,
     noChoicesText: 'Select Branch Name',
     allowHTML: true
-
 });
+
 const agentMultiselect = new Choices('#agent1', {
     removeItemButton: true,
     noChoicesText: 'Select Agent Name',
     allowHTML: true
 
 });
-const loanCatMultiselect = new Choices('#loan_cat1', {
-    removeItemButton: true,
-    noChoicesText: 'Select Loan Category',
-    allowHTML: true
 
-});
 const lineMultiselect = new Choices('#line1', {
     removeItemButton: true,
     noChoicesText: 'Select Line Name',
@@ -29,6 +24,25 @@ const groupMultiselect = new Choices('#group1', {
     allowHTML: true
 
 });
+
+const verificationloanCatMultiselect = new Choices('#loan_cat1', {
+    removeItemButton: true,
+    noChoicesText: 'Select Loan Category',
+    allowHTML: true
+});
+
+const approvalloanCatMultiselect = new Choices('#loan_cat2', {
+    removeItemButton: true,
+    noChoicesText: 'Select Loan Category',
+    allowHTML: true
+});
+
+const acknowledgementloanCatMultiselect = new Choices('#loan_cat3', {
+    removeItemButton: true,
+    noChoicesText: 'Select Loan Category',
+    allowHTML: true
+});
+
 const cash_tally_access_select = new Choices('#cash_tally_access1', {
     removeItemButton: true,
     noChoicesText: 'Select Cash Tally Access',
@@ -39,24 +53,26 @@ const bankMultiselect = new Choices('#bank_details1', {
     removeItemButton: true,
     noChoicesText: 'Select Bank Name',
     allowHTML: true
-
 });
+
 const promotionAccess = new Choices('#pro_aty_access', {
     removeItemButton: true,
     noChoicesText: 'Select Promotion Activity',
     allowHTML: true
-
 });
+
 const dueFollowupLines = new Choices('#due_follup_lines', {
     removeItemButton: true,
     noChoicesText: 'Select Due Followup Lines',
     allowHTML: true
 });
+
 const updateScreen = new Choices('#update_screen', {
     removeItemButton: true,
     noChoicesText: 'Select Update Screen',
     allowHTML: true
 });
+
 // Document is ready
 $(document).ready(function () {
 
@@ -89,7 +105,6 @@ $(document).ready(function () {
         $('#company_id').val('');
         $('#company_name').val('');
         branchMultiselect.clearStore();
-        loanCatMultiselect.clearStore();
         lineMultiselect.clearStore();
         groupMultiselect.clearStore();
 
@@ -104,7 +119,6 @@ $(document).ready(function () {
         $('#company_id').val('');
         $('#company_name').val('');
         branchMultiselect.clearStore();
-        loanCatMultiselect.clearStore();
         lineMultiselect.clearStore();
         groupMultiselect.clearStore();
 
@@ -116,7 +130,6 @@ $(document).ready(function () {
     $('#dir_name').change(function () {
         var dir_id = $('#dir_name').val();
         geDirectorDetails(dir_id);
-
     });
 
     $('#ag_name').change(function () {
@@ -150,32 +163,11 @@ $(document).ready(function () {
             }
             branch_id += branch_id1[i].value;
         }
-        // var arr = branch_id.split(",");
-        // arr.sort(function(a,b){return a-b});
-        // var sortedStr = arr.join(",");
-        // $('#branch_id').val(sortedStr);
 
-        getLineDropdown(branch_id);
         getGroupDropdown(branch_id);
-
-    })
-
-    $('#agent1').change(function () {
-        var agent1 = agentMultiselect.getValue();
-        var agentforstaff = '';
-        for (var i = 0; i < agent1.length; i++) {
-            if (i > 0) {
-                agentforstaff += ',';
-            }
-            agentforstaff += agent1[i].value;
-        }
-        var arr = agentforstaff.split(",");
-        arr.sort(function (a, b) { return a - b });
-        var sortedStr = arr.join(",");
-
-        $('#agentforstaff').val(sortedStr);
-
-    })
+        getLineDropdown(branch_id);
+        getdueFollupLineDropdown(branch_id);
+    });
 
     $('#bank_details1').change(function () {
         var bank_details1 = bankMultiselect.getValue();
@@ -256,24 +248,40 @@ $(document).ready(function () {
         const checkboxesToEnable = document.querySelectorAll("input.request-checkbox");
         var requestmodule = document.querySelector('#requestmodule');
         checkbox(checkboxesToEnable, requestmodule);
+        if (!requestmodule.checked) {
+            agentMultiselect.clearStore();
+            $('.agent_div').hide();
+        }
     });
 
     $("#verificationmodule").on("change", function () {
         const checkboxesToEnable = document.querySelectorAll("input.verification-checkbox");
         var verificationmodule = document.querySelector('#verificationmodule');
         checkbox(checkboxesToEnable, verificationmodule);
+        if (!verificationmodule.checked) {
+            verificationloanCatMultiselect.clearStore();
+            $('.ver_loancat_div').hide();
+        }
     });
 
     $("#approvalmodule").on("change", function () {
         const checkboxesToEnable = document.querySelectorAll("input.approval-checkbox");
         var approvalmodule = document.querySelector('#approvalmodule');
         checkbox(checkboxesToEnable, approvalmodule);
+        if (!approvalmodule.checked) {
+            approvalloanCatMultiselect.clearStore();
+            $('.app_loancat_div').hide();
+        }
     });
 
     $("#acknowledgementmodule").on("change", function () {
         const checkboxesToEnable = document.querySelectorAll("input.acknowledgement-checkbox");
         var acknowledgementmodule = document.querySelector('#acknowledgementmodule');
         checkbox(checkboxesToEnable, acknowledgementmodule);
+        if (!acknowledgementmodule.checked) {
+            acknowledgementloanCatMultiselect.clearStore();
+            $('.ack_loancat_div').hide();
+        }
     });
 
     $("#loanissuemodule").on("change", function () {
@@ -299,12 +307,6 @@ $(document).ready(function () {
         var nocmodule = document.querySelector('#nocmodule');
         checkbox(checkboxesToEnable, nocmodule);
     });
-
-    // $("#doctrackmodule").on("change", function() {
-    //     const checkboxesToEnable = document.querySelectorAll("input.doctrack-checkbox");
-    //     var doctrackmodule = document.querySelector('#doctrackmodule');
-    //     checkbox(checkboxesToEnable,doctrackmodule);
-    // });
 
     $("#updatemodule").on("change", function () {
         const checkboxesToEnable = document.querySelectorAll("input.update-checkbox");
@@ -339,26 +341,31 @@ $(document).ready(function () {
         var followupmodule = document.querySelector('#followupmodule');
         checkbox(checkboxesToEnable, followupmodule);
     });
+
     $("#reportmodule").on("change", function () {
         const checkboxesToEnable = document.querySelectorAll("input.report-checkbox");
         var reportmodule = document.querySelector('#reportmodule');
         checkbox(checkboxesToEnable, reportmodule);
     });
+
     $("#searchmodule").on("change", function () {
         const checkboxesToEnable = document.querySelectorAll("input.search-checkbox");
         var searchmodule = document.querySelector('#searchmodule');
         checkbox(checkboxesToEnable, searchmodule);
     });
+
     $("#bulk_upload_module").on("change", function () {
         const checkboxesToEnable = document.querySelectorAll("input.bulk_upload-checkbox");
         var bulk_upload_module = document.querySelector('#bulk_upload_module');
         checkbox(checkboxesToEnable, bulk_upload_module);
     });
+
     $("#loan_track_module").on("change", function () {
         const checkboxesToEnable = document.querySelectorAll("input.loan_track-checkbox");
         var loan_track_module = document.querySelector('#loan_track_module');
         checkbox(checkboxesToEnable, loan_track_module);
     });
+
     $("#sms_module").on("change", function () {
         const checkboxesToEnable = document.querySelectorAll("input.sms_generation-checkbox");
         var sms_module = document.querySelector('#sms_module');
@@ -376,6 +383,7 @@ $(document).ready(function () {
             $('.cash_tally_access').hide()
         }
     })
+
     $('#promotion_activity').click(function () {
         var promotion_activity = document.querySelector('#promotion_activity');
         if (promotion_activity.checked) {
@@ -384,21 +392,13 @@ $(document).ready(function () {
             $('.promotion_activity_div').hide()
         }
     })
+
     $('#conf_followup').click(function () {
         var conf_followup = document.querySelector('#conf_followup');
         if (conf_followup.checked) {
             $('.conf_followup_div').show()
         } else {
             $('.conf_followup_div').hide()
-        }
-    })
-    $('#due_followup').click(function () {
-        var due_followup = document.querySelector('#due_followup');
-        if (due_followup.checked) {
-            getdueFollupLineDropdown();
-            $('.due_followupline_div').show()
-        } else {
-            $('.due_followupline_div').hide()
         }
     })
     
@@ -418,19 +418,83 @@ $(document).ready(function () {
         }
     });
 
-    $('#submit_manage_user').click(function () {
-
-       if( multiselectValue() && validation()){
-            let confirmAction = confirm("Are you sure you want to submit Manage user ?");
-            if (!confirmAction) {
-                event.preventDefault(); // Stop form submission if canceled
-                return false;
-            }
-        }else{
-            event.preventDefault();
-            return false;
+    $('#request').click(function () {
+        var request_screen = document.querySelector('#request');
+        if (request_screen.checked) {
+            getAgentDropdown($('#company_id').val());
+            $('.agent_div').show();
+        } else {
+            $('.agent_div').hide();
         }
-    })
+    });
+
+    $('#verification').click(function () {
+        var verification_screen = document.querySelector('#verification');
+        if (verification_screen.checked) {
+            getLoanCatDropdown('#ver_loan_cat_upd', verificationloanCatMultiselect);
+            $('.ver_loancat_div').show();
+        } else {
+            verificationloanCatMultiselect.clearStore();
+            $('.ver_loancat_div').hide();
+        }
+    });
+
+    $('#approval').click(function () {
+        var approval_screen = document.querySelector('#approval');
+        if (approval_screen.checked) {
+            getLoanCatDropdown('#app_loan_cat_upd', approvalloanCatMultiselect);
+            $('.app_loancat_div').show();
+        } else {
+            approvalloanCatMultiselect.clearStore();
+            $('.app_loancat_div').hide();
+        }
+    });
+
+    $('#acknowledgement').click(function () {
+        var acknowledgement_screen = document.querySelector('#acknowledgement');
+        if (acknowledgement_screen.checked) {
+            getLoanCatDropdown('#ack_loan_cat_upd', acknowledgementloanCatMultiselect);
+            $('.ack_loancat_div').show();
+        } else {
+            acknowledgementloanCatMultiselect.clearStore();
+            $('.ack_loancat_div').hide();
+        }
+    });
+
+    $('#promotion_activity').click(function () {
+        var promotion_activity_screen = document.querySelector('#promotion_activity');
+        if (promotion_activity_screen.checked) {
+            $('.promotion_activity_div').show();
+        } else {
+            $('.promotion_activity_div').hide();
+        }
+    });
+
+	$('#submit_manage_user').click(function (event) {
+	event.preventDefault(); // Stop default submit; we'll submit programmatically after validation
+
+		if (validation()) {
+			let confirmAction = confirm("Are you sure you want to submit Manage user ?");
+			if (confirmAction) {
+				// Ensure the submit button name/value is posted so PHP sees $_POST['submit_manage_user']
+				if (!document.querySelector('input[name="submit_manage_user"]')) {
+					const hiddenSubmit = document.createElement('input');
+					hiddenSubmit.type = 'hidden';
+					hiddenSubmit.name = 'submit_manage_user';
+					hiddenSubmit.value = 'Submit';
+					document.getElementById('manage_user_form').appendChild(hiddenSubmit);
+				}
+
+				const formEl = document.getElementById('manage_user_form');
+				const submitBtn = document.getElementById('submit_manage_user');
+				if (formEl.requestSubmit) {
+					formEl.requestSubmit(submitBtn);
+				} else {
+					formEl.submit();
+				}
+			}
+		}
+	});
 });
 
 
@@ -452,30 +516,30 @@ $(function () {
         getRoleBasedDetails(role_upd);
         if (role_upd == '1') {
             $('#role_type').val(role_type_upd);
-            getRoleTypeBasedDetails(role_upd, role_type_upd)
-            geDirectorDetails(dir_id_upd)
+            getRoleTypeBasedDetails(role_upd, role_type_upd);
+            geDirectorDetails(dir_id_upd);
+
         } else if (role_upd == '2') {
             getAgentDetails(ag_id_upd);
+
         } else if (role_upd == '3') {
             getRoleTypeBasedDetails(role_upd, role_type_upd);
             getStaffDetails(staff_id_upd);
-        }
-        getLineDropdown(branch_id_upd);
-        getGroupDropdown(branch_id_upd);
 
+        }
+
+        getGroupDropdown(branch_id_upd);
+        getLineDropdown(branch_id_upd);
+        getdueFollupLineDropdown(branch_id_upd);
         getBankDetails();
         getProAccess();
         // getcashTallyAccess()
 
         var due_followup = document.querySelector('#due_followup');
-        var promotion_activity = document.querySelector('#promotion_activity');
         var conf_followup = document.querySelector('#conf_followup');
         if (due_followup.checked) {
             getdueFollupLineDropdown();
             $('.due_followupline_div').show()
-        }
-        if (promotion_activity.checked) {
-            $('.promotion_activity_div').show()
         }
         if (conf_followup.checked) {
             $('.conf_followup_div').show()
@@ -493,6 +557,49 @@ $(function () {
 
             $('.update_screen_div').show()
         }
+
+        var request_screen = document.querySelector('#request');
+        if (request_screen.checked) {
+            getAgentDropdown(company_id_upd);
+            $('.agent_div').show()
+        }else{
+            $('.agent_div').hide()
+        }
+
+        var verification_screen = document.querySelector('#verification');
+        if (verification_screen.checked) {
+            getLoanCatDropdown('#ver_loan_cat_upd', verificationloanCatMultiselect);
+            $('.ver_loancat_div').show()
+        }else{
+            verificationloanCatMultiselect.clearStore();
+            $('.ver_loancat_div').hide()
+        }
+
+        var approval_screen = document.querySelector('#approval');
+        if (approval_screen.checked) {
+            getLoanCatDropdown('#app_loan_cat_upd', approvalloanCatMultiselect);
+            $('.app_loancat_div').show()
+        }else{
+            approvalloanCatMultiselect.clearStore();
+            $('.app_loancat_div').hide()
+        }
+
+        var acknowledgement_screen = document.querySelector('#acknowledgementmodule');
+        if (acknowledgement_screen.checked) {
+            getLoanCatDropdown('#ack_loan_cat_upd', acknowledgementloanCatMultiselect);
+            $('.ack_loancat_div').show()
+        }else{
+            acknowledgementloanCatMultiselect.clearStore();
+            $('.ack_loancat_div').hide()
+        }
+
+        var promotionActivity_screen = document.querySelector('#promotion_activity');
+        if (promotionActivity_screen.checked) {
+            $('.promotion_activity_div').show()
+        }else{
+            $('.promotion_activity_div').hide()
+        }
+
         var cash_tally = document.querySelector('#cash_tally');
         if (cash_tally.checked) {
             var cash_tally_access_upd = $('#cash_tally_access_upd').val();
@@ -526,6 +633,7 @@ $(function () {
         var bulk_upload_module = document.getElementById('bulk_upload_module');
         var loan_track_module = document.getElementById('loan_track_module');
         var sms_module = document.getElementById('sms_module');
+
         if (mastermodule.checked) { const checkboxesToEnable = document.querySelectorAll("input.master-checkbox"); var mastermodule = document.querySelector('#mastermodule'); checkbox(checkboxesToEnable, mastermodule); }
         if (adminmodule.checked) { const checkboxesToEnable = document.querySelectorAll("input.admin-checkbox"); var adminmodule = document.querySelector('#adminmodule'); checkbox(checkboxesToEnable, adminmodule); }
         if (requestmodule.checked) { const checkboxesToEnable = document.querySelectorAll("input.request-checkbox"); var requestmodule = document.querySelector('#requestmodule'); checkbox(checkboxesToEnable, requestmodule); }
@@ -648,10 +756,7 @@ function getStaffName(role_type) {
     });
 }
 
-
-
 //Table View
-
 //get Director Details
 function geDirectorDetails(dir_id) {
     $('.userInfoTable').show();
@@ -678,6 +783,7 @@ function geDirectorDetails(dir_id) {
         }
     })
 }
+
 //get Agent Details
 function getAgentDetails(ag_id) {
     $('.userInfoTable').show();
@@ -742,8 +848,6 @@ function getStaffDetails(staff_id) {
             $('#email').val(response[0]['mail']);
 
             getBranchDropdown(response[0]['company_id']);
-            getAgentDropdown(response[0]['company_id']);
-            getLoanCatDropdown();
         }
     })
 }
@@ -818,8 +922,8 @@ function getAgentDropdown(company_id) {
 }
 
 //get Loan category Dropdown
-function getLoanCatDropdown() {
-    var loan_cat_upd = $('#loan_cat_upd').val().split(',');
+function getLoanCatDropdown(updId, multipleSelectID) {
+    var loan_cat_upd = $(updId).val().split(',').map(s => s.trim());
     $.ajax({
         url: 'manageUser/getLoanCatDropdown.php',
         data: {},
@@ -827,26 +931,13 @@ function getLoanCatDropdown() {
         type: 'post',
         cache: false,
         success: function (response) {
-            loanCatMultiselect.clearStore();
-            for (var i = 0; i < response.length; i++) {
-                var loan_cat_id = response[i]['loan_cat_id'];
-                var loan_cat_name = response[i]['loan_cat_name'];
-                var selected = '';
-                if (loan_cat_upd != '') {
-                    for (var j = 0; j < loan_cat_upd.length; j++) {
-                        if (loan_cat_upd[j] == loan_cat_id) {
-                            selected = 'selected';
-                        }
-                    }
-                }
-                var items = [{
-                    value: loan_cat_id,
-                    label: loan_cat_name,
-                    selected: selected
-                }]
-                loanCatMultiselect.setChoices(items);
-                loanCatMultiselect.init();
-            }
+            multipleSelectID.clearChoices(); // correct method
+            const items = response.map(item => ({
+                value: item.loan_cat_id,
+                label: item.loan_cat_name,
+                selected: loan_cat_upd.includes(String(item.loan_cat_id))
+            }));
+            multipleSelectID.setChoices(items, 'value', 'label', true);
         }
     })
 }
@@ -886,7 +977,7 @@ function getLineDropdown(branch_id) {
 }
 
 // linedropdown in duefollowup
-function getdueFollupLineDropdown() {
+function getdueFollupLineDropdown(branch_id) {
     var dueFollowUp_upd = $('#due_followup_lines_upd').val().split(',');
     if (dueFollowUp_upd != '') {
         $('.due_followupline_div').show();
@@ -894,7 +985,7 @@ function getdueFollupLineDropdown() {
     
     $.ajax({
         url: 'manageUser/getDueFollowUpLineName.php',
-        data: { },
+        data: { branch_id },
         dataType: 'json',
         type: 'post',
         cache: false,
@@ -956,6 +1047,7 @@ function getGroupDropdown(branch_id) {
         }
     })
 }
+
 //Get Bank Details list
 function getBankDetails() {
     var bank_details_upd = $('#bank_details_upd').val().split(',');
@@ -994,6 +1086,7 @@ function getBankDetails() {
         }
     })
 }
+
 //Get promotion access list
 function getProAccess() {
     var promotion_access_upd = $('#promotion_access_upd').val().split(',');
@@ -1001,8 +1094,8 @@ function getProAccess() {
     const valueToLabelMap = {
         '1': 'Existing',
         '2': 'New ',
-        '3': 'Repromotion'
-        // ,'4': 'Events'  
+        '3': 'Repromotion', 
+        '4': 'Events' 
     };
     promotionAccess.clearStore();
 
@@ -1054,6 +1147,7 @@ function getcashTallyAccess() {
     cash_tally_access_select.setChoices(items);
     cash_tally_access_select.init();
 }
+
 //Screen Mapping
 //modules checkbox events
 function checkbox(checkboxesToEnable, module) {
@@ -1070,109 +1164,134 @@ function checkbox(checkboxesToEnable, module) {
 }
 
 // for taking selected values from multiselect to hidden input field. so that it can be passed as comma imploded string
-function multiselectValue() {
-    var branch_id1 = branchMultiselect.getValue();
-    var branch_id = '';
-    var validation = true;
-    for (var i = 0; i < branch_id1.length; i++) {
-        if (i > 0) {
-            branch_id += ',';
-        }
-        branch_id += branch_id1[i].value;
-    }
-    var arr = branch_id.split(",");
-    arr.sort(function (a, b) { return a - b });
-    var sortedStr = arr.join(",");
-    $('#branch_id').val(sortedStr);
-    //////////////////////////////////////////////////
-    var agent1 = agentMultiselect.getValue();
-    var agentforstaff = '';
-    for (var i = 0; i < agent1.length; i++) {
-        if (i > 0) {
-            agentforstaff += ',';
-        }
-        agentforstaff += agent1[i].value;
-    }
-    var arr = agentforstaff.split(",");
-    arr.sort(function (a, b) { return a - b });
-    var sortedStr = arr.join(",");
-    $('#agentforstaff').val(sortedStr);
+function multipleSelectSort(instanceId, storeId){
+    const screenList = instanceId.getValue();
+    const screenSortedStr = screenList
+        .map(item => (item && item.value !== undefined ? String(item.value) : ''))
+        .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+        .join(',');
 
-    //////////////////////////////////////////////////
-
-    var loan_cat1 = loanCatMultiselect.getValue();
-    var loan_cat = '';
-    for (var i = 0; i < loan_cat1.length; i++) {
-        if (i > 0) {
-            loan_cat += ',';
-        }
-        loan_cat += loan_cat1[i].value;
-    }
-    var arr = loan_cat.split(",");
-    arr.sort(function (a, b) { return a - b });
-    var sortedStr = arr.join(",");
-
-    $('#loan_cat').val(sortedStr);
-    var loan_cat = $('#loan_cat').val();
-    var role = $('#role').val();
-    if (loan_cat == '' && role == '3') { event.preventDefault(); $('#loan_catCheck').show(); validation = false;} else { $('#loan_catCheck').hide(); }
-    //////////////////////////////////////////////////
-
-    var line1 = lineMultiselect.getValue();
-    var line = '';
-    for (var i = 0; i < line1.length; i++) {
-        if (i > 0) {
-            line += ',';
-        }
-        line += line1[i].value;
-    }
-    var arr = line.split(",");
-    arr.sort(function (a, b) { return a - b });
-    var sortedStr = arr.join(",");
-    $('#line').val(sortedStr);
-    var line = $('#line').val();
-    var role = $('#role').val();
-    if (line == '' && role != '2') { event.preventDefault(); $('#lineCheck').show(); validation = false;} else { $('#lineCheck').hide(); }
-    //////////////////////////////////////////////////
-    var group1 = groupMultiselect.getValue();
-    var group = '';
-    for (var i = 0; i < group1.length; i++) {
-        if (i > 0) {
-            group += ',';
-        }
-        group += group1[i].value;
-    }
-    var arr = group.split(",");
-    arr.sort(function (a, b) { return a - b });
-    var sortedStr = arr.join(",");
-    $('#group').val(sortedStr);
-    var group = $('#group').val();
-    if (group == '') { event.preventDefault(); $('#groupCheck').show();validation = false; } else { $('#groupCheck').hide(); }
-    //////////////////////////////////////////////////
-    var isPromotionChecked = $('#promotion_activity').is(':checked');
-    if(isPromotionChecked){
-    var promotion_access = promotionAccess.getValue();
-    var pro_acc = '';
-    for (var i = 0; i < promotion_access.length; i++) {
-        if (i > 0) {
-            pro_acc += ',';
-        }
-        pro_acc += promotion_access[i].value;
-    }
-    var arr = pro_acc.split(",");
-    arr.sort(function (a, b) { return a - b });
-    var sortedStr = arr.join(",");
-    $('#pro_aty_access_id').val(sortedStr);
-    var pro_acc = $('#pro_aty_access_id').val();
-    if (pro_acc == '') { event.preventDefault(); $('#proCheck').show(); validation = false; } else { $('#proCheck').hide(); }  
-}
-    //////////////////////////////////////////////////
-    return validation;
+    $(storeId).val(screenSortedStr); 
+    
+    return screenSortedStr ? screenSortedStr.split(',').length : 0;
 }
 
 function validation() {
     var role = $('#role').val();
     var validation = true;
+
+    multipleSelectSort(branchMultiselect, '#branch_id');
+    multipleSelectSort(agentMultiselect, '#agentforstaff');
+
+    let groupSort = multipleSelectSort(groupMultiselect, '#group');
+    if (groupSort == 0) {  
+        $('#groupCheck').show();
+        validation = false; 
+    } else { 
+        $('#groupCheck').hide(); 
+    }
+
+    let lineSort = multipleSelectSort(lineMultiselect, '#line');
+    var role = $('#role').val();
+    if (lineSort == 0 && role != '2') {  
+        $('#lineCheck').show(); 
+        validation = false;
+    } else { 
+        $('#lineCheck').hide(); 
+    }
+
+    let varLoanCatchecked = $('#verification').is(':checked');
+    if(varLoanCatchecked){
+        let varLoanCat = multipleSelectSort(verificationloanCatMultiselect, '#ver_loan_cat');
+        if (varLoanCat == 0) {  
+            $('#ver_loan_catCheck').show(); 
+            validation = false;
+        } else { 
+            $('#ver_loan_catCheck').hide(); 
+        }
+    }
+
+    let appLoanCatchecked = $('#approval').is(':checked');
+    if(appLoanCatchecked){
+        let appLoanCat = multipleSelectSort(approvalloanCatMultiselect, '#app_loan_cat');
+        if (appLoanCat == 0) {  
+            $('#app_loan_catCheck').show(); 
+            validation = false;
+        } else { 
+            $('#app_loan_catCheck').hide(); 
+        }
+    }
+
+    let ackLoanCatchecked = $('#acknowledgement').is(':checked');
+    if(ackLoanCatchecked){
+        let ackLoanCat = multipleSelectSort(acknowledgementloanCatMultiselect, '#ack_loan_cat');
+        if (ackLoanCat == 0) {  
+            $('#ack_loan_catCheck').show(); 
+            validation = false;
+        } else { 
+            $('#ack_loan_catCheck').hide(); 
+        }
+    }
+
+    var isPromotionChecked = $('#promotion_activity').is(':checked');
+    if(isPromotionChecked){
+        let proAtyAccessIdSort = multipleSelectSort(promotionAccess, '#pro_aty_access_id');
+        if (proAtyAccessIdSort == 0) {  
+            $('#proCheck').show();
+            validation = false; 
+        } else { 
+            $('#proCheck').hide(); 
+        }  
+    }
+
+    let dueFollowupChecked = $('#due_followup').is(':checked');
+    let dueFollowupIdSort = multipleSelectSort(dueFollowupLines, '#due_follup_line_id');
+
+    if (dueFollowupChecked && dueFollowupIdSort == 0) { //Checkbox checked but no lines selected 
+        $('.duefollowupCheck').show();
+        $('.dueFollowupCheck').hide(); 
+        validation = false; 
+        
+    } else if(!dueFollowupChecked && dueFollowupIdSort > 0){ //Lines selected but checkbox not checked 
+        $('.dueFollowupCheck').show();
+        $('.duefollowupCheck').hide(); 
+        validation = false; 
+    } else {
+        $('.dueFollowupCheck').hide();
+        $('.duefollowupCheck').hide(); 
+    }
+
+    var cash_tally = document.querySelector('#cash_tally');
+    var cash_tally_access_selects = cash_tally_access_select.getValue();
+    if (!cash_tally.checked) {
+        $('#cash_tally_access').val('')
+    } else{
+        if(cash_tally_access_selects.length == 0){
+            event.preventDefault();
+            $('.cash_tally_access').show();
+            $('.cash_tally_accessCheck').show();
+            validation = false;
+        }else{
+            $('.cash_tally_accessCheck').hide();
+        }
+    }
+
+    var conf_followup = document.querySelector('#conf_followup');
+    var CFGroupOrDuefollowup =  $('#conf_followup_line_or_duefollowup').val();
+    if (!conf_followup.checked) {
+        $('#conf_followup_line_or_duefollowup').val('')
+    } else{
+        if(CFGroupOrDuefollowup ==''){
+            event.preventDefault();
+            $('.conf_followup_div').show();
+            $('.confFollowupCheck').show();
+            validation = false;
+        }else{
+            $('.confFollowupCheck').hide();
+        }
+    }
+
+
     if (role == '1') {
         $('#roleCheck').hide();
         var role_type = $('#role_type').val();
@@ -1181,20 +1300,19 @@ function validation() {
             var dir_name = $('#dir_name').val();
             if (dir_name == '') {
                 $('#dirnameCheck').show();
-                event.preventDefault();
                 validation = false;
             } else {
                 $('#dirnameCheck').hide();
             }
         } else {
             $('#roleTypeCheck').show();
+            validation = false;
         }
     } else if (role == '2') {
         $('#roleCheck').hide();
         var ag_name = $('#ag_name').val();
         if (ag_name == '') {
             $('#agnameCheck').show();
-            event.preventDefault();
             validation = false;
         } else {
             $('#agnameCheck').hide();
@@ -1207,131 +1325,61 @@ function validation() {
             var staff_name = $('#staff_name').val();
             if (staff_name == '') {
                 $('#staffnameCheck').show();
-                event.preventDefault();
                 validation = false;
             } else {
                 $('#staffnameCheck').hide();
             }
-            // var agentforstaff = $('#agentforstaff').val();
-            // if(agentforstaff == ''){
-            //     $('#AgentCheck').show();
-            //     event.preventDefault();
-            // }else{
-            //     $('#AgentCheck').hide();
-            // }
         } else {
             $('#roleTypeCheck').show();
+            validation = false;
         }
     } else {
         $('#roleCheck').show();
+        validation = false;
     }
+
     var user_id = $('#user_id').val();
     if (user_id == '') {
         $('#usernameCheck').show();
-        event.preventDefault();
         validation = false;
     } else {
         $('#usernameCheck').hide();
     }
+
     var pass = $('#password').val();
     if (pass == '') {
         $('#passCheck').show();
-        event.preventDefault();
         validation = false;
     } else {
         $('#passCheck').hide();
     }
+
     var cnf_pass = $('#cnf_password').val();
     if (cnf_pass == '') {
         $('#cnfpassCheck').show();
-        event.preventDefault();
         validation = false;
     } else {
         $('#cnfpassCheck').hide();
     }
+
     if (pass != cnf_pass) {
         $('#passworkCheck').show();
-        event.preventDefault();
         validation = false;
-    } else { $('#passworkCheck').hide(); }
+    } else { 
+        $('#passworkCheck').hide(); 
+    }
 
     var branch_id = $('#branch_id').val();
     if (branch_id == '') {
         $('#BranchCheck').show();
-        event.preventDefault();
         validation = false;
     } else {
         $('#BranchCheck').hide();
     }
+
     var cash_tally = document.querySelector('#cash_tally');
-    var bank_details = bankMultiselect.getValue();
     if (!cash_tally.checked) {
         $('#bank_details').val('')
-    } else {
-        // if(bank_details.length == 0){
-        //     event.preventDefault();
-        //     $('.bankdetailsCheck').show();
-        // }else{
-        //     $('.bankdetailsCheck').hide();
-        // }
-    }
-    var due_followup = document.querySelector('#due_followup');
-    var dueFollowupLine = dueFollowupLines.getValue();
-    if (!due_followup.checked) {
-        $('#due_follup_line_id').val('')
-    } else{
-         if(dueFollowupLine.length == 0){
-            event.preventDefault();
-            $('.due_followupline_div').show();
-            $('.duefollowupCheck').show();
-            validation = false;
-        }else{
-            $('.duefollowupCheck').hide();
-        }
-    }
-    var cash_tally = document.querySelector('#cash_tally');
-    var cash_tally_access_selects = cash_tally_access_select.getValue();
-    if (!cash_tally.checked) {
-        $('#cash_tally_access').val('')
-    } else{
-         if(cash_tally_access_selects.length == 0){
-            event.preventDefault();
-            $('.cash_tally_access').show();
-            $('.cash_tally_accessCheck').show();
-            validation = false;
-        }else{
-            $('.cash_tally_accessCheck').hide();
-        }
-    }
-    var promotion_activity = document.querySelector('#promotion_activity');
-    var PAGroupOrDuefollowup =  $('#promotion_activity_line_or_duefollowup').val();
-     console.log("bbbb",PAGroupOrDuefollowup)
-    if (!promotion_activity.checked) {
-        $('#promotion_activity_line_or_duefollowup').val('')
-        console.log("kkk", $('#promotion_activity_line_or_duefollowup').val())
-    } else{
-         if(PAGroupOrDuefollowup ==''){
-            event.preventDefault();
-            $('.promotion_activity_div').show();
-            $('.promotionactivityCheck').show();
-            validation = false;
-        }else{
-            $('.promotionactivityCheck').hide();
-        }
-    }
-    var conf_followup = document.querySelector('#conf_followup');
-    var CFGroupOrDuefollowup =  $('#conf_followup_line_or_duefollowup').val();
-    if (!conf_followup.checked) {
-        $('#conf_followup_line_or_duefollowup').val('')
-    } else{
-         if(CFGroupOrDuefollowup ==''){
-            event.preventDefault();
-            $('.conf_followup_div').show();
-            $('.confFollowupCheck').show();
-            validation = false;
-        }else{
-            $('.confFollowupCheck').hide();
-        }
     }
 
     var update = document.querySelector('#update');
@@ -1339,8 +1387,7 @@ function validation() {
     if (!update.checked) {
         $('#update_screen_id').val('')
     } else{
-         if(update_screen.length == 0){
-            event.preventDefault();
+        if(update_screen.length == 0){
             $('.update_screen_div').show();
             $('.updateScreenCheck').show();
             validation = false;
@@ -1349,81 +1396,99 @@ function validation() {
         }
     }
 
+    // validation for report
     var reportmodule = document.querySelector('#reportmodule');
-    if (!reportmodule.checked) {
-        $('#report_access').val('')
-    } else{
-        var reportAccess = $('#report_access').val();
-         if(reportAccess == ''){
-            event.preventDefault();
-            $('#reportAccessCheck').show();
-            validation = false;
-        }
+    var report_access = $('#report_access').val();
+
+    // Case 1: Checkbox checked but dropdown empty
+    if (reportmodule.checked && report_access == '') {
+        $('#reportAccessCheck').show();
+        validation = false;
+    } else {
+        $('#reportAccessCheck').hide();
     }
+
+    // Case 2: Dropdown has value but checkbox not checked
+    if (!reportmodule.checked && report_access != '') {
+        $('.reportCheck').show();
+        validation = false;
+    } else {
+        $('.reportCheck').hide();
+    }
+
+    // validtaion for promotion activity
+    var promotion_activity = document.querySelector('#promotion_activity');
+    var promotion_activity_mapping_access = $('#promotion_activity_mapping_access').val();
+
+    // Case 1: Checkbox checked but dropdown empty
+    if (promotion_activity.checked && promotion_activity_mapping_access == '') {
+        $('#proMapCheck').show();
+        validation = false;
+    } else {
+        $('#proMapCheck').hide();
+    }
+
+    // Case 2: Dropdown has value but checkbox not checked
+    if (!promotion_activity.checked && promotion_activity_mapping_access != '') {
+        $('.promotionActivityCheck').show();
+        validation = false;
+    } else {
+        $('.promotionActivityCheck').hide();
+    }
+
 return validation;
 }
 
-
-
 //Edit Screen Functionalities
 function getRoleBasedDetails(role) {
-    if (role == '1') {
-
+    if (role == '1') { //Director
         $(".role_type").show();
+        $('.director').hide();
         $('.agent').hide();
         $('.staff').hide();
-        $('.director').hide();
-        $(".loancat_div").hide();
         $('.line_div').show();
-        $('.agent_div').hide();
         $("#role_type").empty();
-        $('#role_type').append(`<option value="">Select Role Type</option><option value='11'>Director</option>
-        <option value='12'>Executive Director</option>`);
-    } else
-        if (role == '2') {
-            $('.agent').show();
-            $(".role_type").hide();
-            $(".loancat_div").hide();
-            $('.line_div').hide();
-            $('.agent_div').hide();
-            $('.staff').hide();
-            $('.director').hide();
-        } else
-            if (role == '3') {
-                $(".role_type").show();
-                $(".loancat_div").show();
-                $('.line_div').show();
-                $('.agent_div').show();
-                $('.agent').hide();
-                $('.staff').hide();
-                $('.director').hide();
+        $('#role_type').append(`<option value="">Select Role Type</option><option value='11'>Director</option><option value='12'>Executive Director</option>`);
 
-                getStaffTypeDropdown();
-            } else {
-                $(".role_type").hide();
-                $('.agent').hide();
-                $('.staff').hide();
-                $('.director').hide();
-                $(".loancat_div").hide();
-                $('.line_div').hide();
-                $('.agent_div').hide();
-                $("#role_type").empty();
-            }
+    } else if (role == '2') { //Agent
+        $(".role_type").hide();
+        $('.director').hide();
+        $('.agent').show();
+        $('.staff').hide();
+        $('.line_div').hide();
+
+    } else if (role == '3') { //Staff
+        $(".role_type").show();
+        $('.director').hide();
+        $('.agent').hide();
+        $('.staff').hide();
+        $('.line_div').show();
+
+        getStaffTypeDropdown();
+
+    } else {
+        $(".role_type").hide();
+        $('.director').hide();
+        $('.agent').hide();
+        $('.staff').hide();
+        $('.line_div').hide();
+        $("#role_type").empty();
+    }
 }
 
 function getRoleTypeBasedDetails(role, role_type) {
     if (role == '1') {
+        $('.director').show();
         $('.agent').hide();
         $('.staff').hide();
-        $('.director').show();
         if (role_type == '11') {
             getDirectorName('1');
         } else if (role_type == '12') {
             getDirectorName('2');
         }
     } else if (role == '3') {
-        $('.agent').hide();
         $('.director').hide();
+        $('.agent').hide();
         $('.staff').show();
         getStaffName(role_type);
     }
