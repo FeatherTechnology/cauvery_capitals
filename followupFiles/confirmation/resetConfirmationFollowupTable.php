@@ -33,13 +33,15 @@ if (isset($_SESSION["userid"])) {
     $userid = $_SESSION["userid"];
 }
 if ($userid != 1) {
-     $userQry = $connect->query("SELECT group_id ,due_followup_lines, promo_act_area_access FROM USER WHERE user_id = $userid ");
+     $userQry = $connect->query("SELECT group_id , line_id , due_followup_lines, promo_act_area_access FROM USER WHERE user_id = $userid ");
             $rowuser = $userQry->fetch();
             $group_id = $rowuser['group_id'];
+            $line_id = $rowuser['line_id'];
             $due_followup_lines = $rowuser['due_followup_lines'];
             $promo_act_area_access = $rowuser['promo_act_area_access'];
 
             $group_id = explode(',', $group_id);
+            $line_id = explode(',', $line_id);
             $due_followup_lines = explode(',', $due_followup_lines);
             $area_list_array = [];
 
@@ -62,11 +64,8 @@ if ($userid != 1) {
 
             } else if ($promo_act_area_access == 2) {
 
-                foreach ($due_followup_lines as $due_foll_lines) {
-                    $groupQry = $connect->query("SELECT adma.area_id 
-                        FROM area_duefollowup_mapping_area adma 
-                        JOIN area_duefollowup_mapping adm ON adm.map_id = adma.map_id 
-                        WHERE adm.map_id = $due_foll_lines");
+                foreach ($line_id as $line) {
+                    $groupQry = $connect->query("SELECT area_id FROM area_line_mapping_area WHERE line_map_id = $line");
 
                     while ($row_sub = $groupQry->fetch(PDO::FETCH_ASSOC)) {
                         $area_list_array[] = $row_sub['area_id'];
@@ -79,6 +78,24 @@ if ($userid != 1) {
 
                 $area_ids = array_unique($area_ids);
                 $area_list = implode(',', $area_ids);
+
+            } else if ($promo_act_area_access == 3) {
+
+                foreach ($due_followup_lines as $due_foll_lines) {
+                    $groupQry = $connect->query("SELECT area_id FROM area_duefollowup_mapping_area WHERE map_id = $due_foll_lines");
+
+                    while ($row_sub = $groupQry->fetch(PDO::FETCH_ASSOC)) {
+                        $area_list_array[] = $row_sub['area_id'];
+                    }
+                }
+                $area_ids = [];
+                foreach ($area_list_array as $subarray) {
+                    $area_ids = array_merge($area_ids, explode(',', $subarray));
+                }
+
+                $area_ids = array_unique($area_ids);
+                $area_list = implode(',', $area_ids);
+
             }
 }
 

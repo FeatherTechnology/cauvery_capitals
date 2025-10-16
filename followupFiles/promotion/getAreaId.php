@@ -7,7 +7,7 @@ $userid = $_SESSION["userid"];
 $loan_category_arr = array();
 $user_area = array();
 
-$Qry = $connect->query("SELECT promo_act_area_access, group_id, due_followup_lines 
+$Qry = $connect->query("SELECT promo_act_area_access, group_id, line_id , due_followup_lines 
                         FROM user 
                         WHERE status=0 AND user_id= '" . $userid . "'"); 
 $run = $Qry->fetch();
@@ -25,6 +25,17 @@ if ($accessType == 1) {
     }
 
 } elseif ($accessType == 2) { 
+    // ✅ Line-based access
+    $user_line = explode(',', $run['line_id']);
+    foreach ($user_line as $line_id) {
+        $Qry = $connect->query("SELECT alma.area_id FROM area_line_mapping_area alma join area_line_mapping alm on alm.map_id =alma.line_map_id  WHERE alm.status = 0 AND 
+        alma.line_map_id = $line_id");
+        while ($row = $Qry->fetch()) {
+            $user_area = array_merge($user_area, explode(',', $row['area_id']));
+        }
+    }
+
+} elseif ($accessType == 3) { 
     // ✅ DueFollowup-based access
     $user_due = explode(',', $run['due_followup_lines']);
     foreach ($user_due as $due_id) {

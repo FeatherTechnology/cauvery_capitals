@@ -17,7 +17,12 @@ if ($user_id && $area_id == " ") {
         if ($user['promo_act_area_access'] == 1) {
             $user_ids = explode(',', $user['group_id']);
             $table = 'area_group_mapping_area';
-        } elseif ($user['promo_act_area_access'] == 2) {
+        } 
+        elseif ($user['promo_act_area_access'] == 2) {
+            $user_ids = explode(',', $user['line_id']);
+            $table = 'area_line_mapping_area';
+        }
+        elseif ($user['promo_act_area_access'] == 3) {
             $user_ids = explode(',', $user['due_followup_lines']);
             $table = 'area_duefollowup_mapping_area';
         }
@@ -29,7 +34,11 @@ if ($user_id && $area_id == " ") {
             // Step 2: Fetch all relevant lines for the user
             if ($user['promo_act_area_access'] == 1) {
                  $sql2 = $connect->query("SELECT * FROM $table WHERE  group_map_id IN ($ids_string)");
-            } elseif ($user['promo_act_area_access'] == 2) {
+            }
+            elseif ($user['promo_act_area_access'] == 2) {
+                $sql2 = $connect->query("SELECT * FROM $table WHERE  line_map_id IN ($ids_string)");
+            }
+            elseif ($user['promo_act_area_access'] == 3) {
                 $sql2 = $connect->query("SELECT * FROM $table WHERE  map_id IN ($ids_string)");
             }
 

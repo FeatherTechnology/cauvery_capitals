@@ -133,6 +133,17 @@ $(document).ready(function () {
 
     // ************************************************************** Due Followup Mapping ****************************************************************** 
 
+    $('#branch2').change(function(){
+        let branchId = $(this).val();
+
+        if(branchId){
+            getArea2()
+        }else{
+            areaMultiselect2.clearStore();
+            $('#cus_count, #loan_count').val('');
+        }
+    });
+    
     $('#area_dummy2').change(function () {
         // Get values from multiselect and sort
         const area_list = areaMultiselect2.getValue(); // returns array of objects like [{value: "1", label: "Area 1"}, ...]
@@ -154,10 +165,11 @@ $(document).ready(function () {
     
     $('#sub_status_mapping').change(function(){
         getSubStatusValues();
+        getArea2();
         getCusLoanCount();
     });
 
-    $('#refresh_count').click(function(event){
+    $('.refresh_count').click(function(event){
         event.preventDefault();            
         getCusLoanCount();
     })
@@ -291,67 +303,73 @@ function getArea2() {
         var area_id_upd = $('#area_id2_upd').val();
         var areaid = $('#area2').val();
         var values = area_id_upd.split(',');
-        var map = 'duefollowup';
-        $.ajax({
-            url: 'areaMapping/ajaxGetArea.php',
-            type: 'post',
-            data: { 'map': map  },
-            dataType: 'json',
-            success: function (response) {
-               
-                areaMultiselect2.clearStore();
-            
-                // Start with "Select All" manually
-                var items = [
-                    {
-                        value: 'select_all',
-                        label: 'Select All',
-                        selected: '',
-                        disabled: ''
+        var branchid = $('#branch2').val();
+        const subStatusArr = subStatusMultiselect.getValue();
+        var status = subStatusArr
+            .map(item => item.value)
+            .sort((a, b) => a.localeCompare(b))
+            .join(',');
+        if (branchid && status){
+            $.ajax({
+                url: 'areaMapping/ajaxGetMappedArea.php',
+                type: 'post',
+                data: { branchid , status },
+                dataType: 'json',
+                success: function (response) {
+                    areaMultiselect2.clearStore();
+                
+                    // Start with "Select All" manually
+                    var items = [
+                        {
+                            value: 'select_all',
+                            label: 'Select All',
+                            selected: '',
+                            disabled: ''
+                        }
+                    ];
+                
+                    var len = response.length;
+                    var areaItems = [];
+                
+                    for (var i = 0; i < len; i++) {
+                        var area_id = response[i]['area_id'];
+                        var area_name = response[i]['area_name'];
+                        var checked = response[i]['disabled'];
+                        var selected = '';
+                
+                        if (area_id_upd && values.includes(area_id.toString())) {
+                            selected = 'selected';
+                            checked = false;
+                        }
+                        if (areaid && areaid.includes(area_id.toString())) {
+                            selected = 'selected';
+                            checked = false;
+                        }
+                
+                        areaItems.push({
+                            value: area_id,
+                            label: area_name,
+                            selected: selected,
+                            disabled: checked
+                        });
                     }
-                ];
-            
-                var len = response.length;
-                var areaItems = [];
-            
-                for (var i = 0; i < len; i++) {
-                    var area_id = response[i]['area_id'];
-                    var area_name = response[i]['area_name'];
-                    var checked = response[i]['disabled'];
-                    var selected = '';
-            
-                    if (area_id_upd && values.includes(area_id.toString())) {
-                        selected = 'selected';
-                        checked = false;
-                    }
-                    if (areaid && areaid.includes(area_id.toString())) {
-                        selected = 'selected';
-                        checked = false;
-                    }
-            
-                    areaItems.push({
-                        value: area_id,
-                        label: area_name,
-                        selected: selected,
-                        disabled: checked
+                
+                    // Sort the area items alphabetically by label
+                    areaItems.sort(function (a, b) {
+                        return a.label.localeCompare(b.label);
                     });
+                
+                    // Merge "Select All" with sorted area items
+                    items = items.concat(areaItems);
+                
+                    areaMultiselect2.setChoices(items, 'value', 'label', true);
+                    resolve(); // Notify completion
+                },
+                error: function (xhr, status, error) {
+                    reject(error); // Handle errors
                 }
-            
-                // Sort the area items alphabetically by label
-                areaItems.sort(function (a, b) {
-                    return a.label.localeCompare(b.label);
-                });
-            
-                // Merge "Select All" with sorted area items
-                items = items.concat(areaItems);
-            
-                areaMultiselect2.setChoices(items, 'value', 'label', true);
-                resolve(); // Notify completion
-            },
-            error: function (xhr, status, error) {
-                reject(error); // Handle errors
-            }
-        });
+            });
+        }
         
     });
 }
@@ -453,19 +471,27 @@ function getBranchDropdown2() {
     });
 }
 
-function getCusLoanCount(){
-    const areaid = areaMultiselect2.getValue()
-        .map(item => item.value)
-        .filter(val => val !== 'select_all') // exclude 'select_all' from final string
-        .sort((a, b) => a - b)
-        .join(',');
+function getCusLoanCount() {
+    let type = $('#type').val();
+    let areaid = '';
+    let subStatus = '';
 
-    // var loanCatId = $('#loan_cat1').val();
+    if (type == 'line') {
+        areaid = areaMultiselect.getValue()
+            .map(item => item.value)
+            .filter(val => val !== 'select_all')
+            .sort((a, b) => a - b)
+            .join(',');
+        subStatus = 'Current';
 
-    const subStatus = subStatusMultiselect.getValue()
-        .map(item => item.value)
-        .sort((a, b) => a.localeCompare(b))
-        .join(',');
+    } else if (type == 'group') {
+        areaid = areaMultiselect1.getValue()
+            .map(item => item.value)
+            .filter(val => val !== 'select_all')
+            .sort((a, b) => a - b)
+            .join(',');
+        subStatus = 'Current';
+
 
     $.post('areaMapping/getCusAndLoanCount.php',{areaid,  subStatus}, function(response){
         let cusCnt = (response.cus_count) ? response.cus_count : 0;
@@ -473,6 +499,39 @@ function getCusLoanCount(){
         $('#cus_count').val(cusCnt);
         $('#loan_count').val(loanCnt);
     },'json');
+
+    } else if (type == 'duefollowup') {
+        areaid = areaMultiselect2.getValue()
+            .map(item => item.value)
+            .filter(val => val !== 'select_all')
+            .sort((a, b) => a - b)
+            .join(',');
+        subStatus = subStatusMultiselect.getValue()
+            .map(item => item.value)
+            .sort((a, b) => a.localeCompare(b))
+            .join(',');
+    }
+
+    if(areaid && subStatus){
+        $.post('areaMapping/getCusAndLoanCount.php', { areaid, subStatus }, function(response) {
+            let cusCnt = response.cus_count ? response.cus_count : 0;
+            let loanCnt = response.loan_count ? response.loan_count : 0;
+            if (type == 'line') {
+                $('#cus_count1').val(cusCnt);
+                $('#loan_count1').val(loanCnt);
+    
+            } else if (type == 'group') {
+                $('#cus_count2').val(cusCnt);
+                $('#loan_count2').val(loanCnt);
+    
+            } else if (type == 'duefollowup') {
+                $('#cus_count').val(cusCnt);
+                $('#loan_count').val(loanCnt);
+            }
+        }, 'json');
+
+    }
+
 }
 
 function getSortedCommaSeparatedValues(multiselectInstance) {
@@ -596,14 +655,16 @@ function groupMappingValidation(){
 
 }
 function dueFollowuoValidation(){
+
        // Area multi-select
         const areaStr = getSortedCommaSeparatedValues(areaMultiselect2);
         $('#area2').val(areaStr);
         // Sub Status multi-select
         getSubStatusValues();
-        
-        var duefollowup_name = $('#duefollowup_name').val(); var company_name = $('#company_name2').val(); var branch = $('#branch2').val(); var cuscnt = $('#cus_count').val(); var loancnt = $('#loan_count').val();
-        if (duefollowup_name == '' || company_name == '' || branch == '' || subStatus.length == 0 || area_list.length == 0 || cuscnt == '' || loancnt == '' ) {
+       //Validation
+        var duefollowup_name = $('#duefollowup_name').val(); var company_name = $('#company_name2').val(); var branch = $('#branch2').val(); var cuscnt = $('#cus_count').val(); var loancnt = $('#loan_count').val(); var subStatusArr = subStatusMultiselect.getValue(); const area_list = areaMultiselect2.getValue()
+        if (duefollowup_name == '' || company_name == '' || branch == '' || subStatusArr.length == 0 || area_list.length == 0 || cuscnt == '' || loancnt == '' ) {
+
             Swal.fire({
                 timerProgressBar: true,
                 title: 'Please Fill out Mandatory fields!',
