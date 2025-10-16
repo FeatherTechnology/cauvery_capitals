@@ -672,42 +672,6 @@ if (sizeof($getLoanCalculation) > 0) {
 						</div>
 					</div>
 					<!-- Guarentor END -->
-
-					<!-- Group Info START -->
-					<!-- <div class="card">
-						<div class="card-header"> Group Info <span style="font-weight:bold" class=""></span>
-						</div>
-						<div class="card-body">
-							<div class="row">
-
-								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-									<div class="form-group table-responsive" id="GroupList">
-										<table class="table custom-table modalTable">
-											<thead>
-												<tr>
-													<th>S.No</th>
-													<th>Name</th>
-													<th>Age</th>
-													<th>Aadhar No</th>
-													<th>Mobile No</th>
-													<th>Gender</th>
-													<th>Designation</th>
-												</tr>
-											</thead>
-											<tbody>
-
-											</tbody>
-										</table>
-									</div>
-								</div>
-
-							</div>
-
-						</div>
-					</div> -->
-					<!-- Group Info END -->
-
-
 					<!-- Customer Data START -->
 					<div class="card">
 						<div class="card-header"> Customer Data <span style="font-weight:bold" class=""></span></div>
@@ -1107,7 +1071,7 @@ if (sizeof($getLoanCalculation) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="minvcome"> Monthly Income </label> <span class="required">*</span>
-										<input type="number" class="form-control" name="cus_monthly_income" id="cus_monthly_income" placeholder="Enter Monthly Income" value="<?php if (isset($monthly_income)) {
+										<input type="text" class="form-control" name="cus_monthly_income" id="cus_monthly_income" placeholder="Enter Monthly Income" value="<?php if (isset($monthly_income)) {
 																																													echo moneyFormatIndia($monthly_income);
 																																												} ?>" tabindex="42">
 									</div>
@@ -1116,7 +1080,7 @@ if (sizeof($getLoanCalculation) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="otherincome"> Other Income </label> <span class="required">*</span>
-										<input type="number" class="form-control" name="cus_other_income" id="cus_other_income" placeholder="Enter Other Income" value="<?php if (isset($other_income)) {
+										<input type="text" class="form-control" name="cus_other_income" id="cus_other_income" placeholder="Enter Other Income" value="<?php if (isset($other_income)) {
 																																											echo moneyFormatIndia($other_income);
 																																										} ?>" tabindex="43">
 									</div>
@@ -1125,7 +1089,7 @@ if (sizeof($getLoanCalculation) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="suppincome"> Support Income </label> <span class="required">*</span>
-										<input type="number" class="form-control" name="cus_support_income" id="cus_support_income" placeholder="Enter Support Income" value="<?php if (isset($support_income)) {
+										<input type="text" class="form-control" name="cus_support_income" id="cus_support_income" placeholder="Enter Support Income" value="<?php if (isset($support_income)) {
 																																													echo moneyFormatIndia($support_income);
 																																												} ?>" tabindex="44">
 									</div>
@@ -1134,7 +1098,7 @@ if (sizeof($getLoanCalculation) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="commit"> Commitment </label> <span class="required">*</span>
-										<input type="number" class="form-control" name="cus_Commitment" id="cus_Commitment" placeholder="Enter Commitment" value="<?php if (isset($commitment)) {
+										<input type="text" class="form-control" name="cus_Commitment" id="cus_Commitment" placeholder="Enter Commitment" value="<?php if (isset($commitment)) {
 																																										echo moneyFormatIndia($commitment);
 																																									} ?>" tabindex="45">
 									</div>
@@ -1143,7 +1107,7 @@ if (sizeof($getLoanCalculation) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="duecapacity"> Monthly Due Capacity </label> <span class="required">*</span>
-										<input type="number" class="form-control" name="cus_monDue_capacity" id="cus_monDue_capacity" placeholder="Enter Monthly Due Capacity" value="<?php if (isset($monthly_due_capacity)) {
+										<input type="text" class="form-control" name="cus_monDue_capacity" id="cus_monDue_capacity" placeholder="Enter Monthly Due Capacity" value="<?php if (isset($monthly_due_capacity)) {
 																																															echo moneyFormatIndia($monthly_due_capacity);
 																																														} ?>" tabindex="46">
 									</div>
@@ -1152,7 +1116,7 @@ if (sizeof($getLoanCalculation) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="loanlimit"> Customer Limit </label> <span class="required">*</span>
-										<input type="number" class="form-control" name="cus_loan_limit" id="cus_loan_limit" placeholder="Enter Customer Limit" value="<?php if (isset($loan_limit)) {
+										<input type="text" class="form-control" name="cus_loan_limit" id="cus_loan_limit" placeholder="Enter Customer Limit" value="<?php if (isset($loan_limit)) {
 																																											moneyFormatIndia($loan_limit);
 																																										} ?>" tabindex="47">
 									</div>

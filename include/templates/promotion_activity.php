@@ -317,10 +317,6 @@ if (sizeof($getUser) > 0) {
 												<td><select type="text" class="form-control cus_area_name" id="cus_area_name" name="area_name" >
 														<option value="">Select Area Name</option>
 													</select></td>
-
-												<!-- <td><select type="text" class="form-control sub_area_name" id="sub_area_name" name="sub_area_name" >
-														<option value="">Select Sub Area Name</option>
-													</select></td> -->
 												<td>
 
 													<button type="button"  id="add_event_mem" name="add_event_mem" value="Submit" class="btn btn-primary add_event_mem">Add</button>
@@ -359,7 +355,7 @@ if (sizeof($getUser) > 0) {
 					<div class="col-12">
 						<div class="row">
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-								<label for="cus_id">Customer ID</label>
+								<label for="cus_id">Customer ID</label><span class="required">&nbsp;*</span>
 								<input type="text" name="cus_id" id="cus_id" class='form-control' placeholder="Enter Customer ID" tabindex="1" onKeyPress="if(this.value.length==14) return false;">
 								<span class="text-danger" id='cus_idCheck' style="display: none;">Please Enter Customer ID</span>
 							</div>
@@ -374,9 +370,7 @@ if (sizeof($getUser) > 0) {
 								<span class="text-danger" id='cus_mobCheck' style="display: none;">Please Enter Mobile Number </span>
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-								<!-- <label for="area">Area</label><span class="required">&nbsp;*</span>
-								<input type="text" name="area" id="area" class='form-control' placeholder="Enter Area" tabindex="4">
-								<span class="text-danger" id='areaCheck' style="display: none;">Please Enter Area</span> -->
+								
 								<div class="form-group">
 									<label for="area">Area</label>&nbsp;<span class="text-danger">*</span>
 									<select tabindex="8" type="text" class="form-control" id="area" name="area">
@@ -385,11 +379,7 @@ if (sizeof($getUser) > 0) {
 									<span class="text-danger" style='display:none' id='areaCheck'>Please Select Area</span>
 								</div>
 							</div>
-							<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-								<label for="sub_area">Sub Area</label><span class="required">&nbsp;*</span>
-								<input type="text" name="sub_area" id="sub_area" class='form-control' placeholder="Enter Sub Area" tabindex="5">
-								<span class="text-danger" id='sub_areaCheck' style="display: none;">Please Enter Sub Area </span>
-							</div> -->
+						
 						</div>
 					</div>
 

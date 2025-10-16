@@ -553,6 +553,7 @@ if($idupd>0)
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+
 										<div class="form-group">
 											<br>
 												<label>Download Access</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

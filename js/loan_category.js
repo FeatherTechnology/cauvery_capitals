@@ -403,6 +403,11 @@ $(document).ready(function () {
     //     }
     // });
 
+     $('#loan_limit').on('input', function () {
+        let value = $(this).val();
+        $(this).val(formatIndianNumber(value));
+    });
+
 });
 
 function validation() {

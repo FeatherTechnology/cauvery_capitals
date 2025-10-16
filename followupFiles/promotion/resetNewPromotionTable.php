@@ -40,7 +40,6 @@ if ($role_type == 7) {
         <th>Action</th>
         <th>Promotion Chart</th>
         <th>Follow Date</th>
-        <th>Delete</th>
     </thead>
     <tbody>
         <?php while ($row =  $sql->fetch()) { ?>
@@ -90,9 +89,6 @@ if ($role_type == 7) {
                         echo '';
                     }
                     ?></td>
-                    <td> 
-                       <a id="delete_new_promotion" data-id="<?php echo $row['id']; ?>"> <span class='icon-trash-2'></span> </a>
-                    </td>
 
             </tr>
         <?php } ?>

@@ -287,6 +287,8 @@ function calculateOthers($loan_arr, $response, $connect, $req_id)
                     $result =  $connect->query("SELECT overdue FROM `loan_scheme` WHERE loan_category = '" . $loan_arr['loan_category'] . "' ");
                 }
                 $row = $result->fetch();
+                echo "hhh",$loan_arr['loan_category'];
+                echo "hhh", $loan_arr['scheme_name'];
                 $penalty_per = number_format($row['overdue'] * $count); //Count represents how many months are exceeded//Number format if percentage exeeded decimals then pernalty may increase
 
                 $result = $connect->query("SELECT SUM(penalty_track) as penalty,SUM(penalty_waiver) as penalty_waiver FROM `collection` WHERE req_id = '" . $req_id . "' ");

@@ -38,22 +38,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- <div class="card">
-					<div class="card-header">Bulk Upload Response</div>
-					<div class="card-body">
-						<div class="row" >
-							<div class="col-md-12">
-								<div class="row">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" id="responseCard">
-									
-									</div>
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div> -->
-
 			</div>
 		</div>
 	</form>

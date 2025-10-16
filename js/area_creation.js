@@ -1,9 +1,3 @@
-//Sub Area Multi select initialization
-// const intance = new Choices('#sub_area1', {
-//     removeItemButton: true,
-//     noChoicesText: 'Select Sub Area',
-//     allowHTML: true
-// });
 
 // Document is ready
 $(document).ready(function () {
@@ -101,6 +95,9 @@ $(document).ready(function () {
                 event.preventDefault();
                 return false; 
             }
+        }else{
+            event.preventDefault();
+            return false;
         }
 
     })
@@ -321,7 +318,7 @@ function getTalukBasedArea(talukselected) {
 
             // Clear and add first option
             $("#area").empty();
-            $("#area").append("<option value=''>" + 'Select Area' + "</option>");
+            $("#area").append("<option value='Select Area'>" + 'Select Area' + "</option>");
 
             // Append sorted options
             for (var i = 0; i < response.length; i++) {
@@ -564,7 +561,7 @@ function swaparea(area_id,states,districts,taluks,pincodes) {
 }
 function validateAreaForm() {
     var state = $('#state').val(); var district = $('#district').val(); var taluk = $('#taluk').val(); var area = $('#area').val();
-        if (state == 'SelectState' || district == 'Select District' || taluk == 'Select Taluk' || area == '') {
+        if (state == 'SelectState' || district == 'Select District' || taluk == 'Select Taluk' || area == 'Select Area') {
             Swal.fire({
                 timerProgressBar: true,
                 timer: 2000,

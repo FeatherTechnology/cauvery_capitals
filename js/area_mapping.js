@@ -21,21 +21,6 @@ const areaMultiselect2 = new Choices('#area_dummy2', {
     allowHTML: true,
     shouldSort: false
 });
-// const intance2 = new Choices('#sub_area_dummy2', {
-//     removeItemButton: true,
-//     noChoicesText: null,
-//     placeholder: true,
-//     placeholderValue: 'Select Sub Area Name',
-//     allowHTML: true,
-//     shouldSort: false
-// });
-// const dueLine = new Choices('#due_line', {
-//     removeItemButton: true,
-//     noChoicesText: null,
-//     placeholder: true,
-//     placeholderValue: 'Select Line Name',
-//     allowHTML: true
-// });
 
 const subStatusMultiselect = new Choices('#sub_status_mapping', {
     removeItemButton: true,
@@ -94,27 +79,8 @@ $(document).ready(function () {
 
     })
 
-    // if ($('#type').val() == 'line') { // loan only if line
-    //     var companySelected = $('#company_id').val();
-    //     getBranchDropdown(companySelected);
-    // }
-
     //on submit add sub area list to hidden input
     $('#submit_area_mapping_line').click(function () {
-        var area_list = areaMultiselect.getValue();
-        //Area Multi select store
-        var area_list = areaMultiselect.getValue();
-        var area = '';
-        for (var i = 0; i < area_list.length; i++) {
-            if (i > 0) {
-                area += ',';
-            }
-            area += area_list[i].value;
-        }
-        var arr = area.split(",");
-        arr.sort(function (a, b) { return a - b });
-        var sortedStr = arr.join(",");
-        $('#area').val(sortedStr);
 
         if(lineMappingValidation()){
             let confirmAction = confirm("Are you sure you want to submit Line area mapping?");
@@ -150,29 +116,8 @@ $(document).ready(function () {
 
     });
 
-    // $('#company_id1').change(function(){
-    // if ($('#type').val() == 'group') {
-    //     var companySelected = $('#company_id1').val();
-    //     getBranchDropdown1(companySelected);
-    // }
-    // })
     //on submit add sub area list to hidden input
     $('#submit_area_mapping_group').click(function () {
-        var area_list = areaMultiselect1.getValue();
-        //Area Multi select store
-        var area_list = areaMultiselect1.getValue();
-        var area = '';
-        for (var i = 0; i < area_list.length; i++) {
-            if (i > 0) {
-                area += ',';
-            }
-            area += area_list[i].value;
-        }
-        var arr = area.split(",");
-        arr.sort(function (a, b) { return a - b });
-        var sortedStr = arr.join(",");
-        $('#area1').val(sortedStr);
-
         if(groupMappingValidation()){
             let confirmAction = confirm("Are you sure you want to submit Group Area Mapping?");
             if (!confirmAction) {
@@ -218,40 +163,6 @@ $(document).ready(function () {
         getCusLoanCount();
     });
     
-    // $('#sub_area_dummy2').change(function () {
-    //     // Get values from multiselect and sort
-    //     const subarea_list = intance2.getValue(); // returns array of objects like [{value: "1", label: "Area 1"}, ...]
-    
-    //     // Handle Select All logic
-    //     selectAllAreas(subarea_list, intance2);
-
-    // });
-    
-    // $('#due_line').change(function () {
-    //     // Get values from multiselect and sort
-    //     const lineList = dueLine.getValue();
-    //     console.log("line",lineList);
-    //     const lineSortedStr = lineList
-    //         .map(item => item.value)
-    //         .sort((a, b) => a - b)
-    //         .join(',');
-    
-    //     $('#dueline').val(lineSortedStr);
-    
-    //     if(lineSortedStr){
-    //         console.log("line",lineSortedStr);
-    //         getArea2(lineSortedStr);
-    //     }
-    // });
-    
-    // $('#loan_cat1').change(function () {
-       
-    //     const loanList = $('#loan_cat1').val();
-    //     $('#loan_cat').val(loanList);
-
-    //     getCusLoanCount();
-    // });
-
     $('#sub_status_mapping').change(function(){
         getSubStatusValues();
         getArea2();
@@ -264,27 +175,7 @@ $(document).ready(function () {
     })
     //on submit add sub area list to hidden input
     $('#submit_area_mapping_duefollowup').click(function () {
-        // var loanCategory = $('#loan_cat1').val();
-        // var due_line = dueLine.getValue();
-        var area_list = areaMultiselect2.getValue();
-        // var sub_area_list = intance2.getValue();
-        var subStatus = subStatusMultiselect.getValue();
-        // Line multi-select
-        // const dueLineStr = getSortedCommaSeparatedValues(dueLine);
-        // $('#dueline').val(dueLineStr);
-
-        // Area multi-select
-        const areaStr = getSortedCommaSeparatedValues(areaMultiselect2);
-        $('#area2').val(areaStr);
-
-        // // Sub-area multi-select
-        // const subAreaStr = getSortedCommaSeparatedValues(intance2);
-        // $('#sub_area2').val(subAreaStr);        
-
-        // $('#loan_cat').val(loanCategory);
-
-        // Sub Status multi-select
-        getSubStatusValues();
+        
         if(dueFollowuoValidation()){
             let confirmAction = confirm("Are you sure you want to submit Due Followup?");
             if (!confirmAction) {
@@ -321,14 +212,7 @@ $(function () {
             await getSubStsMapping();
             let upd = $('#id').val();
             await getArea2();
-            // if(upd > 0){
-            //     // let branchid = $('#branch_id_upd2').val();
-            //     // let lineid = $('#due_line_name').val();
-            //     // await getLineNameDropdown(branchid);
-            //     await getArea2();
-            //     // let area = $('#area_id2_upd').val();
-            //     // await getAreaBasedSubArea2(area);
-            // }
+        
         }
     }
 
@@ -587,35 +471,6 @@ function getBranchDropdown2() {
     });
 }
 
-
-// function getLineNameDropdown(branchid){
-//     return new Promise((resolve, reject) => {
-//         $.post('areaMapping/getLineName.php',{branchid}, function(response){
-//             dueLine.clearStore();
-//             let line = $('#due_line_name').val().split(',');
-//             $.each(response, function(index, val){
-//                 let selected ='';
-//                 if (line != '' && line.includes(val.map_id.toString())) {
-//                     selected = 'selected';
-//                 }
-//                 let item = [
-//                     {
-//                         value: val.map_id,
-//                         label: val.line_name,
-//                         selected: selected,
-//                     }
-//                 ];
-//                 dueLine.setChoices(item);
-//                 dueLine.init();
-//             });
-
-//             resolve(); // Resolve once dropdown is populated
-//         }, 'json').fail(function(xhr, status, error) {
-//             reject(error); // Reject if there's an error
-//         });
-//     });
-// }
-
 function getCusLoanCount() {
     let type = $('#type').val();
     let areaid = '';
@@ -636,6 +491,14 @@ function getCusLoanCount() {
             .sort((a, b) => a - b)
             .join(',');
         subStatus = 'Current';
+
+
+    $.post('areaMapping/getCusAndLoanCount.php',{areaid,  subStatus}, function(response){
+        let cusCnt = (response.cus_count) ? response.cus_count : 0;
+        let loanCnt = (response.loan_count) ? response.loan_count : 0;
+        $('#cus_count').val(cusCnt);
+        $('#loan_count').val(loanCnt);
+    },'json');
 
     } else if (type == 'duefollowup') {
         areaid = areaMultiselect2.getValue()
@@ -668,6 +531,7 @@ function getCusLoanCount() {
         }, 'json');
 
     }
+
 }
 
 function getSortedCommaSeparatedValues(multiselectInstance) {
@@ -677,42 +541,6 @@ function getSortedCommaSeparatedValues(multiselectInstance) {
     return values.join(',');
 }
 
-//get Loan category Dropdown
-// function getLoanCatDropdown() {
-//     return new Promise((resolve, reject) => {
-//         var loan_cat_upd = $('#loan_cat_upd').val().split(',');
-//         $.ajax({
-//             url: 'manageUser/getLoanCatDropdown.php',
-//             data: {},
-//             dataType: 'json',
-//             type: 'post',
-//             cache: false,
-//             success: function (response) {
-//                 $('#loan_cat1').empty();
-//                 $('#loan_cat1').append('<option value="">Select Loan category</option>');
-//                 for (var i = 0; i < response.length; i++) {
-//                     var selected = '';
-//                     if (loan_cat_upd != '' && loan_cat_upd == response[i]['loan_cat_id']) {
-//                         selected = "selected";
-//                     }
-//                     $('#loan_cat1').append("<option value = '" + response[i]['loan_cat_id'] + "' " + selected + " > " + response[i]['loan_cat_name'] + " </option>");
-//                 }
-//                 {//To Order Alphabetically
-//                     var firstOption = $("#loan_cat1 option:first-child");
-//                     $("#loan_cat1").html($("#loan_cat1 option:not(:first-child)").sort(function (a, b) {
-//                         return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-//                     }));
-//                     $("#loan_cat1").prepend(firstOption);
-//                 }
-
-//                 resolve();
-//             },
-//             error: function (xhr, status, error) {
-//                 reject(error); 
-//             }
-//         });
-//     });
-// }
 
 function selectAllAreas(selectedList, choicesInstance) {
     const selectedValues = selectedList.map(item => item.value);
@@ -765,6 +593,21 @@ function getSubStatusValues(){
 }
 function lineMappingValidation(){
       //Validation
+        var area_list = areaMultiselect.getValue();
+        //Area Multi select store
+        var area_list = areaMultiselect.getValue();
+        var area = '';
+        for (var i = 0; i < area_list.length; i++) {
+            if (i > 0) {
+                area += ',';
+            }
+            area += area_list[i].value;
+        }
+        var arr = area.split(",");
+        arr.sort(function (a, b) { return a - b });
+        var sortedStr = arr.join(",");
+        $('#area').val(sortedStr);
+
         var line_name = $('#line_name').val(); var company_name = $('#company_name').val(); var branch = $('#branch').val(); var area = $('#area').val();
         if (line_name == '' || company_name == '' || branch == '' || area_list.length == 0) {
             Swal.fire({
@@ -781,6 +624,21 @@ function lineMappingValidation(){
 }
 function groupMappingValidation(){
       //Validation
+         var area_list = areaMultiselect1.getValue();
+        //Area Multi select store
+        var area_list = areaMultiselect1.getValue();
+        var area = '';
+        for (var i = 0; i < area_list.length; i++) {
+            if (i > 0) {
+                area += ',';
+            }
+            area += area_list[i].value;
+        }
+        var arr = area.split(",");
+        arr.sort(function (a, b) { return a - b });
+        var sortedStr = arr.join(",");
+        $('#area1').val(sortedStr);
+
         var group_name = $('#group_name').val(); var company_name = $('#company_name1').val(); var branch = $('#branch1').val();
         if (group_name == '' || company_name == '' || branch == '' || area_list.length == 0 ) {
             Swal.fire({
@@ -797,9 +655,16 @@ function groupMappingValidation(){
 
 }
 function dueFollowuoValidation(){
+
+       // Area multi-select
+        const areaStr = getSortedCommaSeparatedValues(areaMultiselect2);
+        $('#area2').val(areaStr);
+        // Sub Status multi-select
+        getSubStatusValues();
        //Validation
         var duefollowup_name = $('#duefollowup_name').val(); var company_name = $('#company_name2').val(); var branch = $('#branch2').val(); var cuscnt = $('#cus_count').val(); var loancnt = $('#loan_count').val(); var subStatusArr = subStatusMultiselect.getValue(); const area_list = areaMultiselect2.getValue()
         if (duefollowup_name == '' || company_name == '' || branch == '' || subStatusArr.length == 0 || area_list.length == 0 || cuscnt == '' || loancnt == '' ) {
+
             Swal.fire({
                 timerProgressBar: true,
                 title: 'Please Fill out Mandatory fields!',

@@ -379,26 +379,6 @@ if (isset($_GET['type'])) {
 											<span class="text-danger" style='display:none' id='branchName2Check'>Please select Branch name</span>
 										</div>
 									</div>
-									<!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 loancat_div">
-                                        <div class="form-group">
-                                            <label for="disabledInput">Loan Category</label>&nbsp;<span class="text-danger">*</span>
-											<input type='hidden' class='form-control' id='loan_cat' name='loan_cat' >
-											<select tabindex="9" type="text" class="form-control" id="loan_cat1" name="loan_cat1">
-												<option value="">Select Loan Category</option>
-											</select>
-											<span class="text-danger" style='display:none' id='loan_catCheck'>Please select Loan Category</span>
-                                        </div>
-                                    </div> -->
-									<!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="due_line">Line</label>&nbsp;<span class="text-danger">*</span>
-											<input type="hidden" id="dueline" name="dueline" value="">
-											<select type="text" class="form-control" id="due_line" name="due_line" multiple tabindex='4'>
-												<option value="">Select Line</option>
-											</select>
-											<span class="text-danger" style='display:none' id='dueLineCheck'>Please select Line</span>
-										</div>
-									</div> -->
 									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 										<label for="sub_status_mapping">Customer Status</label><span class="required">&nbsp;*</span>
 										<input type="hidden" name="customer_status" id="customer_status" value="">

@@ -79,7 +79,7 @@ function callOnClickEvents() {
                     Swal.fire({
                         icon: 'info',
                         title: 'Customer Limit',
-                        text: `Customer Limit is set to ${cus_limit}. Do you want to Approve?`,
+                        text: `Customer Limit is set to ${moneyFormatIndia(cus_limit)}. Do you want to Approve?`,
                         showCancelButton: true,
                         confirmButtonColor: '#0c70ab',
                         cancelButtonColor: '#d33',
@@ -96,18 +96,20 @@ function callOnClickEvents() {
                                 cache: false,
                                 success: function (response) {
                                    
-                                    if (response.includes('Approved')) {
+                                     if (response.includes('Approved')) {
                                         Swal.fire({
-                                            timerProgressBar: true,
-                                            timer: 2000,
                                             title: response,
                                             icon: 'success',
                                             showConfirmButton: true,
-                                            confirmButtonColor: '#0c70ab'
-                                        }).then(function () {
-                                             window.location = 'approval_list';
-                                             button.prop('disabled', false);
-                                        })
+                                            confirmButtonColor: '#009688',
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            button.prop('disabled', false);
+                                            // Redirect only if user clicks OK
+                                            if (result.isConfirmed) {
+                                                window.location = 'approval_list';
+                                            }
+                                        });
                                     }
                                 }
                             })
@@ -183,9 +185,9 @@ function warningSwal(title, text) {
         title: title,
         html: text,
         icon: 'warning',
-        showConfirmButton: false,
-        timerProgressBar: true,
-        timer: 2000,
+        showConfirmButton: true,
+        confirmButtonColor: '#009688', // warning color (orange/yellow)
+        confirmButtonText: 'OK'
     });
 }
 
@@ -194,11 +196,13 @@ function successSwal(title, text) {
         title: title,
         html: text,
         icon: 'success',
-        showConfirmButton: false,
-        timerProgressBar: true,
-        timer: 2000,
-    })
-    setTimeout(() => {
-        location.reload();
-    }, 2000);
-}   
+        showConfirmButton: true,
+        confirmButtonColor: '#009688', // your success green
+        confirmButtonText: 'OK'
+    }).then((result) => {
+        // Reload only if OK is clicked
+        if (result.isConfirmed) {
+            location.reload();
+        }
+    });
+}  

@@ -5373,15 +5373,15 @@ class admin
 		$agent_id           = sanitize($mysqli, $_POST['agent_id'] ?? '');
 		$issued_mode        = sanitize($mysqli, $_POST['issued_mode'] ?? '');
 		$payment_type       = sanitize($mysqli, $_POST['payment_type'] ?? '');
-		$cash               = sanitize($mysqli, $_POST['cash'] ?? '');
+		$cash               = sanitize($mysqli, preg_replace('/[,\s]+/', '', $_POST['cash'] ?? ''));
 		$bank_id            = sanitize($mysqli, $_POST['bank_id'] ?? '');
 		$chequeno           = sanitize($mysqli, $_POST['chequeno'] ?? '');
-		$chequeValue        = sanitize($mysqli, $_POST['chequeValue'] ?? '');
+		$chequeValue        = sanitize($mysqli, preg_replace('/[,\s]+/', '', $_POST['chequeValue'] ?? ''));
 		$chequeRemark       = sanitize($mysqli, $_POST['chequeRemark'] ?? '');
 		$transaction_id     = sanitize($mysqli, $_POST['transaction_id'] ?? '');
-		$transaction_value  = sanitize($mysqli, $_POST['transaction_value'] ?? '');
+		$transaction_value  = sanitize($mysqli, preg_replace('/[,\s]+/', '',$_POST['transaction_value'] ?? ''));
 		$transaction_remark = sanitize($mysqli, $_POST['transaction_remark'] ?? '');
-		$balance            = sanitize($mysqli, $_POST['balance'] ?? '');
+		$balance            = sanitize($mysqli, preg_replace('/[,\s]+/', '', $_POST['balance'] ?? ''));
 		$cash_guarentor_name = sanitize($mysqli, $_POST['cash_guarentor_name'] ?? '');
 		$relationship       = sanitize($mysqli, $_POST['relationship'] ?? '');
 		$due_start_from     = sanitize($mysqli, $_POST['due_start_from'] ?? '');
@@ -5752,26 +5752,7 @@ class admin
 		}
 
 		$concern_upload = '';
-		// if(isset($_FILES['concern_upload']) && $_POST['Com_for_solution'] == '1'){
-
-		// 	$filesArr3 = $_FILES['concern_upload'];
-		// 	$concern_upload = ''; 
-		// 	$uploadDir = "uploads/concern/";
-		// 	// File upload path  
-		// 	foreach($filesArr3['name'] as $key=>$val)
-		// 	{
-		// 		$fileName = basename($filesArr3['name'][$key]);  
-		// 		$targetFilePath = $uploadDir . $fileName; 
-
-		// 		// Check whether file type is valid  
-		// 		$fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);  
-
-		// 			// Upload file to server  
-		// 			if(move_uploaded_file($filesArr3["tmp_name"][$key], $targetFilePath)){  
-		// 				$concern_upload .= $fileName.',';  
-		// 		}
-		// 	}
-		// }
+		
 		if (isset($_FILES['concern_upload']) && $_POST['Com_for_solution'] == '1') {
 			$filesArr3 = $_FILES['concern_upload'];
 			$uploadDir = "uploads/concern/";
@@ -5850,8 +5831,6 @@ class admin
 				$detailrecords['about_customer'] = $row['about_customer'];
 				$detailrecords['dow'] = $row['dow'];
 				$detailrecords['abt_occ'] = $row['abt_occ'];
-				// $detailrecords['cus_type'] = $row['cus_type'];
-				// $detailrecords['cus_exist_type'] = $row['cus_exist_type'];
 				$detailrecords['residential_type'] = $row['residential_type'];
 				$detailrecords['residential_details'] = $row['residential_details'];
 				$detailrecords['residential_address'] = $row['residential_address'];
@@ -6616,22 +6595,22 @@ class admin
 			$cus_travel_cmpy = $_POST['cus_travel_cmpy'];
 		}
 		if (isset($_POST['cus_monthly_income'])) {
-			$cus_monthly_income = $_POST['cus_monthly_income'];
+			$cus_monthly_income = str_replace([',', ' '], '', $_POST['cus_monthly_income']);
 		}
 		if (isset($_POST['cus_other_income'])) {
-			$cus_other_income = $_POST['cus_other_income'];
+			$cus_other_income = str_replace([',', ' '], '', $_POST['cus_other_income']);
 		}
 		if (isset($_POST['cus_support_income'])) {
-			$cus_support_income = $_POST['cus_support_income'];
+			$cus_support_income = str_replace([',', ' '], '', $_POST['cus_support_income']);
 		}
 		if (isset($_POST['cus_Commitment'])) {
-			$cus_Commitment = $_POST['cus_Commitment'];
+		$cus_Commitment = str_replace([',', ' '], '', $_POST['cus_Commitment']);
 		}
 		if (isset($_POST['cus_monDue_capacity'])) {
-			$cus_monDue_capacity = $_POST['cus_monDue_capacity'];
+				$cus_monDue_capacity = str_replace([',', ' '], '', $_POST['cus_monDue_capacity']);
 		}
 		if (isset($_POST['cus_loan_limit'])) {
-			$cus_loan_limit = $_POST['cus_loan_limit'];
+			$cus_loan_limit = str_replace([',', ' '], '', $_POST['cus_loan_limit']);
 		}
 		if (isset($_POST['about_cus'])) {
 			$about_cus = $_POST['about_cus'];
