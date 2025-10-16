@@ -131,7 +131,8 @@ if ($userid == 1) {
         FROM acknowlegement_customer_profile cp 
         JOIN in_issue ii ON cp.cus_id = ii.cus_id
         JOIN area_list_creation ac ON cp.area_confirm_area = ac.area_id
-        JOIN area_line_mapping al ON FIND_IN_SET(ac.area_id, al.area_id)
+        JOIN area_line_mapping_area ala ON ac.area_id = ala.area_id
+        JOIN area_line_mapping al ON al.map_id = ala.line_map_id
         JOIN branch_creation bc ON al.branch_id = bc.branch_id
         where ii.status = 0 and ii.cus_status = 21 and cp.area_confirm_area IN ($area_list) ";
 }
@@ -163,7 +164,6 @@ $query1 = '';
 if ($_POST['length'] != -1) {
     $query1 = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
 }
-
 $statement = $connect->prepare($forcount);
 
 $statement->execute();

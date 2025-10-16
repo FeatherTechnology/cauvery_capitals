@@ -124,6 +124,9 @@ $('#add_event').click(function (e) {
         $('#event_name').val("");
         $('#event_hidden_id').val("");
          var currentDate = getCurrentDate();
+          // Clear Choices multiselect
+        areaMultiselect.clearStore(); // remove all items
+        areaMultiselect.setChoices([], 'value', 'label', true); // optionally reset with empty choices
 
     // reset table body with one empty row
     var emptyRow = `
@@ -485,34 +488,6 @@ $(document).on('input', '.cus_mobile_num', function() {
     }
 });
 
-$(document).on('click', '#delete_new_promotion', function (event) {
-    var id = $(this).data('id');
-    var dlt = confirm("Do you want to delete this New Promotion ?");
-            if (dlt) {
-                    $.ajax({
-                    url: 'followupFiles/promotion/deletNewPromotion.php',
-                    type: 'POST',
-                    data: { id: id },
-                    success: function(response){
-                       Swal.fire({
-                                title: response,
-                                icon: 'success',
-                                showConfirmButton: true,
-                                confirmButtonColor: '#0c70ab'
-                            });
-                            resetNewPromotionTable();
-                    },
-                    error: function(xhr, status, error){
-                        alert("Error deleting record: " + error);
-                    }
-                });
-
-            } else {
-                return false;
-            }
-   
-})
-
 });
 
 $(function () {
@@ -638,8 +613,8 @@ function submitNewCustomer() {
 
 function validateNewCusAdd() {
     let response = true;
-    let cus_name = $('#cus_names').val(); let cus_mob = $('#cus_mob').val();
-    let area = $('#area').val(); 
+    let cus_id = $('#cus_id').val(); let cus_name = $('#new_cus_name').val(); let cus_mob = $('#cus_mob').val();
+    let area = $('#area').val();
 
     validateField(cus_name, '#cus_nameCheck');
     validateField(area, '#areaCheck');
@@ -654,11 +629,11 @@ function validateNewCusAdd() {
         }
 
     }
-    // if (cus_id === '' || cus_id.length < 12) {
-    //     response = false;
-    //     event.preventDefault();
-    //     $("#cus_idCheck").show();
-    // } else { $("#cus_idCheck").hide(); }
+    if (cus_id === '' || cus_id.length < 12) {
+        response = false;
+        event.preventDefault();
+        $("#cus_idCheck").show();
+    } else { $("#cus_idCheck").hide(); }
     if (cus_mob === '' || cus_mob.length < 10) {
         response = false;
         event.preventDefault();

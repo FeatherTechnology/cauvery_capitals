@@ -728,41 +728,6 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 					</div>
 					<!-- Guarentor END -->
 
-					<!-- Group Info START -->
-					<!-- <div class="card">
-						<div class="card-header"> Group Info <span style="font-weight:bold" class=""></span>
-						</div>
-						<div class="card-body">
-							<div class="row">
-
-								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-									<div class="form-group table-responsive" id="GroupList">
-										<table class="table custom-table modalTable">
-											<thead>
-												<tr>
-													<th>S.No</th>
-													<th>Name</th>
-													<th>Age</th>
-													<th>Aadhar No</th>
-													<th>Mobile No</th>
-													<th>Gender</th>
-													<th>Designation</th>
-												</tr>
-											</thead>
-											<tbody>
-
-											</tbody>
-										</table>
-									</div>
-								</div>
-
-							</div>
-
-						</div>
-					</div> -->
-					<!-- Group Info END -->
-
-
 					<!-- Customer Data START -->
 					<div class="card">
 						<div class="card-header"> Customer Data <span style="font-weight:bold" class=""></span></div>

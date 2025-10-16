@@ -686,6 +686,11 @@ $(document).ready(function () {
        
     });
 
+    $('#cus_monthly_income ,#cus_Commitment ,#cus_other_income ,#cus_support_income ,#cus_monDue_capacity , #cus_loan_limit').on('input', function () {
+        let value = $(this).val();
+        $(this).val(formatIndianNumber(value));
+    });
+
     /* ********************************************** Document info END ********************************************** */
 
     //////////////////////////////////////////// Documentation END //////////////////////////////////////////////
@@ -2455,13 +2460,6 @@ function validation() {
     } else {
         $('#areaCheck').hide();
     }
-    // if (sub_area == '') {
-    //     event.preventDefault();
-    validation = false;
-    //     $('#subareaCheck').show();
-    // } else {
-    //     $('#subareaCheck').hide();
-    // }
     if (cus_address == '') {
         event.preventDefault();
         validation = false;

@@ -42,17 +42,17 @@ $(document).ready(function () {
 
   $(
     "#due_amt_track, #princ_amt_track, #int_amt_track, #penalty_track , #coll_charge_track"
-  ).blur(function () {
+  ).on('input', function () {
     var due_amt_track =
-      $("#due_amt_track").val() != "" ? $("#due_amt_track").val() : 0;
+      $("#due_amt_track").val() != "" ? $("#due_amt_track").val().replace(/,/g, '') : 0;
     var penalty_track =
-      $("#penalty_track").val() != "" ? $("#penalty_track").val() : 0;
+      $("#penalty_track").val() != "" ? $("#penalty_track").val().replace(/,/g, '') : 0;
     var coll_charge_track =
-      $("#coll_charge_track").val() != "" ? $("#coll_charge_track").val() : 0;
+      $("#coll_charge_track").val() != "" ? $("#coll_charge_track").val().replace(/,/g, '') : 0;
     var princ_amt_track =
-      $("#princ_amt_track").val() != "" ? $("#princ_amt_track").val() : 0;
+      $("#princ_amt_track").val() != "" ? $("#princ_amt_track").val().replace(/,/g, '') : 0;
     var int_amt_track =
-      $("#int_amt_track").val() != "" ? $("#int_amt_track").val() : 0;
+      $("#int_amt_track").val() != "" ? $("#int_amt_track").val().replace(/,/g, '') : 0;
 
     var total_paid_track =
       parseInt(due_amt_track) +
@@ -60,18 +60,17 @@ $(document).ready(function () {
       parseInt(int_amt_track) +
       parseInt(penalty_track) +
       parseInt(coll_charge_track);
-    $("#total_paid_track").val(total_paid_track);
+    $("#total_paid_track").val(formatIndianNumber(String(total_paid_track)));
   });
 
-  $("#pre_close_waiver , #penalty_waiver , #coll_charge_waiver, #principal_waiver , #interest_waiver").blur(
-    function () {
+    $("#pre_close_waiver , #penalty_waiver , #coll_charge_waiver , #principal_waiver , #interest_waiver").on('input', function () {
       var pre_close_waiver =
-        $("#pre_close_waiver").val() != "" ? $("#pre_close_waiver").val() : 0;
+        $("#pre_close_waiver").val() != "" ? $("#pre_close_waiver").val().replace(/,/g, '') : 0;
       var penalty_waiver =
-        $("#penalty_waiver").val() != "" ? $("#penalty_waiver").val() : 0;
+        $("#penalty_waiver").val() != "" ? $("#penalty_waiver").val().replace(/,/g, '') : 0;
       var coll_charge_waiver =
         $("#coll_charge_waiver").val() != ""
-          ? $("#coll_charge_waiver").val()
+          ? $("#coll_charge_waiver").val().replace(/,/g, '')
           : 0;
 
       var principal_waiver = $("#principal_waiver").val() != "" ? $("#principal_waiver").val() : 0;
@@ -83,7 +82,7 @@ $(document).ready(function () {
         parseInt(coll_charge_waiver) +
         parseInt(principal_waiver) +
         parseInt(interest_waiver);
-      $("#total_waiver").val(total_waiver);
+      $("#total_waiver").val(formatIndianNumber(String(total_waiver)));
     }
   );
 
@@ -98,7 +97,7 @@ $(document).ready(function () {
     let colluserid = $("#colluserid").val();
     let collectionCharge_date = $("#collectionCharge_date").attr("value"); //coz value inside is not working properly
     let collectionCharge_purpose = $("#collectionCharge_purpose").val();
-    let collectionCharge_Amnt = $("#collectionCharge_Amnt").val();
+    let collectionCharge_Amnt = $("#collectionCharge_Amnt").val().replace(/,/g, '');
     if (
       collectionCharge_date != "" &&
       collectionCharge_purpose != "" &&
@@ -315,6 +314,10 @@ $(document).ready(function () {
         .val("");
       $("#addCommitment").find(".modal-body span").hide();
       $(".person-div").hide();
+    });
+    $('#collectionCharge_Amnt').on('input', function () {
+        let value = $(this).val();
+        $(this).val(formatIndianNumber(value));
     });
 }); //Document Ready End
 
@@ -578,42 +581,52 @@ function OnLoadFunctions(req_id, cus_id) {
               }
 
               //To set limitations for input fields
-              $("#due_amt_track").on("blur", function () {
-                if (parseInt($(this).val()) > response["balance"]) {
+              $("#due_amt_track").on('input', function () {
+                 let value = $('#due_amt_track').val().replace(/,/g, '');
+                 $('#due_amt_track').val(formatIndianNumber(value));
+                if (parseInt(value) > response["balance"]) {
                   alert("Enter a Lesser Value");
                   $(this).val("");
                   $("#total_paid_track").val("");
                 }
-                $("#pre_close_waiver").trigger("blur"); //this will check whether preclosure amount crosses limit
+                $("#pre_close_waiver").trigger("input"); //this will check whether preclosure amount crosses limit
               });
 
-              $("#princ_amt_track").on("blur", function () {
-                if (parseInt($(this).val()) > response["balance"]) {
+              $("#princ_amt_track").on('input', function () {
+                let value = $('#princ_amt_track').val().replace(/,/g, '');
+                 $('#princ_amt_track').val(formatIndianNumber(value));
+                if (parseInt(value) > response["balance"]) {
                   alert("Enter a Lesser Value");
                   $(this).val("");
                   $("#total_paid_track").val("");
                 }
-                $("#pre_close_waiver").trigger("blur"); //this will check whether preclosure amount crosses limit
+                $("#pre_close_waiver").trigger("input"); //this will check whether preclosure amount crosses limit
               });
 
-              $("#int_amt_track").on("blur", function () {
-                if (parseInt($(this).val()) > response["payable"]) {
+              $("#int_amt_track").on('input', function () {
+                let value = $('#int_amt_track').val().replace(/,/g, '');
+                 $('#int_amt_track').val(formatIndianNumber(value));
+                if (parseInt(value) > response["payable"]) {
                   alert("Enter a Lesser Value");
                   $(this).val("");
                   $("#total_paid_track").val("");
                 }
               });
 
-              $("#penalty_track").on("blur", function () {
-                if (parseInt($(this).val()) > response["penalty"]) {
+              $("#penalty_track").on('input', function () {
+                 let value = $('#penalty_track').val().replace(/,/g, '');
+                 $('#penalty_track').val(formatIndianNumber(value));
+                if (parseInt(value) > response["penalty"]) {
                   alert("Enter a Lesser Value");
                   $(this).val("");
                   $("#total_paid_track").val("");
                 }
               });
 
-              $("#coll_charge_track").on("blur", function () {
-                if (parseInt($(this).val()) > response["coll_charge"]) {
+              $("#coll_charge_track").on('input', function () {
+                let value = $('#coll_charge_track').val().replace(/,/g, '');
+                 $('#coll_charge_track').val(formatIndianNumber(value));
+                if (parseInt(value) > response["coll_charge"]) {
                   alert("Enter a Lesser Value");
                   $(this).val("");
                   $("#total_paid_track").val("");
@@ -621,10 +634,13 @@ function OnLoadFunctions(req_id, cus_id) {
               });
 
               //To set Limitation that should not cross its limit with considering track values and previous readonly values
-                $('#pre_close_waiver').on('blur', function () {
+              $('#pre_close_waiver').on('input', function () {
+                
                     if (response['loan_type'] == "emi") {
-                        var due_track = $('#due_amt_track').val();
-                        if (parseFloat($(this).val()) > response['balance'] - due_track) {
+                        var due_track = $('#due_amt_track').val().replace(/,/g, '');
+                        let value = $('#pre_close_waiver').val().replace(/,/g, '');
+                        $('#pre_close_waiver').val(formatIndianNumber(value));
+                        if (parseFloat(value) > response['balance'] - due_track) {
                             alert("Enter a Lesser Value");
                             $(this).val("");
                             $('#total_waiver').val("");
@@ -632,10 +648,12 @@ function OnLoadFunctions(req_id, cus_id) {
                     }
                 });
 
-              $('#principal_waiver').on('blur', function () {
+              $('#principal_waiver').on('input', function () {
                     if (response['loan_type'] == 'interest') {
-                        var princ_track = $('#princ_amt_track').val();
-                        if (parseFloat($(this).val()) > response['balance'] - princ_track) {
+                          let value = $('#principal_waiver').val().replace(/,/g, '');
+                          $('#principal_waiver').val(formatIndianNumber(value));
+                          var princ_track = $('#princ_amt_track').val().replace(/,/g, '');
+                        if (parseFloat(value) > response['balance'] - princ_track) {
                             alert("Enter a Lesser Value");
                             $(this).val("");
                             $('#total_waiver').val("");
@@ -643,8 +661,10 @@ function OnLoadFunctions(req_id, cus_id) {
                     }
                 });
 
-                $('#interest_waiver').on('blur', function () {
+                $('#interest_waiver').on('input', function () {
                     if (response['loan_type'] == 'interest') {
+                      let value = $('#interest_waiver').val().replace(/,/g, '');
+                          $('#interest_waiver').val(formatIndianNumber(value));
                         if (parseFloat($(this).val()) > response['till_date_int']) {
                             alert("Enter a Lesser Value");
                             $(this).val("");
@@ -652,11 +672,13 @@ function OnLoadFunctions(req_id, cus_id) {
                         }
                     }
                 });
-
-              $("#penalty_waiver").on("blur", function () {
+                
+              $("#penalty_waiver").on('input', function () {
                 var penalty_track = $("#penalty_track").val();
+                let value = $('#penalty_waiver').val().replace(/,/g, '');
+                          $('#penalty_waiver').val(formatIndianNumber(value));
                 if (
-                  parseFloat($(this).val()) >
+                  parseFloat(value) >
                   response["penalty"] - penalty_track
                 ) {
                   alert("Enter a Lesser Value");
@@ -665,10 +687,12 @@ function OnLoadFunctions(req_id, cus_id) {
                 }
               });
 
-              $("#coll_charge_waiver").on("blur", function () {
+              $("#coll_charge_waiver").on('input', function () {
                 var coll_charge_track = $("#coll_charge_track").val();
+                let value = $('#coll_charge_waiver').val().replace(/,/g, '');
+                          $('#coll_charge_waiver').val(formatIndianNumber(value));
                 if (
-                  parseFloat($(this).val()) >
+                  parseFloat(value) >
                   response["coll_charge"] - coll_charge_track
                 ) {
                   alert("Enter a Lesser Value");
@@ -793,18 +817,17 @@ function OnLoadFunctions(req_id, cus_id) {
               success: function (response) {
                 if (response.includes("Success")) {
                   Swal.fire({
-                    timerProgressBar: true,
-                    timer: 2000,
-                    title: "Moved To Error!",
-                    icon: "success",
-                    showConfirmButton: false,
-                    // confirmButtonColor: '#0c70ab'
+                      title: "Moved To Error!",
+                      icon: "success",
+                      showConfirmButton: true,
+                      confirmButtonColor: "#009688",
+                      confirmButtonText: "OK"
+                  }).then((result) => {
+                      if (result.isConfirmed) {
+                          window.location = "collection&upd=" + getidupd + "&cusidupd=" + getcusidupd;
+                      }
                   });
-                  setTimeout(function () {
-                    window.location =
-                      "collection&upd=" + getidupd + "&cusidupd=" + getcusidupd;
-                  }, 2000);
-                } else {
+              } else {
                   Swal.fire({
                     timerProgressBar: true,
                     timer: 2000,
@@ -834,18 +857,18 @@ function OnLoadFunctions(req_id, cus_id) {
               cache: false,
               success: function (response) {
                 if (response.includes("Success")) {
-                  Swal.fire({
-                    timerProgressBar: true,
-                    timer: 2000,
-                    title: "Moved To Legal!",
-                    icon: "success",
-                    showConfirmButton: false,
-                    // confirmButtonColor: '#0c70ab'
-                  });
-                  setTimeout(function () {
-                    window.location =
-                      "collection&upd=" + getidupd + "&cusidupd=" + getcusidupd;
-                  }, 2000);
+                    Swal.fire({
+                        title: "Moved To Legal!",
+                        icon: "success",
+                        showConfirmButton: true,
+                        confirmButtonColor: "#009688",
+                        confirmButtonText: "OK"
+                    }).then((result) => {
+                        // Redirect only if OK is clicked
+                        if (result.isConfirmed) {
+                            window.location = "collection&upd=" + getidupd + "&cusidupd=" + getcusidupd;
+                        }
+                    });
                 } else {
                   Swal.fire({
                     timerProgressBar: true,
@@ -876,18 +899,18 @@ function OnLoadFunctions(req_id, cus_id) {
               cache: false,
               success: function (response) {
                 if (response.includes("Success")) {
-                  Swal.fire({
-                    timerProgressBar: true,
-                    timer: 2000,
-                    title: "Moved To Sub Status!",
-                    icon: "success",
-                    showConfirmButton: false,
-                    // confirmButtonColor: '#0c70ab'
-                  });
-                  setTimeout(function () {
-                    window.location =
-                      "collection&upd=" + getidupd + "&cusidupd=" + getcusidupd;
-                  }, 2000);
+                    Swal.fire({
+                        title: "Moved To Sub Status!",
+                        icon: "success",
+                        showConfirmButton: true,
+                        confirmButtonColor: "#009688",
+                        confirmButtonText: "OK"
+                    }).then((result) => {
+                        // Redirect only if OK is clicked
+                        if (result.isConfirmed) {
+                            window.location = "collection&upd=" + getidupd + "&cusidupd=" + getcusidupd;
+                        }
+                    });
                 } else {
                   Swal.fire({
                     timerProgressBar: true,
@@ -981,11 +1004,11 @@ function validations() {
   let total_waiver = $("#total_waiver").val();
   let retVal = true;
 
-  $("#due_amt_track").trigger("blur"); 
-  $("#penalty_track").trigger("blur"); 
-  $("#coll_charge_track").trigger("blur"); 
-  $("#penalty_waiver").trigger("blur"); 
-  $("#coll_charge_waiver").trigger("blur"); 
+  $("#due_amt_track").trigger("input"); 
+  $("#penalty_track").trigger("input"); 
+  $("#coll_charge_track").trigger("input"); 
+  $("#penalty_waiver").trigger("input"); 
+  $("#coll_charge_waiver").trigger("input"); 
 
   if(tot_amt == ""){
     $("#collectionInfoCheck").show();

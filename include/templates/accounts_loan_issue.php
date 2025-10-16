@@ -649,7 +649,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                             <option value="">Select a Day</option>
                                             <option value="1" <?php if (isset($day_scheme_lc) and $day_scheme_lc == '1') echo 'selected'; ?>>Monday</option>
                                             <option value="2" <?php if (isset($day_scheme_lc) and $day_scheme_lc == '2') echo 'selected'; ?>>Tuesday</option>
-                                            <option value="3" <?php if (isset($day_scheme_lc) and $day_scheme_lc == '3') echo 'selected'; ?>>Wednesdat</option>
+                                            <option value="3" <?php if (isset($day_scheme_lc) and $day_scheme_lc == '3') echo 'selected'; ?>>Wednesday</option>
                                             <option value="4" <?php if (isset($day_scheme_lc) and $day_scheme_lc == '4') echo 'selected'; ?>>Thursday</option>
                                             <option value="5" <?php if (isset($day_scheme_lc) and $day_scheme_lc == '5') echo 'selected'; ?>>Friday</option>
                                             <option value="6" <?php if (isset($day_scheme_lc) and $day_scheme_lc == '6') echo 'selected'; ?>>Saturday</option>
@@ -995,7 +995,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 checque" style="display:none">
                                             <div class="form-group">
                                                 <label for="disabledInput">Cheque Value</label>
-                                                <input type="number" class="form-control" id="chequeValue" name="chequeValue" tabindex="53">
+                                                <input type="text" class="form-control" id="chequeValue" name="chequeValue" tabindex="53">
                                                 <span class="text-danger" style="display: none;" id="cheque_val"> Please Enter Cheque Value </span>
                                             </div>
                                         </div>
@@ -1020,7 +1020,7 @@ if (sizeof($getLoanCalculation) > 0) {
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 transaction" style="display:none">
                                             <div class="form-group">
                                                 <label for="disabledInput">Transaction Value </label>
-                                                <input type="number" class="form-control" id="transaction_value" name="transaction_value" tabindex="56">
+                                                <input type="text" class="form-control" id="transaction_value" name="transaction_value" tabindex="56">
                                                 <span class="text-danger" style="display: none;" id="transact_val"> Please Enter Transaction Value </span>
                                             </div>
                                         </div>

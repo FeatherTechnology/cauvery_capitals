@@ -144,12 +144,6 @@ if($idupd>0)
                                             <input type="text" class="form-control" id="address1" name="address1" value="<?php if(isset($address1)) echo $address1; ?>" placeholder="Enter Address" tabindex="4">
                                         </div>
                                     </div>
-									<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-                                        <div class="form-group">
-                                            <label for="disabledInput">Address Line 2</label>
-                                            <input type="text" class="form-control" id="address2" name="address2" value="<?php if(isset($address2)) echo $address2; ?>" placeholder="Enter Address Line 2"  tabindex="5">
-                                        </div>
-                                    </div> -->
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">State</label>&nbsp;<span class="text-danger">*</span>

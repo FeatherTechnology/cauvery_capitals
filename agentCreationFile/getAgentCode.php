@@ -1,8 +1,5 @@
 <?php
 include('../ajaxconfig.php');
-// if(isset($_POST["dir_type"])){
-//     $sdir_type = $_POST["dir_type"];
-// }
 
 $myStr = "AG";
 $selectIC = $connect->query("SELECT ag_code FROM agent_creation WHERE ag_code != '' ");

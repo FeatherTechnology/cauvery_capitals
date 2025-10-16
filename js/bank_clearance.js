@@ -305,7 +305,8 @@ function warningSwal(title, text) {
         html: text,
         icon: 'warning',
         showConfirmButton: true,
-        confirmButtonColor: '#0c70ab'
+        confirmButtonColor: '#009688', // warning color (orange/yellow)
+        confirmButtonText: 'OK'
     });
 }
 
@@ -315,6 +316,12 @@ function successSwal(title, text) {
         html: text,
         icon: 'success',
         showConfirmButton: true,
-        confirmButtonColor: '#0c70ab'
-    })
+        confirmButtonColor: '#009688', // your success green
+        confirmButtonText: 'OK'
+    }).then((result) => {
+        // Reload only if OK is clicked
+        if (result.isConfirmed) {
+            location.reload();
+        }
+    });
 }

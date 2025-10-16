@@ -117,12 +117,6 @@ if ($idupd > 0) {
 											<input type="text" class="form-control" id="address1" name="address1" value="<?php if (isset($address1)) echo $address1; ?>" placeholder="Enter Address" tabindex="2">
 										</div>
 									</div>
-									<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-                                        <div class="form-group">
-                                            <label for="disabledInput">Address Line 2</label>&nbsp;<span class="text-danger">*</span>
-                                            <input type="text" class="form-control" id="address2" name="address2" value="<?php if (isset($address2)) echo $address2; ?>" placeholder="Enter Address Line 2" tabindex="3" >
-                                        </div>
-                                    </div> -->
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">State</label>&nbsp;<span class="text-danger">*</span>
@@ -214,9 +208,6 @@ if ($idupd > 0) {
 				</div>
 				<div class="col-md-12 ">
 					<div class="text-right">
-						<!-- <a href="edit_company_creation">
-						<button type="button" class="btn btn-outline-secondary"><span class="icon-arrow-left"></span>&nbsp; Back</button>
-					</a> -->
 						<button type="submit" name="submit_company_creation" id="submit_company_creation" class="btn btn-primary" value="Submit" tabindex="14"><span class="icon-check"></span>&nbsp;Submit</button>
 						<button type="reset" class="btn btn-outline-secondary" tabindex="15">Clear</button>
 					</div>

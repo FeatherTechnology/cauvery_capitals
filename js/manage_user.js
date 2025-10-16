@@ -1002,7 +1002,7 @@ function getProAccess() {
         '1': 'Existing',
         '2': 'New ',
         '3': 'Repromotion'
-        // ,'4': 'Events'  
+        ,'4': 'Events'  
     };
     promotionAccess.clearStore();
 

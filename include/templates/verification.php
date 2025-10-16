@@ -693,43 +693,6 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 						</div>
 					</div>
 					<!-- Guarentor END -->
-
-					<!-- Group Info START -->
-					<!-- <div class="card">
-						<div class="card-header"> Group Info <span style="font-weight:bold" class=""></span>
-							<button type="button" class="btn btn-primary" id="group_details_add" name="group_details_add" data-toggle="modal" data-target=".addGroupDetails" style="padding: 5px 35px; float: right; " tabindex='23'><span class="icon-add"></span></button>
-						</div>
-						<span class="text-danger" style='display:none' id='group_infoCheck'>Please Fill Group Info </span>
-						<div class="card-body">
-							<div class="row">
-
-								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-									<div class="form-group table-responsive" id="GroupList">
-										<table class="table custom-table modalTable">
-											<thead>
-												<tr>
-													<th>S.No</th>
-													<th>Name</th>
-													<th>Age</th>
-													<th>Aadhar No</th>
-													<th>Mobile No</th>
-													<th>Gender</th>
-													<th>Designation</th>
-												</tr>
-											</thead>
-											<tbody>
-
-											</tbody>
-										</table>
-									</div>
-								</div>
-
-							</div>
-
-						</div>
-					</div> -->
-					<!-- Group Info END -->
-
 					<!-- Customer Data START -->
 					<div class="card">
 						<div class="card-header"> Customer Data <span style="font-weight:bold" class=""></span></div>
@@ -2010,7 +1973,7 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 										<div class="form-group">
 											<label for="">Due Amount</label><span class="required">&nbsp;*</span>
 											<input type="text" class="form-control" id="" name="" value='<?php if (isset($due_amt)) {
-																												echo $due_amt;
+																												echo moneyFormatIndia($due_amt);
 																											} ?>' tabindex='11' readonly>
 										</div>
 									</div>
@@ -2666,124 +2629,6 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 	</div>
 </div>
 <!-- END  Add Family Members Modal -->
-
-
-<!-- Add Group Members Modal -->
-<!-- <div class="modal fade addGroupDetails" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content" style="background-color: white">
-			<div class="modal-header">
-				<h5 class="modal-title" id="myLargeModalLabel">Add Group Info</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetgroupInfo()">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body"> -->
-<!-- alert messages -->
-<!-- <div id="grpInsertOk" class="successalert"> Group Details Added Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
-				</div>
-
-				<div id="grpUpdateok" class="successalert"> Group Info Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
-				</div>
-
-				<div id="NotOk" class="unsuccessalert"> Please Retry! <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
-				</div>
-
-				<div id="GroupDeleteOk" class="successalert"> Group Info Has been Deleted!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
-				</div>
-
-				<div id="GroupDeleteNotOk" class="unsuccessalert"> Group Not Deleted! <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
-				</div>
-
-				<br />
-
-				<div class="row">
-
-					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-						<div class="form-group">
-							<label for="cus_name"> Name</label><span class="required">&nbsp;*</span>
-							<input type="text" class="form-control" id="group_name" name="group_name" placeholder="Enter Name" onkeydown="return /[a-z ]/i.test(event.key)" tabindex='1'>
-							<span class="text-danger" id="grpnameCheck">Enter Name</span>
-						</div>
-					</div>
-
-					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-						<div class="form-group">
-							<label for="age">Age</label><span class="required">&nbsp;*</span>
-							<input type="number" class="form-control" id="group_age" name="group_age" tabindex='1' placeholder="Enter Age">
-							<span class="text-danger" id="grpageCheck">Enter Age</span>
-						</div>
-					</div>
-
-					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-						<div class="form-group">
-							<label for="group_aadhar">Aadhar Number &nbsp;<span class="required">&nbsp;*</span></label>
-							<input type="text" class="form-control" id="group_aadhar" name="group_aadhar" data-type="adhaar-number" maxlength="14" tabindex='1' placeholder='Enter Aadhar Number'>
-							<span class="text-danger" id="grpaadharCheck">Enter Aadhar Number</span>
-						</div>
-					</div>
-
-					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-						<div class="form-group">
-							<label for="mobile1">Mobile No </label><span class="required">&nbsp;*</span>
-							<input type="number" class="form-control" id="group_mobile" name="group_mobile" placeholder="Enter Mobile Number" onkeypress="if(this.value.length==10) return false;" tabindex='1'>
-							<span class="text-danger" id="grpmbleCheck">Enter Mobile No </span>
-						</div>
-					</div>
-
-					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-						<div class="form-group">
-							<label for="gender">Gender&nbsp;<span class="required">&nbsp;*</span></label>
-							<select type="text" class="form-control" id="group_gender" name="group_gender" tabindex='1'>
-								<option value="">Select Gender</option>
-								<option value="1">Male</option>
-								<option value="2">Female</option>
-								<option value="3">Other</option>
-							</select>
-							<span class="text-danger" id="grpgenCheck">Enter Gender</span>
-						</div>
-					</div>
-
-					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-						<div class="form-group">
-							<label for="group_dsgn"> Designation &nbsp;<span class="required">&nbsp;*</span> </label>
-							<input type="text" class="form-control" id="group_designation" name="group_designation" placeholder="Enter Designation" onkeypress="return /[a-z ]/i.test(event.key)" tabindex='1'>
-							<span class="text-danger" id="grpdesgnCheck">Enter Designation</span>
-						</div>
-					</div>
-
-
-					<div class="col-xl-2 col-lg-2 col-md-6 col-sm-4 col-12">
-						<input type="hidden" name="grpID" id="grpID">
-						<button type="button" name="groupInfoBtn" id="groupInfoBtn" class="btn btn-primary" style="margin-top: 19px;" tabindex='1'>Submit</button>
-					</div>
-
-				</div>
-				</br>
-
-				<div id="GroupTable" class>
-					<table class="table custom-table modalTable">
-						<thead>
-							<tr>
-								<th width="50">S.No</th>
-								<th>Name</th>
-								<th>Aadhar Number</th>
-								<th>ACTION</th>
-							</tr>
-						</thead>
-						<tbody>
-
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="resetgroupInfo()" tabindex='1'>Close</button>
-			</div>
-		</div>
-	</div>
-</div> -->
-<!-- END  Add Group Members Modal -->
 
 <!-- Add Property Modal  START -->
 <div class="modal fade addproperty" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

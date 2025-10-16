@@ -36,7 +36,7 @@ $column = array(
     'np.follow_date',
     'u.role',
     'u.fullname',
-    'cp.id'
+    'np.id'
 );
 
 $query = "SELECT 
@@ -53,7 +53,7 @@ LEFT JOIN
 left JOIN 
     customer_register cp ON np.cus_id = cp.cus_id
 left JOIN 
-    new_cus_promo ncp ON ON TRIM(np.cus_id) = TRIM(ncp.cus_id)
+    new_cus_promo ncp ON np.cus_id = ncp.cus_id
 LEFT JOIN area_list_creation al ON al.area_id = COALESCE(cp.area, ncp.area)
 
 LEFT JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
@@ -73,7 +73,7 @@ if (isset($_POST['search'])) {
     if ($_POST['search'] != "") {
         $query .= " and (np.created_date LIKE '%" . $_POST['search'] . "%' OR
             np.cus_id LIKE '%" . $_POST['search'] . "%' OR
-           COALESCE(cp.customer_name, ncp.cus_name) LIKE '%" . $_POST['search'] . "%' OR
+            COALESCE(cp.customer_name, ncp.cus_name) LIKE '%" . $_POST['search'] . "%' OR
             COALESCE(al.area_name, ncp.area) LIKE '%" . $_POST['search'] . "%' OR
             bc.branch_name LIKE '%" . $_POST['search'] . "%' OR
             agm.group_name LIKE '%" . $_POST['search'] . "%' OR
@@ -95,7 +95,6 @@ $query1 = "";
 if ($_POST['length'] != -1) {
     $query1 = " LIMIT " . $_POST['start'] . ", " . $_POST['length'];
 }
-
 $statement = $connect->prepare($query);
 
 $statement->execute();

@@ -1816,10 +1816,11 @@
                         },
                         cache: false,
                         success: function(response) {
-                            swalAlert(response);
-                            setTimeout(() => {
+                            swalAlert(response).then((result) => {
+                            if (result.isConfirmed) {
                                 window.location = 'document_track';
-                            }, 1500)
+                            }
+                        });
                         }
                     });
                 }
@@ -1837,10 +1838,11 @@
                         },
                         cache: false,
                         success: function(response) {
-                            swalAlert(response);
-                            setTimeout(() => {
+                            swalAlert(response).then((result) => {
+                            if (result.isConfirmed) {
                                 window.location = 'document_track';
-                            }, 1500)
+                            }
+                        });
                         }
                     });
                 }
@@ -1858,10 +1860,11 @@
                         },
                         cache: false,
                         success: function(response) {
-                            swalAlert(response);
-                            setTimeout(() => {
+                            swalAlert(response).then((result) => {
+                            if (result.isConfirmed) {
                                 window.location = 'document_track';
-                            }, 1500)
+                            }
+                        });
                         }
                     });
                 }
@@ -2034,6 +2037,24 @@
                 resetTimers();
             }
         });
+
+        function formatIndianNumber(num) {
+        num = num.replace(/,/g, ''); // remove existing commas
+        if (num === '') return '';
+
+        let lastThree = num.slice(-3);
+        let rest = num.slice(0, -3);
+
+        if (rest !== '') {
+            rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',');
+            num = rest + ',' + lastThree;
+        } else {
+            num = lastThree;
+        }
+
+        return num;
+    }
+
 
     //////////////////////////////////////////////////////////// Session Logut Time End ////////////////////////////////////////////////////////////////////////////////////
     </script>

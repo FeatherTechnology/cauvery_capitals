@@ -12,7 +12,7 @@ function callOnClickEvents() {
 
     setTimeout(() => {
         console.log('Called on click events')
-        $('.sub_verification').click(function () {
+         $('.sub_verification').click(function () {
             var req_id = $(this).val();
             var cus_id = $(this).attr('data-value');
             if (confirm('Do You want to Send this Request for Verification?')) {
@@ -25,16 +25,17 @@ function callOnClickEvents() {
                     success: function (response) {
                         if (response.includes('Moved')) {
                             Swal.fire({
-                                timerProgressBar: true,
-                                timer: 2000,
                                 title: response,
                                 icon: 'success',
                                 showConfirmButton: true,
-                                confirmButtonColor: '#0c70ab'
+                                confirmButtonColor: '#009688',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Redirect only when OK is clicked
+                                    window.location = 'edit_request';
+                                }
                             });
-                            setTimeout(function () {
-                                window.location = 'edit_request';
-                            }, 2000)
                         }
                     }
                 })
@@ -178,9 +179,9 @@ function warningSwal(title, text) {
         title: title,
         html: text,
         icon: 'warning',
-        showConfirmButton: false,
-        timerProgressBar: true,
-        timer: 2000
+        showConfirmButton: true,
+        confirmButtonColor: '#009688', // warning color (orange/yellow)
+        confirmButtonText: 'OK'
     });
 }
 
@@ -189,11 +190,13 @@ function successSwal(title, text) {
         title: title,
         html: text,
         icon: 'success',
-        showConfirmButton: false,
-        timerProgressBar: true,
-        timer: 2000
-    })
-    setTimeout(() => {
-        location.reload();
-    }, 2000);
+        showConfirmButton: true,
+        confirmButtonColor: '#009688', // your success green
+        confirmButtonText: 'OK'
+    }).then((result) => {
+        // Reload only if OK is clicked
+        if (result.isConfirmed) {
+            location.reload();
+        }
+    });
 }
