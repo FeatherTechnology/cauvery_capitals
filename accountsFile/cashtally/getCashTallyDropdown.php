@@ -14,7 +14,7 @@ if(isset($_POST['mode'])){
 }
 
 $records = array();
-$qry = "SELECT id,modes FROM cash_tally_modes where ";
+$qry = "SELECT id,modes FROM cash_tally_modes where id not in(1,13,14) AND ";
 
 if($mode == 'handcredit'){
     $qry .= "handcredit = 0 ";

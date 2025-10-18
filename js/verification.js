@@ -1107,7 +1107,7 @@ $(document).ready(function () {
     }
   });
 
-    $('#cus_monthly_income ,#cus_Commitment ,#cus_other_income ,#cus_support_income ,#cus_monDue_capacity , #cus_loan_limit').on('input', function () {
+    $('#cus_monthly_income ,#cus_Commitment ,#cus_other_income ,#cus_support_income ,#cus_monDue_capacity , #cus_loan_limit','#cus_occ_income').on('input', function () {
         let value = $(this).val();
         $(this).val(formatIndianNumber(value));
     });

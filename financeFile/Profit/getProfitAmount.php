@@ -21,7 +21,7 @@ if ($type == 'today') {
     
 }
 
-$condition = getAreaList($connect, $user_id); //condition will be returned if user id selected
+$condition = getSubareaList($connect, $user_id); //condition will be returned if user id selected
 getDetials($connect, $where, $condition);
 
 function getDetials($connect, $where, $condition)
@@ -31,22 +31,37 @@ function getDetials($connect, $where, $condition)
     //will show only interest amunt under user's branch not others also
     //excluding due type interest , coz interest loans will be sepately calculated. those interest will be collected every month as due amount
     //, COALESCE(ROUND(SUM( CASE WHEN c.due_amt_track > alc.principal_amt_cal / alc.due_period THEN c.due_amt_track - (alc.principal_amt_cal / alc.due_period) ELSE 0 END )), 0) AS total_interest_paid, COALESCE(ROUND(SUM( CASE WHEN c.due_amt_track <= alc.principal_amt_cal / alc.due_period THEN c.due_amt_track ELSE alc.principal_amt_cal / alc.due_period END )), 0) AS total_principal_paid
-    $qry = $connect->query("SELECT COALESCE(SUM(c.due_amt_track), 0) AS due_amt_track, COALESCE(ROUND(SUM( CASE WHEN c.due_amt_track > alc.principal_amt_cal / alc.due_period THEN c.due_amt_track - (alc.principal_amt_cal / alc.due_period) ELSE 0 END )), 0) AS total_interest_paid FROM in_verification iv JOIN acknowlegement_loan_calculation alc ON iv.req_id = alc.req_id JOIN collection c ON iv.req_id = c.req_id WHERE iv.cus_status > 13 AND due_type != 'Interest' and $where $condition");
-    $row = $qry->fetch();
-    $res['interest_paid'] = $row['total_interest_paid'];
-    $res['due_amt_track'] = $row['due_amt_track'];
+    // $qry = $connect->query("SELECT COALESCE(ROUND(SUM( CASE WHEN c.due_amt_track > alc.principal_amt_cal / alc.due_period THEN c.due_amt_track - (alc.principal_amt_cal / alc.due_period) ELSE 0 END )), 0) AS total_interest_paid FROM in_verification iv JOIN acknowlegement_loan_calculation alc ON iv.req_id = alc.req_id JOIN collection c ON iv.req_id = c.req_id WHERE iv.cus_status > 13 AND due_type != 'Interest' and $where $condition");
+    // $row = $qry->fetch();
+    // $res['interest_paid'] = $row['total_interest_paid'];
 
-    $qry = $connect->query("SELECT COALESCE(sum(int_amt_track), 0) as int_amt_track FROM in_verification iv JOIN acknowlegement_loan_calculation alc ON iv.req_id = alc.req_id JOIN collection c ON iv.req_id = c.req_id WHERE iv.cus_status > 13 AND due_type = 'Interest' and $where $condition");
-    $row = $qry->fetch();
-    $res['interest_amount'] = $row['int_amt_track'];
+    // $qry = $connect->query("SELECT COALESCE(sum(int_amt_track), 0) as int_amt_track FROM in_verification iv JOIN acknowlegement_loan_calculation alc ON iv.req_id = alc.req_id JOIN collection c ON iv.req_id = c.req_id WHERE iv.cus_status > 13 AND due_type = 'Interest' and $where $condition");
+    // $row = $qry->fetch();
+    // $res['interest_amount'] = $row['int_amt_track'];
 
-    $response['split_interest'] = moneyFormatIndia($res['interest_paid']);
-    $response['interest_amount'] = moneyFormatIndia($res['interest_amount']);
+    // $response['split_interest'] = moneyFormatIndia($res['interest_paid']);
+    // $response['interest_amount'] = moneyFormatIndia($res['interest_amount']);
+
+    $qry = $connect->query("SELECT lc.int_amt_cal, lc.tot_amt_cal, SUM(coll.due_amt_track) AS due_amt_track
+    FROM collection coll 
+    JOIN in_issue ii ON coll.req_id = ii.req_id 
+    JOIN acknowlegement_loan_calculation lc ON coll.req_id = lc.req_id 
+    JOIN in_verification iv ON coll.req_id = iv.req_id 
+    WHERE iv.cus_status >= 14 
+    AND $where $condition
+    GROUP BY coll.req_id");
+    $interest = 0;
+    while($row = $qry->fetch()){
+        $interest_calc= $row['int_amt_cal'] / $row['tot_amt_cal'];
+        $interest += round($row['due_amt_track'] * $interest_calc, 1);
+    }
+
+    $response['split_interest'] = moneyFormatIndia(round($interest));
 
     echo json_encode($response);
 }
 
-function getAreaList($connect, $user_id)
+function getSubareaList($connect, $user_id)
 {
 
     if ($user_id != '') { //to get user's sub area id based on user's branch assigned
@@ -56,22 +71,22 @@ function getAreaList($connect, $user_id)
             $line_id = $rowuser['line_id'];
         }
         $line_id = explode(',', $line_id);
-        $area_list = array();
+        $sub_area_list = array();
         foreach ($line_id as $line) {
-            $groupQry = $connect->query("SELECT area_id FROM area_line_mapping_area where line_map_id = $line ");
+            $groupQry = $connect->query("SELECT sub_area_id FROM area_line_mapping where map_id = $line ");
             $row_sub = $groupQry->fetch();
-            $area_list[] = $row_sub['area_id'];
+            $sub_area_list[] = $row_sub['sub_area_id'];
         }
-        $area_ids = array();
-        foreach ($area_list as $subarray) {
-            $area_ids = array_merge($area_ids, explode(',', $subarray));
+        $sub_area_ids = array();
+        foreach ($sub_area_list as $subarray) {
+            $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
         }
-        $area_list = array();
-        $area_list = implode(',', $area_ids);
+        $sub_area_list = array();
+        $sub_area_list = implode(',', $sub_area_ids);
     } else {
-        $area_list = '';
+        $sub_area_list = '';
     }
-    $condition = ($area_list != '') ? " and FIND_IN_SET(iv.area ,'" . $area_list . "')" : '';
+    $condition = ($sub_area_list != '') ? " and FIND_IN_SET(iv.sub_area ,'" . $sub_area_list . "')" : '';
     return $condition;
 }
 

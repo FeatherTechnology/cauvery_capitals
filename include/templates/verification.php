@@ -864,8 +864,8 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="cus_occ_income"> Income </label>
-										<input type="number" class="form-control" name="cus_occ_income" id="cus_occ_income" placeholder="Enter Income" value="<?php if (isset($occupation_income)) {
-																																									echo $occupation_income;
+										<input type="text" class="form-control" name="cus_occ_income" id="cus_occ_income" placeholder="Enter Income" value="<?php if (isset($occupation_income)) {
+																																									echo moneyFormatIndia($occupation_income);
 																																								} ?>" tabindex="36">
 									</div>
 								</div>
