@@ -388,14 +388,14 @@ if ($bank_qry->num_rows > 0) {
 						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"></div>
 						<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
 							<div class="form-group">
-								<input type="radio" id="hands_cash_radio" name="cashs_type" value='0' />&emsp;<label class='radio-style'>Hand Cash</label>&emsp;
+								<input type="radio" id="hands_cash_radio" name="other_trans_cash_type" value='0' />&emsp;<label class='radio-style'>Hand Cash</label>&emsp;
 							</div>
 						</div>
 						<?php if (isset($bank_details) && $bank_details != null) {
 							for ($i = 0; $i < sizeof($bank_name_arr); $i++) {  ?>
 								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 30%;">
 									<div class="form-group">
-										<input type="radio" id="banks_cash_radio" name="cashs_type" value="<?php echo $bank_id_arr[$i]; ?>" class="bank_cash_radio" />&emsp;<label class='radio-style'><?php echo $bank_name_arr[$i]; ?></label>
+										<input type="radio" id="banks_cash_radio" name="other_trans_cash_type" value="<?php echo $bank_id_arr[$i]; ?>" class="bank_cash_radio" />&emsp;<label class='radio-style'><?php echo $bank_name_arr[$i]; ?></label>
 									</div>
 								</div>
 						<?php  }
@@ -411,7 +411,7 @@ if ($bank_qry->num_rows > 0) {
 						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
 							<div class="form-group">
 								<label for='credit_type'>Credit</label>
-								<select class="form-control" id='credit_types' name='credit_types'>
+								<select class="form-control" id='credit_type' name='credit_type'>
 									<option value=''>Select Credit Type</option>
 								</select>
 							</div>
@@ -419,7 +419,7 @@ if ($bank_qry->num_rows > 0) {
 						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
 							<div class="form-group">
 								<label for='debit_type'>Debit</label>
-								<select class="form-control" id='debit_types' name='debit_types'>
+								<select class="form-control" id='debit_type' name='debit_type'>
 									<option value=''>Select Debit Type</option>
 								</select>
 							</div>
@@ -1056,67 +1056,3 @@ if ($bank_qry->num_rows > 0) {
 		</div>
 	</div>
 </div>
-
-<!--Other Transaction Modal Start-->
-<div class="modal fade" id="add_other_transaction_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	<div class="modal-dialog modal-lg " role="document">
-		<div class="modal-content" style="background-color: white">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Add Other Transaction</h5>
-				<button type="button" class="close clse-trans" data-dismiss="modal" tabindex="1" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div><br><br>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="row">
-						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"></div>
-						<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
-							<div class="form-group">
-								<input type="radio" id="hands_cash_radio" name="cashs_type" value='0' />&emsp;<label class='radio-style'>Hand Cash</label>&emsp;
-							</div>
-						</div>
-						<?php if (isset($bank_details) && $bank_details != null) {
-							for ($i = 0; $i < sizeof($bank_name_arr); $i++) {  ?>
-								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12" style="max-width: 30%;">
-									<div class="form-group">
-										<input type="radio" id="banks_cash_radio" name="cashs_type" value="<?php echo $bank_id_arr[$i]; ?>" class="bank_cash_radio" />&emsp;<label class='radio-style'><?php echo $bank_name_arr[$i]; ?></label>
-									</div>
-								</div>
-						<?php  }
-						} ?>
-						<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
-							<div class="form-group">
-								<!-- <button type="button" name="blnc_sheet_btn" id="blnc_sheet_btn" class="btn btn-primary" data-toggle='modal' data-target='.blncModal' onclick="hideAllCardsfunction()">Balance Sheet</button> -->
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12"></div>
-						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
-							<div class="form-group">
-								<label for='credit_type'>Credit</label>
-								<select class="form-control" id='credit_types' name='credit_types'>
-									<option value=''>Select Credit Type</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
-							<div class="form-group">
-								<label for='debit_type'>Debit</label>
-								<select class="form-control" id='debit_types' name='debit_types'>
-									<option value=''>Select Debit Type</option>
-								</select>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="modal-footer">
-				<button class="btn btn-secondary clse-trans" data-dismiss="modal" tabindex="1">Close</button>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- ----------------------------------------------------- Other Transaction Modal End ----------------------------------------------------------------- -->

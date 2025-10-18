@@ -4,17 +4,12 @@ $(document).ready(function () {
         let accountsType = $(this).val();
         if (accountsType == '1') { //Collection List
             $('.collection_card').show(); $('.issued_card').hide(); $('.expense_card').hide(); $('#other_transaction_card').hide();
-            // getCollectionDetails();
-            // getBankName('#coll_bank_name');
         } else if (accountsType == '2') { //Loan Issued
             $('.collection_card').hide(); $('.issued_card').show(); $('.expense_card').hide(); $('#other_transaction_card').hide();
-            // getBankName('#issue_bank_name');
         } else if (accountsType == '3') { //Expenses
             $('.collection_card').hide(); $('.issued_card').hide(); $('.expense_card').show(); $('#other_transaction_card').hide();
-            // expensesTable('#accounts_expenses_table');
         } else if (accountsType == '4') { //Other Transaction
             $('.collection_card').hide(); $('.issued_card').hide(); $('.expense_card').hide(); $('#other_transaction_card').show();
-            // otherTransTable('#accounts_other_trans_table');
         }
     });
     $("input[name='Coll_cash_type']").on("change", function () {
@@ -47,7 +42,7 @@ $(document).ready(function () {
 
     $('#hands_cash_radio , #banks_cash_radio').click(function () {
         // hideAllCardsfunction();
-        var cash_type = $('input[name=cashs_type]:checked').val();
+        var cash_type = $('input[name=other_trans_cash_type]:checked').val();
         if (cash_type == '0') {//hand cash
             appendHandCreditDropdown();
             appendHandDebitDropdown();
@@ -58,38 +53,30 @@ $(document).ready(function () {
     })
 
     //On change of types other type shoult be empty
-    $('#credit_types').change(function () {
+    $('#credit_type').change(function () {
         var credit_type = $(this).val();
         if (credit_type != '') {
-            $('#debit_types').val('');
+            $('#debit_type').val('');
         }
     })
-    $('#debit_types').change(function () {
+    $('#debit_type').change(function () {
         var debit_type = $(this).val();
         if (debit_type != '') {
-            $('#credit_types').val('');
+            $('#credit_type').val('');
         }
     })
 
 
     //Credit Type on change event
-    $('#credit_types').change(function () {
+    $('#credit_type').change(function () {
         hideAllCardsfunction()
         var credit_type = $(this).val();
-        var cash_type = $('input[name=cashs_type]:checked').val();
+        var cash_type = $('input[name=other_trans_cash_type]:checked').val();
 
         if (credit_type != '') {
 
             /////////////////////// For Collection Credit types ////////////////////////////
-            if (credit_type == 1 && cash_type == 0) {
-                // 1 means Collection and cash type is hand cash
-                $('.collection_card').show();
-                getCollectionDetails();
-            } else if (credit_type == 1 && cash_type > 0) {
-                // 1 means Collection and cash type is bank cash
-                $('.collection_card').show();
-                getBankCollectionDetails(cash_type);
-            } else if (credit_type == 5 && cash_type > 0) {
+            if (credit_type == 5 && cash_type > 0) {
                 // 5 means cash deposit and cash type is bank
                 $('.contra_card').show();
                 getCashDepositDetails(cash_type);
@@ -152,10 +139,10 @@ $(document).ready(function () {
         }
     })
 
-    $('#debit_types').change(function () {
+    $('#debit_type').change(function () {
         hideAllCardsfunction()
         var debit_type = $(this).val();
-        var cash_type = $('input[name=cashs_type]:checked').val();
+        var cash_type = $('input[name=other_trans_cash_type]:checked').val();
 
         if (debit_type != '') {
 
@@ -178,22 +165,6 @@ $(document).ready(function () {
                 //4 Means Exchange and cash type Bank cash
                 $('.exchange_card').show();
                 getBankExchangeInputs();
-            } else if (debit_type == 13 && cash_type == 0) {
-                //13 Means Issued and cash type Hand cash
-                $('.issued_card').show();
-                getHissuedTable();
-            } else if (debit_type == 13 && cash_type > 0) {
-                //13 Means Issued and cash type Bank cash
-                $('.issued_card').show();
-                getBissuedTable();
-            } else if (debit_type == 14 && cash_type == 0) {
-                //14 Means Issued and cash type Hand cash
-                $('.expense_card').show();
-                getHexpenseTable();
-            } else if (debit_type == 14 && cash_type > 0) {
-                //14 Means Issued and cash type Bank cash
-                $('.expense_card').show();
-                getBexpenseTable();
             } else if (debit_type == 9 && cash_type == 0) {
                 //9 Means Investment and cash type Hand cash
                 $('.inv_card').show();
@@ -285,7 +256,7 @@ $(document).ready(function () {
         triggerExpViewActions();
     });
 
-    $('#exp_cat_type').click(function () {
+    $('#exp_cat_type').change(function () {
         var sheet_type = $('#sheet_type').val();
         var exp_cat_type = $(this).val();
 
@@ -579,14 +550,14 @@ function getAllClosingBalance() {
         cache: false,
         success: function (response) {
             var closing = parseInt(response[0]['closing_balance']);
-            $('#all_closing_balance').text(closing)
-            $('#all_hand_closing').text(response[0]['hand_closing'])
+            $('#all_closing_balance').text(moneyFormatIndia(closing))
+            $('#all_hand_closing').text(moneyFormatIndia(response[0]['hand_closing']))
             var i = 0;
             $.each(response, function (index, item) {
-                $('#all_bank_closing' + i).text(item['bank_closing'] ?? 0)
+                $('#all_bank_closing' + i).text(moneyFormatIndia(item['bank_closing'] ?? 0))
                 i++;
             })
-            $('#all_agent_closing').text(response[0]['agent_closing'])
+            $('#all_agent_closing').text(moneyFormatIndia(response[0]['agent_closing']))
         }
     })
 }
@@ -783,10 +754,10 @@ function appendHandCreditDropdown() {
         cache: false,
         success: function (response) {
 
-            $('#credit_types').empty();
-            $('#credit_types').append("<option value=''>Select Credit Type</option>");
+            $('#credit_type').empty();
+            $('#credit_type').append("<option value=''>Select Credit Type</option>");
             for (var i = 0; i < response.length; i++) {
-                $('#credit_types').append("<option value='" + response[i]['id'] + "'>" + response[i]['modes'] + "</option>");
+                $('#credit_type').append("<option value='" + response[i]['id'] + "'>" + response[i]['modes'] + "</option>");
             }
             sortDropdowns()
 
@@ -803,10 +774,10 @@ function appendHandDebitDropdown() {
         cache: false,
         success: function (response) {
 
-            $('#debit_types').empty();
-            $('#debit_types').append("<option value=''>Select Debit Type</option>");
+            $('#debit_type').empty();
+            $('#debit_type').append("<option value=''>Select Debit Type</option>");
             for (var i = 0; i < response.length; i++) {
-                $('#debit_types').append("<option value='" + response[i]['id'] + "'>" + response[i]['modes'] + "</option>");
+                $('#debit_type').append("<option value='" + response[i]['id'] + "'>" + response[i]['modes'] + "</option>");
             }
             sortDropdowns()
         }
@@ -822,10 +793,10 @@ function appendBankCreditDropdown() {
         cache: false,
         success: function (response) {
 
-            $('#credit_types').empty();
-            $('#credit_types').append("<option value=''>Select Credit Type</option>");
+            $('#credit_type').empty();
+            $('#credit_type').append("<option value=''>Select Credit Type</option>");
             for (var i = 0; i < response.length; i++) {
-                $('#credit_types').append("<option value='" + response[i]['id'] + "'>" + response[i]['modes'] + "</option>");
+                $('#credit_type').append("<option value='" + response[i]['id'] + "'>" + response[i]['modes'] + "</option>");
             }
             sortDropdowns()
         }
@@ -840,10 +811,10 @@ function appendBankDebitDropdown() {
         cache: false,
         success: function (response) {
 
-            $('#debit_types').empty();
-            $('#debit_types').append("<option value=''>Select Debit Type</option>");
+            $('#debit_type').empty();
+            $('#debit_type').append("<option value=''>Select Debit Type</option>");
             for (var i = 0; i < response.length; i++) {
-                $('#debit_types').append("<option value='" + response[i]['id'] + "'>" + response[i]['modes'] + "</option>");
+                $('#debit_type').append("<option value='" + response[i]['id'] + "'>" + response[i]['modes'] + "</option>");
             }
             sortDropdowns()
         }
@@ -964,11 +935,12 @@ function getCollectionDetails() {
 function collectBtnClick(button) {
     var user_id = $(button).data('value');
     var branch_id = $(button).data('id');
+    var line_id = $(button).data('line');
     var op_date = $('#op_date').text();
     var user_branch_id = $('#user_branch_id').val();
     $.ajax({
         url: 'accountsFile/cashtally/receiveAmtModal.php',
-        data: { 'user_id': user_id, 'branch_id': branch_id, 'op_date': op_date, 'user_branch_id': user_branch_id },
+        data: { 'user_id': user_id, 'branch_id': branch_id, 'op_date': op_date, 'user_branch_id': user_branch_id, 'line_id': line_id },
         type: 'post',
         cache: false,
         success: function (response) {
@@ -996,16 +968,17 @@ function collectBtnClick(button) {
                                 title: response,
                                 icon: 'success',
                                 showConfirmButton: true,
-                                confirmButtonColor: '#0c70ab'
+                                confirmButtonColor: '#009688'
                             }).then(function (result) {
                                 if (result.isConfirmed) {
                                     var user_id = $('#user_id_rec').val();
                                     var branch_id = $('#branch_id_rec').val();
+                                    var line_id = $('#line_id_rec').val();
                                     var op_date = $('#op_date').text();
                                     var user_branch_id = $('#user_branch_id').val();
                                     $.ajax({
                                         url: 'accountsFile/cashtally/receiveAmtModal.php',
-                                        data: { 'user_id': user_id, 'branch_id': branch_id,'op_date': op_date, 'user_branch_id': user_branch_id },
+                                        data: { 'user_id': user_id, 'branch_id': branch_id, 'op_date': op_date, 'user_branch_id': user_branch_id, 'line_id': line_id },
                                         type: 'post',
                                         cache: false,
                                         success: function (response) {
@@ -1020,7 +993,7 @@ function collectBtnClick(button) {
                                 title: response,
                                 icon: 'error',
                                 showConfirmButton: true,
-                                confirmButtonColor: '#0c70ab'
+                                confirmButtonColor: '#009688'
                             });
                         }
                         getClosingBalance();
@@ -1353,7 +1326,7 @@ function cdValidation() {
 //reset Bank Deposit table when Cash Deposit modal closed
 function closCdModal() {
     //reset bank deposit modal
-    var cash_type = $('input[name=cashs_type]:checked').val();
+    var cash_type = $('input[name=other_trans_cash_type]:checked').val();
     getCashDepositDetails(cash_type);
 }
 
@@ -1436,7 +1409,7 @@ function getCashWithdrawalDetails() {
         }
     })
 
-    var bank_id = $('input[name=cashs_type]:checked').val();
+    var bank_id = $('input[name=other_trans_cash_type]:checked').val();
 
     $.ajax({
         url: 'accountsFile/cashtally/contra/getBankDetails.php',
@@ -2045,7 +2018,7 @@ function getBankExchangeInputs() {
     $('#exchangeDiv').empty()
     $('#exchangeDiv').html(appendText);
 
-    var cash_type = $('input[name=cashs_type]:checked').val();
+    var cash_type = $('input[name=other_trans_cash_type]:checked').val();
 
     $.ajax({
         url: 'accountsFile/cashtally/exchange/getBankExchangeInputs.php',
@@ -2141,7 +2114,7 @@ function bankCashvalidatio(debit_amt, bank_amount) {
 }
 //to get Bank exchange credit input table
 function getCreditBexchangeDetails() {
-    var bank_id = $('input[name=cashs_type]:checked').val();
+    var bank_id = $('input[name=other_trans_cash_type]:checked').val();
     $.ajax({
         url: 'accountsFile/cashtally/exchange/getCreditBexchangeDetails.php',
         data: { 'bank_id': bank_id },
@@ -2379,7 +2352,7 @@ function getBotherincomeDetails() {
     $('#submit_boti').click(function () {
         if (botiValidation() == 0) {
             var ref_code = $('#ref_code_boti').val(); var cat_info = $('#cat_info').val(); var trans_id = $('#trans_id').val(); var remark = $('#remark').val(); var amt = $('#amt').val();
-            var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
+            var bank_id = $('input[name=other_trans_cash_type]:checked').val(); var op_date = $('#op_date').text();
             $.ajax({
                 url: 'accountsFile/cashtally/otherincome/submitBotherincome.php',
                 data: { 'bank_id': bank_id, 'ref_code': ref_code, 'cat_info': cat_info, 'trans_id': trans_id, 'remark': remark, 'amt': amt, 'op_date': op_date },
@@ -2495,9 +2468,10 @@ function getHissuedTable() {
 //get table Details for Bank issued from loan issue tables and submit button
 function getBissuedTable() {
     var bank_id = $('input[name=issued_cash_type]:checked').val();
+    let op_date = $('#op_date').text();
     $.ajax({
         url: 'accountsFile/cashtally/issued/getBissuedTable.php',
-        data: { 'bank_id': bank_id },
+        data: { bank_id, op_date },
         type: 'post',
         cache: false,
         success: function (response) {
@@ -2814,7 +2788,7 @@ function hexpenseValidation() {
 //To get inputs Details for Bank expense table 
 function getBexpenseTable() {
 
-    var bank_id = $('input[name=expense_cash_type]:checked').val();
+    var bank_id = $('input[name=cash_type]:checked').val();
     var op_date = $('#op_date').text();
     $.ajax({
         url: 'accountsFile/cashtally/expense/getBexpenseTable.php',
@@ -2998,12 +2972,10 @@ function bexpenseModalBtnClick() {
         $('#submit_bexp').click(function () {
             
             if (bexpenseValidation() == 0) {
-                var amt_bexp = $('#amt_bexp').val();
-                if(amt_bexp){
-                                   
-
+                
+                                
                 var user_id = $('#user_id_bexp').val(); var username = $('#username_bexp').val(); var usertype = $('#usertype_bexp').val(); var ref_code = $('#ref_code_bexp').val(); var cat_bexp = $('#cat_bexp').val();
-                var bank_id = $('#bank_id_bexp').val(); var part_bexp = $('#part_bexp').val(); var vou_id_bexp = $('#vou_id_bexp').val(); var trans_id_bexp = $('#trans_id_bexp').val(); var rec_per_bexp = $('#rec_per_bexp').val(); var remark_bexp = $('#remark_bexp').val();
+                var bank_id = $('#bank_id_bexp').val(); var part_bexp = $('#part_bexp').val(); var vou_id_bexp = $('#vou_id_bexp').val(); var trans_id_bexp = $('#trans_id_bexp').val(); var rec_per_bexp = $('#rec_per_bexp').val(); var remark_bexp = $('#remark_bexp').val();var amt_bexp = $('#amt_bexp').val();
                  var upd_bexp = $('#upd_bexp')[0].files[0]; var op_date = $('#op_date').text();
 
                 var upload = $("#upd_bexp")[0];
@@ -3054,7 +3026,7 @@ function bexpenseModalBtnClick() {
                         getClosingBalance();
                     }
                 })
-            }
+            
         }
         })
 
@@ -3353,7 +3325,7 @@ function getCBinvDetails() {
         if (await binvvalidation('cr') == 0) {
             var ref_code = $('#ref_code_binv').val(); var name = $('#name_binv').val(); var area = $('#area_binv').val(); var ident = $('#ident_binv').val();
             var trans_id = $('#trans_id_binv').val(); var remark = $('#remark_binv').val(); var amt = $('#amt_binv').val();
-            var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
+            var bank_id = $('input[name=other_trans_cash_type]:checked').val(); var op_date = $('#op_date').text();
 
             $.ajax({
                 url: 'accountsFile/cashtally/investment/submitCBinvestment.php',
@@ -3458,7 +3430,7 @@ function getDBinvDetails() {
         if (await binvvalidation('db') == 0) {
             var ref_code = $('#ref_code_binv').val(); var name = $('#name_binv').val(); var area = $('#area_binv').val(); var ident = $('#ident_binv').val();
             var trans_id = $('#trans_id_binv').val(); var remark = $('#remark_binv').val(); var amt = $('#amt_binv').val();
-            var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
+            var bank_id = $('input[name=other_trans_cash_type]:checked').val(); var op_date = $('#op_date').text();
 
             $.ajax({
                 url: 'accountsFile/cashtally/investment/submitDBinvestment.php',
@@ -3777,7 +3749,7 @@ function getCBDepDetails() {
     $('#submit_bdeposit').click(async function () { //cr bank cash
         if (await bdepositvalidation('cr') == 0) { 
             var ref_code = $('#ref_code_bdeposit').val(); var name = $('#name_bdeposit').val(); var area = $('#area_bdeposit').val(); var ident = $('#ident_bdeposit').val();
-            var trans_id = $('#trans_id_bdeposit').val(); var remark = $('#remark_bdeposit').val(); var amt = $('#amt_bdeposit').val(); var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
+            var trans_id = $('#trans_id_bdeposit').val(); var remark = $('#remark_bdeposit').val(); var amt = $('#amt_bdeposit').val(); var bank_id = $('input[name=other_trans_cash_type]:checked').val(); var op_date = $('#op_date').text();
 
             $.ajax({
                 url: 'accountsFile/cashtally/deposit/submitCBdeposit.php',
@@ -3881,7 +3853,7 @@ function getDBDepDetails() {
     $('#submit_bdeposit').click(async function () {  //dr bank cash
         if (await bdepositvalidation('db') == 0) {
             var ref_code = $('#ref_code_bdeposit').val(); var name = $('#name_bdeposit').val(); var area = $('#area_bdeposit').val(); var ident = $('#ident_bdeposit').val();
-            var trans_id = $('#trans_id_bdeposit').val(); var remark = $('#remark_bdeposit').val(); var amt = $('#amt_bdeposit').val(); var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
+            var trans_id = $('#trans_id_bdeposit').val(); var remark = $('#remark_bdeposit').val(); var amt = $('#amt_bdeposit').val(); var bank_id = $('input[name=other_trans_cash_type]:checked').val(); var op_date = $('#op_date').text();
 
             $.ajax({
                 url: 'accountsFile/cashtally/deposit/submitDBdeposit.php',
@@ -4199,7 +4171,7 @@ function getCBelDetails() {
 
     $('#submit_bel').click(async function () { //credit bank cash
         if (await belvalidation() == 0) {
-            var ref_code = $('#ref_code_bel').val(); var name = $('#name_bel').val(); var area = $('#area_bel').val(); var ident = $('#ident_bel').val(); var trans_id = $('#trans_id_bel').val(); var remark = $('#remark_bel').val(); var amt = $('#amt_bel').val(); var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
+            var ref_code = $('#ref_code_bel').val(); var name = $('#name_bel').val(); var area = $('#area_bel').val(); var ident = $('#ident_bel').val(); var trans_id = $('#trans_id_bel').val(); var remark = $('#remark_bel').val(); var amt = $('#amt_bel').val(); var bank_id = $('input[name=other_trans_cash_type]:checked').val(); var op_date = $('#op_date').text();
 
             $.ajax({
                 url: 'accountsFile/cashtally/el/submitCBel.php',
@@ -4302,7 +4274,7 @@ function getDBelDetails() {
 
     $('#submit_bel').click(async function () { //debit bank cash
         if (await belvalidation() == 0) {
-            var ref_code = $('#ref_code_bel').val(); var name = $('#name_bel').val(); var area = $('#area_bel').val(); var ident = $('#ident_bel').val(); var trans_id = $('#trans_id_bel').val(); var remark = $('#remark_bel').val(); var amt = $('#amt_bel').val(); var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
+            var ref_code = $('#ref_code_bel').val(); var name = $('#name_bel').val(); var area = $('#area_bel').val(); var ident = $('#ident_bel').val(); var trans_id = $('#trans_id_bel').val(); var remark = $('#remark_bel').val(); var amt = $('#amt_bel').val(); var bank_id = $('input[name=other_trans_cash_type]:checked').val(); var op_date = $('#op_date').text();
 
             $.ajax({
                 url: 'accountsFile/cashtally/el/submitDBel.php',
@@ -4617,7 +4589,7 @@ function getExfDetails() {
 
     $('#exfDiv').empty();
     $('#exfDiv').html(appendTxt);
-    var bank_id = $('input[name=cashs_type]:checked').val();
+    var bank_id = $('input[name=other_trans_cash_type]:checked').val();
 
 
     $.ajax({//For fetching Ref code
@@ -4662,7 +4634,7 @@ function getExfDetails() {
         if (exfValidation() == 0) {
             var ucl_ref_code_exf = $('#ucl_ref_code_exf').val(); var ref_code_exf = $('#ref_code_exf').val(); var ucl_trans_id_exf = $('#ucl_trans_id_exf').val();
             var trans_id_exf = $('#trans_id_exf').val(); var remark_exf = $('#remark_exf').val(); var amt_exf = $('#amt_exf').val();
-            var username_exf = $('#username_exf').val(); var usertype_exf = $('#usertype_exf').val(); var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
+            var username_exf = $('#username_exf').val(); var usertype_exf = $('#usertype_exf').val(); var bank_id = $('input[name=other_trans_cash_type]:checked').val(); var op_date = $('#op_date').text();
             var formtosend = { bank_id: bank_id, username_exf: username_exf, usertype_exf: usertype_exf, ucl_ref_code_exf: ucl_ref_code_exf, ref_code_exf: ref_code_exf, ucl_trans_id_exf: ucl_trans_id_exf, trans_id_exf: trans_id_exf, remark_exf: remark_exf, amt_exf: amt_exf, op_date: op_date };
             $.ajax({
                 url: 'accountsFile/cashtally/excessfund/submitExf.php',
@@ -4959,7 +4931,7 @@ function getCBagDetails() {
     $('#submit_ag').off('click');
     $('#submit_ag').click(function () {
         if (agBValidation() == 0) {
-            var ag_id = $('#ag_id').val(); var ref_code_ag = $('#ref_code_ag').val(); var trans_id_ag = $('#trans_id_ag').val(); var remark_ag = $('#remark_ag').val(); var amt_ag = $('#amt_ag').val(); var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
+            var ag_id = $('#ag_id').val(); var ref_code_ag = $('#ref_code_ag').val(); var trans_id_ag = $('#trans_id_ag').val(); var remark_ag = $('#remark_ag').val(); var amt_ag = $('#amt_ag').val(); var bank_id = $('input[name=other_trans_cash_type]:checked').val(); var op_date = $('#op_date').text();
             var formtosend = { ag_id: ag_id, bank_id: bank_id, ref_code: ref_code_ag, trans_id: trans_id_ag, remark: remark_ag, amt: amt_ag, op_date: op_date };
             $.ajax({
                 url: 'accountsFile/cashtally/agent/submitCBag.php',
@@ -5057,7 +5029,7 @@ function getDBagDetails() {
 
     $('#submit_ag').click(function () {
         if (agBValidation() == 0) {
-            var ag_id = $('#ag_id').val(); var ref_code_ag = $('#ref_code_ag').val(); var trans_id_ag = $('#trans_id_ag').val(); var remark_ag = $('#remark_ag').val(); var amt_ag = $('#amt_ag').val(); var bank_id = $('input[name=cashs_type]:checked').val(); var op_date = $('#op_date').text();
+            var ag_id = $('#ag_id').val(); var ref_code_ag = $('#ref_code_ag').val(); var trans_id_ag = $('#trans_id_ag').val(); var remark_ag = $('#remark_ag').val(); var amt_ag = $('#amt_ag').val(); var bank_id = $('input[name=other_trans_cash_type]:checked').val(); var op_date = $('#op_date').text();
             var formtosend = { ag_id: ag_id, bank_id: bank_id, ref_code: ref_code_ag, trans_id: trans_id_ag, remark: remark_ag, amt: amt_ag, op_date: op_date };
             $.ajax({
                 url: 'accountsFile/cashtally/agent/submitDBag.php',
@@ -5102,14 +5074,12 @@ function validateHandCash(amt) {
 
 //this function will check the amount entered were lesser or equal to hand closing balance
 function validateBankCash(amt) {
-    console.log("kkk")
-    var cash_type = $('input[name=expense_cash_type]:checked').val() || $('input[name=cash_tally]:checked').val();
-    console.log("kkii",cash_type);
+    var cash_type = $('input[name=cash_type]:checked').val(); // selected bank ID
     var entered_amt = parseInt(amt.value) || 0;
 
     if (cash_type) {
         // Extract bank IDs from hidden input
-        var raw_ids = $('#untrkd_ids').val().split(','); 
+        var raw_ids = $('#untrkd_ids').val().split(',');
         var bank_ids = raw_ids.filter(id => id.trim() !== '').map(id => id.replace('untrkd', ''));
         // Find the index of the selected bank ID
         var index = bank_ids.indexOf(cash_type);
@@ -5121,7 +5091,14 @@ function validateBankCash(amt) {
         var label = $('#bank_closing' + index);
         var bank_closing_label = label.text().replace(/,/g, '');
         var bank_closing = parseInt(bank_closing_label) || 0;
-        if (entered_amt > bank_closing) {
+
+        var untrkdLabel = $('#untrkd' + cash_type);
+        var bank_closing_untrkd_label = untrkdLabel.text().replace(/\D/g, '');
+        var untrkd_label = parseInt(bank_closing_untrkd_label) || 0;
+
+        let bankClosing = bank_closing + untrkd_label; 
+
+        if (entered_amt > bankClosing) {
             alert('Enter Lesser Amount !');
             $(amt).val('');
             return false;
