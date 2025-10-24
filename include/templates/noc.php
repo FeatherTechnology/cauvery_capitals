@@ -15,7 +15,8 @@ $getLoanList = $userObj->getLoanList($mysqli, $idupd);
 if (sizeof($getLoanList) > 0) {
 	for ($i = 0; $i < sizeof($getLoanList); $i++) {
 		$cus_id						= $getLoanList['cus_id'];
-		$cus_name					= $getLoanList['cus_name'];
+		$first_name					= $getLoanList['first_name'];
+		$last_name					= $getLoanList['last_name'];
 		$area_id					= $getLoanList['area_confirm_area'];
 		$area_name					= $getLoanList['area_name'];
 		$branch_id					= $getLoanList['branch_id'];
@@ -111,9 +112,17 @@ if (sizeof($documentationInfo) > 0) {
 
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
-												<label for="cus_name">Customer Name</label><span class="required">&nbsp;*</span>
-												<input type="text" class="form-control" id="cus_name" name="cus_name" value='<?php if (isset($cus_name)) {
-																																	echo $cus_name;
+												<label for="first_name">First Name</label><span class="required">&nbsp;*</span>
+												<input type="text" class="form-control" id="first_name" name="first_name" value='<?php if (isset($first_name)) {
+																																	echo $first_name;
+																																} ?>' readonly tabindex='2'>
+											</div>
+										</div>
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
+											<div class="form-group">
+												<label for="last_name">Last Name</label><span class="required">&nbsp;*</span>
+												<input type="text" class="form-control" id="last_name" name="last_name" value='<?php if (isset($last_name)) {
+																																	echo $last_name;
 																																} ?>' readonly tabindex='2'>
 											</div>
 										</div>
@@ -668,8 +677,5 @@ if (sizeof($documentationInfo) > 0) {
 <!-- Form End -->
 
 </div>
-<!-- Finger print font cdn -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<!-- Finger print jquery Library -->
-<script src="vendor/mfs100/Library/js/jquery-1.8.2.js" type="text/javascript"></script>
-<script src="vendor/mfs100/Library/js/mfs100.js"></script>
+
+<?php require_once __DIR__ . "/../common/fingerprintlibrary.php"; ?>

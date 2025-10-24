@@ -81,7 +81,7 @@ $column = array(
     'req.req_code',
     'req.dor',
     'req.cus_id',
-    'req.cus_name',
+    'req.first_name',
     'al.area_name',
     'lcc.loan_category_creation_name',
     'req.loan_amt',
@@ -114,7 +114,7 @@ if (isset($_POST['search'])) {
     if ($_POST['search'] != "") {
 
         $query .= " and (req.cus_id LIKE '%" . $_POST['search'] . "%' OR
-                req.cus_name LIKE '%" . $_POST['search'] . "%' OR
+                req.first_name LIKE '%" . $_POST['search'] . "%' OR
                 al.area_name LIKE '%" . $_POST['search'] . "%' OR
                 lcc.loan_category_creation_name LIKE '%" . $_POST['search'] . "%' OR
                 req.cus_data LIKE '%" . $_POST['search'] . "%' ) ";
@@ -154,7 +154,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['req_code'];
     $sub_array[] = date('d-m-Y', strtotime($row['dor']));
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['cus_name'];
+    $sub_array[] = $row['first_name'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['loan_category_creation_name'];
     $sub_array[] = moneyFormatIndia($row['loan_amt']);

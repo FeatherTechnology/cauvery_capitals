@@ -112,7 +112,7 @@ function moneyFormatIndia($num)
         // $req_id = $_POST['req_id'];
         $cus_id = $_POST['cus_id'];
         $consider_lvl_arr = [1 => 'Bronze', 2 => 'Silver', 3 => 'Gold', 4 => 'Platinum', 5 => 'Diamond'];
-        $run = $connect->query("SELECT lc.due_start_from,lc.cus_name_loan,lc.loan_category,lc.loan_amt_cal,lc.due_amt_cal,lc.net_cash_cal,lc.collection_method,ii.loan_id,ii.req_id,ii.updated_date,ii.cus_status,
+        $run = $connect->query("SELECT lc.due_start_from,CONCAT(lc.first_name, ' ', lc.last_name) AS customer_name,lc.loan_category,lc.loan_amt_cal,lc.due_amt_cal,lc.net_cash_cal,lc.collection_method,ii.loan_id,ii.req_id,ii.updated_date,ii.cus_status,
         rc.agent_id,lcc.loan_category_creation_name as loan_catrgory_name, us.collection_access
         from acknowlegement_loan_calculation lc 
         LEFT JOIN in_issue ii ON lc.req_id = ii.req_id 
@@ -125,7 +125,7 @@ function moneyFormatIndia($num)
         $curdate = date('Y-m-d');
         while ($row = $run->fetch()) {
             //Show NOC button until closed_status submit so we check the count of closed status against the request id.
-            $cus_name = $row["cus_name_loan"];
+            $cus_name = $row["customer_name"];
             $ii_req_id = $row["req_id"];
             $closedSts = $connect->query("SELECT * FROM `closed_status` WHERE `req_id` ='" . strip_tags($ii_req_id) . "' ");
             $closed_row = $closedSts->fetch();

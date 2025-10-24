@@ -18,7 +18,7 @@ $column = array(
     'rc.req_id',
     'rc.dor',
     'rc.cus_id',
-    'rc.cus_name',
+    'rc.first_name',
     'bc.branch_name',
     'ag.group_name',
     'alm.line_name',
@@ -63,7 +63,7 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
 
     $query .= "AND ( rc.dor LIKE '%" . $_POST['search'] . "%'
             OR rc.cus_id LIKE '%" . $_POST['search'] . "%'
-            OR rc.cus_name LIKE '%" . $_POST['search'] . "%'
+            OR rc.first_name LIKE '%" . $_POST['search'] . "%'
             OR bc.branch_name LIKE '%" . $_POST['search'] . "%'
             OR ag.group_name LIKE '%" . $_POST['search'] . "%'
             OR alm.line_name LIKE '%" . $_POST['search'] . "%'
@@ -109,7 +109,7 @@ foreach ($result as $row) {
     $sub_array[] = date('d-m-Y', strtotime($row['dor']));
 
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['cus_name'];
+    $sub_array[] = $row['first_name'];
 
     $sub_array[] = $row["branch_name"];
     $sub_array[] = $row['group_name'];

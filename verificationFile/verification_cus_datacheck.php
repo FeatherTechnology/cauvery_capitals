@@ -17,8 +17,8 @@ include '../ajaxconfig.php';
         if (isset($_POST['category'])) {
             $category = $_POST['category'];
             if ($category == '0') {
-                $category = "customer_name";
-                $category1 = "customer_name";
+                $category = "first_name";
+                $category1 = "last_name";
             }
             if ($category == '1') {
                 $category = "cus_id";
@@ -36,7 +36,7 @@ include '../ajaxconfig.php';
             $req_id = $_POST['req_id'];
         }
 
-        $cusInfo = $connect->query("SELECT cus_id,customer_name,mobile1 FROM `customer_register` where ($category = '" . strip_tags($name) . "' or $category1 = '" . strip_tags($name) . "') && req_ref_id != '" . strip_tags($req_id) . "' order by cus_reg_id desc");
+        $cusInfo = $connect->query("SELECT cus_id, CONCAT(first_name, ' ', last_name) AS customer_name, mobile1 FROM `customer_register` where ($category = '" . strip_tags($name) . "' or $category1 = '" . strip_tags($name) . "') && req_ref_id != '" . strip_tags($req_id) . "' order by cus_reg_id desc");
 
         $i = 1;
         while ($cus = $cusInfo->fetch()) {

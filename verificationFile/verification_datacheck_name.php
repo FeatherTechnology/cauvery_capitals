@@ -7,7 +7,7 @@ if (isset($_POST['cus_id'])) {
 
 $NameList = array();
 
-$names = $connect->query("SELECT `famname`,`relationship`,`relation_aadhar`,`relation_Mobile` FROM `verification_family_info` WHERE  cus_id = '$cus_id' ");
+$names = $connect->query("SELECT CONCAT(first_name, ' ', last_name) AS famname,`relationship`,`relation_aadhar`,`relation_Mobile` FROM `verification_family_info` WHERE  cus_id = '$cus_id' ");
 
 while ($famName = $names->fetch()) {
     $famname = $famName['famname'];

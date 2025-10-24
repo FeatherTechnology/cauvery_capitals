@@ -7,8 +7,11 @@ include('../../ajaxconfig.php');
 if(isset($_POST['cus_id'])){
     $cus_id = preg_replace('/\D/', '',$_POST['cus_id']);
 }
-if(isset($_POST['cus_name'])){
-    $cus_name = $_POST['cus_name'];
+if(isset($_POST['first_name'])){
+    $first_name = $_POST['first_name'];
+}
+if(isset($_POST['last_name'])){
+    $last_name = $_POST['last_name'];
 }
 if(isset($_POST['cus_mob'])){
     $cus_mob = $_POST['cus_mob'];
@@ -27,14 +30,14 @@ $sql = $connect->query("SELECT * FROM customer_register WHERE cus_id = '$cus_id'
 // insert only if the customer id is not present in the customer register table
 if($sql->rowCount() == 0){
 
-    $sql = $connect->query("SELECT * FROM new_cus_promo WHERE cus_name = '$cus_name'");
+    $sql = $connect->query("SELECT * FROM new_cus_promo WHERE first_name = '$first_name'");
 
     if($sql->rowCount() > 0){
 
         if($update == 'yes'){
             //this update query will run only when user confirmed updating 
 
-            $sql = $connect->query("UPDATE new_cus_promo SET cus_name = '$cus_name', mobile = '$cus_mob', area = '$area', update_login_id = '$userid' WHERE cus_name = '$cus_name' ");
+            $sql = $connect->query("UPDATE new_cus_promo SET first_name = '$first_name', last_name = '$last_name', mobile = '$cus_mob', area = '$area', update_login_id = '$userid' WHERE first_name = '$first_name' ");
             //update customer details if customer id is already present in the table
             if($sql){
                 $response = 'Customer Updated Successfully';
@@ -50,8 +53,8 @@ if($sql->rowCount() == 0){
 
     }else{
 
-        $sql = $connect->query("INSERT INTO new_cus_promo(cus_id, cus_name, mobile, area,  insert_login_id,created_date) 
-            VALUES('$cus_id', '$cus_name', '$cus_mob', '$area','$userid',now())");
+        $sql = $connect->query("INSERT INTO new_cus_promo(cus_id, first_name, last_name, mobile, area,  insert_login_id,created_date) 
+            VALUES('$cus_id', '$first_name', '$last_name', '$cus_mob', '$area','$userid',now())");
         //insert customer details if customer id is not present in the table
         if($sql){
             $response = 'Customer Inserted Successfully';

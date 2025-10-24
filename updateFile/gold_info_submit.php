@@ -30,6 +30,8 @@ if(isset($_FILES['gold_upload'])){
     $gold_upload = $_POST['goldupload'];
 }
 
+$insert_qry = '';
+
 if($goldID == ''){
 
     $insert_qry = $connect ->query("INSERT INTO `gold_info`(`cus_id`,`req_id`, `gold_sts`, `gold_type`, `Purity`, `gold_Count`, `gold_Weight`, `gold_Value`, `gold_upload`) VALUES ('$cus_id','$req_id','$gold_sts','$gold_type','$Purity','$gold_Count','$gold_Weight','$gold_Value', '$gold_upload')");

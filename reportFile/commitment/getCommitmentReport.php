@@ -151,14 +151,14 @@ foreach ($result as $row) {
 
 function getCustomer($connect, $cus_id)
 {
-    $result = $connect->query("SELECT customer_name from customer_register where cus_id = '$cus_id' ");
-    $cus_name = $result->fetch()['customer_name'];
-    return $cus_name;
+    $result = $connect->query("SELECT first_name from customer_register where cus_id = '$cus_id' ");
+    $first_name = $result->fetch()['first_name'];
+    return $first_name;
 }
 
 function getGarentor($connect, $cus_id)
 {
-    $query = "SELECT cp.guarentor_name, vfi.famname, vfi.relationship FROM customer_profile cp JOIN verification_family_info vfi ON cp.guarentor_name = vfi.id WHERE cp.cus_id = '$cus_id' ORDER BY cp.id DESC LIMIT 1 ";
+    $query = "SELECT cp.guarentor_name, CONCAT(vfi.first_name, ' ', vfi.last_name) AS famname, vfi.relationship FROM customer_profile cp JOIN verification_family_info vfi ON cp.guarentor_name = vfi.id WHERE cp.cus_id = '$cus_id' ORDER BY cp.id DESC LIMIT 1 ";
     $result = $connect->query($query);
     $row = $result->fetch();
     $response = [
@@ -170,7 +170,7 @@ function getGarentor($connect, $cus_id)
 
 function getFamilyMember($connect, $fam_id)
 {
-    $result = $connect->query("SELECT id,famname,relationship FROM `verification_family_info` where id='$fam_id'");
+    $result = $connect->query("SELECT id,CONCAT(first_name, ' ', last_name) AS famname,relationship FROM `verification_family_info` where id='$fam_id'");
     $row = $result->fetch();
     $fam_name = $row['famname'];
     $relationship = $row['relationship'];

@@ -49,7 +49,7 @@ $closing_balance_sum = 0;
 $qry = $connect->query("
     SELECT 
         cp.req_id,
-        cp.cus_name,
+        cp.first_name,
         cp.area_confirm_area as area_id,
         ii.updated_date as loan_date,
         lc.maturity_month as maturity_date,
@@ -73,7 +73,7 @@ $qry = $connect->query("
     WHERE 
         (ii.cus_status >= 14 && ii.cus_status < 20) 
         AND (lc.due_method_scheme = 1 or lc.due_method_scheme = null or lc.due_method_scheme = '' )
-        and (month(lc.due_start_from) = month('$monthly_date') and year(lc.due_start_from) = year('$monthly_date') ) $user_based");
+        and (month(lc.due_start_from) = month('$monthly_date') and year(lc.due_start_from) = year('$monthly_date') ) $user_based GROUP BY cp.req_id");
 
 
 $rows = array();
@@ -146,7 +146,7 @@ $months = generateMonths($startDate, $endDate);
         ?>
                 <tr>
                     <td><?php echo $i++; ?></td>
-                    <td><?php echo $row['cus_name']; ?></td>
+                    <td><?php echo $row['first_name']; ?></td>
                     <td><?php echo $row['area_name']; ?></td>
                     <td><?php echo date('d-m-Y', strtotime($row['loan_date'])); ?></td>
                     <td><?php echo date('d-m-Y', strtotime($row['maturity_date'])); ?></td>

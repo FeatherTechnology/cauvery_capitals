@@ -10,7 +10,8 @@ $result = $connect->query("SELECT * FROM customer_register where cus_id = '" . s
 if ($result->rowCount() > 0) {
     $row = $result->fetch();
 
-    $records['cus_name'] = $row['customer_name'];
+    $records['first_name'] = $row['first_name'];
+    $records['last_name'] = $row['last_name'];
     $records['dob'] = $row['dob'];
     $records['age'] = $row['age'];
     $records['gender'] = $row['gender'];

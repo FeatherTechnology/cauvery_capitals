@@ -66,7 +66,7 @@ $column = array(
     'ii.updated_date',
     'lc.maturity_month',
     'ii.cus_id',
-    'req.cus_name',
+    'req.first_name',
     'al.area_name',
     'ii.req_id',
     'ii.req_id',
@@ -101,7 +101,7 @@ $query = "SELECT
     u.fullname,
     cls.closed_sts,
     cls.consider_level,
-    req.cus_name,
+    req.first_name,
     req.cus_status,
      ack.updated_date,
     IFNULL(col_sum.total_due_amt_tract, 0) AS total_due_amt
@@ -150,7 +150,7 @@ if (isset($_POST['search'])) {
                     OR ii.updated_date LIKE '%" . $_POST['search'] . "%'
                     OR lc.maturity_month LIKE '%" . $_POST['search'] . "%'
                     OR ii.cus_id LIKE '%" . $_POST['search'] . "%'
-                    OR req.cus_name LIKE '%" . $_POST['search'] . "%'
+                    OR req.first_name LIKE '%" . $_POST['search'] . "%'
                     OR al.area_name LIKE '%" . $_POST['search'] . "%'
                     OR lcc.loan_category_creation_name LIKE '%" . $_POST['search'] . "%'
                     OR ac.ag_name LIKE '%" . $_POST['search'] . "%'
@@ -224,7 +224,7 @@ foreach ($result as $row) {
     $sub_array[] = date('d-m-Y', strtotime($row['loan_date']));
     $sub_array[] = date('d-m-Y', strtotime($row['maturity_date']));
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['cus_name'];
+    $sub_array[] = $row['first_name'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['loan_cat_name'];
     $sub_array[] = $row['ag_name'];

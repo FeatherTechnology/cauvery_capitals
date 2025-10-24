@@ -44,7 +44,7 @@ $closing_balance_sum = 0;
 
 $qry = $connect->query("SELECT 
         cp.req_id,
-        cp.cus_name,
+        cp.first_name,
         cp.area_confirm_area as area_id,
         ii.updated_date as loan_date,
         lc.maturity_month as maturity_date,
@@ -111,7 +111,7 @@ while ($row = $qry->fetch(PDO::FETCH_ASSOC)) {
         ?>
                 <tr>
                     <td><?php echo $i++; ?></td>
-                    <td><?php echo $row['cus_name']; ?></td>
+                    <td><?php echo $row['first_name']; ?></td>
                     <td><?php echo $row['area_name']; ?></td>
                     <td><?php echo date('d-m-Y', strtotime($row['loan_date'])); ?></td>
                     <td><?php echo date('d-m-Y', strtotime($row['maturity_date'])); ?></td>

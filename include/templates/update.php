@@ -37,7 +37,8 @@ if (sizeof($getCustomerReg) > 0) {
 		$cus_reg_id				= $getCustomerReg['cus_reg_id'];
 		$req_id					= $getCustomerReg['req_id'];
 		$cus_id					= $getCustomerReg['cus_id'];
-		$cus_name				= $getCustomerReg['cus_name'];
+		$first_name				= $getCustomerReg['first_name'];
+		$last_name				= $getCustomerReg['last_name'];
 		$dob					= $getCustomerReg['dob'];
 		$age					= $getCustomerReg['age'];
 		$gender					= $getCustomerReg['gender'];
@@ -169,9 +170,7 @@ if (sizeof($getCustomerReg) > 0) {
 </div><br>
 <div class="page-header sticky-top" id="navbar" style="display: none;" data-toggle="toggle">
 	<div style="background-color:#0c70ab; width:100%; padding:12px; color: #ffff; font-size: 20px; border-radius:5px; margin-top:50px;">
-		Customer Name - <?php if (isset($cus_name)) {
-							echo $cus_name;
-						} ?>
+		Customer Name - <?php if (isset($first_name) && isset($last_name)) { echo $first_name . ' ' . $last_name; } ?>
 		,&nbsp;&nbsp;Area - <?php if (isset($area_name)) {
 								echo $area_name;
 							} ?>
@@ -270,11 +269,17 @@ if (sizeof($getCustomerReg) > 0) {
 										</div>
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
-												<label for="cus_name">Customer Name</label><span class="required">&nbsp;*</span>
-												<input type="text" class="form-control" id="cus_name" name="cus_name" value='<?php if (isset($cus_name)) {
-																																	echo $cus_name;
-																																} ?>' tabindex='2' placeholder="Enter Customer Name" pattern="[a-zA-Z\s]+">
-												<span class="text-danger" style='display:none' id='cusnameCheck'>Please Enter Customer Name</span>
+												<label for="first_name">First Name</label><span class="required">&nbsp;*</span>
+													<input type="text" class="form-control" id="first_name" name="first_name" oninput="formatFirstName(this)" value='<?php if (isset ($first_name)) {echo $first_name; } ?>' tabindex='12' placeholder="Enter First Name">
+												<span class="text-danger" style='display:none' id='firstnameCheck'>Please Enter First Name</span>
+											</div>
+										</div>
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
+											<div class="form-group">
+												<label for="last_name">Last Name</label><span class="required">&nbsp;*</span>
+												<input type="text" class="form-control" id="last_name" name="last_name" oninput="formatLastName(this)" value='<?php if 
+												(isset($last_name)) { echo $last_name; } ?>' tabindex='12' placeholder="Enter Last Name">
+												<span class="text-danger" style='display:none' id='lastnameCheck'>Please Enter Last Name</span>
 											</div>
 										</div>
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
@@ -1094,8 +1099,15 @@ if (sizeof($getCustomerReg) > 0) {
 
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 								<div class="form-group">
-									<label for="Customer_name"> Customer Name </label> <span class="required"> * </span>
-									<input type="text" class="form-control" id="Customer_name" name="Customer_name" value='<?php if (isset($cus_name)) echo $cus_name; ?>' readonly tabindex="2">
+									<label for="first_name"> First Name </label> <span class="required"> * </span>
+									<input type="text" class="form-control" id="first_name" name="first_name" value='<?php if (isset($first_name)) echo $first_name; ?>' readonly tabindex="2">
+								</div>
+							</div>
+
+							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+								<div class="form-group">
+									<label for="last_name"> Last Name </label> <span class="required"> * </span>
+									<input type="text" class="form-control" id="last_name" name="last_name" value='<?php if (isset($last_name)) echo $last_name; ?>' readonly tabindex="2">
 								</div>
 							</div>
 
@@ -1644,11 +1656,18 @@ if (sizeof($getCustomerReg) > 0) {
 				<div class="row" id="editFam">
 
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-
 						<div class="form-group">
-							<label class="label"> Name </label>&nbsp;<span class="text-danger">*</span>
-							<input type="text" class="form-control" name="famname" id="famname" onkeydown="return /[a-z ]/i.test(event.key)" placeholder="Enter Name" tabindex='1'>
-							<span class="text-danger" id="famnameCheck" style='display:none'>Enter Name</span>
+							<label class="label"> First Name </label>&nbsp;<span class="text-danger">*</span>
+							<input type="text" class="form-control" name="fam_first_name" id="fam_first_name" oninput="formatFirstName(this)" tabindex='1' placeholder="Enter First Name">
+							<span class="text-danger" id="famFirstnameCheck">Enter First Name</span>
+						</div>
+					</div>
+
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+						<div class="form-group">
+							<label class="label"> Last Name </label>&nbsp;<span class="text-danger">*</span>
+							<input type="text" class="form-control" name="fam_last_name" id="fam_last_name" oninput="formatLastName(this)" tabindex='1' placeholder="Enter Last Name">
+							<span class="text-danger" id="famLastnameCheck">Enter Last Name</span>
 						</div>
 					</div>
 
@@ -2940,8 +2959,14 @@ if (sizeof($getCustomerReg) > 0) {
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 							<div class="form-group">
-								<label for="cus_name_old">Customer Name</label>
-								<input type="text" class="form-control" id="cus_name_old" name="cus_name_old" value="<?php echo $cus_name; ?>" readonly tabindex='1'>
+								<label for="first_name_old">First Name</label>
+								<input type="text" class="form-control" id="first_name_old" name="first_name_old" value="<?php echo $first_name; ?>" readonly tabindex='1'>
+							</div>
+						</div>
+						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+							<div class="form-group">
+								<label for="last_name_old">Last Name</label>
+								<input type="text" class="form-control" id="last_name_old" name="last_name_old" value="<?php echo $last_name; ?>" readonly tabindex='1'>
 							</div>
 						</div>
 						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
@@ -2990,3 +3015,5 @@ if (sizeof($getCustomerReg) > 0) {
 		</div>
 	</div>
 </div>
+
+<?php require_once __DIR__ . "/../common/fingerprintlibrary.php"; ?>

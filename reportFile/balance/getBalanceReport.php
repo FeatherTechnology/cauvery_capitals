@@ -63,7 +63,7 @@ $column = [
     'ii.updated_date',
     'lc.maturity_month',
     'cp.cus_id',
-    'cp.cus_name',
+    'cp.first_name',
     'al.area_name',
     'lc.loan_cal_id',
     'lc.loan_cal_id',
@@ -104,7 +104,7 @@ $query = " SELECT
             lc.maturity_month,
             cp.cus_id,
             cp.req_id,
-            cp.cus_name,
+            cp.first_name,
             al.area_name,
             lcc.loan_category_creation_name AS loan_cat_name,
             ac.ag_name,
@@ -175,7 +175,7 @@ $query = " SELECT
         GROUP BY req_id ) ch ON ch.req_id = c.req_id    
     $where
     GROUP BY c.req_id ) c ON c.req_id = iv.req_id
-        WHERE lc.req_id IN ($req_id_list)  ";
+        WHERE lc.req_id IN ($req_id_list) GROUP BY lc.req_id";
 
 if(isset($_POST['loan_cat'])){
     $loan_cat_str = "'" . implode("','", $_POST['loan_cat']) . "'";
@@ -191,7 +191,7 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
         ii.updated_date LIKE '%$search%' OR
         lc.maturity_month LIKE '%$search%' OR
         cp.cus_id LIKE '%$search%' OR
-        cp.cus_name LIKE '%$search%' OR
+        cp.first_name LIKE '%$search%' OR
         al.area_name LIKE '%$search%' 
     )";
 }
@@ -284,7 +284,7 @@ foreach ($result as $row) {
     $sub_array[] = date('d-m-Y', strtotime($row['loan_date']));
     $sub_array[] = date('d-m-Y', strtotime($row['maturity_month']));
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['cus_name'];
+    $sub_array[] = $row['first_name'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['loan_cat_name'];
     $sub_array[] = $row['ag_name'];

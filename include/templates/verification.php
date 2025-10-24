@@ -86,7 +86,8 @@ if (sizeof($getRequestData) > 0) {
 		$dor					= date('d-m-Y', strtotime($getRequestData['dor']));
 		$cus_id					= $getRequestData['cus_id'];
 		$cus_data					= $getRequestData['cus_data'];
-		$cus_name					= $getRequestData['cus_name'];
+		$first_name					= $getRequestData['first_name'];
+		$last_name					= $getRequestData['last_name'];
 		$dob					= $getRequestData['dob'];
 		$age					= $getRequestData['age'];
 		$gender					= $getRequestData['gender'];
@@ -164,7 +165,8 @@ if (sizeof($getCustomerProfile) > 0) {
 	$cus_Tableid = $getCustomerProfile['cus_Tableid'];
 	$cus_req_id = $getCustomerProfile['req_id'];
 	$cp_cus_id = $getCustomerProfile['cus_id'];
-	$cp_cus_name = $getCustomerProfile['cus_name'];
+	$cp_first_name = $getCustomerProfile['first_name'];
+	$cp_last_name = $getCustomerProfile['last_name'];
 	$cp_gender = $getCustomerProfile['gender'];
 	$cp_dob = $getCustomerProfile['dob'];
 	$cp_age = $getCustomerProfile['age'];
@@ -195,7 +197,8 @@ if (sizeof($getcusInfoForDoc) > 0) {
 
 	$cus_profile_id = $getcusInfoForDoc['cus_profile_id'];
 	$doc_cus_id = $getcusInfoForDoc['cus_id'];
-	$doc_cus_name = $getcusInfoForDoc['cus_name'];
+	$doc_first_name = $getcusInfoForDoc['first_name'];
+	$doc_last_name = $getcusInfoForDoc['last_name'];
 	$doc_area_name = $getcusInfoForDoc['area_name'];
 	$customer_profile_sts = $getcusInfoForDoc['cus_status'];
 }
@@ -239,7 +242,8 @@ $getCusInfoForLoanCal = $userObj->getCusInfoForLoanCal($mysqli, $idupd);
 if (sizeof($getCusInfoForLoanCal) > 0) {
 	for ($i = 0; $i < sizeof($getCusInfoForLoanCal); $i++) {
 		$cus_id_lc = $getCusInfoForLoanCal['cus_id'];
-		$cus_name_lc = $getCusInfoForLoanCal['cus_name'];
+		$first_name_lc = $getCusInfoForLoanCal['first_name'];
+		$last_name_lc = $getCusInfoForLoanCal['last_name'];
 		$cus_pic_lc = $getCusInfoForLoanCal['cus_pic'];
 		$cus_data_lc = $getCusInfoForLoanCal['cus_type'];
 		$mobile_lc = $getCusInfoForLoanCal['mobile'];
@@ -254,7 +258,8 @@ if (sizeof($getLoanCalculation) > 0) {
 	for ($i = 0; $i < sizeof($getLoanCalculation); $i++) {
 		$loan_cal_id = $getLoanCalculation['loan_cal_id'];
 		$cus_id_loan = $getLoanCalculation['cus_id_loan'];
-		$cus_name_loan = $getLoanCalculation['cus_name_loan'];
+		$first_name_loan = $getLoanCalculation['first_name'];
+		$last_name_loan = $getLoanCalculation['last_name'];
 		$cus_data_loan = $getLoanCalculation['cus_data_loan'];
 		$mobile_loan = $getLoanCalculation['mobile_loan'];
 		$pic_loan = $getLoanCalculation['pic_loan'];
@@ -330,9 +335,9 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 </div><br>
 <div class="page-header sticky-top" id="navbar" style="display: none;" data-toggle="toggle">
 	<div style="background-color:#0c70ab; width:100%; padding:12px; color: #ffff; font-size: 20px; border-radius:5px; margin-top:50px;">
-		Customer Name - <?php if (isset($cus_name)) {
-							echo $cus_name;
-						} ?>
+	Customer Name - <?php 
+		if (isset($first_name) && isset($last_name)) { echo $first_name . ' ' . $last_name; } 
+	?>
 		,&nbsp;&nbsp;Area - <?php echo $area_topbar; ?>
 	</div>
 </div><br>
@@ -503,11 +508,21 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
-												<label for="cus_name">Customer Name</label><span class="required">&nbsp;*</span>
-												<input type="text" class="form-control" id="cus_name" name="cus_name" tabindex='10' placeholder="Enter Customer Name" onkeydown="return /[a-z ]/i.test(event.key)" value='<?php if (isset($cus_name)) {
-																																																								echo $cus_name;
-																																																							} ?>'>
-												<span class="text-danger" style='display:none' id='cusnameCheck'>Please Enter Customer Name</span>
+												<label for="first_name">First Name</label><span class="required">&nbsp;*</span>
+												<input type="text" class="form-control" id="first_name" name="first_name" tabindex='10' oninput="formatFirstName(this)" placeholder="Enter First Name" value='<?php if (isset($first_name)) {
+												echo $first_name;
+												} ?>'>
+												<span class="text-danger" style='display:none' id='firstnameCheck'>Please Enter First Name</span>
+											</div>
+										</div>
+
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
+											<div class="form-group">
+												<label for="last_name">Last Name</label><span class="required">&nbsp;*</span>
+												<input type="text" class="form-control" id="last_name" name="last_name" tabindex='10' oninput="formatLastName(this)" placeholder="Enter First Name" value='<?php if (isset($last_name)) {
+												echo $last_name;
+												} ?>'>
+												<span class="text-danger" style='display:none' id='lastnameCheck'>Please Enter Last Name</span>
 											</div>
 										</div>
 
@@ -1340,8 +1355,15 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
-										<label for="Customer_name"> Customer Name </label> <span class="required"> * </span>
-										<input type="text" class="form-control" id="Customer_name" name="Customer_name" value='<?php if (isset($doc_cus_name)) echo $doc_cus_name; ?>' readonly tabindex="2">
+										<label for="doc_first_name"> First Name </label> <span class="required"> * </span>
+										<input type="text" class="form-control" id="doc_first_name" name="doc_first_name" value='<?php if (isset($doc_first_name)) echo $doc_first_name; ?>' readonly tabindex="2">
+									</div>
+								</div>
+
+								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+									<div class="form-group">
+										<label for="doc_last_name"> Last Name </label> <span class="required"> * </span>
+										<input type="text" class="form-control" id="doc_last_name" name="doc_last_name" value='<?php if (isset($doc_last_name)) echo $doc_last_name; ?>' readonly tabindex="2">
 									</div>
 								</div>
 
@@ -1809,11 +1831,16 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 																											} elseif (isset($cus_id_lc)) {
 																												echo $cus_id_lc;
 																											} ?>'>
-			<input type="hidden" class="form-control" id="cus_name_loan" name="cus_name_loan" readonly value='<?php if (isset($cus_name_loan)) {
-																													echo $cus_name_loan;
-																												} elseif (isset($cus_name_lc)) {
-																													echo $cus_name_lc;
+			<input type="hidden" class="form-control" id="first_name_loan" name="first_name_loan" readonly value='<?php if (isset($first_name_loan)) {
+																													echo $first_name_loan;
+																												} elseif (isset($first_name_lc)) {
+																													echo $first_name_lc;
 																												} ?>'>
+			<input type="hidden" class="form-control" id="last_name_loan" name="last_name_loan" readonly value='<?php if (isset($last_name_loan)) {
+																													echo $last_name_loan;
+																												} elseif (isset($last_name_lc)) {
+																													echo $last_name_lc;
+																												} ?>'>										
 			<input type="hidden" class="form-control" id="cus_data_loan" name="cus_data_loan" readonly value='<?php if (isset($cus_data_loan)) {
 																													echo $cus_data_loan;
 																												} elseif (isset($cus_data_lc)) {
@@ -2013,10 +2040,15 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="cus_name_loan">Customer Name</label><span class="required">&nbsp;*</span>-->
-					<input type="hidden" class="form-control" id="cus_name_loan" name="cus_name_loan" readonly value='<?php if (isset($cus_name_loan)) {
-																															echo $cus_name_loan;
-																														} elseif (isset($cus_name_lc)) {
-																															echo $cus_name_lc;
+					<input type="hidden" class="form-control" id="first_name_loan" name="first_name_loan" readonly value='<?php if (isset($first_name_loan)) {
+																															echo $first_name_loan;
+																														} elseif (isset($first_name_lc)) {
+																															echo $first_name_lc;
+																														} ?>' tabindex="11">
+					<input type="hidden" class="form-control" id="last_name_loan" name="last_name_loan" readonly value='<?php if (isset($last_name_loan)) {
+																															echo $last_name_loan;
+																														} elseif (isset($last_name_lc)) {
+																															echo $last_name_lc;
 																														} ?>' tabindex="11">
 					<!--</div>
 										</div>
@@ -2508,11 +2540,18 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 				<div class="row" id="editFam">
 
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-
 						<div class="form-group">
-							<label class="label"> Name </label>&nbsp;<span class="text-danger">*</span>
-							<input type="text" class="form-control" name="famname" id="famname" onkeydown="return /[a-z ]/i.test(event.key)" tabindex='1' placeholder="Enter Name">
-							<span class="text-danger" id="famnameCheck">Enter Name</span>
+							<label class="label"> First Name </label>&nbsp;<span class="text-danger">*</span>
+							<input type="text" class="form-control" name="fam_first_name" id="fam_first_name" oninput="formatFirstName(this)" tabindex='1' placeholder="Enter First Name">
+							<span class="text-danger" id="famFirstnameCheck">Enter First Name</span>
+						</div>
+					</div>
+
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+						<div class="form-group">
+							<label class="label"> Last Name </label>&nbsp;<span class="text-danger">*</span>
+							<input type="text" class="form-control" name="fam_last_name" id="fam_last_name" oninput="formatLastName(this)" tabindex='1' placeholder="Enter Last Name">
+							<span class="text-danger" id="famLastnameCheck">Enter Last Name</span>
 						</div>
 					</div>
 
@@ -3714,3 +3753,5 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 		</div>
 	</div>
 </div>
+
+<?php require_once __DIR__ . "/../common/fingerprintlibrary.php"; ?>

@@ -4,7 +4,6 @@ $(document).ready(function () {
 
     $("#state").change(function () {
         var StateSelected = $(this).val();
-        console.log("stats",StateSelected)
         getDistrictDropdown(StateSelected);
     });
  $("#swap_states").change(function () {
@@ -68,7 +67,6 @@ $(document).ready(function () {
                 $('#submitAreaUploadbtn').attr("disabled", true);
             },
             success: function (data) {
-                console.log(data)
                 if (data == 0) {
                     $("#notinsertsuccess").hide();
                     $("#insertsuccess").show();

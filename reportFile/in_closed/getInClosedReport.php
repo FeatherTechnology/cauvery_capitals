@@ -56,7 +56,7 @@ $column = array(
     'ad.doc_id',
     'ii.updated_date',
     'cp.cus_id',
-    'cp.cus_name',
+    'cp.first_name',
     'al.area_name',
     'lcc.loan_category_creation_name',
     'ac.ag_name',
@@ -73,7 +73,7 @@ $query = "SELECT
     ii.updated_date AS loan_date,
     cp.req_id,
     cp.cus_id,
-    cp.cus_name,
+    cp.first_name,
     al.area_name,
     lcc.loan_category_creation_name AS loan_cat_name,
     ac.ag_name,
@@ -126,7 +126,7 @@ if (isset($_POST['search'])) {
             ad.doc_id LIKE '%" . $_POST['search'] . "%' OR
             ii.updated_date LIKE '%" . $_POST['search'] . "%' OR
             cp.cus_id LIKE '%" . $_POST['search'] . "%' OR
-            cp.cus_name LIKE '%" . $_POST['search'] . "%' OR
+            cp.first_name LIKE '%" . $_POST['search'] . "%' OR
             al.area_name LIKE '%" . $_POST['search'] . "%' OR
             lcc.loan_category_creation_name LIKE '%" . $_POST['search'] . "%' OR
             ac.ag_name LIKE '%" . $_POST['search'] . "%' OR
@@ -168,7 +168,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['doc_id'];
     $sub_array[] = date('d-m-Y', strtotime($row['loan_date']));
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['cus_name'];
+    $sub_array[] = $row['first_name'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['loan_cat_name'];
     $sub_array[] = $row['ag_name'];

@@ -96,6 +96,7 @@ if (
                 AND MONTH(cc.closing_date) = MONTH('$to_date')
                 AND YEAR(cc.closing_date) = YEAR('$to_date')
             )
+            OR ii.req_id IN ($dueNilReqIdStr)
         )
         AND ii.req_id NOT IN ($pendingReqIdStr)
         AND ii.req_id NOT IN ($coll_DueNilReqIdStr)

@@ -6,7 +6,7 @@ $cus_id = $_POST['cus_id'];
 
 $response = array();
 
-$sql = $connect->query("SELECT a.guarentor_name as fam_id,a.guarentor_relation as relation,a.guarentor_photo as img,b.famname as name from customer_profile a JOIN verification_family_info b ON a.guarentor_name = b.id where a.cus_id = $cus_id ORDER BY a.id DESC LIMIT 1");
+$sql = $connect->query("SELECT a.guarentor_name as fam_id,a.guarentor_relation as relation,a.guarentor_photo as img, CONCAT(b.first_name, ' ', b.last_name) as name from customer_profile a JOIN verification_family_info b ON a.guarentor_name = b.id where a.cus_id = $cus_id ORDER BY a.id DESC LIMIT 1");
 if ($sql->rowCount() > 0) {
     $row = $sql->fetch();
     // $response['img'] = $row['guarentor_photo'];

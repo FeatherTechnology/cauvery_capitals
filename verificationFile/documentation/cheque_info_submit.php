@@ -12,6 +12,7 @@ $chequebank_name             = $_POST['chequebank_name'];
 $cheque_count             = $_POST['cheque_count'];
 $chequeID              = $_POST['chequeID'];
 
+$insert_qry = '';
 
 if ($chequeID == '') {
 

@@ -10,7 +10,8 @@ $qry = $connect->query("SELECT * From cus_old_data where cus_id = '" . $_POST['c
         <tr>
             <th width="50"> S.No </th>
             <th> Customer ID </th>
-            <th> Customer Name </th>
+            <th> First Name </th>
+            <th> Lasr Name </th>
             <th> Mobile </th>
             <th> Area </th>
             <th> Sub Area </th>
@@ -29,7 +30,8 @@ $qry = $connect->query("SELECT * From cus_old_data where cus_id = '" . $_POST['c
             <tr>
                 <td><?php echo $i++; ?></td>
                 <td><?php echo $row['cus_id']; ?></td>
-                <td><?php echo $row['cus_name']; ?></td>
+                <td><?php echo $row['first_name']; ?></td>
+                <td><?php echo $row['last_name']; ?></td>
                 <td><?php echo $row['mobile']; ?></td>
                 <td><?php echo $row['area']; ?></td>
                 <td><?php echo $row['sub_area']; ?></td>

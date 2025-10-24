@@ -80,12 +80,12 @@ include '../ajaxconfig.php';
 
             $relationship = 'NIL';
             if ($kyc['proofOf'] == '2') {
-                $sql = $connect->query("SELECT famname, relationship FROM `verification_family_info` where id = '$fam_mem_id'");
+                $sql = $connect->query("SELECT CONCAT(first_name, ' ', last_name) AS famname, relationship FROM `verification_family_info` where id = '$fam_mem_id'");
                 $rw= $sql->fetch();
                 $fam_mem = $rw['famname']?? '';
                 $relationship = $rw['relationship']?? '';
             } elseif ($kyc['proofOf'] == '1') {
-                $qry = $connect->query("SELECT a.famname, a.relationship from verification_family_info a 
+                $qry = $connect->query("SELECT CONCAT(a.first_name, ' ', a.last_name) AS famname, a.relationship from verification_family_info a 
                 LEFT JOIN customer_profile b ON a.id = b.guarentor_name
                 where b.req_id = '$req_id' ");
                 $rw = $qry->fetch();

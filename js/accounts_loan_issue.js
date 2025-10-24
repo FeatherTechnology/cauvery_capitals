@@ -1142,7 +1142,9 @@ function getAgentDetails() {
                 $('#cashAck').hide(); //hide cash acknowledgement if agent is the payer/ loan issue person
 
             } else {
-                var cus_name = $('#cus_name').val();
+                var first_name = $("#first_name").val();
+                var last_name = $("#last_name").val();
+                var cus_name = first_name + " " + last_name;
                 // $('#agent').val(cus_name);
                 $('#issue_to').val(cus_name);
                 $('.issued_to_type').text('* (Customer)');

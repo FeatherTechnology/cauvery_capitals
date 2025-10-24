@@ -12,8 +12,11 @@ if (isset($_POST['req_id'])) {
 if (isset($_POST['cus_id'])) {
     $cus_id = $_POST['cus_id'];
 }
-if (isset($_POST['cus_name'])) {
-    $cus_name = $_POST['cus_name'];
+if (isset($_POST['first_name'])) {
+    $first_name = $_POST['first_name'];
+}
+if (isset($_POST['last_name'])) {
+    $last_name = $_POST['last_name'];
 }
 if (isset($_POST['area_id'])) {
     $area_id =  $_POST['area_id'];
@@ -156,10 +159,11 @@ try{
         $coll_code = $myStr."-101";
     }
 
-    $insertQry = "INSERT INTO `collection`(  `coll_code`, `req_id`, `cus_id`, `cus_name`, `branch`, `area`,  `line`, `loan_category`, `coll_status`, 
+    $insertQry = "INSERT INTO `collection`(  `coll_code`, `req_id`, `cus_id`, `first_name`, `last_name`, `branch`, `area`,  `line`, `loan_category`, `coll_status`, 
         `coll_sub_status`, `tot_amt`, `paid_amt`, `bal_amt`, `due_amt`, `pending_amt`, `payable_amt`, `till_date_int`, `penalty`, `coll_charge`, `coll_mode`, `bank_id`, `cheque_no`, `trans_id`, `trans_date`, 
         `coll_location`, `coll_date`, `due_amt_track`,`princ_amt_track`,`int_amt_track`, `penalty_track`, `coll_charge_track`, `total_paid_track`, `pre_close_waiver`, `principal_waiver`, `interest_waiver`, `penalty_waiver`, `coll_charge_waiver`, 
-        `total_waiver`, `insert_login_id`,`created_date`)  VALUES('" . strip_tags($coll_code) . "','" . strip_tags($req_id) . "','" . strip_tags($cus_id) . "','" . strip_tags($cus_name) . "',
+        `total_waiver`, `insert_login_id`,`created_date`)  VALUES('" . strip_tags($coll_code) . "','" . strip_tags($req_id) . "','" . strip_tags($cus_id) . "',
+        '" . strip_tags($first_name) . "','" . strip_tags($last_name) . "',
         '" . strip_tags($branch_id) . "', '" . strip_tags($area_id) . "', '" . strip_tags($line_id) . "','" . strip_tags($loan_category_id) . "',
         '" . strip_tags($status) . "','" . strip_tags($sub_status) . "', '" . strip_tags($tot_amt) . "', '" . strip_tags($paid_amt) . "', 
         '" . strip_tags($bal_amt) . "','" . strip_tags($due_amt) . "','" . strip_tags($pending_amt) . "','" . strip_tags($payable_amt) . "','" . strip_tags($till_date_int) . "',

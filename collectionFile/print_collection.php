@@ -6,7 +6,7 @@ if (isset($_POST["coll_id"])) {
     $coll_id = $_POST["coll_id"];
 }
 
-$qry = $connect->query("SELECT req_id, cus_id, cus_name, coll_code, coll_mode, trans_date, coll_date, due_amt_track, penalty_track, coll_charge_track, princ_amt_track , int_amt_track, due_amt , insert_login_id FROM `collection` WHERE coll_code='" . strip_tags($coll_id) . "'");
+$qry = $connect->query("SELECT req_id, cus_id, CONCAT(first_name, ' ', last_name) AS cus_name, coll_code, coll_mode, trans_date, coll_date, due_amt_track, penalty_track, coll_charge_track, princ_amt_track , int_amt_track, due_amt , insert_login_id FROM `collection` WHERE coll_code='" . strip_tags($coll_id) . "'");
 $row = $qry->fetch();
 
 extract($row); // Extracts the array values into variables

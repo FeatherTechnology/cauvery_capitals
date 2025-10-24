@@ -9,6 +9,7 @@ $property_value          = $_POST['property_value'];
 $property_holder         = $_POST['property_holder'];
 $propertyID              = $_POST['propertyID'];
 
+$insert_qry = '';
 
 if ($propertyID == '') {
 

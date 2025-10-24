@@ -25,7 +25,7 @@ include '../ajaxconfig.php';
         if (isset($_POST['category'])) {
             $category = $_POST['category'];
             if ($category == '0') {
-                $category = "famname";
+                $category = "first_name";
             }
             if ($category == '1') {
                 $category = "relation_aadhar";
@@ -35,7 +35,7 @@ include '../ajaxconfig.php';
             }
         }
 
-        $cusInfo = $connect->query("SELECT a.`famname`,a.`relationship`,a.`relation_aadhar`,b.`cus_id`,b.`customer_name` FROM `verification_family_info` a left join `customer_register` b 
+        $cusInfo = $connect->query("SELECT CONCAT(a.first_name, ' ', a.last_name) AS famname ,a.`relationship`,a.`relation_aadhar`,b.`cus_id`, CONCAT(b.first_name, ' ', b.last_name) AS customer_name FROM `verification_family_info` a left join `customer_register` b 
         on a.req_id = b.req_ref_id  WHERE a.`req_id` != '$req_id' && a.$category = '$name' order by a.id desc");
 
         $i = 1;

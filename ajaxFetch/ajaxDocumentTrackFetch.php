@@ -27,7 +27,7 @@ $column = array(
 );
 
 // Base query
-$query = "SELECT dt.*, cr.customer_name, bc.branch_name, al.area_id, al.area_name, agm.group_name, alm.line_name
+$query = "SELECT dt.*, cr.first_name, bc.branch_name, al.area_id, al.area_name, agm.group_name, alm.line_name
         FROM document_track dt
         JOIN customer_register cr ON dt.cus_id = cr.cus_id
         JOIN area_list_creation al ON cr.area = al.area_id
@@ -47,7 +47,7 @@ if ($doc_rec_access != '0') {
 if (isset($_POST['search']) && $_POST['search'] != "") {
     $search = $_POST['search'];
     $query .= " AND ( dt.cus_id LIKE '%$search%' OR
-                cr.customer_name LIKE '%$search%'  )";
+                cr.first_name LIKE '%$search%'  )";
 }
 
 if (isset($_POST['order'])) {
@@ -84,7 +84,7 @@ foreach ($result as $row) {
 
     $sub_array[] = date('d-m-Y', strtotime($row['created_date'])); //Date column
     $sub_array[] = $row['cus_id']; //cus id column
-    $cus_name = $row['customer_name']; //cus name column
+    $cus_name = $row['first_name']; //cus name column
     $sub_array[] = $cus_name; //cus name column
     $sub_array[] = $row['branch_name']; //Branch name column
     $sub_array[] = $row['area_name']; //area name column

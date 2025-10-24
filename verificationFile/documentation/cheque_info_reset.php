@@ -23,7 +23,7 @@ include '../../ajaxconfig.php';
         $i = 1;
         while ($cheque = $chequeInfo->fetch()) {
             $fam_id = $cheque["holder_relationship_name"];
-            $result = $connect->query("SELECT famname FROM `verification_family_info` where id='$fam_id'");
+            $result = $connect->query("SELECT CONCAT(first_name, ' ', last_name) AS famname FROM `verification_family_info` where id='$fam_id'");
             $row = $result->fetch()
         ?>
 

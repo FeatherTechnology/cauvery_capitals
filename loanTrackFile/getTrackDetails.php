@@ -302,34 +302,32 @@ class getTrackTableDetails
 
     public function getNOCDetails($connect, $table_id, $table_name)
     {
+        $response = [];
         if ($table_name != 'mort' && $table_name != 'endorse') {
             $qry = $connect->query("SELECT noc_date,noc_person,noc_name from $table_name where id = $table_id");
             $row = $qry->fetch();
-            $response = $row;
         } else if ($table_name == 'mort') {
             $qry = $connect->query("SELECT mort_noc_date as noc_date,mort_noc_person as noc_person,mort_noc_name as noc_name from acknowlegement_documentation where id = $table_id ");
             $row = $qry->fetch();
-            $response = $row;
         } else if ($table_name == 'endorse') {
             $qry = $connect->query("SELECT endor_noc_date as noc_date, endor_noc_person as noc_person, endor_noc_person as noc_name from acknowlegement_documentation where id = $table_id ");
             $row = $qry->fetch();
-            $response = $row;
         }
 
-        if ($response['noc_person'] == '1') {
+        $response['noc_date'] = date('d-m-Y', strtotime($row['noc_date']));
+
+        if ($row['noc_person'] == '1') {
             //1 means customer
-            $response['noc_person'] = $response['noc_name'];
+            $response['noc_person'] = $row['noc_name'];
             $response['noc_name'] = 'Customer';
-        } else if ($response['noc_person'] == '2') {
+        } else if ($row['noc_person'] == '2') {
             //2 means Family member
-            $fam_qry = $connect->query("SELECT famname,relationship from verification_family_info where id = '" . strip_tags($response['noc_name']) . "' ");
+            $fam_qry = $connect->query("SELECT CONCAT(first_name, ' ', last_name) AS famname,relationship from verification_family_info where id = '" . strip_tags($row['noc_name']) . "' ");
             $fam_row = $fam_qry->fetch();
             $response['noc_person'] = $fam_row['famname'];
             $response['noc_name'] = $fam_row['relationship'];
         }
-
-        $response['noc_date'] = date('d-m-Y', strtotime($response['noc_date']));
-
+        
         return $response;
     }
 }

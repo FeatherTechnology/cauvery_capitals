@@ -2,10 +2,13 @@
 include '../ajaxconfig.php';
 
 $cus_id = $_POST['cus_id'] ?? '';
-$cus_name = $_POST['cus_name'] ?? '';
+$first_name = $_POST['first_name'] ?? '';
+$last_name = $_POST['last_name'] ?? '';
 $area = $_POST['area'] ?? '';
 $mobile = $_POST['mobile'] ?? '';
 $loan_id = $_POST['loan_id'] ?? '';
+$fingerprint_person_id = $_POST['fingerprint_person_id'] ?? '';
+$cus_id = (!empty($cus_id)) ? $cus_id : $fingerprint_person_id;
 
 $sql = '';
 $fam_sql = '';
@@ -13,9 +16,12 @@ $fam_sql = '';
 if ($cus_id != '') {
     $sql = "SELECT cus_id from customer_register WHERE cus_id LIKE '%$cus_id%' ";
     $fam_sql = "SELECT id from verification_family_info WHERE relation_aadhar LIKE '%$cus_id%' ";
-} else if ($cus_name != '') {
-    $sql = "SELECT cus_id from customer_register WHERE customer_name LIKE '%$cus_name%' ";
-    $fam_sql = "SELECT id from verification_family_info WHERE famname LIKE '%$cus_name%' ";
+} else if ($first_name != '') {
+    $sql = "SELECT cus_id from customer_register WHERE first_name LIKE '%$first_name%' ";
+    $fam_sql = "SELECT id from verification_family_info WHERE first_name LIKE '%$first_name%' ";
+} else if ($last_name != '') {
+    $sql = "SELECT cus_id from customer_register WHERE last_name LIKE '%$last_name%' ";
+    $fam_sql = "SELECT id from verification_family_info WHERE last_name LIKE '%$last_name%' ";
 } else if ($mobile != '') {
     $sql = "SELECT COALESCE(cr.cus_id, rc.cus_id) AS cus_id FROM request_creation rc LEFT JOIN customer_register cr 
        ON cr.req_ref_id = rc.req_id WHERE cr.mobile1 LIKE '%$mobile%' OR cr.mobile2 LIKE '%$mobile%' OR rc.mobile1 LIKE '%$mobile%' OR rc.mobile2 LIKE '%$mobile%' LIMIT 1";
@@ -38,7 +44,7 @@ WHERE ac.area_name LIKE '%$area%';
     $sql = "SELECT cus_id from in_issue where loan_id = '$loan_id' ";
 }
 
-$runSql = $connect->query(query: $sql);
+$runSql = $connect->query($sql);
 // if ($runSql->rowCount() > 0) {
 //     while ($row = $runSql->fetch())
 //         $cus_id_fetched[] = $row['cus_id'];
@@ -84,7 +90,7 @@ $data = array();
 
 if ($runSql->rowCount() > 0) {
     while ($row = $runSql->fetch()) {
-        $req_sql = $connect->query("SELECT cr.cus_id,cr.customer_name as cus_name,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,cr.mobile1,cr.mobile2 
+        $req_sql = $connect->query("SELECT cr.cus_id,cr.first_name as cus_name,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,cr.mobile1,cr.mobile2 
                     FROM customer_register cr 
                     LEFT JOIN area_list_creation ac ON cr.area_confirm_area = ac.area_id 
                     JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
@@ -128,7 +134,7 @@ if ($fam_sql != '') {
     if (!empty($fam_id_arr)) {
         $i = 1;
         foreach ($fam_id_arr as $id) {
-            $qry = $connect->query("SELECT fam.cus_id,cr.customer_name,fam.famname,fam.relationship,fam.relation_aadhar,fam.relation_Mobile FROM verification_family_info fam JOIN customer_register cr ON fam.cus_id = cr.cus_id WHERE fam.id = '$id' ");
+            $qry = $connect->query("SELECT fam.cus_id,cr.first_name, CONCAT(fam.first_name, ' ', fam.last_name) AS famname,fam.relationship,fam.relation_aadhar,fam.relation_Mobile FROM verification_family_info fam JOIN customer_register cr ON fam.cus_id = cr.cus_id WHERE fam.id = '$id' ");
             while ($row = $qry->fetch()) {
                 $sub_array = array();
                 $sub_array['sno'] = $i++;
@@ -136,7 +142,7 @@ if ($fam_sql != '') {
                 $sub_array['relationship'] = $row['relationship'];
                 $sub_array['adhaar'] = $row['relation_aadhar'];
                 $sub_array['mobile'] = $row['relation_Mobile'];
-                $sub_array['under_cus'] = $row['customer_name'];
+                $sub_array['under_cus'] = $row['first_name'];
                 $sub_array['under_cus_id'] = $row['cus_id'];
 
                 $data['family_data'][] = $sub_array;

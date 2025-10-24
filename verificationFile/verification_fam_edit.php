@@ -8,7 +8,8 @@ $famInfo = $connect->query("SELECT * FROM `verification_family_info` WHERE id='$
 $fam = $famInfo->fetch();
 
 $famEditRes['id'] = $fam['id'];
-$famEditRes['fname'] = $fam['famname'];
+$famEditRes['first_name'] = $fam['first_name'];
+$famEditRes['last_name'] = $fam['last_name'];
 $famEditRes['relation'] = $fam['relationship'];
 $famEditRes['remark'] = $fam['other_remark'];
 $famEditRes['address'] = $fam['other_address'];

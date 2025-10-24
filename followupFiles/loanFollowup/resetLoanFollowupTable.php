@@ -43,7 +43,7 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
     $search = $_POST['search'];
     $search = " AND ( rc.updated_date LIKE '%" . $search . "%' OR
                     rc.cus_id LIKE '%" . $search . "%' OR
-                    rc.cus_name LIKE '%" . $search . "%' OR
+                    rc.first_name LIKE '%" . $search . "%' OR
                     alc.area_name LIKE '%" . $search . "%' OR
                     salc.sub_area_name LIKE '%" . $search . "%' OR
                     lcc.loan_category_creation_name LIKE '%" . $search . "%' OR
@@ -56,7 +56,7 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
 //used two queries because some customers will not have submitted customer profile where true details will be given.
 //fo those take details from request else use customer profile tables
 
-$sql = "( SELECT rc.updated_date, rc.cus_id, rc.cus_name, alc.area_name, salc.sub_area_name, lcc.loan_category_creation_name, ac.ag_name, bc.branch_name, agm.group_name, alm.line_name, rc.req_id, rc.cus_status 
+$sql = "( SELECT rc.updated_date, rc.cus_id, rc.first_name, alc.area_name, salc.sub_area_name, lcc.loan_category_creation_name, ac.ag_name, bc.branch_name, agm.group_name, alm.line_name, rc.req_id, rc.cus_status 
     FROM request_creation rc 
     LEFT JOIN area_list_creation alc ON rc.area = alc.area_id 
     LEFT JOIN sub_area_list_creation salc ON rc.sub_area = salc.sub_area_id 
@@ -71,7 +71,7 @@ $sql = "( SELECT rc.updated_date, rc.cus_id, rc.cus_name, alc.area_name, salc.su
 )
 UNION ALL
 (
-    SELECT rc.updated_date, cp.cus_id, cp.cus_name, alc.area_name, salc.sub_area_name, lcc.loan_category_creation_name, ac.ag_name, bc.branch_name, agm.group_name, alm.line_name, rc.req_id, rc.cus_status 
+    SELECT rc.updated_date, cp.cus_id, cp.first_name, alc.area_name, salc.sub_area_name, lcc.loan_category_creation_name, ac.ag_name, bc.branch_name, agm.group_name, alm.line_name, rc.req_id, rc.cus_status 
     FROM request_creation rc 
     LEFT JOIN customer_profile cp ON cp.req_id = rc.req_id 
     LEFT JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id 
@@ -121,7 +121,7 @@ foreach ($result as $row) {
     $sub_array[] = $sno;
     $sub_array[] = date('d-m-Y', strtotime($row['updated_date']));
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['cus_name'];
+    $sub_array[] = $row['first_name'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['sub_area_name'];
     $sub_array[] = $row['loan_category_creation_name'];

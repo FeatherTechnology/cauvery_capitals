@@ -36,7 +36,9 @@ $(document).ready(function () {
         let cus_id = $('#cusidupd').val();
         if (type == 1) {
 
-            let cus_name = $('#cus_name').val();
+            var first_name = $("#first_name").val();
+            var last_name = $("#last_name").val();
+            var cus_name = first_name + " " + last_name;
             $('#comm_person_name1').hide();//select box
             $('#comm_person_name').show();
             $('#comm_person_name').val(cus_name);//storing customer name in person name
