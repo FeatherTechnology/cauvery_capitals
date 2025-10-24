@@ -85,7 +85,9 @@ $(document).ready(function () {
   function famNameList() {
     // To show family name for Data Check.
     let req_id = $("#req_id").val();
-    var cus_name = $("#cus_name").val();
+    var first_name = $("#first_name").val();
+    var last_name = $("#last_name").val();
+    var cus_name = first_name + " " + last_name;
     var cus_id = $("#cus_id").val(); //customer id
 
     $.ajax({
@@ -167,7 +169,9 @@ $(document).ready(function () {
   function aadharList() {
     // To show Aadhar No for Data Checking.
     let req_id = $("#req_id").val();
-    var cus_name = $("#cus_name").val(); //Customer name for display
+    var first_name = $("#first_name").val();
+    var last_name = $("#last_name").val();
+    var cus_name = first_name + " " + last_name; //Customer name for display
     var cus_id = $("#cus_id").val(); //customer adhar for
 
     $.ajax({
@@ -1107,10 +1111,10 @@ $(document).ready(function () {
     }
   });
 
-    $('#cus_monthly_income ,#cus_Commitment ,#cus_other_income ,#cus_support_income ,#cus_monDue_capacity , #cus_loan_limit','#cus_occ_income').on('input', function () {
-        let value = $(this).val();
-        $(this).val(formatIndianNumber(value));
-    });
+  $('#cus_monthly_income, #cus_Commitment, #cus_other_income, #cus_support_income, #cus_monDue_capacity, #cus_loan_limit, #cus_occ_income').on('input', function () {
+    let value = $(this).val();
+    $(this).val(formatIndianNumber(value));
+  });
 
   ///Hide AND Show doc Card END
 }); ////////Document Ready End
@@ -1275,7 +1279,8 @@ function getCustomerLoanCounts() {
   });
 }
 // Modal Box for Agent Group
-$("#famnameCheck").hide();
+$("#famFirstnameCheck").hide();
+$("#famLastnameCheck").hide();
 $("#famrelationCheck").hide();
 $("#famremarkCheck").hide();
 $("#famaddressCheck").hide();
@@ -1287,7 +1292,8 @@ $("#famincomeCheck").hide();
 $(document).on("click", "#submitFamInfoBtn", function () {
   let req_id = $("#req_id").val();
   let cus_id = $("#cus_id").val();
-  let famname = $("#famname").val();
+  let fam_first_name = $("#fam_first_name").val();
+  let fam_last_name = $("#fam_last_name").val();
   let relationship = $("#relationship").val();
   let other_remark = $("#other_remark").val();
   let other_address = $("#other_address").val();
@@ -1300,7 +1306,8 @@ $(document).on("click", "#submitFamInfoBtn", function () {
   let famTableId = $("#famID").val();
 
   if (
-    famname != "" &&
+    fam_first_name != "" &&
+    fam_last_name != "" &&
     relationship != "" &&
     relation_aadhar != "" &&
     relation_Mobile != "" &&
@@ -1311,7 +1318,8 @@ $(document).on("click", "#submitFamInfoBtn", function () {
       url: "verificationFile/verification_family_submit.php",
       type: "POST",
       data: {
-        famname: famname,
+        fam_first_name: fam_first_name,
+        fam_last_name: fam_last_name,
         realtionship: relationship,
         other_remark: other_remark,
         other_address: other_address,
@@ -1352,10 +1360,16 @@ $(document).on("click", "#submitFamInfoBtn", function () {
       },
     });
   } else {
-    if (famname == "") {
-      $("#famnameCheck").show();
+    if (fam_first_name == "") {
+      $("#famFirstnameCheck").show();
     } else {
-      $("#famnameCheck").hide();
+      $("#famFirstnameCheck").hide();
+    }
+
+    if (fam_last_name == "") {
+      $("#famLastnameCheck").show();
+    } else {
+      $("#famLastnameCheck").hide();
     }
 
     if (relationship == "") {
@@ -1402,7 +1416,8 @@ function resetFamInfo() {
       $("#updatedFamTable").empty();
       $("#updatedFamTable").html(html);
 
-      $("#famname").val("");
+      $("#fam_first_name").val("");
+      $("#fam_last_name").val("");
       $("#relationship").val("");
       $("#other_remark").val("");
       $("#other_address").val("");
@@ -1443,7 +1458,8 @@ $("body").on("click", "#verification_fam_edit", function () {
     cache: false,
     success: function (result) {
       $("#famID").val(result["id"]);
-      $("#famname").val(result["fname"]);
+      $("#fam_first_name").val(result["first_name"]);
+      $("#fam_last_name").val(result["last_name"]);
       $("#relationship").val(result["relation"]);
       $("#other_remark").val(result["remark"]);
       $("#other_address").val(result["address"]);
@@ -1460,7 +1476,8 @@ $("body").on("click", "#verification_fam_edit", function () {
         $("#remark").hide();
         $("#address").hide();
       }
-      $("#famnameCheck").hide();
+      $("#famFirstnameCheck").hide();
+      $("#famLastnameCheck").hide();
       $("#famrelationCheck").hide();
       $("#famremarkCheck").hide();
       $("#famaddressCheck").hide();
@@ -2560,7 +2577,7 @@ function getfamilyforKyc(famid) {
       });
     },
   }).then(function () {
-    $("#fam_name").unbind("click");
+    $("#fam_first_name").unbind("click");
     $("#fam_mem").change(function () {
       let req_id = $("#req_id").val();
       let proof = $("#proofof").val();
@@ -2985,7 +3002,8 @@ $("#submit_verification").click(function (event) {
 
 function validation(event) {
   var cus_id = $("#cus_id").val();
-  var cus_name = $("#cus_name").val();
+  var first_name = $('#first_name').val(); 
+  var last_name = $('#last_name').val();
   var dob = $("#dob").val();
   var gender = $("#gender").val();
   var bloodGroup = $("#bloodGroup").val();
@@ -3038,12 +3056,19 @@ function validation(event) {
   } else {
     $("#cusidCheck").hide();
   }
-  if (cus_name == "") {
+  if (!first_name) {
     event.preventDefault();
-    $("#cusnameCheck").show();
-    validation = false;
+    $('#firstnameCheck').show();
+    validation = false
   } else {
-    $("#cusnameCheck").hide();
+    $('#firstnameCheck').hide();
+  }
+  if (!last_name) {
+    event.preventDefault();
+    $('#lastnameCheck').show();
+    validation = false
+    } else {
+      $('#lastnameCheck').hide();
   }
   if (dob == "") {
     event.preventDefault();
@@ -5612,7 +5637,7 @@ var proc_fee = $("#proc_fee").val().replace(/[, ]+/g, '');
   $(".int-diff").text(
     "* (Difference: +" + parseInt(roundedInterest - interest_rate) + ")"
   ); //To show the difference amount from old to new
-  $("#int_amt_cal").val(parseInt(formatIndianNumber(String(roundedInterest))));
+  $("#int_amt_cal").val(formatIndianNumber(String(roundedInterest)));
 
   var new_princ = parseInt(new_tot) - parseInt(roundedInterest);
   // $('.princ-diff').text('* (Difference: +' + parseInt(loan_amt - new_princ) + ')'); //To show the difference amount from old to new
@@ -6397,7 +6422,9 @@ function loan_calc_validation() {
 return validation;
 }
 function fingerprintTable() {//To Get family member's name are required for scanning fingerprint
-    var cus_name = $('#cus_name').val();
+    var first_name = $("#first_name").val();
+    var last_name = $("#last_name").val();
+    var cus_name = first_name + " " + last_name;
     var cus_id = $('#cus_id').val();
     $.ajax({
         url: 'verificationFile/getNamesForFingerprint.php',
@@ -6410,6 +6437,8 @@ function fingerprintTable() {//To Get family member's name are required for scan
 
             $('.scanBtn').click(function () {
                 var hand = $(this).prev().val();
+                var name = $(this).parent().prev().find('input[id="name_print"]').val();
+                var adhar = $(this).parent().prev().prev().find('input[id="adhar_print"]').val();
                 if (hand == '') { //prevent if hand is not selected
                     $(this).prev().css('border-color', 'red');
                 } else {
@@ -6426,8 +6455,9 @@ function fingerprintTable() {//To Get family member's name are required for scan
                         console.log("🚀 ~ file: acknowledgement_creation.js:934 ~ setTimeout ~ (res.data.ErrorCode:", res.data.ErrorCode);
                         if (res.httpStaus) {
                             if (res.data.ErrorCode == "0") {
-                                $(this).next().val(res.data.AnsiTemplate); // Take ansi template that is the unique id which is passed by sensor
-
+                                let fdata = res.data.AnsiTemplate;
+                                $(this).next().val(fdata); // Take ansi template that is the unique id which is passed by sensor
+                                storeFingerprints(fdata, hand, adhar, name);//stores the current finger data in database
                             }//Error codes and alerts below
                             else if (res.data.ErrorCode == -1307) {
                                 alert('Connect Your Device');
@@ -6458,6 +6488,16 @@ function fingerprintTable() {//To Get family member's name are required for scan
         }
     })
 
-
 }
+
+function storeFingerprints(fdata, hand, cus_id, cus_name) {//stores the current finger data in database
+  $.post('updateFile/storeFingerprints.php', { 'fdata': fdata, 'hand': hand, 'cus_id': cus_id, 'cus_name': cus_name }, function (response) {
+      if (response.includes('Successfully')) {
+          Swal.fire({
+              title: response, icon: 'success', confirmButtonColor: '#0c70ab'
+          })
+      }
+  }, 'json')
+}
+
 //////////////////////////////////////////////////////////////////// Loan Calculation Functions End ///////////////////////////////////////////////////////////////////////////////

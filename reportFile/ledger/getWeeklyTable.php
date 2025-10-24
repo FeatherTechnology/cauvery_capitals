@@ -49,7 +49,7 @@ $closing_balance_sum = 0;
 $qry = $connect->query("
     SELECT 
         cp.req_id,
-        cp.cus_name,
+        cp.first_name,
         cp.area_confirm_area as area_id,
         ii.updated_date as loan_date,
         lc.due_start_from as start_date,
@@ -71,7 +71,7 @@ $qry = $connect->query("
         JOIN area_list_creation al ON cp.area_confirm_area = al.area_id
         JOIN loan_category_creation lcc ON lc.loan_category = lcc.loan_category_creation_id
     WHERE 
-        (ii.cus_status >= 14 && ii.cus_status < 20) AND lc.due_method_scheme = 2 and date(lc.due_start_from) = '$weekly_date' $user_based ");
+        (ii.cus_status >= 14 && ii.cus_status < 20) AND lc.due_method_scheme = 2 and date(lc.due_start_from) = '$weekly_date' $user_based GROUP BY cp.req_id");
 
 $rows = array();
 while ($row = $qry->fetch()) {
@@ -148,7 +148,7 @@ $weeks = generateWeeks($startDate, $endDate);
         ?>
                 <tr>
                     <td><?php echo $i++; ?></td>
-                    <td><?php echo $row['cus_name']; ?></td>
+                    <td><?php echo $row['first_name']; ?></td>
                     <td><?php echo $row['area_name']; ?></td>
                     <td><?php echo date('d-m-Y', strtotime($row['loan_date'])); ?></td>
                     <td><?php echo date('d-m-Y', strtotime($row['start_date'])); ?></td>

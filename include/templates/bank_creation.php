@@ -98,28 +98,28 @@ if ($idupd > 0) {
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="short_name">Bank Short Name</label>&nbsp;<span class="text-danger">*</span>
-											<input type="text" class="form-control" id="short_name" name="short_name" value="<?php if (isset($short_name)) echo $short_name; ?>" pattern="[a-zA-Z\s]+" placeholder="Enter Bank Short Name" tabindex="1">
+											<input type="text" class="form-control" id="short_name" name="short_name" value="<?php if (isset($short_name)) echo $short_name; ?>" pattern="[a-zA-Z\s]+" placeholder="Enter Bank Short Name" tabindex="2">
 											<span class='text-danger' id='shortnameCheck' style="display:none">Please Enter Bank Short Name</span>
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Account Number</label>&nbsp;<span class="text-danger">*</span>
-											<input type="text" class="form-control" id="acc_no" name="acc_no" value="<?php if (isset($acc_no)) echo $acc_no; ?>" placeholder="Enter Account Number" tabindex="2">
+											<input type="text" class="form-control" id="acc_no" name="acc_no" value="<?php if (isset($acc_no)) echo $acc_no; ?>" placeholder="Enter Account Number" tabindex="3">
 											<span class='text-danger' id='accnoCheck' style="display:none">Please Enter Account Number</span>
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="ifsc">IFSC Code</label>&nbsp;<span class="text-danger">*</span>
-											<input type="text" class="form-control" id="ifsc" name="ifsc" value="<?php if (isset($ifsc)) echo $ifsc; ?>" placeholder="Enter IFSC code" tabindex="3">
+											<input type="text" class="form-control" id="ifsc" name="ifsc" value="<?php if (isset($ifsc)) echo $ifsc; ?>" placeholder="Enter IFSC code" tabindex="4">
 											<span class='text-danger' id='ifscCheck' style="display:none">Please Enter IFSC Code</span>
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="branch">Branch Name</label>&nbsp;<span class="text-danger">*</span>
-											<input type="text" class="form-control" id="branch" name="branch" value="<?php if (isset($branch)) echo $branch; ?>" placeholder="Enter Branch Name" tabindex="4">
+											<input type="text" class="form-control" id="branch" name="branch" value="<?php if (isset($branch)) echo $branch; ?>" placeholder="Enter Branch Name" tabindex="5">
 											<span class='text-danger' id='branchCheck' style="display:none">Please Enter Branch Name</span>
 										</div>
 									</div>
@@ -127,13 +127,13 @@ if ($idupd > 0) {
 										<div class="form-group">
 											<label for="qr_code">UPI QR Code</label>
 											<input type="hidden" id="qr_code_name" name="qr_code_name" value="<?php if (isset($qr_code)) echo $qr_code; ?>">
-											<input type="file" onchange="checkInputFileSize(this,200)" class="form-control" id="qr_code" name="qr_code" tabindex="5">
+											<input type="file" onchange="checkInputFileSize(this,200)" class="form-control" id="qr_code" name="qr_code" tabindex="6">
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="gpay">Gpay Number</label>
-											<input type="text" class="form-control" id="gpay" name="gpay" value="<?php if (isset($gpay)) echo $gpay; ?>" onKeyPress="if(this.value.length==10) return false;" placeholder="Enter Gpay Number" tabindex="6">
+											<input type="text" class="form-control" id="gpay" name="gpay" value="<?php if (isset($gpay)) echo $gpay; ?>" onKeyPress="if(this.value.length==10) return false;" placeholder="Enter Gpay Number" tabindex="7">
 										</div>
 									</div>
 
@@ -163,7 +163,7 @@ if ($idupd > 0) {
 										<div class="form-group">
 											<label for="under_branch">Under Branch</label>&nbsp;<span class="text-danger">*</span>
 											<input type='hidden' id="under_branch" name="under_branch">
-											<select class="form-control" id="under_branch_dummy" name="under_branch_dummy" tabindex='8' multiple>
+											<select class="form-control" id="under_branch_dummy" name="under_branch_dummy" tabindex='9' multiple>
 												<option value=''>Select Branch name</option>
 											</select>
 											<span class='text-danger' id='underbranchCheck' style="display:none">Please Choose Branch Name</span>
@@ -176,8 +176,8 @@ if ($idupd > 0) {
 				</div>
 				<div class="col-md-12 ">
 					<div class="text-right">
-						<button type="submit" name="submit_bank_creation" id="submit_bank_creation" class="btn btn-primary" value="Submit" tabindex="9"><span class="icon-check"></span>&nbsp;Submit</button>
-						<button type="reset" class="btn btn-outline-secondary" tabindex="10">Clear</button>
+						<button type="submit" name="submit_bank_creation" id="submit_bank_creation" class="btn btn-primary" value="Submit" tabindex="10"><span class="icon-check"></span>&nbsp;Submit</button>
+						<button type="reset" class="btn btn-outline-secondary" tabindex="11">Clear</button>
 					</div>
 				</div>
 

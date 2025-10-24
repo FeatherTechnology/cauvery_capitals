@@ -8,9 +8,9 @@ $cus_id = $_POST['cus_id'];
 
 $qry = $connect->query("
     SELECT 
-    cp.cus_name,
+    CONCAT(cp.first_name, ' ',cp.last_name) AS cus_name,
     req.father_name,
-    fam.famname,
+    CONCAT(fam.first_name, ' ',fam.last_name) AS famname,
     alc.area_name,
     ii.loan_id,
     (select lcc.loan_category_creation_name from acknowlegement_loan_calculation lc JOIN loan_category_creation lcc ON lc.loan_category = lcc.loan_category_creation_id where lc.req_id = $req_id) as loan_cat_name,

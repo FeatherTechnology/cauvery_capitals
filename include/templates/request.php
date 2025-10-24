@@ -91,7 +91,8 @@ if ($idupd > 0) {
 			$dor =  date_format($dor, 'd-m-Y');
 			$cus_id					= $getRequest['cus_id'];
 			$cus_data					= $getRequest['cus_data'];
-			$cus_name					= $getRequest['cus_name'];
+			$first_name					= $getRequest['first_name'];
+			$last_name					= $getRequest['last_name'];
 			$dob					= $getRequest['dob'];
 			$age					= $getRequest['age'];
 			$gender					= $getRequest['gender'];
@@ -203,7 +204,8 @@ if ($idupd > 0) {
 			<input type="hidden" class="form-control" value="<?php if (isset($dor)) echo $dor; ?>" id="dor_upd" name="dor_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($cus_id)) echo $cus_id; ?>" id="cus_id_upd" name="cus_id_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($cus_data)) echo $cus_data; ?>" id="cus_data_upd" name="cus_data_upd">
-			<input type="hidden" class="form-control" value="<?php if (isset($cus_name)) echo $cus_name; ?>" id="cus_name_upd" name="cus_name_upd">
+			<input type="hidden" class="form-control" value="<?php if (isset($first_name)) echo $first_name; ?>" id="cus_name_upd" name="cus_name_upd">
+			<input type="hidden" class="form-control" value="<?php if (isset($last_name)) echo $last_name; ?>" id="cus_name_upd" name="cus_name_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($dob)) echo $dob; ?>" id="dob_upd" name="dob_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($age)) echo $age; ?>" id="age_upd" name="age_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($gender)) echo $gender; ?>" id="gender_upd" name="gender_upd">
@@ -353,11 +355,20 @@ if ($idupd > 0) {
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 								<div class="form-group">
-									<label for="cus_name">Customer Name</label><span class="required">&nbsp;*</span>
-									<input type="text" class="form-control" id="cus_name" name="cus_name" value='<?php if (isset($cus_name)) {
-																														echo $cus_name;
-																													} ?>' tabindex='12' placeholder="Enter Customer Name" pattern="[a-zA-Z\s]+">
-									<span class="text-danger" style='display:none' id='cusnameCheck'>Please Enter Customer Name</span>
+									<label for="first_name">First Name</label><span class="required">&nbsp;*</span>
+									<input type="text" class="form-control" id="first_name" name="first_name" oninput="formatFirstName(this)" value='<?php if (isset($first_name)) {
+																														echo $first_name;
+																													} ?>' tabindex='12' placeholder="Enter First Name">
+									<span class="text-danger" style='display:none' id='firstnameCheck'>Please Enter First Name</span>
+								</div>
+							</div>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
+								<div class="form-group">
+									<label for="last_name">Last Name</label><span class="required">&nbsp;*</span>
+									<input type="text" class="form-control" id="last_name" name="last_name" oninput="formatLastName(this)" value='<?php if (isset($last_name)) {
+																														echo $last_name;
+																													} ?>' tabindex='12' placeholder="Enter Last Name">
+									<span class="text-danger" style='display:none' id='lastnameCheck'>Please Enter Last Name</span>
 								</div>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">

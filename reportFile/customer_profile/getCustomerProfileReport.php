@@ -89,8 +89,8 @@ $residentialTypeObj = [
 $column = array(
     'cp.id',
     'cp.cus_id',
-    'cp.cus_name',
-    'fam.famname',
+    'cp.first_name',
+    'fam.first_name',
     'fam.relationship',
     'al.area_name',
     'cp.mobile1',
@@ -108,7 +108,7 @@ $column = array(
 );
 
 $query = "SELECT 
-            cp.cus_id,cp.cus_name,
+            cp.cus_id,cp.first_name,
             cp.mobile1,
             alm.line_name,
             agm.group_name,
@@ -117,7 +117,7 @@ $query = "SELECT
             cp.residential_type,
             cp.residential_details,
             cp.blood_group,
-            fam.famname,
+            fam.first_name AS guarantor_name,
             fam.relationship,
             al.area_name,
             reg.loan_limit,
@@ -141,7 +141,7 @@ $query = "SELECT
 if ($_POST['search'] != "") {
     $query .= " and (cp.id LIKE '%" . $_POST['search'] . "%' OR
             cp.cus_id LIKE '%" . $_POST['search'] . "%' OR
-            cp.cus_name LIKE '%" . $_POST['search'] . "%' OR
+            cp.first_name LIKE '%" . $_POST['search'] . "%' OR
             cp.mobile1 LIKE '%" . $_POST['search'] . "%' OR
             alm.line_name LIKE '%" . $_POST['search'] . "%' OR
             agm.group_name LIKE '%" . $_POST['search'] . "%' OR
@@ -180,8 +180,8 @@ foreach ($result as $row) {
     $sub_array   = array();
     $sub_array[] = $sno;
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['cus_name'];
-    $sub_array[] = $row['famname'];
+    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['guarantor_name'];
     $sub_array[] = $row['relationship'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['mobile1'];

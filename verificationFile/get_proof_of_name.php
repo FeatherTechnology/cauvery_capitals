@@ -10,11 +10,11 @@ if (isset($_POST['cus_id'])) {
 $proof = $_POST['proof'];
 
 if ($proof == 0) { //customer
-    $result = $connect->query("SELECT customer_name FROM `customer_register` where cus_id = '$cus_id' ");
+    $result = $connect->query("SELECT CONCAT(first_name, ' ', last_name) AS customer_name FROM `customer_register` where cus_id = '$cus_id' ");
     $row = $result->fetch();
     $response = $row['customer_name'];
 } else if ($proof == 1) { //guarentor (family
-    $result = $connect->query("SELECT fam.famname FROM customer_profile cp JOIN verification_family_info fam ON cp.guarentor_name = fam.id where cp.req_id = '$req_id' ");
+    $result = $connect->query("SELECT CONCAT(fam.first_name, ' ', fam.last_name) AS famname FROM customer_profile cp JOIN verification_family_info fam ON cp.guarentor_name = fam.id where cp.req_id = '$req_id' ");
     if ($result->rowCount() > 0) {
         $row = $result->fetch();
         $response = $row['famname'];

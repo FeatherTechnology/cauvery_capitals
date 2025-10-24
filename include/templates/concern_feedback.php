@@ -20,7 +20,8 @@ if (count($getConcernCreation) > 0) {
     $agentName      = $getConcernCreation['ag_name'];
     $ag_grp         = $getConcernCreation['ag_grp'];
     $cus_id         = $getConcernCreation['cus_id'];
-    $cus_name       = $getConcernCreation['cus_name'];
+    $first_name       = $getConcernCreation['first_name'];
+    $last_name       = $getConcernCreation['last_name'];
     $cus_area       = $getConcernCreation['cus_area'];
     $cus_sub_area   = $getConcernCreation['cus_sub_area'];
     $cus_grp        = $getConcernCreation['cus_group'];
@@ -217,8 +218,15 @@ if (count($getConcernCreation) > 0) {
 
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="form-group">
-                                        <label for="cus_name">Customer Name</label><span class="required">&nbsp;*</span>
-                                        <input type="text" class="form-control" id="cus_name" name="cus_name" tabindex='11' value="<?php if (isset($cus_name)) echo $cus_name; ?>" readonly>
+                                        <label for="first_name">First Name</label><span class="required">&nbsp;*</span>
+                                        <input type="text" class="form-control" id="first_name" name="first_name" tabindex='11' value="<?php if (isset($first_name)) echo $first_name; ?>" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <div class="form-group">
+                                        <label for="last_name">Last Name</label><span class="required">&nbsp;*</span>
+                                        <input type="text" class="form-control" id="last_name" name="last_name" tabindex='11' value="<?php if (isset($last_name)) echo $last_name; ?>" readonly>
                                     </div>
                                 </div>
 

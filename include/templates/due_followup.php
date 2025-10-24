@@ -25,7 +25,8 @@ if($idupd>0)
 	// print_r($getLoanList);
 	if (sizeof($getLoanList)>0) {
 			$cus_id						= $getLoanList['cus_id'];
-			$cus_name					= $getLoanList['cus_name'];
+			$first_name					= $getLoanList['first_name'];
+			$last_name					= $getLoanList['last_name'];
 			$area_id					= $getLoanList['area_confirm_area'];
 			$area_name					= $getLoanList['area_name'];
 			$branch_id					= $getLoanList['branch_id'];
@@ -66,7 +67,8 @@ if($idupd>0)
 		<input type="hidden" name="idupd" id="idupd" value="<?php if (isset($idupd)) {echo $idupd;} ?>" />
 		<input type="hidden" name="req_id" id="req_id" value="<?php if (isset($req_id)) {echo $req_id;} ?>" />
 		<input type="hidden" name="cusidupd" id="cusidupd" value="<?php if (isset($cusidupd)) {echo $cusidupd;} ?>" />
-		<input type="hidden" name="cus_name" id="cus_name" value="<?php if (isset($cus_name)) {echo $cus_name;} ?>" />
+		<input type="hidden" name="first_name" id="first_name" value="<?php if (isset($first_name)) {echo $first_name;} ?>" />
+		<input type="hidden" name="last_name" id="last_name" value="<?php if (isset($last_name)) {echo $last_name;} ?>" />
 		<input type="hidden" name="pending_sts" id="pending_sts" value="" />
 		<input type="hidden" name="od_sts" id="od_sts" value="" />
 		<input type="hidden" name="due_nil_sts" id="due_nil_sts" value="" />

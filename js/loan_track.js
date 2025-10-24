@@ -9,7 +9,10 @@ $(document).ready(function () {
     $('#search_cus').click(function (event) {
 
         let cus_id = $('#cus_id').val(); cus_id = cus_id.replace(/\s+/g, '');//removes spaces in adhar number
-        let cus_name = $('#cus_name').val(); let mobile = $('#mobile').val(); let loan_id = $('#loan_id').val();
+        let first_name = $('#first_name').val(); 
+        let last_name = $('#last_name').val(); 
+        let mobile = $('#mobile').val(); 
+        let loan_id = $('#loan_id').val();
         if (!validate()) {
             event.preventDefault();
             alert('Please fill any one field to search!')
@@ -18,7 +21,7 @@ $(document).ready(function () {
                 url: 'searchModule/search_customer.php',
                 type: 'POST',
                 dataType: 'JSON',
-                data: { cus_id, cus_name, mobile, loan_id },
+                data: { cus_id, first_name, last_name, mobile, loan_id },
                 success: function (data) {
                     console.log("🚀 ~ data:", data)
                     let appendData;
@@ -55,11 +58,15 @@ $(document).ready(function () {
 })
 
 function validate() {
-    let cus_id = $('#cus_id').val(); cus_id = cus_id.replace(/\s+/g, '');//removes spaces in adhar number
-    let cus_name = $('#cus_name').val(); let mobile = $('#mobile').val(); let loan_id = $('#loan_id').val();
+    let cus_id = $('#cus_id').val();
+    cus_id = cus_id.replace(/\s+/g, '');//removes spaces in adhar number
+    let first_name = $('#first_name').val().trim();
+    let last_name = $('#last_name').val().trim();
+    let mobile = $('#mobile').val();
+    let loan_id = $('#loan_id').val();
     let response = true; let pattern = /\d{3,}$/; // '\d' matches any digit, '{3,}' matches at least 3 digits
 
-    if (cus_id == '' && cus_name == '' && mobile == '' && loan_id == '') {
+    if (cus_id == '' && first_name == '' && last_name == '' && mobile == '' && loan_id == '') {
         response = false;
     } else if (cus_id != '' && cus_id.length != 12) {
         response = false;

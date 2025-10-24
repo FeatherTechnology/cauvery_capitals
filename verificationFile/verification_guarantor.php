@@ -4,7 +4,7 @@ include('../ajaxconfig.php');
 $famList_arr = array();
 
 $famId = $_POST['famid'];
-$result = $connect->query("SELECT famname,relationship FROM `verification_family_info` where id='$famId' ");
+$result = $connect->query("SELECT CONCAT(first_name, ' ', last_name) AS famname,relationship FROM `verification_family_info` where id='$famId' ");
 
 while ($row = $result->fetch()) {
     $famList_arr['relation'] = $row['relationship'];

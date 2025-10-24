@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    console.log('sajdgjkds');
 
     $('#raising_for').change(function () {
         refershInput();
@@ -77,7 +76,8 @@ $(document).ready(function () {
         value = value.replace(/\D/g, "").split(/(?:([\d]{4}))/g).filter(s => s.length > 0).join(" ");
         $(this).val(value);
 
-        $('#cus_name').val('');
+        $('#first_name').val('');
+        $('#last_name').val('');
         $('#cus_area').val('');
         $('#cus_group').val('');
         $('#cus_line').val('');
@@ -269,7 +269,8 @@ function refershInput() {
     $('#ag_name').val('');
     $('#ag_grp').val('');
     $('#cus_id').val('');
-    $('#cus_name').val('');
+    $('#first_name').val('');
+    $('#last_name').val('');
     $('#cus_area').val('');
     $('#cus_group').val('');
     $('#cus_line').val('');
@@ -328,7 +329,8 @@ function getCustomerDetails(cus_id) {
         cache: false,
         success: function (response) {
             if (response['message'] == 'Existing') {
-                $('#cus_name').val(response['cus_name']); //
+                $('#first_name').val(response['first_name']); //
+                $('#last_name').val(response['last_name']); //
                 $('#cus_area').val(response['area_name']);//
                 $('#cus_group').val(response['grp_name']);//
                 $('#cus_line').val(response['line_name']);//
@@ -490,7 +492,7 @@ function submitValidation() {
     var ag_name = $('#ag_name').val();
     var cus_id = $('#cus_id').val();
     var branch_name = $('#branch_name').val();
-    var concern_to = $('#concern_to').val(); console.log(concern_to);
+    var concern_to = $('#concern_to').val();
     var to_dept_name = $('#to_dept_name').val();
     var to_team_name = $('#to_team_name').val();
     var com_sub = $('#com_sub').val();

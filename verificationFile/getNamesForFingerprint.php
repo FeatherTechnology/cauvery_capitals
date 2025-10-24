@@ -34,7 +34,7 @@ $cus_id = $_POST['cus_id'];
 
         <?php
 
-        $qry = $connect->query("SELECT * FROM `verification_family_info` WHERE `cus_id`='$cus_id' ");
+        $qry = $connect->query("SELECT *, CONCAT(first_name, ' ', last_name) AS famname FROM `verification_family_info` WHERE `cus_id`='$cus_id' ");
 
         $i = 2;
         while ($row = $qry->fetch()) {

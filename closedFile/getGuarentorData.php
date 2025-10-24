@@ -33,7 +33,8 @@ if (isset($_POST["closed_sts"])) {
 		<?php
 
 		$cus_id = preg_replace('/\D/', '', $_POST['cus_id']);
-		$guarentorInfo = $connect->query("SELECT acp.id as acpID, acp.req_id, acp.cus_id,acp.cus_name,acp.mobile1,vfi.famname,vfi.relation_aadhar,ii.cus_status as ii_sts FROM `acknowlegement_customer_profile` acp  JOIN `verification_family_info` vfi  on acp.guarentor_name = vfi.id  JOIN `in_issue` ii ON acp.req_id = ii.req_id WHERE vfi.relation_aadhar ='" . strip_tags($cus_id) . "' && ii.cus_status >= 13  ");
+		$guarentorInfo = $connect->query("SELECT acp.id as acpID, acp.req_id, acp.cus_id, CONCAT(acp.first_name, ' ', acp.last_name) AS cus_name,acp.mobile1,
+		CONCAT(vfi.first_name, ' ', vfi.last_name) AS famname,vfi.relation_aadhar,ii.cus_status as ii_sts FROM `acknowlegement_customer_profile` acp  JOIN `verification_family_info` vfi  on acp.guarentor_name = vfi.id  JOIN `in_issue` ii ON acp.req_id = ii.req_id WHERE vfi.relation_aadhar ='" . strip_tags($cus_id) . "' && ii.cus_status >= 13  ");
 		$consider_lvl_arr = [1=>'Bronze',2=>'Silver',3=>'Gold',4=>'Platinum',5=>'Diamond'];
 		$i = 0;
 		while ($guarentor = $guarentorInfo->fetch()) {

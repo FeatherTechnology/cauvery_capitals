@@ -35,7 +35,7 @@ include '../ajaxconfig.php';
             }
         }
 
-        $cusInfo = $connect->query("SELECT a.`group_name`,a.`group_aadhar`,a.`group_mobile`,a.cus_id,b.customer_name FROM `verification_group_info` a JOIN customer_register b ON a.req_id = b.req_ref_id WHERE a.$category = '$name' &&  a.req_id != '$req_id' order by a.id desc");
+        $cusInfo = $connect->query("SELECT a.`group_name`,a.`group_aadhar`,a.`group_mobile`,a.cus_id, CONCAT(b.first_name, ' ', b.last_name) AS customer_name FROM `verification_group_info` a JOIN customer_register b ON a.req_id = b.req_ref_id WHERE a.$category = '$name' &&  a.req_id != '$req_id' order by a.id desc");
 
         $i = 1;
         while ($cus = $cusInfo->fetch()) {

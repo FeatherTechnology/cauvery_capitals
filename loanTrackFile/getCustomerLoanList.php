@@ -16,7 +16,7 @@ $result = $connect->query("SELECT req.req_id,req.prompt_remark,req.cus_status,
     CASE WHEN req.cus_status >= 14 THEN ii.loan_id ELSE req.req_code END AS `code`,
     CASE WHEN req.cus_status IN (12,2,6,7) THEN vlc.loan_category WHEN req.cus_status IN (3,13,14,15,16,17,20,21) THEN alc.loan_category ELSE req.loan_category END AS loan_category,
     CASE WHEN req.cus_status IN (12,2,6,7) THEN vlc.loan_amt WHEN req.cus_status IN (3,13,14,15,16,17,20,21) THEN alc.loan_amt ELSE req.loan_amt END AS loan_amt,
-    CASE WHEN req.cus_status IN (12,2,6,7,3,13,14,15,16,17,20,21) THEN cp.cus_name ELSE req.cus_name END AS cus_name
+    CASE WHEN req.cus_status IN (12,2,6,7,3,13,14,15,16,17,20,21) THEN cp.first_name ELSE req.first_name END AS cus_name
     FROM request_creation req
     LEFT JOIN customer_profile cp ON req.req_id = cp.req_id
     LEFT JOIN verification_loan_calculation vlc ON req.req_id = vlc.req_id

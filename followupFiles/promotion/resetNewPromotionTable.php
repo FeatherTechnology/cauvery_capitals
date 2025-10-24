@@ -15,13 +15,13 @@ $role_type = $userRow['role_type'];
 if ($role_type == 7) {
     // Role 7 (Admin)→ See all records
     $sql = $connect->query("
-        SELECT ncp.id,ncp.cus_id,ncp.cus_name,ncp.mobile,ncp.insert_login_id,ncp.created_date,a.area_name FROM new_cus_promo ncp JOIN area_list_creation a ON ncp.area = a.area_id
+        SELECT ncp.id,ncp.cus_id,ncp.first_name,ncp.mobile,ncp.insert_login_id,ncp.created_date,a.area_name FROM new_cus_promo ncp JOIN area_list_creation a ON ncp.area = a.area_id
         WHERE 1
     ");
 } else {
     // Other roles → See only their own records
     $sql = $connect->query("
-        SELECT ncp.id,ncp.cus_id,ncp.cus_name,ncp.mobile,ncp.insert_login_id,ncp.created_date,a.area_name FROM new_cus_promo ncp JOIN area_list_creation a ON ncp.area = a.area_id
+        SELECT ncp.id,ncp.cus_id,ncp.first_name,ncp.mobile,ncp.insert_login_id,ncp.created_date,a.area_name FROM new_cus_promo ncp JOIN area_list_creation a ON ncp.area = a.area_id
         WHERE ncp.insert_login_id = $user_id
     ");
 }
@@ -46,7 +46,7 @@ if ($role_type == 7) {
             <tr>
                 <td><?php echo date('d-m-Y', strtotime($row['created_date'])); ?></td>
                 <td><?php echo isset($row['cus_id']) ? $row['cus_id'] : ''; ?></td>
-                <td><?php echo $row['cus_name']; ?></td>
+                <td><?php echo $row['first_name']; ?></td>
                 <td><?php echo $row['mobile']; ?></td>
                 <td><?php echo $row['area_name']; ?></td>
                    <td>

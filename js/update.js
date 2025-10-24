@@ -731,7 +731,9 @@ function callCustomerProfileFunctn(){
     getCustomerLoanCounts();//to get closed customer details
 
     var cus_id = $('#cus_id').val();
-    var cus_name = $('#cus_name').val();
+    var first_name = $("#first_name").val();
+    var last_name = $("#last_name").val();
+    var cus_name = first_name + " " + last_name;
     if (cus_name != '' && cus_id !='') {
         getFingerPrintDetails(cus_id, cus_name);
     }
@@ -857,10 +859,21 @@ function getCustomerLoanCounts() {
     })
 }
 // Modal Box for Agent Group
+$("#famFirstnameCheck").hide();
+$("#famLastnameCheck").hide();
+$("#famrelationCheck").hide();
+$("#famremarkCheck").hide();
+$("#famaddressCheck").hide();
+$("#famageCheck").hide();
+$("#famaadharCheck").hide();
+$("#fammobileCheck").hide();
+$("#famoccCheck").hide();
+$("#famincomeCheck").hide();
 
 $(document).on("click", "#submitFamInfoBtn", function () {
     let cus_id = $('#cus_id').val();
-    let famname = $("#famname").val();
+    let fam_first_name = $("#fam_first_name").val();
+    let fam_last_name = $("#fam_last_name").val();
     let relationship = $("#relationship").val();
     let other_remark = $("#other_remark").val();
     let other_address = $("#other_address").val();
@@ -872,11 +885,11 @@ $(document).on("click", "#submitFamInfoBtn", function () {
     let relation_Blood = $("#relation_Blood").val();
     let famTableId = $("#famID").val();
 
-    if (famname != "" && relationship != "" && relation_aadhar != "" && relation_Mobile != "" && relation_Mobile.length === 10) {
+    if (fam_first_name != "" && fam_last_name != "" && relationship != "" && relation_aadhar != "" && relation_Mobile != "" && relation_Mobile.length === 10) {
         $.ajax({
             url: 'updateFile/update_family_submit.php',
             type: 'POST',
-            data: { "famname": famname, "realtionship": relationship, "other_remark": other_remark, "other_address": other_address, "relation_age": relation_age, "relation_aadhar": relation_aadhar, "relation_Mobile": relation_Mobile, "relation_Occupation": relation_Occupation, "relation_Income": relation_Income, "relation_Blood": relation_Blood, "famTableId": famTableId, "cus_id": cus_id },
+            data: { "fam_first_name": fam_first_name, "fam_last_name": fam_last_name, "realtionship": relationship, "other_remark": other_remark, "other_address": other_address, "relation_age": relation_age, "relation_aadhar": relation_aadhar, "relation_Mobile": relation_Mobile, "relation_Occupation": relation_Occupation, "relation_Income": relation_Income, "relation_Blood": relation_Blood, "famTableId": famTableId, "cus_id": cus_id },
             cache: false,
             success: function (response) {
 
@@ -906,10 +919,16 @@ $(document).on("click", "#submitFamInfoBtn", function () {
         });
     }
     else {
-        if (famname == "") {
-            $('#famnameCheck').show();
+        if (fam_first_name == "") {
+            $("#famFirstnameCheck").show();
         } else {
-            $('#famnameCheck').hide();
+            $("#famFirstnameCheck").hide();
+        }
+
+        if (fam_last_name == "") {
+            $("#famLastnameCheck").show();
+        } else {
+            $("#famLastnameCheck").hide();
         }
 
         if (relationship == "") {
@@ -957,7 +976,8 @@ function resetFamInfo() {
             $("#updatedFamTable").empty();
             $("#updatedFamTable").html(html);
 
-            $("#famname").val('');
+            $("#fam_first_name").val('');
+            $("#fam_last_name").val('');
             $("#relationship").val('');
             $("#other_remark").val('');
             $("#other_address").val('');
@@ -974,7 +994,9 @@ function resetFamInfo() {
 
 function resetFamDetails() {
  let cus_id = $('#cus_id').val();
-    let cus_name = $('#cus_name').val();
+    var first_name = $("#first_name").val();
+    var last_name = $("#last_name").val();
+    var cus_name = first_name + " " + last_name;
 
     $.ajax({
         url: 'verificationFile/verification_fam_list.php',
@@ -1001,7 +1023,8 @@ $("body").on("click", "#verification_fam_edit", function () {
         success: function (result) {
 
             $("#famID").val(result['id']);
-            $("#famname").val(result['fname']);
+            $("#fam_first_name").val(result["first_name"]);
+            $("#fam_last_name").val(result["last_name"]);
             $("#relationship").val(result['relation']);
             $("#other_remark").val(result['remark']);
             $("#other_address").val(result['address']);
@@ -1019,7 +1042,7 @@ $("body").on("click", "#verification_fam_edit", function () {
                 $('#remark').hide();
                 $('#address').hide();
             }
-            $('#famnameCheck').hide(); $('#famrelationCheck').hide(); $('#famremarkCheck').hide(); $('#famaddressCheck').hide(); $('#famageCheck').hide(); $('#famaadharCheck').hide(); $('#fammobileCheck').hide(); $('#famoccCheck').hide(); $('#famincomeCheck').hide();
+            $("#famFirstnameCheck").hide(); $("#famLastnameCheck").hide(); $('#famrelationCheck').hide(); $('#famremarkCheck').hide(); $('#famaddressCheck').hide(); $('#famageCheck').hide(); $('#famaadharCheck').hide(); $('#fammobileCheck').hide(); $('#famoccCheck').hide(); $('#famincomeCheck').hide();
         }
     });
 
@@ -1714,7 +1737,9 @@ $("body").on("click", "#verification_kyc_edit", function () {
                 $("#fam_mem").val('');
                 $('.fam_mem_div').hide();
                 $('.name_div').show();
-                let cus_name = $('#cus_name').val();
+                var first_name = $("#first_name").val();
+                var last_name = $("#last_name").val();
+                var cus_name = first_name + " " + last_name;
                 $('#proofofname').val(cus_name);
                 
             }
@@ -2379,7 +2404,7 @@ $('#guarentor_name').change(function () { //Select Guarantor Name relationship w
 ///Customer profile submit///
 $('#submit_update_cus_profile').click(function () {
     if(validation()){
-    let confirmAction = confirm("Are you sure you want to submit Loan Issue ?");
+    let confirmAction = confirm("Are you sure you want to submit Customer Profile ?");
         if (!confirmAction) {
             event.preventDefault(); // Stop form submission if canceled
             return false;
@@ -2392,7 +2417,8 @@ $('#submit_update_cus_profile').click(function () {
 });
 
 function validation() {
-    var cus_id = $('#cus_id').val(); var cus_name = $('#cus_name').val(); var dob = $('#dob').val(); var gender = $('#gender').val(); var state = $('#state').val();
+    var cus_id = $('#cus_id').val(); var first_name = $('#first_name').val(); var last_name = $('#last_name').val(); 
+    var dob = $('#dob').val(); var gender = $('#gender').val(); var state = $('#state').val();
     var cus_image = $('#cus_image').val(); var pic = $('#pic').val();
     var district = $('#district').val(); var taluk = $('#taluk').val(); var area = $('#area').val(); var cus_address = $('#cus_address').val();
     var mobile1 = $('#mobile1').val(); var mobile2 = $('#mobile2').val(); var father_name = $('#father_name').val(); var mother_name = $('#mother_name').val(); var marital = $('#marital').val();
@@ -2411,12 +2437,19 @@ function validation() {
     } else {
         $('#cusidCheck').hide();
     }
-    if (cus_name == '') {
+    if (!first_name) {
         event.preventDefault();
-        validation = false;
-        $('#cusnameCheck').show();
+        $('#firstnameCheck').show();
+        validation = false
     } else {
-        $('#cusnameCheck').hide();
+        $('#firstnameCheck').hide();
+    }
+    if (!last_name) {
+        event.preventDefault();
+        $('#lastnameCheck').show();
+        validation = false
+    } else {
+        $('#lastnameCheck').hide();
     }
     if (dob == '') {
         event.preventDefault();

@@ -41,8 +41,14 @@
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 								<div class="form-group">
-									<label for="cus_name">Customer Name</label>
-									<input type="text" class="form-control" id="cus_name" name="cus_name" placeholder="Enter Customer Name">
+									<label for="first_name">First Name</label>
+									<input type="text" class="form-control" id="first_name" name="first_name" oninput="formatFirstName(this)" placeholder="Enter First Name">
+								</div>
+							</div>
+							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+								<div class="form-group">
+									<label for="last_name">Last Name</label>
+									<input type="text" class="form-control" id="last_name" name="last_name" oninput="formatLastName(this)" placeholder="Enter Last Name">
 								</div>
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
@@ -307,7 +313,7 @@
 
 					<div class="col-12">
 						<div class="row">
-							<div class="col-12" id='commChartDiv'></div>
+							<div class="col-12" id='commChartDiv' style="overflow:auto;"></div>
 						</div>
 					</div>
 				</div>

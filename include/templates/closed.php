@@ -30,7 +30,8 @@ if ($idupd > 0) {
 	// print_r($getLoanList);
 	if (sizeof($getLoanList) > 0) {
 		$cus_id						= $getLoanList['cus_id'];
-		$cus_name					= $getLoanList['cus_name'];
+		$first_name					= $getLoanList['first_name'];
+		$last_name					= $getLoanList['last_name'];
 		$area_id					= $getLoanList['area_confirm_area'];
 		$area_name					= $getLoanList['area_name'];
 		$branch_id					= $getLoanList['branch_id'];
@@ -130,9 +131,18 @@ if ($idupd > 0) {
 
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 										<div class="form-group">
-											<label for="cus_name">Customer Name</label>
-											<input type="text" class="form-control" id="cus_name" name="cus_name" value='<?php if (isset($cus_name)) {
-																																echo $cus_name;
+											<label for="first_name">First Name</label>
+											<input type="text" class="form-control" id="first_name" name="first_name" value='<?php if (isset($first_name)) {
+																																echo $first_name;
+																															} ?>' readonly>
+										</div>
+									</div>
+
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
+										<div class="form-group">
+											<label for="last_name">Last Name</label>
+											<input type="text" class="form-control" id="last_name" name="last_name" value='<?php if (isset($last_name)) {
+																																echo $last_name;
 																															} ?>' readonly>
 										</div>
 									</div>

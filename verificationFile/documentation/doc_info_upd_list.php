@@ -30,7 +30,7 @@ if (isset($_POST['req_id'])) {
             $docUpd = explode(',', $row["doc_upload"]);
 
             if ($row["holder_name"] == '') {
-                $qry1 = $connect->query("SELECT * FROM verification_family_info where id = '" . $row['relation_name'] . "' ");
+                $qry1 = $connect->query("SELECT * ,CONCAT(first_name, ' ', last_name) AS famname FROM verification_family_info where id = '" . $row['relation_name'] . "' ");
                 $holder_name = $qry1->fetch()['famname'];
             } else {
                 $holder_name = $row["holder_name"];

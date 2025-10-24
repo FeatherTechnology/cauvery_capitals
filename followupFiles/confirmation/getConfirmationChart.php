@@ -16,12 +16,12 @@ $sub_status_arr = [1=>'RNR',2=>'Not Reachable',3=>'Switch off', 4=>'Blocked',5=>
 $sno = 1;
 
 function getCustomer($connect,$cus_id){
-    $result = $connect->query("SELECT customer_name from customer_register where cus_id = '$cus_id' ");
-    $cus_name = $result->fetch()['customer_name'];
+    $result = $connect->query("SELECT first_name from customer_register where cus_id = '$cus_id' ");
+    $cus_name = $result->fetch()['first_name'];
     return $cus_name;
 }
 function getGarentor($connect,$req_id){
-    $query = "SELECT cp.guarentor_name, vfi.famname, vfi.relationship FROM customer_profile cp JOIN verification_family_info vfi ON cp.guarentor_name = vfi.id WHERE cp.req_id = '$req_id'";
+    $query = "SELECT cp.guarentor_name, CONCAT(vfi.first_name, ' ', vfi.last_name) AS famname, vfi.relationship FROM customer_profile cp JOIN verification_family_info vfi ON cp.guarentor_name = vfi.id WHERE cp.req_id = '$req_id'";
     $result = $connect->query($query);
     $row = $result->fetch();
     
@@ -34,7 +34,7 @@ function getGarentor($connect,$req_id){
 
 function getFamilyMember($connect,$fam_id){
     
-    $result = $connect->query("SELECT id,famname,relationship FROM `verification_family_info` where id='$fam_id'");
+    $result = $connect->query("SELECT id,CONCAT(first_name, ' ', last_name) AS famname,relationship FROM `verification_family_info` where id='$fam_id'");
 
     $row = $result->fetch();
     $fam_name = $row['famname'];

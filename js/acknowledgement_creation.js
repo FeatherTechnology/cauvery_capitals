@@ -1150,7 +1150,9 @@ function getCustomerLoanCounts() {
 
 function fingerprintTable() {//To Get family member's name are required for scanning fingerprint
     var req_id = $('#req_id').val();
-    var cus_name = $('#cus_name').val();
+    var first_name = $("#first_name").val();
+    var last_name = $("#last_name").val();
+    var cus_name = first_name + " " + last_name;
     var cus_id = $('#cus_id_doc').val();
     $.ajax({
         url: 'verificationFile/getNamesForFingerprint.php',

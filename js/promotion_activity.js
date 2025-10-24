@@ -133,7 +133,10 @@ $('#add_event').click(function (e) {
         <tr>
             <td class="current_date">${currentDate}</td>
             <td>
-                <input type="text"  name="cus_name" class="form-control cus_name" value="" placeholder='Enter Customer Name'>
+                <input type="text"  name="cus_first_name" class="form-control cus_first_name" oninput="formatFirstName(this)" value="" placeholder='Enter First Name'>
+            </td>
+            <td>
+                <input type="text"  name="cus_last_name" class="form-control cus_last_name" oninput="formatLastName(this)" value="" placeholder='Enter Last Name'>
             </td>
             <td>
                 <input type="number" class="form-control cus_mobile_num" name="cus_mobile_num" value="" placeholder="Enter Mobile Number">
@@ -163,7 +166,8 @@ $(document).on("click", '.add_event_mem', function () {
 
     var appendTxt = "<tr>" +
         "<td class='current_date'>" + currentDate + "</td>" +
-        "<td><input type='text' name='cus_name' class='form-control cus_name' placeholder='Enter Customer Name'></td>" +
+        "<td><input type='text' name='cus_first_name' class='form-control cus_first_name' oninput='formatFirstName(this)' placeholder='Enter First Name'></td>" +
+        "<td><input type='text' name='cus_last_name' class='form-control cus_last_name' oninput='formatLastName(this)' placeholder='Enter Last Name'></td>" +
         "<td><input type='number' class='form-control cus_mobile_num' name='cus_mobile_num'  value='' placeholder='Enter Mobile Number'></td>" +
         "<td><select class='form-control cus_area_name' name='cus_area_name'> <option value=''>Select Area Name</option> </select></td>" +
         "<td><button type='button' class='btn btn-primary add_event_mem'>Add</button></td>" +
@@ -314,10 +318,11 @@ areaSelect.addEventListener('change', function() {
 
     rows.each(function () {
         var $row = $(this);
-        var cus_name = $row.find('.cus_name').val().trim();
+        var cus_first_name = $row.find('.cus_first_name').val().trim();
+        var cus_last_name = $row.find('.cus_last_name').val().trim();
         var cus_mobile_num = $row.find('.cus_mobile_num').val().trim();
         var cus_area_name = $row.find('.cus_area_name').val();
-        if (!cus_name || !cus_mobile_num || !cus_area_name ) {
+        if (!cus_first_name || !cus_last_name || !cus_mobile_num || !cus_area_name ) {
             allValid = false;
             return false; // break loop
         }
@@ -351,7 +356,8 @@ areaSelect.addEventListener('change', function() {
     var allRowsData = [];
     rows.each(function () {
         var $row = $(this);
-        var cus_name = $row.find('.cus_name').val().trim();
+        var cus_first_name = $row.find('.cus_first_name').val().trim();
+        var cus_last_name = $row.find('.cus_last_name').val().trim();
         var cus_mobile_num = $row.find('.cus_mobile_num').val().trim();
         var cus_area_name = $row.find('.cus_area_name').val();
         var currentDateText = $row.find('.current_date').text().trim();
@@ -362,7 +368,8 @@ areaSelect.addEventListener('change', function() {
         var currentDate = parts[2] + '-' + parts[1].padStart(2, '0') + '-' + parts[0].padStart(2, '0');
 
         allRowsData.push({
-            cus_name,
+            cus_first_name,
+            cus_last_name,
             cus_mobile_num,
             cus_area_name,
             currentDate,
@@ -431,7 +438,8 @@ $(document).on('click', '.edit_event', function (event) {
                     var newRow = $(`
                         <tr>
                             <td class="current_date">${formattedDate}</td>
-                            <td><input type="text" class="form-control cus_name" value="${row.name}" placeholder='Enter Customer Name'></td>
+                            <td><input type="text" class="form-control cus_first_name" value="${row.first_name}" placeholder='Enter First Name'></td>
+                            <td><input type="text" class="form-control cus_last_name" value="${row.last_name}" placeholder='Enter Last Name'></td>
                             <td><input type='number' class='form-control cus_mobile_num'  name='cus_mobile_num'  value="${row.mobile_num}"  placeholder='Enter Mobile Number'></td>
                             <td><select class="form-control cus_area_name"></select></td>
                             <td class="cus_hidden_id" style="display:none;">${row.id}</td>
@@ -521,8 +529,11 @@ function getPromotionAccess(){
 }
 
 function searchCustomer() {
-    let cus_id = $('#cus_id_search').val(); let cus_name = $('#cus_name_search').val(); let cus_mob = $('#cus_mob_search').val();
-    var args = { 'cus_id': cus_id, 'cus_name': cus_name, 'cus_mob': cus_mob };
+    let cus_id = $('#cus_id_search').val(); 
+    let first_name_search = $('#first_name_search').val();
+    let last_name_search = $('#last_name_search').val();
+    let cus_mob = $('#cus_mob_search').val();
+    var args = { 'cus_id': cus_id, 'first_name_search': first_name_search, 'last_name_search': last_name_search, 'cus_mob': cus_mob };
 
     $.post('followupFiles/promotion/searchCustomer.php', args, function (response) {
 
@@ -552,7 +563,7 @@ function searchCustomer() {
 
 function validateCustSearch() {
     let response = true;
-    let cus_id = $('#cus_id_search').val(); let cus_name = $('#cus_name_search').val(); let cus_mob = $('#cus_mob_search').val();
+    let cus_id = $('#cus_id_search').val(); let cus_name = $('#first_name_search').val(); let cus_mob = $('#cus_mob_search').val();
     cus_id = cus_id.replaceAll(" ", "");//will remove all spaces 
 
     validateField(cus_id, cus_name, cus_mob, '.searchDetailsCheck');
@@ -593,9 +604,12 @@ function resetNewPromotionTable() {
 }
 
 function submitNewCustomer() {
-    let cus_id = $('#cus_id').val(); let cus_name = $('#cus_names').val(); let cus_mob = $('#cus_mob').val();
+    let cus_id = $('#cus_id').val(); 
+    var first_name = $("#first_names").val();
+    var last_name = $("#last_names").val();
+    let cus_mob = $('#cus_mob').val();
     let area = $('#area').val();
-    let args = { 'cus_id': cus_id, 'cus_name': cus_name, 'cus_mob': cus_mob, 'area': area }
+    let args = { 'cus_id': cus_id, 'first_name': first_name, 'last_name': last_name, 'cus_mob': cus_mob, 'area': area }
     $.post('followupFiles/promotion/submitNewCustomer.php', args, function (response) {
         if (response.includes('Error')) {
             swarlErrorAlert(response);
@@ -613,10 +627,11 @@ function submitNewCustomer() {
 
 function validateNewCusAdd() {
     let response = true;
-    let cus_id = $('#cus_id').val(); let cus_name = $('#new_cus_name').val(); let cus_mob = $('#cus_mob').val();
+    let cus_id = $('#cus_id').val(); let first_names = $('#first_names').val(); let last_names = $('#last_names').val(); let cus_mob = $('#cus_mob').val();
     let area = $('#area').val();
 
-    validateField(cus_name, '#cus_nameCheck');
+    validateField(first_names, '#first_nameCheck');
+    validateField(last_names, '#last_nameCheck');
     validateField(area, '#areaCheck');
 
     function validateField(value, fieldId) {
@@ -686,7 +701,8 @@ function validatePromoAdd() {
 
 function getUserBasedArea() {
      $("#cus_id").val('');
-     $("#cus_names").val('');
+     $("#first_names").val('');
+     $("#last_names").val('');
      $("#cus_mob").val('');
     $.ajax({
         url: "followupFiles/promotion/getAreaId.php",
@@ -712,9 +728,12 @@ function getUserBasedArea() {
 }
 
 function update() {//this function will update customer details of after confirmation
-    let cus_id = $('#cus_id').val(); let cus_name = $('#cus_names').val(); let cus_mob = $('#cus_mob').val();
+    let cus_id = $('#cus_id').val();
+    var first_name = $("#first_names").val();
+    var last_name = $("#last_names").val();
+    let cus_mob = $('#cus_mob').val();
     let area = $('#area').val();
-    let args = { 'cus_id': cus_id, 'cus_name': cus_name, 'cus_mob': cus_mob, 'area': area, 'update': 'yes' }
+    let args = { 'cus_id': cus_id, 'first_name': first_name, 'last_name': last_name, 'cus_mob': cus_mob, 'area': area, 'update': 'yes' }
     $.post('followupFiles/promotion/submitNewCustomer.php', args, function (response) {
         if (response.includes('Error')) {
             swarlErrorAlert(response);

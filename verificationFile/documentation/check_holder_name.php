@@ -7,7 +7,7 @@ $reqId = $_POST['reqId'];
 $holder_name = array();
 
 if ($type == '0') {
-   $cus_profile = $connect->query("select `cus_name` from customer_profile where req_id = '$reqId' ");
+   $cus_profile = $connect->query("select CONCAT(first_name, ' ', last_name) AS cus_name from customer_profile where req_id = '$reqId' ");
    $cus = $cus_profile->fetch();
    $name = $cus['cus_name'];
 
@@ -19,7 +19,7 @@ if ($type == '1') {
    $cus = $cus_profile->fetch();
    $guarentor_name = $cus['guarentor_name'];
 
-   $result = $connect->query("SELECT famname,relationship FROM `verification_family_info` where id='$guarentor_name'");
+   $result = $connect->query("SELECT CONCAT(first_name, ' ', last_name) AS famname,relationship FROM `verification_family_info` where id='$guarentor_name'");
    $row = $result->fetch();
 
    $famname = $row['famname'];

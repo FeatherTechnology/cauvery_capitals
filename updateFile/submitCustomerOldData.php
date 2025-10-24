@@ -17,8 +17,8 @@ if(isset($_FILES['due_chart_old'])){
     move_uploaded_file($pic_temp, "../uploads/updateFile/cus_data_old/" . $due_chart_old);
 }
 
-$qry = $connect->query("INSERT Into cus_old_data (`cus_id`, `cus_name`, `mobile`, `area`, `sub_area`, `loan_cat`, `loan_amt`, `due_chart_file`, `created_date`) 
-    values ('".$_POST['cus_id_old']."', '".$_POST['cus_name_old']."', '".$_POST['mobile_old']."', '".$_POST['area_old']."', '".$_POST['sub_area_old']."', '".$_POST['loan_cat_old']."', '".$_POST['loan_amt_old']."', '".$due_chart_old."',now() ) ");
+$qry = $connect->query("INSERT Into cus_old_data (`cus_id`, `first_name`, `last_name`, `mobile`, `area`, `sub_area`, `loan_cat`, `loan_amt`, `due_chart_file`, `created_date`) 
+    values ('".$_POST['cus_id_old']."', '".$_POST['first_name_old']."', '".$_POST['last_name_old']."', '".$_POST['mobile_old']."', '".$_POST['area_old']."', '".$_POST['sub_area_old']."', '".$_POST['loan_cat_old']."', '".$_POST['loan_amt_old']."', '".$due_chart_old."',now() ) ");
 
 if($qry){
     echo 'Submitted Successfully';

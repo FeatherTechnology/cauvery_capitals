@@ -8,7 +8,7 @@ if(isset($_POST['cus_name'])){
 }
 
 function getfamName($connect,$rel_id){
-    $qry1=$connect->query("SELECT famname FROM `verification_family_info` where id=$rel_id");
+    $qry1=$connect->query("SELECT CONCAT(first_name, ' ',last_name) AS famname FROM `verification_family_info` where id=$rel_id");
     $run=$qry1->fetch();
     return $run['famname'];
 }
@@ -35,7 +35,7 @@ function getfamName($connect,$rel_id){
         while($row = $qry->fetch()){
 
             if(is_numeric($row['cheque_holder_name'])){
-                $qry1 = $connect->query("SELECT famname from verification_family_info where id = '".$row['cheque_holder_name']."' ");
+                $qry1 = $connect->query("SELECT CONCAT(first_name, ' ',last_name) AS famname from verification_family_info where id = '".$row['cheque_holder_name']."' ");
                 $row1 = $qry1->fetch();
                 $holder_name = $row1['famname'];
             }else{$holder_name = $row['cheque_holder_name'];}

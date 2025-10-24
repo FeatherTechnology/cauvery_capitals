@@ -1,10 +1,10 @@
 <?php
-// session_start();
+session_start();
 include '../ajaxconfig.php';
 
-// if (isset($_SESSION["userid"])) {
-    $user_id = 2;
-// }
+if (isset($_SESSION["userid"])) {
+    $user_id = $_SESSION["userid"];
+}
 if (isset($_POST["pending_sts"])) {
     $pending_sts = explode(',', $_POST["pending_sts"]);
 }

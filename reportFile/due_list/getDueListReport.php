@@ -66,13 +66,13 @@ $column = array(
     'lc.due_start_from',
     'lc.maturity_date',
     'lc.cus_id_loan',
-    'lc.cus_name_loan',
+    'lc.first_name',
     'cp.mobile1',
     'al.area_name',
     'lcc.loan_category_creation_name',
     'ac.ag_name',
     'iv.responsible',
-    'vfi.famname',
+    'vfi.first_name',
     'vfi.relationship',
     'vfi.relation_Mobile',
     'lc.loan_amt',
@@ -111,7 +111,7 @@ $query = "SELECT
     ii.updated_date AS loan_date,
     lc.maturity_month AS maturity_date,
     lc.cus_id_loan,
-    lc.cus_name_loan,
+    lc.first_name,
     lc.loan_amt,
     lc.due_amt_cal,
     lc.due_period,
@@ -130,7 +130,7 @@ $query = "SELECT
     cls.consider_level,
     iv.cus_status,
     ack.updated_date,
-    vfi.famname,
+    vfi.first_name AS guarantor_name,
     vfi.relationship,
     vfi.relation_Mobile,
     IFNULL(NULLIF(c.pending, ''), 0) AS pending,
@@ -180,7 +180,7 @@ LEFT JOIN
            ) latest
     ON c.req_id = latest.req_id AND c.coll_id = latest.max_coll_id ) c ON lc.req_id = c.req_id 
 WHERE
-    lc.req_id IN ($req_id_list) ";
+    lc.req_id IN ($req_id_list) GROUP BY lc.req_id";
 
 
 
@@ -191,12 +191,12 @@ if (isset($_POST['search'])) {
                         OR lc.due_start_from LIKE '%" . $_POST['search'] . "%'
                         OR lc.maturity_month LIKE '%" . $_POST['search'] . "%'
                         OR lc.cus_id_loan LIKE '%" . $_POST['search'] . "%'
-                        OR lc.cus_name_loan LIKE '%" . $_POST['search'] . "%'
+                        OR lc.first_name LIKE '%" . $_POST['search'] . "%'
                         OR cp.mobile1 LIKE '%" . $_POST['search'] . "%'
                         OR al.area_name LIKE '%" . $_POST['search'] . "%'
                         OR ac.ag_name LIKE '%" . $_POST['search'] . "%'
                         OR iv.responsible LIKE '%" . $_POST['search'] . "%'
-                        OR vfi.famname LIKE '%" . $_POST['search'] . "%'
+                        OR vfi.first_name LIKE '%" . $_POST['search'] . "%'
                         OR vfi.relationship LIKE '%" . $_POST['search'] . "%'
                         OR vfi.relation_Mobile LIKE '%" . $_POST['search'] . "%'
                         OR lc.loan_amt LIKE '%" . $_POST['search'] . "%'
@@ -271,13 +271,13 @@ foreach ($result as $row) {
     $sub_array[] = date('d-m-Y', strtotime($row['due_start_from']));
     $sub_array[] = date('d-m-Y', strtotime($row['maturity_date']));
     $sub_array[] = $row['cus_id_loan'];
-    $sub_array[] = $row['cus_name_loan'];
+    $sub_array[] = $row['first_name'];
     $sub_array[] = $row['mobile1'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['loan_cat_name'];
     $sub_array[] = $row['ag_name'];
     $sub_array[] = (!empty($row['ag_name'])) ? (($row['responsible'] == '0') ? 'Yes' : 'No') : '';
-    $sub_array[] = $row['famname'];
+    $sub_array[] = $row['guarantor_name'];
     $sub_array[] = $row['relationship'];
     $sub_array[] = $row['relation_Mobile'];
     $sub_array[] = moneyFormatIndia($row['loan_amt']);

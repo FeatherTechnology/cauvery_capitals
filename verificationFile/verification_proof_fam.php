@@ -10,7 +10,7 @@ if (isset($_POST['cus_id'])) {
 }
 
 $records = array();
-$run = $connect->query("SELECT id, famname, relationship FROM `verification_family_info` WHERE cus_id = '" . $cus_id . "' ");
+$run = $connect->query("SELECT id, CONCAT(first_name, ' ', last_name) AS famname, relationship FROM `verification_family_info` WHERE cus_id = '" . $cus_id . "' ");
 $cnt = $run->rowCount();
 
 if ($cnt > 0) {

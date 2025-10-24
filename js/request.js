@@ -360,7 +360,8 @@ function getCustomerDetails(cus_id) {
                 $('#cus_data').removeAttr('value');
                 $('#cus_data').attr('value', message);
                 $('#cus_data').val(message);
-                $('#cus_name').val(response['cus_name']);
+                $('#first_name').val(response['first_name']);
+                $('#last_name').val(response['last_name']);
                 $('#dob').val(response['dob']);
                 $('#gender').val(response['gender']);
                 $('#age').val(response['age']);
@@ -393,7 +394,8 @@ function getCustomerDetails(cus_id) {
                 $('#cus_data').removeAttr('value');
                 $('#cus_data').attr('value', message);
                 $('#cus_data').val(message);
-                $('#cus_name').val('');
+                $('#first_name').val('');
+                $('#last_name').val('');
                 $('#dob').val('');
                 $('#gender').val('');
                 $('#age').val('');
@@ -979,7 +981,7 @@ function validation(event) {
         $('#responsibleCheck').hide();
     }
 
-    var cus_id = $('#cus_id').val(); var cus_name = $('#cus_name').val(); var dob = $('#dob').val(); var gender = $('#gender').val(); var pic = $('#pic').val(); var state = $('#state').val(); var district = $('#district1').val(); var taluk = $('#taluk1').val(); var area = $('#area').val();  var address = $('#address').val(); var mobile1 = $('#mobile1').val();var mobile2 = $('#mobile2').val(); var father_name = $('#father_name').val(); var mother_name = $('#mother_name').val(); var marital = $('#marital').val(); var spouse_name = $('#spouse_name').val(); var occupation_type = $('#occupation_type').val(); var occupation = $('#occupation').val(); var loan_category = $('#loan_category').val(); var tot_value = $('#tot_value').val(); var ad_amt = $('#ad_amt').val(); var ad_perc = $('#ad_perc').val(); var loan_amt = $('#loan_amt').val(); var poss_type = $('#poss_type').val(); var due_amt = $('#due_amt').val(); var due_period = $('#due_period').val(); var agent = $('#agent').val(); var agent_loan = $('#agent_loan').val();
+    var cus_id = $('#cus_id').val(); var first_name = $('#first_name').val(); var last_name = $('#last_name').val(); var dob = $('#dob').val(); var gender = $('#gender').val(); var pic = $('#pic').val(); var state = $('#state').val(); var district = $('#district1').val(); var taluk = $('#taluk1').val(); var area = $('#area').val();  var address = $('#address').val(); var mobile1 = $('#mobile1').val();var mobile2 = $('#mobile2').val(); var father_name = $('#father_name').val(); var mother_name = $('#mother_name').val(); var marital = $('#marital').val(); var spouse_name = $('#spouse_name').val(); var occupation_type = $('#occupation_type').val(); var occupation = $('#occupation').val(); var loan_category = $('#loan_category').val(); var tot_value = $('#tot_value').val(); var ad_amt = $('#ad_amt').val(); var ad_perc = $('#ad_perc').val(); var loan_amt = $('#loan_amt').val(); var poss_type = $('#poss_type').val(); var due_amt = $('#due_amt').val(); var due_period = $('#due_period').val(); var agent = $('#agent').val(); var agent_loan = $('#agent_loan').val();
 
     //if loan category is Appliance, vehicle, 2 vehicle, 4 vehicle need to check agent select  because these type of loan given by agent only. so validation added.
     if(agent_loan == 0){
@@ -1000,12 +1002,19 @@ function validation(event) {
     } else {
         $('#cusidCheck').hide();
     }
-    if (!cus_name) {
+    if (!first_name) {
         event.preventDefault();
-        $('#cusnameCheck').show();
+        $('#firstnameCheck').show();
          validation = false
     } else {
-        $('#cusnameCheck').hide();
+        $('#firstnameCheck').hide();
+    }
+    if (!last_name) {
+        event.preventDefault();
+        $('#lastnameCheck').show();
+         validation = false
+    } else {
+        $('#lastnameCheck').hide();
     }
     if (!dob) {
         event.preventDefault();

@@ -1052,7 +1052,7 @@ if($idupd>0)
 									<option value="1" <?php if($conf_follow_area_access == '1') echo 'selected';?>>Group</option>
 									<option value="2" <?php if($conf_follow_area_access == '2') echo 'selected';?>>Line</option>
 									<option value="3" <?php if($conf_follow_area_access == '3') echo 'selected';?>>Due Followup</option>
-								</select>
+								</select> <br>
 								<span class='text-danger confFollowupCheck' style="display:none">Please Select Confirmation Followup Mapping Access</span>
                             </div>
                         </div>

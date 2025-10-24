@@ -22,7 +22,7 @@ include '../../ajaxconfig.php';
         $i = 1;
         while ($signedDoc = $signInfo->fetch()) {
             $fam_id = $signedDoc["signType_relationship"];
-            $result = $connect->query("SELECT famname,relationship FROM `verification_family_info` where id='$fam_id'");
+            $result = $connect->query("SELECT CONCAT(first_name, ' ', last_name) AS famname,relationship FROM `verification_family_info` where id='$fam_id'");
             $row = $result->fetch();
 
             $doc_upd_name = '';

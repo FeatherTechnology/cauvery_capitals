@@ -18,7 +18,7 @@ $columns = [
     'rc.req_id',
     'rc.updated_date',
     'rc.cus_id',
-    'rc.cus_name',
+    'rc.first_name',
     'alc.area_name',
     'bc.branch_name',
     'agm.group_name',
@@ -102,7 +102,7 @@ if ($userid != 1) {
 $searchQuery = "";
 if ($searchValue != '') {
     $searchQuery = " AND (rc.cus_id LIKE '%" . $searchValue . "%' 
-                    OR rc.cus_name LIKE '%" . $searchValue . "%' 
+                    OR rc.first_name LIKE '%" . $searchValue . "%' 
                     OR alc.area_name LIKE '%" . $searchValue . "%'
                     OR bc.branch_name LIKE '%" . $searchValue . "%'
                     OR agm.group_name LIKE '%" . $searchValue . "%'
@@ -170,7 +170,7 @@ while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         if ($status == '1') { // 1 means completed
             $actionEdit .= "<a class='conf-remove' data-cusid='" . $row['cus_id'] . "' data-reqid='" . $row['req_id'] . "' ><span>Remove</span></a>";
         } else {
-            $actionEdit .= "<a class='conf-edit' data-cusid='" . $row['cus_id'] . "' data-cusname='" . $row['cus_name'] . "' data-reqid='" . $row['req_id'] . "' data-toggle='modal' data-target='#addConfimation'><span>Confirmation</span></a>";
+            $actionEdit .= "<a class='conf-edit' data-cusid='" . $row['cus_id'] . "' data-cusname='" . $row['first_name'] . "' data-reqid='" . $row['req_id'] . "' data-toggle='modal' data-target='#addConfimation'><span>Confirmation</span></a>";
         }
 
         $actionEdit .= "</div></div>";
@@ -179,7 +179,7 @@ while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             $sno++,
             date('d-m-Y', strtotime($row['updated_date'])),
             $row['cus_id'],
-            $row['cus_name'],
+            $row['first_name'],
             $row['area_name'],
             $row['branch_name'],
             $row['group_name'],

@@ -52,8 +52,8 @@ $column = array(
     'ii.loan_id',
     'ad.doc_id',
     'ii.cus_id',
-    'cp.cus_name',
-    'fam.famname',
+    'cp.first_name',
+    'fam.first_name',
     'fam.relationship',
     'al.area_name',
     'alm.line_name',
@@ -73,7 +73,7 @@ $column = array(
     'lc.due_period',
     'lc.due_start_from',
     'lc.maturity_month',
-    'vfi_received_by.famname',
+    'vfi_received_by.first_name',
     'vfi_received_by.relationship',
 );
 
@@ -81,8 +81,8 @@ $query = "SELECT
         ii.loan_id,
         ad.doc_id,
         cp.cus_id,
-        cp.cus_name,
-        fam.famname,
+        cp.first_name,
+        fam.first_name as guarantor_name,
         fam.relationship,
         al.area_name,
         alm.line_name,
@@ -104,7 +104,7 @@ $query = "SELECT
         lc.maturity_month,
         li.payment_type,
         li.relationship as rec_relationship,
-        vfi_received_by.famname as received_by,
+        vfi_received_by.first_name as received_by,
         vfi_received_by.relationship as rel_name
 
         FROM in_issue ii
@@ -135,8 +135,8 @@ if (isset($_POST['search'])) {
         $query .= " and (ii.loan_id LIKE '" . $_POST['search'] . "%' 
             OR ad.doc_id LIKE '%" . $_POST['search'] . "%'
             OR ii.cus_id LIKE '%" . $_POST['search'] . "%'
-            OR cp.cus_name LIKE '%" . $_POST['search'] . "%' 
-            OR fam.famname LIKE '%" . $_POST['search'] . "%' 
+            OR cp.first_name LIKE '%" . $_POST['search'] . "%' 
+            OR fam.first_name LIKE '%" . $_POST['search'] . "%' 
             OR fam.relationship LIKE '%" . $_POST['search'] . "%' 
             OR al.area_name LIKE '%" . $_POST['search'] . "%' 
             OR alm.line_name LIKE '%" . $_POST['search'] . "%' 
@@ -179,8 +179,8 @@ foreach ($result as $row) {
     $sub_array[] = $row['loan_id'];
     $sub_array[] = $row['doc_id'];
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['cus_name'];
-    $sub_array[] = $row['famname'];
+    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['guarantor_name'];
     $sub_array[] = $row['relationship'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['line_name'];
@@ -203,7 +203,7 @@ foreach ($result as $row) {
 
     if ($row['rec_relationship'] == 'Customer' || $row['payment_type'] == '1' || $row['payment_type'] == '2') {
         //if loan issued to customer then direclty place customer name from cp table
-        $sub_array[] = $row['cus_name'];
+        $sub_array[] = $row['first_name'];
         $sub_array[] = 'Customer';
     } else {
         //else place received by and relation name from fam table

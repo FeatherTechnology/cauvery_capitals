@@ -23,7 +23,7 @@ $role_arr = [1 => 'Director', 2 => 'Agent', 3 => 'Staff'];
 $column = array(
     'np.id',
     'np.cus_id',
-    'COALESCE(cp.customer_name, ncp.cus_name)',
+    'COALESCE(cp.first_name, ncp.first_name)',
     'np.id',
     'np.id',
     'COALESCE(cp.mobile1, ncp.mobile)',
@@ -42,7 +42,7 @@ $column = array(
 $query = "SELECT 
     np.cus_id, np.created_date, np.status, np.remark, u.role,
     u.fullname,
-    COALESCE(cp.customer_name, ncp.cus_name) AS customer_name,
+    COALESCE(cp.first_name, ncp.first_name) AS customer_name,
     COALESCE(cp.mobile1, ncp.mobile) AS mobile1,
     COALESCE(al.area_name, ncp.area) AS area_name,
     bc.branch_name, agm.group_name, alm.line_name, np.follow_date, rc.cus_status
@@ -73,7 +73,7 @@ if (isset($_POST['search'])) {
     if ($_POST['search'] != "") {
         $query .= " and (np.created_date LIKE '%" . $_POST['search'] . "%' OR
             np.cus_id LIKE '%" . $_POST['search'] . "%' OR
-            COALESCE(cp.customer_name, ncp.cus_name) LIKE '%" . $_POST['search'] . "%' OR
+            COALESCE(cp.first_name, ncp.first_name) LIKE '%" . $_POST['search'] . "%' OR
             COALESCE(al.area_name, ncp.area) LIKE '%" . $_POST['search'] . "%' OR
             bc.branch_name LIKE '%" . $_POST['search'] . "%' OR
             agm.group_name LIKE '%" . $_POST['search'] . "%' OR

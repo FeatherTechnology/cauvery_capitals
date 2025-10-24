@@ -28,7 +28,7 @@ function moneyFormatIndia($num)
     return $thecash;
 }
 function getfamName($connect,$rel_id){
-    $qry1=$connect->query("SELECT famname FROM `verification_family_info` where id=$rel_id");
+    $qry1=$connect->query("SELECT CONCAT(first_name, ' ',last_name) AS famname FROM `verification_family_info` where id=$rel_id");
     $run=$qry1->fetch();
     return $run['famname'];
 }

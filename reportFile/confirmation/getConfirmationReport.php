@@ -59,7 +59,7 @@ $column = array(
     'ii.loan_id',
     'ii.updated_date',
     'cf.cus_id',
-    'cp.cus_name',
+    'cp.first_name',
     'cf.mobile',
     'cf.person_type',
     'cf.person_name',
@@ -78,7 +78,7 @@ $query = "SELECT
     ii.loan_id,
     ii.updated_date AS loan_date,
     cf.cus_id,
-    cp.cus_name,
+    cp.first_name,
     cf.mobile,
     cf.person_type,
     cf.person_name,
@@ -111,7 +111,7 @@ if (isset($_POST['search'])) {
         $query .= " and (alm.line_name LIKE '%" . $_POST['search'] . "%' OR
             ii.loan_id LIKE '%" . $_POST['search'] . "%' OR
             cf.cus_id LIKE '%" . $_POST['search'] . "%' OR
-            cp.cus_name LIKE '%" . $_POST['search'] . "%' OR
+            cp.first_name LIKE '%" . $_POST['search'] . "%' OR
             cf.mobile LIKE '%" . $_POST['search'] . "%' OR
             cf.status LIKE '%" . $_POST['search'] . "%' OR
             cf.sub_status LIKE '%" . $_POST['search'] . "%' OR
@@ -174,7 +174,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['loan_id'];
     $sub_array[] = date('d-m-Y', strtotime($row['loan_date']));
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['cus_name'];
+    $sub_array[] = $row['first_name'];
     $sub_array[] = $row['mobile'];
     $sub_array[] = $per_type_arr[$row['person_type']];
     $sub_array[] = $name;
@@ -193,14 +193,14 @@ foreach ($result as $row) {
 
 function getCustomer($connect, $cus_id)
 {
-    $result = $connect->query("SELECT customer_name from customer_register where cus_id = '$cus_id' ");
-    $cus_name = $result->fetch()['customer_name'];
-    return $cus_name;
+    $result = $connect->query("SELECT first_name from customer_register where cus_id = '$cus_id' ");
+    $first_name = $result->fetch()['first_name'];
+    return $first_name;
 }
 
 function getGarentor($connect, $cus_id)
 {
-    $query = "SELECT cp.guarentor_name, vfi.famname, vfi.relationship FROM customer_profile cp JOIN verification_family_info vfi ON cp.guarentor_name = vfi.id WHERE cp.cus_id = '$cus_id' ORDER BY cp.id DESC LIMIT 1 ";
+    $query = "SELECT cp.guarentor_name, CONCAT(vfi.first_name, ' ', vfi.last_name) AS famname, vfi.relationship FROM customer_profile cp JOIN verification_family_info vfi ON cp.guarentor_name = vfi.id WHERE cp.cus_id = '$cus_id' ORDER BY cp.id DESC LIMIT 1 ";
     $result = $connect->query($query);
     $row = $result->fetch();
     $response = [
@@ -212,7 +212,7 @@ function getGarentor($connect, $cus_id)
 
 function getFamilyMember($connect, $fam_id)
 {
-    $result = $connect->query("SELECT id,famname,relationship FROM `verification_family_info` where id='$fam_id'");
+    $result = $connect->query("SELECT id,CONCAT(first_name, ' ', last_name) AS famname,relationship FROM `verification_family_info` where id='$fam_id'");
     $row = $result->fetch();
     $fam_name = $row['famname'];
     $relationship = $row['relationship'];

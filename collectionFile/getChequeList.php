@@ -15,7 +15,7 @@ if($selectIC->rowCount()>0)
         $records[$i]['cheque_no_id'] = $row["id"];
         
         if(is_numeric($row["cheque_holder_name"])){
-            $selectIC = $connect->query("SELECT famname FROM verification_family_info WHERE id = '".$row["cheque_holder_name"]."' ");
+            $selectIC = $connect->query("SELECT CONCAT(first_name, ' ', last_name) AS famname FROM verification_family_info WHERE id = '".$row["cheque_holder_name"]."' ");
             $rows = $selectIC->fetch();
             $records[$i]['cheque_holder_name'] = $rows['famname'];
         }else{

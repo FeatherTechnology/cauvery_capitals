@@ -5,7 +5,7 @@ $famList_arr = array();
 
 $reqId = $_POST['reqId'];
 $cus_id = $_POST['cus_id'];
-$result = $connect->query("SELECT id,famname,relationship,relation_aadhar FROM `verification_family_info` where cus_id='$cus_id'");
+$result = $connect->query("SELECT id,CONCAT(first_name, ' ', last_name) AS famname,relationship,relation_aadhar FROM `verification_family_info` where cus_id='$cus_id'");
 
 while( $row = $result->fetch()){
     $fam_name = $row['famname'];

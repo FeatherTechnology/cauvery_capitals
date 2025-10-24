@@ -2055,6 +2055,17 @@
         return num;
     }
 
+    function formatFirstName(input) {
+        let v = input.value.replace(/[^a-zA-Z]/g, '');  // only letters
+        v = v.replace(/\s+/g, '');                      // remove spaces
+        input.value = v.charAt(0).toUpperCase() + v.slice(1).toLowerCase(); // First letter caps
+    }
+
+    function formatLastName(input) {
+        let v = input.value.replace(/[^a-zA-Z]/g, '');  // only letters
+        v = v.replace(/\s+/g, '');                      // remove spaces
+        input.value = v.toUpperCase();                  // all caps
+    }
 
     //////////////////////////////////////////////////////////// Session Logut Time End ////////////////////////////////////////////////////////////////////////////////////
     </script>

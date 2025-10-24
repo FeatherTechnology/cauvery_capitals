@@ -10,6 +10,8 @@ $doc_Count             = $_POST['doc_Count'];
 $cus_profile_id        = $_POST['cus_profile_id'];
 $signedID              = $_POST['signedID'];
 
+$insert_qry = '';
+
 if ($sign_type == '1') {
     $qry = $connect->query("SELECT fam.id from verification_family_info fam JOIN customer_profile cp on cp.guarentor_name = fam.id where cp.req_id = $req_id");
     // $qry = $connect->query("SELECT fam.id from verification_family_info fam JOIN customer_profile cp on cp.req_id = fam.req_id where fam.req_id = $req_id"); 

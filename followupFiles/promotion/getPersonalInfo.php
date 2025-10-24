@@ -6,7 +6,7 @@ $cus_id = $_POST['cus_id'];
 
 $sql = '';
 
-$query1 = $connect->query("SELECT cp.cus_id,cp.cus_name,cp.cus_pic,cp.mobile1,al.area_name,alm.line_name as area_line,bc.branch_name from customer_profile cp 
+$query1 = $connect->query("SELECT cp.cus_id, cp.first_name , cp.last_name, cp.cus_pic,cp.mobile1,al.area_name,alm.line_name as area_line,bc.branch_name from customer_profile cp 
     LEFT JOIN area_list_creation al ON cp.area_confirm_area = al.area_id 
     JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
     JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
@@ -15,11 +15,11 @@ $query1 = $connect->query("SELECT cp.cus_id,cp.cus_name,cp.cus_pic,cp.mobile1,al
     LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id
     WHERE cp.cus_id = " . $cus_id . "   ORDER BY cp.id DESC LIMIT 1");
 
-$query2 = $connect->query("SELECT rc.cus_id, rc.cus_name, rc.mobile1, rc.pic as cus_pic, al.area_name,alm.line_name as area_line,bc.branch_name FROM request_creation rc
+$query2 = $connect->query("SELECT rc.cus_id, rc.first_name, rc.last_name, rc.mobile1, rc.pic as cus_pic, al.area_name,alm.line_name as area_line,bc.branch_name FROM request_creation rc
     JOIN area_list_creation al ON rc.area = al.area_id
     JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
     JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
-     JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
+     JOIN area_group_mapping_area agma ON agma.area_id = al.area_id 
     JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id 
     LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id
     WHERE rc.cus_id = '$cus_id' ORDER BY rc.req_id DESC LIMIT 1");
@@ -38,8 +38,12 @@ $row = $sql->fetch();
             <input type="text" name="info_cus_id" id="info_cus_id" class='form-control' tabindex="1" readonly value="<?php echo $row['cus_id']; ?>">
         </div>
         <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
-            <label for="info_cus_name">Customer Name</label>
-            <input type="text" name="info_cus_name" id="info_cus_name" class='form-control' tabindex="2" readonly value="<?php echo $row['cus_name']; ?>">
+            <label for="info_first_name">First Name</label>
+            <input type="text" name="info_first_name" id="info_first_name" class='form-control' tabindex="2" readonly value="<?php echo $row['first_name']; ?>">
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+            <label for="info_last_name">Last Name</label>
+            <input type="text" name="info_last_name" id="info_last_name" class='form-control' tabindex="2" readonly value="<?php echo $row['last_name']; ?>">
         </div>
         <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
             <label for="info_cus_mob">Mobile Number</label>
