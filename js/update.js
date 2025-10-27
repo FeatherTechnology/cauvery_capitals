@@ -3665,70 +3665,111 @@ function getFingerPrintDetails(cus_id, cus_name) {
         type: 'post',
         cache: false,
         success: function (html) {
-            $('.fingerprintTable').empty()
-            $('.fingerprintTable').html(html)
+            $('.fingerprintTable').empty().html(html);
 
-            $('.scanBtn').click(function () {
-                var hand = $(this).prev().val();
-                var name = $(this).parent().prev().find('input[id="name_print"]').val(); var adhar = $(this).parent().prev().prev().find('input[id="adhar_print"]').val();
-                if (hand == '') { //prevent if hand is not selected
-                    $(this).prev().css('border-color', 'red');
-                } else {
-                    $(this).prev().css('border-color', '#0c70ab')
- 
-                    showOverlay();//loader start
+            // Track scanned fingers per row
+            let scannedFingers = {};
 
-                    $(this).attr('disabled', true);
+            // Assign unique row IDs
+            $('.fingerprintTable tbody tr').each(function (index) {
+                $(this).attr('data-row', index);
+                scannedFingers[index] = {};
+            });
 
-                    setTimeout(() => {
-                        var quality = 60; //(1 to 100) (recommended minimum 55)
-                        var timeout = 10; // seconds (minimum=10(recommended), maximum=60, unlimited=0)
-                        var res = CaptureFinger(quality, timeout);
-                        if (res.httpStaus) {
-                            if (res.data.ErrorCode == "0") {
-                                let fdata = res.data.AnsiTemplate;
-                                $(this).next().val(fdata); // Take ansi template that is the unique id which is passed by sensor
-                                storeFingerprints(fdata, hand, adhar, name);//stores the current finger data in database
-                            }//Error codes and alerts below
-                            else if (res.data.ErrorCode == -1307) {
-                                alert('Connect Your Device');
-                                $(this).removeAttr('disabled');
-                            } else if (res.data.ErrorCode == -1140 || res.data.ErrorCode == 700) {
-                                alert('Timeout');
-                                $(this).removeAttr('disabled');
-                            } else if (res.data.ErrorCode == 720) {
-                                alert('Reconnect Device');
-                                $(this).removeAttr('disabled');
-                            } else if (res.data.ErrorCode == 730) {
-                                alert('Capture Finger Again');
-                                $(this).removeAttr('disabled');
-                            } else {
-                                alert('Error Code:' + res.data.ErrorCode);
-                                $(this).removeAttr('disabled');
-                            }
-                        }
-                        else {
-                            alert(res.err);
-                        }
-                        // Hide the loading animation and remove blur effect from the body
-                        hideOverlay();//loader stop
+            // When dropdown changes
+            $(document).on('change', '.hand_selection', function () {
+                let selectedFinger = $(this).val();
+                let row = $(this).closest('tr');
+                let rowIndex = row.data('row');
+                let scanBtn = row.find('.scanBtn');
 
-                    }, 700)
+                if (selectedFinger === '') {
+                    scanBtn.prop('disabled', true);
+                    return;
                 }
+
+                // If already scanned, keep disabled
+                if (scannedFingers[rowIndex][selectedFinger]) {
+                    scanBtn.prop('disabled', true);
+                } else {
+                    scanBtn.prop('disabled', false);
+                }
+            });
+
+            // When scan button clicked
+            $(document).on('click', '.scanBtn', function (e) {
+                e.preventDefault();
+                var row = $(this).closest('tr');
+                var rowIndex = row.data('row');
+                var hand = row.find('.hand_selection').val();
+                var adhar = row.find('input[id="adhar_print"]').val();
+                var name = row.find('input[id="name_print"]').val();
+                var scanBtn = $(this);
+
+                if (hand === '') {
+                    row.find('.hand_selection').css('border-color', 'red');
+                    return;
+                } else {
+                    row.find('.hand_selection').css('border-color', '#0c70ab');
+                }
+
+                showOverlay();
+                scanBtn.prop('disabled', true); // disable during scanning
+
+                setTimeout(() => {
+                    var quality = 60;
+                    var timeout = 10;
+                    var res = CaptureFinger(quality, timeout);
+
+                    if (res.httpStaus) {
+                        if (res.data.ErrorCode == "0") {
+                            let fdata = res.data.AnsiTemplate;
+                            row.find('#fingerprint').val(fdata);
+                            storeFingerprints(fdata, hand, adhar, name);
+
+                            // Mark this finger as scanned
+                            scannedFingers[rowIndex][hand] = true;
+
+                            // Keep button disabled (no text change)
+                            scanBtn.prop('disabled', true);
+                        } else if (res.data.ErrorCode == -1307) {
+                            alert('Connect Your Device');
+                            scanBtn.prop('disabled', false);
+                        } else if (res.data.ErrorCode == -1140 || res.data.ErrorCode == 700) {
+                            alert('Timeout');
+                            scanBtn.prop('disabled', false);
+                        } else if (res.data.ErrorCode == 720) {
+                            alert('Reconnect Device');
+                            scanBtn.prop('disabled', false);
+                        } else if (res.data.ErrorCode == 730) {
+                            alert('Capture Finger Again');
+                            scanBtn.prop('disabled', false);
+                        } else {
+                            alert('Error Code:' + res.data.ErrorCode);
+                            scanBtn.prop('disabled', false);
+                        }
+                    } else {
+                        alert(res.err);
+                        scanBtn.prop('disabled', false);
+                    }
+
+                    hideOverlay();
+                }, 700);
+            });
+        }
+    });
+    
+}
+function storeFingerprints(fdata, hand, cus_id, cus_name) {//stores the current finger data in database
+    $.post('updateFile/storeFingerprints.php', { 'fdata': fdata, 'hand': hand, 'cus_id': cus_id, 'cus_name': cus_name }, function (response) {
+        if (response.includes('Successfully')) {
+            Swal.fire({
+                title: response, icon: 'success', confirmButtonColor: '#0c70ab'
             })
         }
-    })
-
-    function storeFingerprints(fdata, hand, cus_id, cus_name) {//stores the current finger data in database
-        $.post('updateFile/storeFingerprints.php', { 'fdata': fdata, 'hand': hand, 'cus_id': cus_id, 'cus_name': cus_name }, function (response) {
-            if (response.includes('Successfully')) {
-                Swal.fire({
-                    title: response, icon: 'success', confirmButtonColor: '#0c70ab'
-                })
-            }
-        }, 'json')
-    }
+    }, 'json')
 }
+
 
 /************************ Signed Doc Modal Events ************************/
 

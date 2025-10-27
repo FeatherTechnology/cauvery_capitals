@@ -3370,7 +3370,7 @@ class admin
 				'" . strip_tags($occupation_type) . "','" . strip_tags($occupation) . "','" . strip_tags($pic) . "' )";
 				$insresult = $mysqli->query($CustomerInsert) or die("Error " . $mysqli->error);
 			} elseif ($cus_data == 'Existing') {
-				$mysqli->query("UPDATE customer_register SET `cus_id` = '" . strip_tags($cus_id) . "',`req_ref_id` = '" . strip_tags($req_ref_id) . "', `first_name` = '" . strip_tags($first_name) . "', `last_name` = '" . strip_tags($last_name) . "', `dob` = '" . strip_tags($dob) . "', `age` = '" . strip_tags($age) . "', `gender` = '" . strip_tags($gender) . "', `state` = '" . strip_tags($state) . "', `district` = '" . strip_tags($district) . "', `taluk` = '" . strip_tags($taluk) . "', `area` = '" . strip_tags($area) . "', `address` = '" . strip_tags($address) . "', `mobile1` = '" . strip_tags($mobile1) . "', `mobile2` = '" . strip_tags($mobile2) . "', `father_name` = '" . strip_tags($father_name) . "', `mother_name` = '" . strip_tags($mother_name) . "', `marital` = '" . strip_tags($marital) . "', `spouse` = '" . strip_tags($spouse_name) . "', `occupation_type` = '" . strip_tags($occupation_type) . "', `occupation` = '" . strip_tags($occupation) . "', `pic` = '" . strip_tags($pic) . "', `cus_status` = 0 WHERE `cus_id`= '" . strip_tags($cus_id) . "' ");
+				$mysqli->query("UPDATE customer_register SET `cus_id` = '" . strip_tags($cus_id) . "',`req_ref_id` = '" . strip_tags($req_ref_id) . "', `first_name` = '" . strip_tags($first_name) . "', `last_name` = '" . strip_tags($last_name) . "', `dob` = '" . strip_tags($dob) . "', `age` = '" . strip_tags($age) . "', `gender` = '" . strip_tags($gender) . "', `state` = '" . strip_tags($state) . "', `district` = '" . strip_tags($district) . "', `taluk` = '" . strip_tags($taluk) . "', `area` = '" . strip_tags($area) . "', `address` = '" . strip_tags($address) . "', `mobile1` = '" . strip_tags($mobile1) . "', `mobile2` = '" . strip_tags($mobile2) . "', `mobile_whatsapp` = '" . strip_tags($mobile_whatsapp) . "', `whatsapp_no` = '" . strip_tags($whatsapp_no) . "', `father_name` = '" . strip_tags($father_name) . "', `mother_name` = '" . strip_tags($mother_name) . "', `marital` = '" . strip_tags($marital) . "', `spouse` = '" . strip_tags($spouse_name) . "', `occupation_type` = '" . strip_tags($occupation_type) . "', `occupation` = '" . strip_tags($occupation) . "', `pic` = '" . strip_tags($pic) . "', `cus_status` = 0 WHERE `cus_id`= '" . strip_tags($cus_id) . "' ");
 			}
 			if (!is_array($category_info)) {
 				$category_info = explode(',', $category_info); // Convert string to array
@@ -4864,19 +4864,6 @@ class admin
 			$en_Key = $_POST['en_Key'];
 		}
 
-		if (isset($_POST['adhar_print'])) {
-			$adhar_print = $_POST['adhar_print'];
-		}
-		if (isset($_POST['name_print'])) {
-			$name_print = $_POST['name_print'];
-		}
-		if (isset($_POST['fingerprint'])) {
-			$fingerprint = $_POST['fingerprint'];
-		}
-		if (isset($_POST['hand_selection'])) {
-			$hand = $_POST['hand_selection'];
-		}
-
 		if (isset($_POST['doc_table_id'])) {
 			$doc_table_id = $_POST['doc_table_id'];
 		}
@@ -4897,24 +4884,6 @@ class admin
 				$update_doc = " UPDATE `acknowlegement_documentation` SET `req_id`='" . strip_tags($req_id) . "',`cus_id_doc`='" . strip_tags($cus_id_doc) . "',`first_name`='" . strip_tags($first_name) . "', `last_name`='" . strip_tags($last_name) . "', `cus_profile_id`='" . strip_tags($cus_profile_id) . "',`mortgage_process`='" . strip_tags($mortgage_process) . "',`Propertyholder_type`='" . strip_tags($Propertyholder_type) . "',`Propertyholder_name`='" . strip_tags($Propertyholder_name) . "',`Propertyholder_relationship_name`='" . strip_tags($Propertyholder_relationship_name) . "',`doc_property_relation`='" . strip_tags($doc_property_relation) . "',`doc_property_type`='" . strip_tags($doc_property_pype) . "',`doc_property_measurement`='" . strip_tags($doc_property_measurement) . "',`doc_property_location`='" . strip_tags($doc_property_location) . "',`doc_property_value`='" . strip_tags($doc_property_value) . "',`mortgage_name`='" . strip_tags($mortgage_name) . "',`mortgage_dsgn`='" . strip_tags($mortgage_dsgn) . "',`mortgage_nuumber`='" . strip_tags($mortgage_nuumber) . "',`reg_office`='" . strip_tags($reg_office) . "',`mortgage_value`='" . strip_tags($mortgage_value) . "',`mortgage_document`='" . strip_tags($mortgage_document) . "',`mortgage_document_upd`='" . strip_tags($mortgage_document_upd) . "',`mortgage_document_pending`='" . strip_tags($pendingchk) . "',`endorsement_process`='" . strip_tags($endorsement_process) . "',`owner_type`='" . strip_tags($owner_type) . "',`owner_name`='" . strip_tags($owner_name) . "',`ownername_relationship_name`='" . strip_tags($ownername_relationship_name) . "',`en_relation`='" . strip_tags($en_relation) . "',`vehicle_type`='" . strip_tags($vehicle_type) . "',`vehicle_process`='" . strip_tags($vehicle_process) . "',`en_Company`='" . strip_tags($en_Company) . "',`en_Model`='" . strip_tags($en_Model) . "',`vehicle_reg_no`='" . strip_tags($vehicle_reg_no) . "',`endorsement_name`='" . strip_tags($endorsement_name) . "',`en_RC`='" . strip_tags($en_RC) . "',`Rc_document_upd`='" . strip_tags($Rc_document_upd) . "',`Rc_document_pending`='" . strip_tags($endorsependingchk) . "',`en_Key`='" . strip_tags($en_Key) . "',`status`='0',`submitted`='1',`update_login_id`='" . $userid . "',`updated_date`= current_timestamp() WHERE `id` = '" . strip_tags($doc_table_id) . "' ";
 
 				$updDocResult = $mysqli->query($update_doc) or die("Error " . $mysqli->error);
-			}
-
-			//iterate thru fingerprint array
-			for ($i = 0; $i < sizeof($fingerprint); $i++) {
-				// allow only if fingerprint has been entered
-				if ($fingerprint[$i] != '') {
-					//check whether this adhar number already have fingerprint
-					$qry = $mysqli->query("SELECT adhar_num from `fingerprints` where adhar_num='" . strip_tags($adhar_print[$i]) . "' ");
-					if ($qry->num_rows == 0) {
-						//insert finger prints as new values if not already exist
-						$qry = "INSERT INTO `fingerprints`(`adhar_num`, `name`,`hand`,`ansi_template`, `insert_user_id`, `created_date`) VALUES ('" . $adhar_print[$i] . "','" . $name_print[$i] . "','" . $hand[$i] . "','" . $fingerprint[$i] . "',$userid,now() ) ";
-						$result = $mysqli->query($qry) or die("Error " . $mysqli->error);
-					} else {
-						//update fingerprint at that adhar number if already exist
-						$qry = "UPDATE `fingerprints` SET `hand`='" . $hand[$i] . "',`ansi_template`='" . $fingerprint[$i] . "',`update_user_id`='$userid',`updated_date`= now() WHERE `adhar_num`='" . strip_tags($adhar_print[$i]) . "' ";
-						$result = $mysqli->query($qry) or die("Error " . $mysqli->error);
-					}
-				}
 			}
 
 			// Commit the transaction

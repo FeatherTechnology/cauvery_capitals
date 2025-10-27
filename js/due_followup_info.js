@@ -104,8 +104,6 @@ $(function () {
 
     getCustomerLoanCounts(); // to get customer loan details
 
-    fingerprintTable();//To Get family member's name are required for scanning fingerprint
-
     var state_upd = $('#state_upd').val();
     if (state_upd != '') {
         getDistrictDropdown(state_upd);
@@ -198,73 +196,6 @@ function getCustomerLoanCounts() {
             $('#cus_exist_type').val('Renewal');
         }
     })
-}
-
-function fingerprintTable() {//To Get family member's name are required for scanning fingerprint
-    var req_id = $('#req_id').val();
-    var first_name = $("#first_name").val();
-    var last_name = $("#last_name").val();
-    var cus_name = first_name + " " + last_name;
-    var cus_id = $('#cus_id_doc').val();
-    $.ajax({
-        url: 'verificationFile/getNamesForFingerprint.php',
-        data: { 'req_id': req_id, 'cus_name': cus_name, 'cus_id': cus_id },
-        type: 'post',
-        cache: false,
-        success: function (html) {
-            $('.fingerprintTable').empty()
-            $('.fingerprintTable').html(html)
-
-            $('.scanBtn').click(function () {
-                var hand = $(this).prev().val();
-                if (hand == '') { //prevent if hand is not selected
-                    $(this).prev().css('border-color', 'red');
-                } else {
-                    $(this).prev().css('border-color', '#0c70ab')
-
-                    showOverlay();//loader start
-
-                    $(this).attr('disabled', true);
-
-                    setTimeout(() => {
-                        var quality = 60; //(1 to 100) (recommended minimum 55)
-                        var timeout = 10; // seconds (minimum=10(recommended), maximum=60, unlimited=0)
-                        var res = CaptureFinger(quality, timeout);
-                        if (res.httpStaus) {
-                            if (res.data.ErrorCode == "0") {
-                                $(this).next().val(res.data.AnsiTemplate); // Take ansi template that is the unique id which is passed by sensor
-
-                            }//Error codes and alerts below
-                            else if (res.data.ErrorCode == -1307) {
-                                alert('Connect Your Device');
-                                $(this).removeAttr('disabled');
-                            } else if (res.data.ErrorCode == -1140 || res.data.ErrorCode == 700) {
-                                alert('Timeout');
-                                $(this).removeAttr('disabled');
-                            } else if (res.data.ErrorCode == 720) {
-                                alert('Reconnect Device');
-                                $(this).removeAttr('disabled');
-                            } else if (res.data.ErrorCode == 730) {
-                                alert('Capture Finger Again');
-                                $(this).removeAttr('disabled');
-                            } else {
-                                alert('Error Code:' + res.data.ErrorCode);
-                                $(this).removeAttr('disabled');
-                            }
-                        }
-                        else {
-                            alert(res.err);
-                        }
-                        // Hide the loading animation and remove blur effect from the body
-                        hideOverlay();//loader stop
-
-                    }, 700)
-                }
-            })
-        }
-    })
-
-
 }
 
 function resetFamDetails() {

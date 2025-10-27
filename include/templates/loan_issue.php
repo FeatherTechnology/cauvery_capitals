@@ -1044,7 +1044,7 @@ if (sizeof($getLoanCalculation) > 0) {
 					<!-- Cash Acknowledgement  Start -->
 					<div class="card" id="cashAck" style="display:none">
 						<div class="card-header">Cash Acknowledgement <span style="font-weight:bold" class=""></span></div>
-						<span class="text-danger" style="display: none;" id="finger_check"> Please Scan your Finger Print </span>
+						<span class="text-danger" style="display: none; margin-left: 20px;" id="finger_check"> Please Scan your Finger Print </span>
 						<div class="card-body">
 							<div class="row">
 								<div class="col-md-12">
