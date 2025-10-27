@@ -52,8 +52,9 @@ $column = array(
     'ii.loan_id',
     'ad.doc_id',
     'ii.cus_id',
-    'cp.first_name',
-    'fam.first_name',
+    'cr.autogen_cus_id',
+    "CONCAT(cp.first_name, ' ', cp.last_name)",
+    "CONCAT(fam.first_name, ' ', fam.last_name)",
     'fam.relationship',
     'al.area_name',
     'alm.line_name',
@@ -62,6 +63,9 @@ $column = array(
     'ac.ag_name',
     'iv.responsible',
     'ii.updated_date',
+    'li.payment_type',
+    'li.bank_id',
+    'li.created_date',
     'lc.loan_amt_cal',
     'lc.principal_amt_cal',
     'lc.int_amt_cal',
@@ -81,8 +85,9 @@ $query = "SELECT
         ii.loan_id,
         ad.doc_id,
         cp.cus_id,
-        cp.first_name,
-        fam.first_name as guarantor_name,
+        cr.autogen_cus_id,
+        CONCAT(cp.first_name, ' ', cp.last_name) AS customer_name,
+        CONCAT(fam.first_name, ' ', fam.last_name) AS guarantor_name,
         fam.relationship,
         al.area_name,
         alm.line_name,
@@ -91,6 +96,9 @@ $query = "SELECT
         ac.ag_name,
         iv.responsible,
         ii.updated_date as loan_date,
+        li.payment_type,
+        li.bank_id,
+        li.created_date,
         lc.loan_amt_cal,
         lc.principal_amt_cal,
         lc.int_amt_cal,
@@ -102,19 +110,18 @@ $query = "SELECT
         lc.due_period,
         lc.due_start_from,
         lc.maturity_month,
-        li.payment_type,
         li.relationship as rec_relationship,
-        vfi_received_by.first_name as received_by,
+        CONCAT(vfi_received_by.first_name, ' ', vfi_received_by.last_name) AS received_by,
         vfi_received_by.relationship as rel_name
 
         FROM in_issue ii
+        JOIN customer_register cr ON ii.cus_id = cr.cus_id
         LEFT JOIN acknowlegement_customer_profile cp ON ii.req_id = cp.req_id
         LEFT JOIN acknowlegement_documentation ad ON ii.req_id = ad.req_id
         LEFT JOIN acknowlegement_loan_calculation lc ON ii.req_id = lc.req_id
         LEFT JOIN in_verification iv ON ii.req_id = iv.req_id
         LEFT JOIN verification_family_info fam ON cp.guarentor_name = fam.id
         LEFT JOIN area_list_creation al ON cp.area_confirm_area = al.area_id
-        -- LEFT JOIN sub_area_list_creation al ON cp.area_confirm_subarea = al.sub_area_id
         JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
         JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
         LEFT JOIN branch_creation bc ON ag.branch_id = bc.branch_id
@@ -135,8 +142,9 @@ if (isset($_POST['search'])) {
         $query .= " and (ii.loan_id LIKE '" . $_POST['search'] . "%' 
             OR ad.doc_id LIKE '%" . $_POST['search'] . "%'
             OR ii.cus_id LIKE '%" . $_POST['search'] . "%'
-            OR cp.first_name LIKE '%" . $_POST['search'] . "%' 
-            OR fam.first_name LIKE '%" . $_POST['search'] . "%' 
+            OR cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%'
+            OR CONCAT(cp.first_name, ' ', cp.last_name) LIKE '%$search%' 
+            OR CONCAT(fam.first_name, ' ', fam.last_name) LIKE '%$search%'
             OR fam.relationship LIKE '%" . $_POST['search'] . "%' 
             OR al.area_name LIKE '%" . $_POST['search'] . "%' 
             OR alm.line_name LIKE '%" . $_POST['search'] . "%' 
@@ -174,12 +182,29 @@ $result = $statement->fetchAll();
 $data = array();
 $sno = 1;
 foreach ($result as $row) {
+    $payment_type = $row['payment_type'];
+
+    $payment_type_str = '';
+    $bank_name = '';
+    if ($payment_type == '0') {
+        $payment_type_str = 'Cash';
+        
+    } elseif ($payment_type == '1') {
+        $payment_type_str = 'Cheque';
+        $bank_name = getBankName($row['bank_id'], $connect);
+        
+    } elseif ($payment_type == '2') {
+        $payment_type_str = 'Account Transfer';
+        $bank_name = getBankName($row['bank_id'], $connect);
+    }
+
     $sub_array   = array();
     $sub_array[] = $sno;
     $sub_array[] = $row['loan_id'];
     $sub_array[] = $row['doc_id'];
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['autogen_cus_id'];
+    $sub_array[] = $row['customer_name'];
     $sub_array[] = $row['guarantor_name'];
     $sub_array[] = $row['relationship'];
     $sub_array[] = $row['area_name'];
@@ -187,8 +212,11 @@ foreach ($result as $row) {
     $sub_array[] = $row['branch_name'];
     $sub_array[] = $row['loan_cat_name'];
     $sub_array[] = $row['ag_name'];
-    $sub_array[] = (!empty($row['ag_name'])) ? (($row['responsible'] == '0') ? 'Yes' : 'No') : '';
+    $sub_array[] = (!empty($row['ag_name'])) ? (($row['responsible'] == '0') ? 'Yes': 'No') : '';
     $sub_array[] = date('d-m-Y', strtotime($row['loan_date']));
+    $sub_array[] = $payment_type_str;
+    $sub_array[] = $bank_name;
+    $sub_array[] = ($payment_type != '0' && $payment_type != '') ? date('d-m-Y', strtotime($row['created_date'])) : '';
     $sub_array[] = moneyFormatIndia($row['loan_amt_cal']);
     $sub_array[] = moneyFormatIndia($row['principal_amt_cal']);
     $sub_array[] = moneyFormatIndia($row['int_amt_cal']);
@@ -201,9 +229,9 @@ foreach ($result as $row) {
     $sub_array[] = date('d-m-Y', strtotime($row['due_start_from']));
     $sub_array[] = date('d-m-Y', strtotime($row['maturity_month']));
 
-    if ($row['rec_relationship'] == 'Customer' || $row['payment_type'] == '1' || $row['payment_type'] == '2') {
+    if ($row['rec_relationship'] == 'Customer' || $payment_type == '1' || $payment_type == '2') {
         //if loan issued to customer then direclty place customer name from cp table
-        $sub_array[] = $row['first_name'];
+        $sub_array[] = $row['customer_name'];
         $sub_array[] = 'Customer';
     } else {
         //else place received by and relation name from fam table
@@ -254,4 +282,11 @@ function moneyFormatIndia($num)
         $thecash = $num;
     }
     return $thecash;
+}
+
+function getBankName($bankid, $connect){
+    $stmt = $connect->prepare("SELECT bank_name FROM bank_creation WHERE id = ? ");
+    $stmt->execute([$bankid]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row ? $row['bank_name'] : '';
 }

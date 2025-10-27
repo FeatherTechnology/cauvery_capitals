@@ -67,7 +67,8 @@ $column = array(
     'ad.doc_id',
     'ii.updated_date',
     'cp.cus_id',
-    'cp.first_name',
+    'cr.autogen_cus_id',
+    "CONCAT(cp.first_name, ' ', cp.last_name)",
     'al.area_name',
     'lcc.loan_category_creation_name',
     'ac.ag_name',
@@ -86,7 +87,8 @@ $query = "SELECT
     ii.updated_date AS loan_date,
     cp.req_id,
     cp.cus_id,
-    cp.first_name,
+    cr.autogen_cus_id,
+    CONCAT(cp.first_name, ' ', cp.last_name) AS customer_name,
     al.area_name,
     ac.ag_name,
     lcc.loan_category_creation_name AS loan_cat_name,
@@ -98,6 +100,8 @@ $query = "SELECT
     coll_most_frequent.coll_location
 FROM 
     in_issue ii
+JOIN 
+    customer_register cr ON ii.cus_id = cr.cus_id
 JOIN 
     acknowlegement_customer_profile cp ON ii.req_id = cp.req_id
 JOIN 
@@ -133,8 +137,8 @@ LEFT JOIN (
     WHERE row_num = 1
 ) AS coll_most_frequent ON ii.req_id = coll_most_frequent.req_id
 WHERE 
-    ii.cus_status >= 20 
-    $where  GROUP BY  ii.loan_id";
+    ii.cus_status >= 20 AND lc.due_type = 'EMI'
+    $where ";
 
 if (isset($_POST['search'])) {
     if ($_POST['search'] != "") {
@@ -143,7 +147,8 @@ if (isset($_POST['search'])) {
             ad.doc_id LIKE '%" . $_POST['search'] . "%' OR
             ii.updated_date LIKE '%" . $_POST['search'] . "%' OR
             cp.cus_id LIKE '%" . $_POST['search'] . "%' OR
-            cp.first_name LIKE '%" . $_POST['search'] . "%' OR
+            CONCAT(cp.first_name, ' ', cp.last_name) LIKE '%" . $_POST['search'] . "%' OR
+            cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%' OR
             al.area_name LIKE '%" . $_POST['search'] . "%' OR
             lcc.loan_category_creation_name LIKE '%" . $_POST['search'] . "%' OR
             lc.maturity_month LIKE '%" . $_POST['search'] . "%' OR
@@ -185,6 +190,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['doc_id'];
     $sub_array[] = date('d-m-Y', strtotime($row['loan_date']));
     $sub_array[] = $row['cus_id'];
+    $sub_array[] = $row['autogen_cus_id'];
     $sub_array[] = $row['first_name'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['loan_cat_name'];

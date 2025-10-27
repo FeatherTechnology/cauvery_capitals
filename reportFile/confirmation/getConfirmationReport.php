@@ -49,8 +49,8 @@ if (isset($_POST['from_date']) && isset($_POST['to_date']) && $_POST['from_date'
 $where .= $user_based;
 
 $role_arr = [1 => 'Director', 2 => 'Agent', 3 => 'Staff'];
-$status_arr = [1 => 'Completed', 2 => 'Unavailable', 3 => 'Reconfirmation'];
-$sub_status_arr = [1 => 'RNR', 2 => 'Not Reachable', 3 => 'Switch off', 4 => 'Blocked', 5 => 'Not in use'];
+$status_arr = [1=>'Completed',2=>'Unavailable',3=>'Reconfirmation'];
+$sub_status_arr = [1=>'RNR',2=>'Not Reachable',3=>'Switch off', 4=>'Blocked',5=>'Not in use'];
 $per_type_arr = [1 => 'Customer', 2 => 'Garentor', 3 => 'Family Member'];
 
 $column = array(
@@ -59,7 +59,8 @@ $column = array(
     'ii.loan_id',
     'ii.updated_date',
     'cf.cus_id',
-    'cp.first_name',
+    'cr.autogen_cus_id',
+    "CONCAT(cp.first_name, ' ', cp.last_name)",
     'cf.mobile',
     'cf.person_type',
     'cf.person_name',
@@ -78,7 +79,8 @@ $query = "SELECT
     ii.loan_id,
     ii.updated_date AS loan_date,
     cf.cus_id,
-    cp.first_name,
+    cr.autogen_cus_id,
+    CONCAT(cp.first_name, ' ', cp.last_name) AS customer_name,
     cf.mobile,
     cf.person_type,
     cf.person_name,
@@ -100,6 +102,8 @@ JOIN
 JOIN 
     in_issue ii ON ii.req_id = cf.req_id
 JOIN 
+    customer_register cr ON ii.cus_id = cr.cus_id
+JOIN 
     area_list_creation al ON cp.area_confirm_area = al.area_id
 JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
 JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
@@ -111,11 +115,13 @@ if (isset($_POST['search'])) {
         $query .= " and (alm.line_name LIKE '%" . $_POST['search'] . "%' OR
             ii.loan_id LIKE '%" . $_POST['search'] . "%' OR
             cf.cus_id LIKE '%" . $_POST['search'] . "%' OR
-            cp.first_name LIKE '%" . $_POST['search'] . "%' OR
+            cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%' OR
+            CONCAT(cp.first_name, ' ', cp.last_name) LIKE '%" . $_POST['search'] . "%'OR
             cf.mobile LIKE '%" . $_POST['search'] . "%' OR
             cf.status LIKE '%" . $_POST['search'] . "%' OR
             cf.sub_status LIKE '%" . $_POST['search'] . "%' OR
             cf.person_name LIKE '%" . $_POST['search'] . "%' )";
+
     }
 }
 
@@ -142,19 +148,19 @@ $result = $statement->fetchAll();
 
 $data = array();
 $sno = 1;
-foreach ($result as $row) {
+foreach ($result as $row) {  
 
-    $substatus = '';
-    if ($row['sub_status'] != '') {
-        $substatus = $sub_status_arr[$row['sub_status']];
-    }
+    $substatus='';
+    if($row['sub_status']!=''){
+        $substatus=$sub_status_arr[$row['sub_status']];
+    } 
 
-    $role = '';
-    if ($row['role'] != '') {
-        $role = $role_arr[$row['role']];
-    }
+    $role='';
+    if($row['role']!=''){
+        $role=$role_arr[$row['role']];
+    } 
 
-    // Fetch person name based on person type
+     // Fetch person name based on person type
     if ($row['person_type'] == 1) {
         $name = getCustomer($connect, $row['cus_id']);
         $relationship = "NIL";
@@ -174,7 +180,8 @@ foreach ($result as $row) {
     $sub_array[] = $row['loan_id'];
     $sub_array[] = date('d-m-Y', strtotime($row['loan_date']));
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['autogen_cus_id'];
+    $sub_array[] = $row['customer_name'];
     $sub_array[] = $row['mobile'];
     $sub_array[] = $per_type_arr[$row['person_type']];
     $sub_array[] = $name;
@@ -184,7 +191,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['label'];
     $sub_array[] = $row['remark'];
     $sub_array[] = date('d-m-Y', strtotime($row['created_date']));
-    $sub_array[] = $role;
+    $sub_array[] = $role; 
     $sub_array[] = $row['fullname'];
     $data[] = $sub_array;
     $sno = $sno + 1;
