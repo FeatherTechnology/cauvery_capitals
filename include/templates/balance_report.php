@@ -71,7 +71,7 @@
 								<tbody></tbody>
 								<tfoot>
 									<tr>
-										<td colspan="12"></td>
+										<td colspan="14"></td>
 										<td></td>
 										<td></td>
 										<td></td>
@@ -80,7 +80,6 @@
 										<td></td>
 										<td></td>
 										<td></td>
-										<td colspan="3"></td>
 									</tr>
 								</tfoot>
 							</table>

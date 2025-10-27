@@ -65,6 +65,7 @@ $column = [
     'ii.updated_date',
     'lc.maturity_month',
     'cp.cus_id',
+    'cr.autogen_cus_id',
     "CONCAT(cp.first_name, ' ', cp.last_name)",
     'al.area_name',
     'lc.loan_cal_id',
@@ -303,7 +304,7 @@ foreach ($result as $row) {
     $sub_array[] = date('d-m-Y', strtotime($row['maturity_month']));
     $sub_array[] = $row['cus_id'];
     $sub_array[] = $row['autogen_cus_id'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['customer_name'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['loan_cat_name'];
     $sub_array[] = $row['ag_name'];
