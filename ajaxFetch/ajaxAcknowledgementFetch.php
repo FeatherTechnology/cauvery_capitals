@@ -12,7 +12,7 @@ if (isset($_SESSION["userid"])) {
 }
 if ($userid != 1) {
 
-    $userQry = $connect->query("SELECT group_id , ack_loan_cat FROM USER WHERE user_id = $userid ");
+    $userQry = $connect->query("SELECT group_id, ack_loan_cat FROM USER WHERE user_id = $userid ");
     while ($rowuser = $userQry->fetch()) {
         $group_id = $rowuser['group_id'];
         $ack_loan_cat = $rowuser['ack_loan_cat'];
@@ -39,7 +39,8 @@ $column = array(
     'v.req_id',
     'v.dor',
     'v.cus_id',
-    'v.first_name',
+    'cr.autogen_cus_id',
+    'CONCAT(v.first_name, v.last_name)',
     'bc.branch_name',
     'ag.group_name',
     'alm.line_name',
@@ -56,8 +57,9 @@ $column = array(
 );
 
 if ($userid == 1) {
-    $query = 'SELECT v.*,a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name 
+    $query = "SELECT v.*, CONCAT(v.first_name,' ', v.last_name) AS customer_name, cr.autogen_cus_id, a.area_name, ag.group_name, bc.branch_name, alm.line_name, lcc.loan_category_creation_name 
     FROM in_verification v
+    JOIN customer_register cr ON v.cus_id = cr.cus_id
     JOIN area_list_creation a ON v.area = a.area_id
     JOIN area_group_mapping_area agma ON agma.area_id = a.area_id
     JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
@@ -65,10 +67,11 @@ if ($userid == 1) {
     JOIN area_line_mapping_area alma ON alma.area_id = a.area_id
     JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = v.loan_category
-    WHERE v.status = 0 and v.cus_status IN (3,13) ';
+    WHERE v.status = 0 and v.cus_status IN (3,13) ";
 } else {
-    $query = "SELECT v.*,a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name 
+    $query = "SELECT v.*, CONCAT(v.first_name,' ', v.last_name) AS customer_name, cr.autogen_cus_id, a.area_name, ag.group_name, bc.branch_name, alm.line_name, lcc.loan_category_creation_name 
     FROM in_verification v
+    JOIN customer_register cr ON v.cus_id = cr.cus_id
     JOIN area_list_creation a ON v.area = a.area_id
     JOIN area_group_mapping_area agma ON agma.area_id = a.area_id
     JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
@@ -84,7 +87,8 @@ if (isset($_POST['search'])) {
 
         $query .= " AND (v.dor LIKE '%" . $_POST['search'] . "%'
             OR v.cus_id LIKE '%" . $_POST['search'] . "%'
-            OR v.first_name LIKE '%" . $_POST['search'] . "%'
+            OR cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%'
+            OR CONCAT(v.first_name,' ', v.last_name) LIKE '%" . $_POST['search'] . "%'
             OR bc.branch_name LIKE '%" . $_POST['search'] . "%'
             OR ag.group_name LIKE '%" . $_POST['search'] . "%'
             OR alm.line_name LIKE '%" . $_POST['search'] . "%'
@@ -128,7 +132,8 @@ foreach ($result as $row) {
     $sub_array[] = $sno;
     $sub_array[] = date('d-m-Y', strtotime($row['dor']));
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['autogen_cus_id'];
+    $sub_array[] = $row['customer_name'];
 
     $sub_array[] = $row["branch_name"];
     $sub_array[] = $row['group_name'];

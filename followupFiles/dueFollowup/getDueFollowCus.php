@@ -95,18 +95,19 @@ $searchValue = $_POST['search'];
 
 $data = [];
 
-$columns = ['cp.id', 'cp.cus_id', 'cp.first_name', 'alc.area_name', 'bc.branch_name', 'alm.line_name', 'cp.mobile1', 'cs.sub_status', 'cp.id', 'cs.last_paid_date', 'cs.current_month_paid', 'cm.comm_err', 'cm.hint', 'cm.comm_date'];
+$columns = ['cp.id', 'cp.cus_id', 'cr.autogen_cus_id', 'CONCAT(cp.first_name, cp.last_name)', 'alc.area_name', 'bc.branch_name', 'alm.line_name', 'cp.mobile1', 'cs.sub_status', 'cp.id', 'cs.last_paid_date', 'cs.current_month_paid', 'cm.comm_err', 'cm.hint', 'cm.comm_date'];
 
 $orderDir = $_POST['order'][0]['dir'];
 $order = $columns[$_POST['order'][0]['column']] ? "ORDER BY " . $columns[$_POST['order'][0]['column']] . " $orderDir" : "";
-$search = $searchValue != '' ? "AND (ii.cus_id LIKE '%$searchValue%' or cp.first_name LIKE '%$searchValue%' or alc.area_name LIKE '%$searchValue%'  or cp.mobile1 LIKE '%$searchValue%' or cs.sub_status LIKE '%$searchValue%' )" : '';
+$search = $searchValue != '' ? "AND (ii.cus_id LIKE '%$searchValue%' or cr.autogen_cus_id LIKE '%$searchValue%' or CONCAT(cp.first_name,' ', cp.last_name) LIKE '%$searchValue%' or alc.area_name LIKE '%$searchValue%'  or cp.mobile1 LIKE '%$searchValue%' or cs.sub_status LIKE '%$searchValue%' )" : '';
 
 $query = "SELECT
     iv.loan_category,
     cs.payable_amnt,
     cp.cus_id AS cp_cus_id,
+    cr.autogen_cus_id, 
     ii.cus_status,
-    cp.first_name,
+    CONCAT(cp.first_name,' ', cp.last_name) AS customer_name, 
     alc.area_name,
     bc.branch_name,
     alm.line_name,
@@ -123,6 +124,8 @@ FROM
     in_issue ii
 JOIN acknowlegement_customer_profile cp ON
     ii.req_id = cp.req_id
+JOIN 
+    customer_register cr ON cp.cus_id = cr.cus_id
 JOIN customer_status cs ON
     cp.req_id = cs.req_id
 JOIN area_list_creation alc ON
@@ -160,7 +163,7 @@ $result = $statement->fetchAll();
 $sno = 1;
 foreach ($result as $row) {
     $cus_id = $row['cp_cus_id'];
-    $cus_name = $row['first_name'];
+    $cus_name = $row['customer_name'];
     $area_name = $row['area_name'];
     // $last_paid_date = $row['last_paid_date'];
     $branch_name = '';
@@ -251,6 +254,7 @@ foreach ($result as $row) {
     $data[] = [
         $finalData['sno'] = $sno,
         $finalData['cus_id'] = $cus_id,
+        $finalData['autogen_cus_id'] = $row['autogen_cus_id'],
         $finalData['cus_name'] = $cus_name,
         $finalData['area_name'] = $area_name,
         $finalData['branch_name'] = $branch_name,

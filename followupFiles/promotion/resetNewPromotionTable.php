@@ -32,7 +32,7 @@ if ($role_type == 7) {
 <table class="table custom-table" id='new_promo_table' data-id='new_promotion'>
     <thead>
         <th width="10%">Date</th>
-        <th>Customer ID</th>
+        <th>Aadhaar Number</th>
         <th>Customer Name</th>
         <th>Mobile No.</th>
         <th>Area</th>

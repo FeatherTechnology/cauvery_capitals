@@ -34,7 +34,8 @@ if ($userid != 1) {
 $column = array(
     'rc.req_id',
     'rc.cus_id',
-    'rc.first_name',
+    'cr.autogen_cus_id',
+    'CONCAT(rc.first_name, rc.last_name)',
     'rc.mobile1',
     'rc.req_id',
     'rc.req_id',
@@ -45,7 +46,7 @@ $column = array(
 );
 
 if ($userid == 1) {
-    $query = "SELECT rc.req_id, cr.cus_id, cr.first_name AS cus_name , cr.mobile1, cr.area_confirm_area as area , rc.cus_status, rc.cus_data 
+    $query = "SELECT rc.req_id, cr.cus_id, cr.autogen_cus_id, CONCAT(rc.first_name,' ', rc.last_name) AS cus_name , cr.mobile1, cr.area_confirm_area as area , rc.cus_status, rc.cus_data 
 FROM request_creation rc
 left join customer_register cr on cr.req_ref_id = rc.req_id
 INNER JOIN (
@@ -56,7 +57,7 @@ INNER JOIN (
 WHERE (rc.cus_data = 'Existing' AND rc.cus_status >= 1) OR (rc.cus_data = 'New' AND rc.cus_status > 13)";
 
 } else {
-    $query = "SELECT rc.req_id,cr.cus_id, cr.first_name AS cus_name, cr.mobile1, cr.area_confirm_area as area , rc.cus_status, rc.cus_data
+    $query = "SELECT rc.req_id,cr.cus_id, cr.autogen_cus_id, CONCAT(rc.first_name,' ', rc.last_name) AS cus_name, cr.mobile1, cr.area_confirm_area as area , rc.cus_status, rc.cus_data
 FROM request_creation rc
 left join customer_register cr on cr.req_ref_id = rc.req_id
 LEFT JOIN loan_issue ls ON rc.req_id = ls.req_id
@@ -68,7 +69,8 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
 
     $query .= "
         and (rc.cus_id LIKE '%" . $_POST['search'] . "%'
-        OR rc.first_name LIKE '%" . $_POST['search'] . "%'
+        OR cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%'
+        OR CONCAT(rc.first_name,' ', rc.last_name) LIKE '%" . $_POST['search'] . "%'
         OR cr.mobile1 LIKE '%" . $_POST['search'] . "%' ) ";
 }
 
@@ -107,6 +109,7 @@ foreach ($result as $row) {
     $sub_array[] = $sno;
     $cus_id = $row['cus_id'];
     $sub_array[] = $cus_id;
+    $sub_array[] = $row['autogen_cus_id'];
     $sub_array[] = $row['cus_name'];
     $sub_array[] = $row['mobile1'];
     $area= $row['area'];

@@ -35,8 +35,14 @@
 						<div class="row">
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 								<div class="form-group">
-									<label for="cus_id">Customer ID</label>
-									<input type="text" class="form-control" id="cus_id" name="cus_id" placeholder="Enter Customer ID" maxlength="14">
+									<label for="cus_id">Aadhaar Number</label>
+									<input type="text" class="form-control" id="cus_id" name="cus_id" placeholder="Enter Aadhaar Number" maxlength="14">
+								</div>
+							</div>
+							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+								<div class="form-group">
+									<label for="autogen_cus_id">Customer ID</label>
+									<input type="number" class="form-control" id="autogen_cus_id" name="autogen_cus_id" placeholder="Enter Customer ID">
 								</div>
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
@@ -90,6 +96,7 @@
 												<thead>
 													<tr>
 														<th>S.No</th>
+														<th>Aadhaar Number</th>
 														<th>Customer ID</th>
 														<th>Customer Name</th>
 														<th>Area</th>

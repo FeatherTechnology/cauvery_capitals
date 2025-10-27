@@ -61,13 +61,15 @@ $closed_lvl_arr = [
 ];
 
 $column = array(
-    'ii.id',
+    'cs.id',
+    'ag.group_name',
     'alm.line_name',
     'ii.loan_id',
     'ad.doc_id',
     'ii.updated_date',
     'cp.cus_id',
-    'cp.first_name',
+    'cr.autogen_cus_id',
+    "CONCAT(cp.first_name, ' ', cp.last_name)",
     'al.area_name',
     'lcc.loan_category_creation_name',
     'ac.ag_name',
@@ -80,13 +82,15 @@ $column = array(
 );
 
 $query = "SELECT 
+ ag.group_name,
     alm.line_name AS line,
     ii.loan_id,
     ad.doc_id,
     ii.updated_date AS loan_date,
     cp.req_id,
     cp.cus_id,
-    cp.first_name,
+    cr.autogen_cus_id,
+    CONCAT(cp.first_name, ' ', cp.last_name) AS customer_name,
     al.area_name,
     ac.ag_name,
     lcc.loan_category_creation_name AS loan_cat_name,
@@ -99,6 +103,8 @@ $query = "SELECT
 FROM 
     in_issue ii
 JOIN 
+    customer_register cr ON ii.cus_id = cr.cus_id
+JOIN 
     acknowlegement_customer_profile cp ON ii.req_id = cp.req_id
 JOIN 
     acknowlegement_loan_calculation lc ON ii.req_id = lc.req_id
@@ -106,6 +112,8 @@ JOIN
     acknowlegement_documentation ad ON ii.req_id = ad.req_id
 JOIN 
     area_list_creation al ON cp.area_confirm_area = al.area_id
+JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
+        JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
 JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
 JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
 LEFT JOIN 
@@ -133,17 +141,19 @@ LEFT JOIN (
     WHERE row_num = 1
 ) AS coll_most_frequent ON ii.req_id = coll_most_frequent.req_id
 WHERE 
-    ii.cus_status >= 20 
-    $where  GROUP BY  ii.loan_id";
+    ii.cus_status >= 20 AND lc.due_type = 'EMI'
+    $where ";
 
 if (isset($_POST['search'])) {
     if ($_POST['search'] != "") {
         $query .= " and (alm.line_name LIKE '%" . $_POST['search'] . "%' OR
+          ag.group_name LIKE '%" . $_POST['search'] . "%' OR
             ii.loan_id LIKE '%" . $_POST['search'] . "%' OR
             ad.doc_id LIKE '%" . $_POST['search'] . "%' OR
             ii.updated_date LIKE '%" . $_POST['search'] . "%' OR
             cp.cus_id LIKE '%" . $_POST['search'] . "%' OR
-            cp.first_name LIKE '%" . $_POST['search'] . "%' OR
+            CONCAT(cp.first_name, ' ', cp.last_name) LIKE '%" . $_POST['search'] . "%' OR
+            cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%' OR
             al.area_name LIKE '%" . $_POST['search'] . "%' OR
             lcc.loan_category_creation_name LIKE '%" . $_POST['search'] . "%' OR
             lc.maturity_month LIKE '%" . $_POST['search'] . "%' OR
@@ -152,6 +162,7 @@ if (isset($_POST['search'])) {
             cs.created_date LIKE '%" . $_POST['search'] . "%' ) ";
     }
 }
+$query.="GROUP BY ii.loan_id";
 if (isset($_POST['order'])) {
     $query .= " ORDER BY " . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'];
 } else {
@@ -180,12 +191,14 @@ $sno = 1;
 foreach ($result as $row) {
     $sub_array   = array();
     $sub_array[] = $sno;
+    $sub_array[] = $row['group_name'];
     $sub_array[] = $row['line'];
     $sub_array[] = $row['loan_id'];
     $sub_array[] = $row['doc_id'];
     $sub_array[] = date('d-m-Y', strtotime($row['loan_date']));
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['autogen_cus_id'];
+    $sub_array[] = $row['customer_name'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['loan_cat_name'];
     $sub_array[] = $row['ag_name'];

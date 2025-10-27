@@ -60,19 +60,22 @@ $statusObj = [
 ];
 $column = array(
     'ii.loan_id',
+       'ag.group_name',
     'alm.line_name',
+    'adm.duefollowup_name',
     'ii.loan_id',
     'ii.updated_date',
     'lc.due_start_from',
     'lc.maturity_date',
     'lc.cus_id_loan',
-    'lc.first_name',
+    'cr.autogen_cus_id',
+    "CONCAT(lc.first_name, ' ', lc.last_name)",
     'cp.mobile1',
     'al.area_name',
     'lcc.loan_category_creation_name',
     'ac.ag_name',
     'iv.responsible',
-    'vfi.first_name',
+    "CONCAT(vfi.first_name, ' ', vfi.last_name)",
     'vfi.relationship',
     'vfi.relation_Mobile',
     'lc.loan_amt',
@@ -111,7 +114,8 @@ $query = "SELECT
     ii.updated_date AS loan_date,
     lc.maturity_month AS maturity_date,
     lc.cus_id_loan,
-    lc.first_name,
+    cr.autogen_cus_id,
+    CONCAT(lc.first_name, ' ', lc.last_name) AS customer_name,
     lc.loan_amt,
     lc.due_amt_cal,
     lc.due_period,
@@ -120,7 +124,9 @@ $query = "SELECT
     lc.due_method_scheme,
     lc.due_method_calc,
     cp.mobile1,
-    alm.line_name AS line,
+    ag.group_name, 
+            alm.line_name AS line,
+            adm.duefollowup_name,
     ii.loan_id,
     al.area_name,
     lcc.loan_category_creation_name AS loan_cat_name,
@@ -130,7 +136,7 @@ $query = "SELECT
     cls.consider_level,
     iv.cus_status,
     ack.updated_date,
-    vfi.first_name AS guarantor_name,
+    CONCAT(vfi.first_name, ' ', vfi.last_name) AS guarantor_name,
     vfi.relationship,
     vfi.relation_Mobile,
     IFNULL(NULLIF(c.pending, ''), 0) AS pending,
@@ -143,6 +149,8 @@ $query = "SELECT
 FROM
     acknowlegement_loan_calculation lc
 JOIN 
+    customer_register cr ON lc.cus_id_loan = cr.cus_id
+JOIN 
     acknowlegement_customer_profile cp ON lc.req_id = cp.req_id
 LEFT JOIN 
     verification_family_info vfi ON cp.guarentor_name = vfi.id
@@ -152,8 +160,12 @@ JOIN
     loan_issue li ON lc.req_id = li.req_id
 JOIN 
     area_list_creation al ON cp.area_confirm_area = al.area_id
-JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
-JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+     JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
+        JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
+        JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
+        JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+        JOIN area_duefollowup_mapping_area adma ON adma.area_id = al.area_id
+        JOIN area_duefollowup_mapping adm ON adm.map_id = adma.map_id
 JOIN 
     in_verification iv ON lc.req_id = iv.req_id
 JOIN 
@@ -180,7 +192,7 @@ LEFT JOIN
            ) latest
     ON c.req_id = latest.req_id AND c.coll_id = latest.max_coll_id ) c ON lc.req_id = c.req_id 
 WHERE
-    lc.req_id IN ($req_id_list) GROUP BY lc.req_id";
+    lc.req_id IN ($req_id_list) ";
 
 
 
@@ -191,12 +203,16 @@ if (isset($_POST['search'])) {
                         OR lc.due_start_from LIKE '%" . $_POST['search'] . "%'
                         OR lc.maturity_month LIKE '%" . $_POST['search'] . "%'
                         OR lc.cus_id_loan LIKE '%" . $_POST['search'] . "%'
-                        OR lc.first_name LIKE '%" . $_POST['search'] . "%'
+                        OR ag.group_name LIKE '%" . $_POST['search'] . "%'
+                        OR alm.line_name LIKE '%" . $_POST['search'] . "%'
+                        OR adm.duefollowup_name LIKE '%" . $_POST['search'] . "%'
+                        OR cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%'
+                        OR CONCAT(lc.first_name, ' ', lc.last_name) LIKE '%$search%' 
+                        OR CONCAT(vfi.first_name, ' ', vfi.last_name) LIKE '%$search%'
                         OR cp.mobile1 LIKE '%" . $_POST['search'] . "%'
                         OR al.area_name LIKE '%" . $_POST['search'] . "%'
                         OR ac.ag_name LIKE '%" . $_POST['search'] . "%'
                         OR iv.responsible LIKE '%" . $_POST['search'] . "%'
-                        OR vfi.first_name LIKE '%" . $_POST['search'] . "%'
                         OR vfi.relationship LIKE '%" . $_POST['search'] . "%'
                         OR vfi.relation_Mobile LIKE '%" . $_POST['search'] . "%'
                         OR lc.loan_amt LIKE '%" . $_POST['search'] . "%'
@@ -205,9 +221,11 @@ if (isset($_POST['search'])) {
     }
 }
 if (isset($_POST['order'])) {
-    $query .= " ORDER BY " . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'];
+    $col = $column[$_POST['order'][0]['column']];
+    $dir = $_POST['order'][0]['dir'];
+    $query .= " ORDER BY CAST($col AS UNSIGNED) $dir ";
 } else {
-    $query .= ' ';
+    $query .= " ";
 }
 
 $query1 = "";
@@ -265,13 +283,16 @@ foreach ($result as $row) {
 
     $sub_array   = array();
     $sub_array[] = $sno;
+        $sub_array[] = $row['group_name'];
     $sub_array[] = $row['line'];
+    $sub_array[] = $row['duefollowup_name'];
     $sub_array[] = $row['loan_id'];
     $sub_array[] = date('d-m-Y', strtotime($row['loan_date']));
     $sub_array[] = date('d-m-Y', strtotime($row['due_start_from']));
     $sub_array[] = date('d-m-Y', strtotime($row['maturity_date']));
     $sub_array[] = $row['cus_id_loan'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['autogen_cus_id'];
+    $sub_array[] = $row['customer_name'];
     $sub_array[] = $row['mobile1'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['loan_cat_name'];

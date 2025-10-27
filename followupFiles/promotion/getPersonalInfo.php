@@ -6,7 +6,8 @@ $cus_id = $_POST['cus_id'];
 
 $sql = '';
 
-$query1 = $connect->query("SELECT cp.cus_id, cp.first_name , cp.last_name, cp.cus_pic,cp.mobile1,al.area_name,alm.line_name as area_line,bc.branch_name from customer_profile cp 
+$query1 = $connect->query("SELECT cp.cus_id, cr.autogen_cus_id, cp.first_name , cp.last_name, cp.cus_pic,cp.mobile1,al.area_name,alm.line_name as area_line,bc.branch_name from customer_profile cp 
+    JOIN customer_register cr ON cp.cus_id = cr.cus_id
     LEFT JOIN area_list_creation al ON cp.area_confirm_area = al.area_id 
     JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
     JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
@@ -15,7 +16,8 @@ $query1 = $connect->query("SELECT cp.cus_id, cp.first_name , cp.last_name, cp.cu
     LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id
     WHERE cp.cus_id = " . $cus_id . "   ORDER BY cp.id DESC LIMIT 1");
 
-$query2 = $connect->query("SELECT rc.cus_id, rc.first_name, rc.last_name, rc.mobile1, rc.pic as cus_pic, al.area_name,alm.line_name as area_line,bc.branch_name FROM request_creation rc
+$query2 = $connect->query("SELECT rc.cus_id, cr.autogen_cus_id, rc.first_name, rc.last_name, rc.mobile1, rc.pic as cus_pic, al.area_name,alm.line_name as area_line,bc.branch_name FROM request_creation rc
+    JOIN customer_register cr ON rc.cus_id = cr.cus_id
     JOIN area_list_creation al ON rc.area = al.area_id
     JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
     JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
@@ -34,8 +36,12 @@ $row = $sql->fetch();
 <div class="col-xl-8 col-lg-10 col-md-12 col-sm-12">
     <div class="row">
         <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
-            <label for="info_cus_id">Customer ID</label>
+            <label for="info_cus_id">Aadhaar Number</label>
             <input type="text" name="info_cus_id" id="info_cus_id" class='form-control' tabindex="1" readonly value="<?php echo $row['cus_id']; ?>">
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+            <label for="autogen_cus_id">Customer ID</label>
+            <input type="text" name="autogen_cus_id" id="autogen_cus_id" class='form-control' tabindex="1" readonly value="<?php echo $row['autogen_cus_id']; ?>">
         </div>
         <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
             <label for="info_first_name">First Name</label>

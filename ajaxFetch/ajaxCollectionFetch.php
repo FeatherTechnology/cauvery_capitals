@@ -35,7 +35,8 @@ if ($userid != 1) {
 $column = array(
     'cp.id',
     'cp.cus_id',
-    'cp.first_name',
+    'cr.autogen_cus_id',
+    'CONCAT(cp.first_name, cp.last_name)',
     'alc.area_name',
     'cp.id',
     'alm.line_name',
@@ -46,7 +47,7 @@ $column = array(
 //$cus_sts = implode(',', $_POST['Customer_status']);
 
 if ($userid == 1) {
-    $query = "SELECT cp.cus_id AS cp_cus_id, cp.first_name, alc.area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
+    $query = "SELECT cp.cus_id AS cp_cus_id, cr.autogen_cus_id, CONCAT(cp.first_name,' ', cp.last_name) AS customer_name, alc.area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
     FROM acknowlegement_customer_profile cp 
     JOIN in_issue ii ON cp.cus_id = ii.cus_id 
     JOIN customer_status cs ON cp.req_id = cs.req_id 
@@ -60,8 +61,9 @@ if ($userid == 1) {
 
     if ($role != '2') {
         //show only issued customers within the same lines of user. // 14 and 17 means collection entries, 17 removed from issue list
-        $query = "SELECT cp.cus_id AS cp_cus_id, cp.first_name, alc.area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
+        $query = "SELECT cp.cus_id AS cp_cus_id, cr.autogen_cus_id, CONCAT(cp.first_name,' ', cp.last_name) AS customer_name, alc.area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
         FROM acknowlegement_customer_profile cp 
+        JOIN customer_register cr ON cp.cus_id = cr.cus_id
         JOIN in_issue ii ON cp.cus_id = ii.cus_id 
         JOIN customer_status cs ON cp.req_id = cs.req_id 
         JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id
@@ -71,8 +73,9 @@ if ($userid == 1) {
         left JOIN request_creation rc ON ii.req_id = rc.req_id 
         WHERE ii.status = 0 AND (ii.cus_status >= 14 AND ii.cus_status <= 17) AND cp.area_confirm_area IN ($area_list) ";
     } else { // if agent then check the possibilities
-        $query = "SELECT cp.cus_id AS cp_cus_id, cp.first_name, alc.area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
+        $query = "SELECT cp.cus_id AS cp_cus_id, cr.autogen_cus_id, CONCAT(cp.first_name,' ', cp.last_name) AS customer_name, alc.area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
         FROM acknowlegement_customer_profile cp 
+        JOIN customer_register cr ON cp.cus_id = cr.cus_id
         JOIN in_issue ii ON cp.cus_id = ii.cus_id 
         JOIN request_creation rc ON ii.req_id = rc.req_id 
         JOIN customer_status cs ON cp.req_id = cs.req_id 
@@ -94,7 +97,8 @@ if (isset($_POST['search'])) {
     if ($_POST['search'] != "") {
 
         $query .= " AND (cp.cus_id LIKE '" . $_POST['search'] . "%'
-            OR cp.first_name LIKE '%" . $_POST['search'] . "%' 
+            OR cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%' 
+            OR CONCAT(cp.first_name,' ', cp.last_name) LIKE '%" . $_POST['search'] . "%' 
             OR alc.area_name LIKE '%" . $_POST['search'] . "%'
             OR alm.line_name LIKE '%" . $_POST['search'] . "%' 
             OR cp.mobile1 LIKE '%" . $_POST['search'] . "%' ) ";
@@ -134,7 +138,8 @@ foreach ($result as $row) {
 
     $sub_array[] = $sno;
     $sub_array[] = $row['cp_cus_id'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['autogen_cus_id'];
+    $sub_array[] = $row['customer_name'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['branch_name'];
 

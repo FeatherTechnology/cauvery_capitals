@@ -120,7 +120,6 @@ $statusLabels = [
     '17' => 'Collection',
     '20' => 'Closed',
     '21' => 'NOC',
-    '22' => 'NOC Completed',
 ];
 
 $column = array(
@@ -128,7 +127,8 @@ $column = array(
     'req.req_code',
     'req.dor',
     'req.cus_id',
-    'req.first_name',
+    'cr.autogen_cus_id',
+    "CONCAT(req.first_name, ' ', req.last_name)",
     'al.area_name',
     'lcc.loan_category_creation_name',
     'req.loan_amt',
@@ -142,14 +142,18 @@ $column = array(
 );
 $query = "SELECT 
     req.*,
+    cr.autogen_cus_id,
     al.area_name,
     lcc.loan_category_creation_name,
     ag.ag_name,
     u.role,
-    u.fullname
+    u.fullname,
+    CONCAT(req.first_name, ' ', req.last_name) AS customer_name
 FROM 
     request_creation req 
 $join_condition
+JOIN 
+    customer_register cr ON req.cus_id = cr.cus_id
 JOIN 
     area_list_creation al ON req.area = al.area_id
 JOIN 
@@ -167,7 +171,8 @@ if (isset($_POST['search'])) {
     if ($_POST['search'] != "") {
 
         $query .= " and (req.cus_id LIKE '%" . $_POST['search'] . "%' OR
-                req.first_name LIKE '%" . $_POST['search'] . "%' OR
+                cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%' OR
+                CONCAT(req.first_name, ' ', req.last_name) LIKE '%$search%' OR
                 al.area_name LIKE '%" . $_POST['search'] . "%' OR
                 u.role LIKE '%" . $_POST['search'] . "%' OR
                 u.fullname LIKE '%" . $_POST['search'] . "%' OR
@@ -210,7 +215,8 @@ foreach ($result as $row) {
     $sub_array[] = $row['req_code'];
     $sub_array[] = date('d-m-Y', strtotime($row['dor']));
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['autogen_cus_id'];
+    $sub_array[] = $row['customer_name'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['loan_category_creation_name'];
     $sub_array[] = moneyFormatIndia($row['loan_amt']);

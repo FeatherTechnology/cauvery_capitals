@@ -4,8 +4,8 @@
 	<div style="background-color:#0c70ab; width:100%; padding:12px; color: #ffff; font-size: 20px; border-radius:5px;">
 		Cauvery Capitals - Loan Issue Report
 	</div>
-
 </div><br>
+
 <!-- Main container start -->
 <div class="main-container">
 	<!--form start-->
@@ -27,17 +27,23 @@
 									<th>S.No</th>
 									<th>Loan ID</th>
 									<th>Doc ID</th>
+									<th>Aadhaar Number</th>
 									<th>Cust. ID</th>
 									<th>Cust. Name</th>
 									<th>Guarantor Name</th>
 									<th>Relationship</th>
 									<th>Area</th>
+									<th>Group</th>
 									<th>Line</th>
+									<th>Followup</th>
 									<th>Branch</th>
 									<th>Loan Category</th>
 									<th>Agent</th>
 									<th>Responsible</th>
 									<th>Loan Date</th>
+									<th>Issue Mode</th>
+									<th>Bank Name</th>
+									<th>Transaction Date</th>
 									<th>Loan Amount</th>
 									<th>Principal Amount</th>
 									<th>Interest Amount</th>
@@ -55,7 +61,9 @@
 								<tbody></tbody>
 								<tfoot>
 									<tr>
-										<td colspan="14"></td>
+										<td colspan="18"></td>
+										<td></td>
+										<td></td>
 										<td></td>
 										<td></td>
 										<td></td>

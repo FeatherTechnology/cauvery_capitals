@@ -25,9 +25,12 @@
 							<table id="collection_report_table" class="table custom-table">
 								<thead>
 									<th>S.No</th>
+									<th>Group</th>
 									<th>Line</th>
+									<th>Followup</th>
 									<th>Loan ID</th>
 									<th>Loan Date</th>
+									<th>Aadhaar Number</th>
 									<th>Cust. ID</th>
 									<th>Cust. Name</th>
 									<th>Area</th>
@@ -41,6 +44,8 @@
 									<th>Bank Name</th>
 									<th>Transaction Date</th>
 									<th>Due Amount</th>
+									<!-- <th>Principal Amount</th>
+									<th>Interest Amount</th> -->
 									<th>Penalty</th>
 									<th>Fine</th>
 									<th>Total Paid</th>
@@ -51,7 +56,7 @@
 								</tbody>
 								<tfoot>
 									<tr>
-										<td colspan="12"></td>
+										<td colspan="13"></td>
 										<td></td>
 										<td></td>
 										<td></td>
@@ -61,6 +66,8 @@
 										<td></td>
 										<td></td>
 										<td></td>
+										<td></td>
+										<td colspan="2"></td>
 									</tr>
 								</tfoot>
 							</table>

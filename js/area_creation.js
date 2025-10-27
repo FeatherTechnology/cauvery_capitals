@@ -519,8 +519,15 @@ function getTalukBasedArea(talukselected) {
     });
 
     function closeModal() {
-       location.reload();
+        var area_id = $("#id").val();
+        var taluk = $("#taluk").val();
+        if (area_id !== '') {
+            location.reload();
+        }else{
+            getTalukBasedArea(taluk); 
+        }
     }
+    
     function closeSwapmodel() {
      var taluks = $('#taluk1').val();
         resetAreaTable(taluks);

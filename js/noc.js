@@ -217,16 +217,16 @@ $(document).ready(function () {
                 }
             });
 
-            $.ajax({
-                url: 'verificationFile/verification_group_datacheck.php',
-                type: 'POST',
-                data: { "name": name, "req_id": req_id, "category": category },
-                cache: false,
-                success: function (html) {
-                    $("#group_check").empty();
-                    $("#group_check").html(html);
-                }
-            });
+            // $.ajax({
+            //     url: 'verificationFile/verification_group_datacheck.php',
+            //     type: 'POST',
+            //     data: { "name": name, "req_id": req_id, "category": category },
+            //     cache: false,
+            //     success: function (html) {
+            //         $("#group_check").empty();
+            //         $("#group_check").html(html);
+            //     }
+            // });
         }
 
     })

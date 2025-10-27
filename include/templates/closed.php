@@ -43,6 +43,11 @@ if ($idupd > 0) {
 	}
 }
 
+$getCustomerReg = $userObj->getCustomerRegister($mysqli, $cus_id);
+if (sizeof($getCustomerReg) > 0) { 
+	$autogen_cus_id 			= $getCustomerReg['autogen_cus_id'];
+}
+
 ?>
 
 <style>
@@ -122,10 +127,15 @@ if ($idupd > 0) {
 								<div class="row">
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 										<div class="form-group">
-											<label for="cus_id">Customer ID</label>
-											<input type="text" class="form-control" id="cus_id" name="cus_id" value='<?php if (isset($cus_id)) {
-																															echo $cus_id;
-																														} ?>' readonly>
+											<label for="cus_id">Aadhaar Number</label>
+											<input type="text" class="form-control" id="cus_id" name="cus_id" value='<?php if (isset($cus_id)) {echo $cus_id;} ?>' readonly>
+										</div>
+									</div>
+
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
+										<div class="form-group">
+											<label for="autogen_cus_id">Customer ID</label>
+											<input type="text" class="form-control" id="autogen_cus_id" name="autogen_cus_id" value='<?php if (isset($autogen_cus_id)) { echo $autogen_cus_id; } ?>' readonly>
 										</div>
 									</div>
 

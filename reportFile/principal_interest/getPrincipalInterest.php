@@ -58,7 +58,8 @@ $column = array(
     'ii.loan_id',
     'ii.updated_date',
     'coll.cus_id',
-    'coll.first_name',
+    'cr.autogen_cus_id',
+    "CONCAT(coll.first_name, ' ', coll.last_name)", 
     'al.area_name',
     'lcc.loan_category_creation_name',
     'ac.ag_name',
@@ -78,8 +79,9 @@ $query = "SELECT
             ii.loan_id,
             ii.updated_date AS loan_date,
             coll.cus_id,
+            cr.autogen_cus_id,
             coll.req_id,
-            coll.first_name,
+            CONCAT(coll.first_name, ' ', coll.last_name) AS customer_name,
             coll.coll_mode,
             al.area_name,
             lcc.loan_category_creation_name AS loan_cat_name,
@@ -104,6 +106,7 @@ $query = "SELECT
             cls.consider_level
 
         FROM collection coll
+        JOIN customer_register cr ON coll.cus_id = cr.cus_id
         JOIN acknowlegement_customer_profile cp ON coll.req_id = cp.req_id
         JOIN in_issue ii ON coll.req_id = ii.req_id
         JOIN area_list_creation al ON cp.area_confirm_area = al.area_id
@@ -125,7 +128,8 @@ if (isset($_POST['search'])) {
                     OR alm.line_name LIKE '%" . $_POST['search'] . "%'
                     OR ii.updated_date LIKE '%" . $_POST['search'] . "%'
                     OR coll.cus_id LIKE '%" . $_POST['search'] . "%'
-                    OR coll.first_name LIKE '%" . $_POST['search'] . "%'
+                    OR cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%'
+                    OR CONCAT(coll.first_name, ' ', coll.last_name) LIKE '%$search%' 
                     OR al.area_name LIKE '%" . $_POST['search'] . "%'
                     OR lcc.loan_category_creation_name LIKE '%" . $_POST['search'] . "%'
                     OR u.role LIKE '%" . $_POST['search'] . "%'
@@ -164,22 +168,23 @@ $data = array();
 $sno = 1;
 foreach ($result as $row) {
     $sub_array   = array();
-    $principal_calc = $row['principal_amt_cal'] / $row['tot_amt_cal'];
-    $intrest_calc = $row['int_amt_cal'] / $row['tot_amt_cal'];
+    $principal_calc= $row['principal_amt_cal'] / $row['tot_amt_cal'] ;
+    $intrest_calc= $row['int_amt_cal'] / $row['tot_amt_cal'] ;
 
     $sub_array[] = $sno;
     $sub_array[] = $row['line'];
     $sub_array[] = $row['loan_id'];
     $sub_array[] = date('d-m-Y', strtotime($row['loan_date']));
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['autogen_cus_id'];
+    $sub_array[] = $row['customer_name'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['loan_cat_name'];
     $sub_array[] = $row['ag_name'];
     $sub_array[] = $role_arr[$row['role']];
     $sub_array[] = $row['fullname'];
     $sub_array[] = date('d-m-Y', strtotime($row['coll_date']));
-    $sub_array[] = moneyFormatIndia(intVal($row['due_amt_track']));
+     $sub_array[] = moneyFormatIndia(intVal($row['due_amt_track']));
     if ($row['due_type'] != 'Interest') {
         //to get the principal and interest amt separate in due amt paid
         // $response = calculatePrincipalAndInterest(intVal($row['principal_amt_cal']) / $row['due_period'], intVal($row['int_amt_cal']) / $row['due_period'], intVal($row['due_amt_track']));
@@ -190,6 +195,7 @@ foreach ($result as $row) {
         $intrest = $row['due_amt_track'] * $intrest_calc;
         $sub_array[] = round($principle, 1);
         $sub_array[] = round($intrest, 1);
+
     } else {
         //else if its interest loan we can empty due amt coz it will not be paid on that loan, direclty show princ and int
         $sub_array[] = '';

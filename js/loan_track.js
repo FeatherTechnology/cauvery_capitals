@@ -9,6 +9,7 @@ $(document).ready(function () {
     $('#search_cus').click(function (event) {
 
         let cus_id = $('#cus_id').val(); cus_id = cus_id.replace(/\s+/g, '');//removes spaces in adhar number
+        let autogen_cus_id = $('#autogen_cus_id').val(); 
         let first_name = $('#first_name').val(); 
         let last_name = $('#last_name').val(); 
         let mobile = $('#mobile').val(); 
@@ -21,7 +22,7 @@ $(document).ready(function () {
                 url: 'searchModule/search_customer.php',
                 type: 'POST',
                 dataType: 'JSON',
-                data: { cus_id, first_name, last_name, mobile, loan_id },
+                data: { cus_id, autogen_cus_id, first_name, last_name, mobile, loan_id },
                 success: function (data) {
                     console.log("🚀 ~ data:", data)
                     let appendData;
@@ -30,6 +31,7 @@ $(document).ready(function () {
                         $.each(data.customer_data, function (key, val) {
                             appendData += `<tr><td>${val.sno}</td>
                                 <td>${val.cus_id}</td>
+                                <td>${val.autogen_cus_id}</td>
                                 <td>${val.cus_name}</td>
                                 <td>${val.area}</td>
                                 <td>${val.branch}</td>
@@ -61,13 +63,14 @@ $(document).ready(function () {
 function validate() {
     let cus_id = $('#cus_id').val();
     cus_id = cus_id.replace(/\s+/g, '');//removes spaces in adhar number
+    let autogen_cus_id = $('#autogen_cus_id').val(); 
     let first_name = $('#first_name').val().trim();
     let last_name = $('#last_name').val().trim();
     let mobile = $('#mobile').val();
     let loan_id = $('#loan_id').val();
     let response = true; let pattern = /\d{3,}$/; // '\d' matches any digit, '{3,}' matches at least 3 digits
 
-    if (cus_id == '' && first_name == '' && last_name == '' && mobile == '' && loan_id == '') {
+    if (cus_id == '' && autogen_cus_id == '' && first_name == '' && last_name == '' && mobile == '' && loan_id == '') {
         response = false;
     } else if (cus_id != '' && cus_id.length != 12) {
         response = false;
@@ -175,9 +178,9 @@ function customerStatusOnClickEvents() {
     $('.due-chart').off('click').click(function () {
         let req_id = $(this).attr('value');
         let cus_id = $(this).data('cusid');
-        dueChartList(req_id, cus_id); // To show Due Chart List.
-        setTimeout(() => {
-            $('.print_due_coll').off('click').click(function () {
+        dueChartList(req_id, cus_id, function () {
+            $(document).off("click", ".print_due_coll");
+            $(document).on("click", ".print_due_coll", function () {
                 var id = $(this).attr('value');
                 Swal.fire({
                     title: 'Print',
@@ -207,8 +210,9 @@ function customerStatusOnClickEvents() {
                     }
                 })
             })
-        }, 1000)
+        })
     })
+
     $('.penalty-chart').off('click').click(function () {
         let req_id = $(this).attr('value');
         let cus_id = $(this).data('cusid');
@@ -260,26 +264,27 @@ function customerStatusOnClickEvents() {
 }
 
 //Due Chart List
-function dueChartList(req_id, cus_id) {
-    // var req_id = $('#idupd').val()
-    // const cus_id = $('#cusidupd').val()
+function dueChartList(req_id, cus_id, callback) {
+    $('#dueChartTableDiv').empty()
     $.ajax({
         url: 'collectionFile/getDueChartList.php',
         data: { 'req_id': req_id, 'cus_id': cus_id },
         type: 'post',
         cache: false,
         success: function (response) {
-            $('#dueChartTableDiv').empty()
             $('#dueChartTableDiv').html(response)
         }
     }).then(function () {
 
         $.post('collectionFile/getDueMethodName.php', { req_id }, function (response) {
-            $('#dueChartTitle').text('Due Chart ( Cus ID : '+ response['cus_id'] + '  | Cus Name : ' + response['cus_name'] + '  | Loan ID : ' + response['loan_id'] + '  | Loan Category : ' + response['loan_category'] + ' )');
+            $('#dueChartTitle').text(`Due Chart ( Aadhaar Number : ${response.cus_id} | Cus ID : ${response.autogen_cus_id}  | Cus Name : ${response.cus_name}  | Loan ID : ${response.loan_id}  | Loan Category : ${response.loan_category} )`);
         }, 'json');
+
+        callback();
     })
 
 }
+
 //Penalty Chart List
 function penaltyChartList(req_id, cus_id) {
     $.ajax({

@@ -11,7 +11,6 @@
 	<!--form start-->
 	<form id="no_pay_due_report_form" name="no_pay_due_report_form" action="" method="post" enctype="multipart/form-data">
 
-		<!-- <div class="row gutters" id="collection_card"> -->
 		<div class="row gutters" id="report_card">
 			<div class="toggle-container col-12">
 			<input type="month" id="from_date" name="from_date" class="toggle-button" value="">
@@ -19,16 +18,19 @@
 			</div>
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="card">
-					<div class="card-header">No Pay Due Report</div>
+					<div class="card-header">No Due Pay Report</div>
 					<div class="card-body">
 						<div id="report_table_div" class="table-divs" style="overflow-x: auto;">
 							<table id="no_pay_due_report_table" class="table custom-table">
 								<thead>
 									<th>S.No</th>
+									<th>Group</th>
 									<th>Line</th>
+									<th>Followup</th>
 									<th>Loan ID</th>
 									<th>Loan Date</th>
 									<th>Maturity Date</th>
+									<th>Aadhaar Number</th>
 									<th>Cust. ID</th>
 									<th>Cust. Name</th>
 									<th>Area</th>
@@ -40,10 +42,17 @@
 									<th>Payable</th>
 									<th>Status</th>
 									<th>Sub Status</th>
+									<th>One Month</th>
+									<th>Two Month</th>
+									<th>Three Month</th>
+									<th>Four Month</th>
+									<th>Five Month</th>
+									<th>Above Five Month</th>
+									<th>Balance Amount</th>
 								</thead>
 								<tbody>
 								</tbody>
-								
+
 							</table>
 						</div>
 					</div>
