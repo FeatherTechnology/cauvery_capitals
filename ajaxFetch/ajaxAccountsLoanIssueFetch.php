@@ -40,7 +40,7 @@ $column = array(
     'a.dor',
     'a.cus_id',
     'cr.autogen_cus_id',
-    'a.first_name',
+    'CONCAT(a.first_name, a.last_name)',
     'bc.branch_name',
     'ag.group_name',
     'alm.line_name',
@@ -56,7 +56,7 @@ $column = array(
     'a.req_id'
 );
 if ($userid == 1) {
-    $query = "SELECT a.dor, a.cus_id, cr.autogen_cus_id, a.first_name, a.user_type, a.user_name, a.agent_id, a.responsible, a.cus_data, a.req_id, a.cus_status, a.req_id, b.loan_amt, ac.area_name, ag.group_name, bc.branch_name, alm.line_name, lcc.loan_category_creation_name 
+    $query = "SELECT a.dor, a.cus_id, cr.autogen_cus_id, CONCAT(a.first_name,' ', a.last_name) AS customer_name, a.user_type, a.user_name, a.agent_id, a.responsible, a.cus_data, a.req_id, a.cus_status, a.req_id, b.loan_amt, ac.area_name, ag.group_name, bc.branch_name, alm.line_name, lcc.loan_category_creation_name 
     FROM in_verification a 
     JOIN customer_register cr ON a.cus_id = cr.cus_id
     JOIN acknowlegement_loan_calculation b on a.req_id=b.req_id 
@@ -70,7 +70,7 @@ if ($userid == 1) {
     JOIN loan_category_creation lcc ON lcc.loan_category_creation_id = b.loan_category
     WHERE a.status = 0 and (a.cus_status = 13) and (a.issue_by = 2) "; // Move To Issue
 } else {
-    $query = "SELECT a.dor, a.cus_id, cr.autogen_cus_id, a.first_name, a.user_type, a.user_name, a.agent_id, a.responsible, a.cus_data, a.req_id, a.cus_status, a.req_id, b.loan_amt, ac.area_name, ag.group_name, bc.branch_name, alm.line_name, lcc.loan_category_creation_name 
+    $query = "SELECT a.dor, a.cus_id, cr.autogen_cus_id, CONCAT(a.first_name,' ', a.last_name) AS customer_name, a.user_type, a.user_name, a.agent_id, a.responsible, a.cus_data, a.req_id, a.cus_status, a.req_id, b.loan_amt, ac.area_name, ag.group_name, bc.branch_name, alm.line_name, lcc.loan_category_creation_name 
     FROM in_verification a 
     JOIN customer_register cr ON a.cus_id = cr.cus_id
     JOIN acknowlegement_loan_calculation b on a.req_id=b.req_id 
@@ -89,7 +89,7 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
     $query .= " AND (a.dor LIKE '%" . $_POST['search'] . "%'
             OR a.cus_id LIKE '%" . $_POST['search'] . "%'
             OR cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%'
-            OR a.first_name LIKE '%" . $_POST['search'] . "%'
+            OR CONCAT(a.first_name,' ', a.last_name) LIKE '%" . $_POST['search'] . "%'
             OR bc.branch_name LIKE '%" . $_POST['search'] . "%'
             OR ag.group_name LIKE '%" . $_POST['search'] . "%'
             OR alm.line_name LIKE '%" . $_POST['search'] . "%'
@@ -131,7 +131,7 @@ foreach ($result as $row) {
     $sub_array[] = date('d-m-Y', strtotime($row['dor']));
     $sub_array[] = $row['cus_id'];
     $sub_array[] = $row['autogen_cus_id'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['customer_name'];
 
     $sub_array[] = $row["branch_name"];
     $sub_array[] = $row['group_name'];

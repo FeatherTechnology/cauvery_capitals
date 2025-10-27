@@ -19,7 +19,7 @@ $columns = [
     'rc.updated_date',
     'rc.cus_id',
     'cr.autogen_cus_id',
-    'rc.first_name',
+    'CONCAT(rc.first_name, rc.last_name)',
     'alc.area_name',
     'bc.branch_name',
     'agm.group_name',
@@ -104,7 +104,7 @@ $searchQuery = "";
 if ($searchValue != '') {
     $searchQuery = " AND (rc.cus_id LIKE '%" . $searchValue . "%' 
                     OR cr.autogen_cus_id LIKE '%" . $searchValue . "%' 
-                    OR rc.first_name LIKE '%" . $searchValue . "%' 
+                    OR CONCAT(rc.first_name,' ', rc.last_name) LIKE '%" . $searchValue . "%' 
                     OR alc.area_name LIKE '%" . $searchValue . "%'
                     OR bc.branch_name LIKE '%" . $searchValue . "%'
                     OR agm.group_name LIKE '%" . $searchValue . "%'
@@ -116,6 +116,7 @@ $orderQuery = " ORDER BY " . $columns[$orderColumnIndex] . " " . $orderDir;
 
 $sql = "SELECT 
     rc.*,
+    CONCAT(rc.first_name,' ', rc.last_name) AS customer_name, 
     cr.autogen_cus_id,
     alc.area_name,
     lcc.loan_category_creation_name,
@@ -156,8 +157,10 @@ $status_arr = [1 => 'Completed', 2 => 'Unavailable', 3 => 'Reconfirmation'];
 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
     $req_id = $row['req_id'];
     $qry = $connect->query("SELECT remove_status, status FROM confirmation_followup WHERE req_id = '" . $req_id . "' ORDER BY created_date DESC limit 1");
-    $rst = $qry->fetch()['remove_status'] ?? null;
-    if ($qry -> rowCount() == 0 || $rst != 1) { // show below contents only if confirmation of the request id is not removed from table already
+    $rst = $qry->fetch(PDO::FETCH_ASSOC);
+    $remove_status = $rst['remove_status'] ?? null;
+    $status = $rst['status'] ?? null;
+    if ($qry -> rowCount() == 0 || $remove_status != 1) { // show below contents only if confirmation of the request id is not removed from table already
 
         $action = "<div class='dropdown'><button class='btn btn-outline-secondary' onclick='event.preventDefault();'><i class='fa'>&#xf107;</i></button><div class='dropdown-content'>
                         <a class='conf-chart' data-cusid='" . $row['cus_id'] . "' data-reqid='" . $row['req_id'] . "' data-toggle='modal' data-target='#confChartModal'><span>Confirmation Chart</span></a>
@@ -175,7 +178,7 @@ while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         if ($status == '1') { // 1 means completed
             $actionEdit .= "<a class='conf-remove' data-cusid='" . $row['cus_id'] . "' data-reqid='" . $row['req_id'] . "' ><span>Remove</span></a>";
         } else {
-            $actionEdit .= "<a class='conf-edit' data-cusid='" . $row['cus_id'] . "' data-cusname='" . $row['first_name'] . "' data-reqid='" . $row['req_id'] . "' data-toggle='modal' data-target='#addConfimation'><span>Confirmation</span></a>";
+            $actionEdit .= "<a class='conf-edit' data-cusid='" . $row['cus_id'] . "' data-cusname='" . $row['customer_name'] . "' data-reqid='" . $row['req_id'] . "' data-toggle='modal' data-target='#addConfimation'><span>Confirmation</span></a>";
         }
 
         $actionEdit .= "</div></div>";
@@ -185,7 +188,7 @@ while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             date('d-m-Y', strtotime($row['updated_date'])),
             $row['cus_id'],
             $row['autogen_cus_id'],
-            $row['first_name'],
+            $row['customer_name'],
             $row['area_name'],
             $row['branch_name'],
             $row['group_name'],
