@@ -19,10 +19,11 @@ $column = array(
     'rc.dor',
     'rc.cus_id',
     'cr.autogen_cus_id',
-    'rc.first_name',
+    'CONCAT(rc.first_name, rc.last_name)',
     'bc.branch_name',
     'ag.group_name',
     'alm.line_name',
+    'mobile1',
     'a.area_name',
     'lcc.loan_category_creation_name',
     'rc.loan_amt',
@@ -35,7 +36,7 @@ $column = array(
     'rc.status'
 );
 
-$query = "SELECT rc.*, cr.autogen_cus_id, a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
+$query = "SELECT rc.*, cr.autogen_cus_id, CONCAT(rc.first_name,' ', rc.last_name) AS customer_name, rc. a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
     FROM request_creation rc
     JOIN customer_register cr ON rc.cus_id = cr.cus_id
     JOIN area_list_creation a ON rc.area = a.area_id
@@ -49,7 +50,7 @@ $query = "SELECT rc.*, cr.autogen_cus_id, a.area_name, ag.group_name, bc.branch_
     AND (rc.cus_status NOT IN (4, 5, 6, 7, 8, 9) AND rc.cus_status < 14) 
     AND rc.insert_login_id = '$userid' "; //hide if issued or revoked(after issued cus_status = 7 , request revoked = 8, verification revoked = 9)
 if ($userid == 1 or $request_list_access == 0) { //if request_list_access is granted to the current user
-    $query = "SELECT rc.*, cr.autogen_cus_id, a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
+    $query = "SELECT rc.*, cr.autogen_cus_id, CONCAT(rc.first_name,' ', rc.last_name) AS customer_name, a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
     FROM request_creation rc
     JOIN customer_register cr ON rc.cus_id = cr.cus_id
     JOIN area_list_creation a ON rc.area = a.area_id
@@ -67,7 +68,7 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
     $query .= "AND ( rc.dor LIKE '%" . $_POST['search'] . "%'
             OR rc.cus_id LIKE '%" . $_POST['search'] . "%'
             OR cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%'
-            OR rc.first_name LIKE '%" . $_POST['search'] . "%'
+            OR CONCAT(rc.first_name,' ', rc.last_name) LIKE '%" . $_POST['search'] . "%'
             OR bc.branch_name LIKE '%" . $_POST['search'] . "%'
             OR ag.group_name LIKE '%" . $_POST['search'] . "%'
             OR alm.line_name LIKE '%" . $_POST['search'] . "%'
@@ -78,7 +79,7 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
             OR rc.responsible LIKE '%" . $_POST['search'] . "%'
             OR rc.cus_data LIKE '%" . $_POST['search'] . "%')  "; 
 }
-// print_r($query);die;
+
 if (isset($_POST['order'])) {
     $query .= 'ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
 } else {
@@ -114,7 +115,7 @@ foreach ($result as $row) {
 
     $sub_array[] = $row['cus_id'];
     $sub_array[] = $row['autogen_cus_id'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['customer_name'];
 
     $sub_array[] = $row["branch_name"];
     $sub_array[] = $row['group_name'];

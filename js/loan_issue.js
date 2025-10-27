@@ -229,124 +229,127 @@ $(document).on('change', '.verification_bank_update', function () {
 
 
     
-    $('#cash_guarentor_name').change(function () { //Select Guarantor Name relationship will show in input.
-
-        let famAdhaarNo = document.querySelector("#cash_guarentor_name").value;
+    $('#cash_guarentor_name').change(function () { 
+        // Select Guarantor Name → show relationship & fingerprint info
+        let famAdhaarNo = $("#cash_guarentor_name").val();
         $('#cash_guarentor').hide();
-        $('#compare_finger').val('')
-        var cusId = $('#cus_id').val();
-        if (famAdhaarNo == cusId) {
-            var cus = '1';
-        } else {
-            var cus = '2';
-        }
+        $('#compare_finger').val('');
+        
+        let cusId = $('#cus_id').val();
+        let cus = (famAdhaarNo == cusId) ? '1' : '2';
 
         $.ajax({
             url: 'loanIssueFile/getFamRelationship.php',
             type: 'POST',
-            data: { "adhaarno": famAdhaarNo, "cus": cus, "cusId": cusId },
+            data: { adhaarno: famAdhaarNo, cus: cus, cusId: cusId },
             dataType: 'json',
             cache: false,
             success: function (result) {
+                try {
+                    $("#relationship").val(result['relation'] || '');
 
-                $("#relationship").val(result['relation']);
-                $("#compare_finger").val(result['fpTemplate']);
-                if (result['hand'] == '1') {
-                    $('.scanBtn').removeAttr('disabled');
-                    var hand = "Put Your Left Thumb"
-                } else if (result['hand'] == '2') {
-                    $('.scanBtn').removeAttr('disabled');
-                    var hand = "Put Your Right Thumb"
-                } else {
-                    var hand = "Finger Print Not Registered";
-                    $('.scanBtn').attr('disabled', true);
+                    if (result['fingers'] && Array.isArray(result['fingers']) && result['fingers'].length > 0) {
+                        // Save all fingerprints as JSON
+                        $("#compare_finger").val(JSON.stringify(result['fingers']));
+                        $('.scanBtn').removeAttr('disabled');
+
+                        // Just show a generic message (no hand names)
+                        $("#hand_type").text("Fingerprint Registered")
+                    } else {
+                        $("#hand_type").text("Fingerprint Not Registered")
+                        $('.scanBtn').attr('disabled', true);
+                    }
+                } catch (err) {
+                    console.error('Error handling response:', err);
+                    $("#hand_type").text("Error loading fingerprints").attr('class', 'text-danger');
                 }
-                $("#hand_type").text(hand).attr('class', 'text-danger');
-
+            },
+            error: function (xhr, status, err) {
+                console.error('AJAX Error:', err);
+                alert("Failed to load family relationship details.");
             }
         });
-
     });
 
 
+
     $('.scanBtn').click(function () {
-        var g_name = $('#cash_guarentor_name').val();
+        let g_name = $('#cash_guarentor_name').val();
 
         if (g_name != '') {
-
             $(this).attr('disabled', true);
-            showOverlay();//loader start
+            showOverlay(); // loader start
 
-            setTimeout(() => { //Set Timeout, because loadin animation will be intrupped by this capture event
-                var quality = 60; //(1 to 100) (recommended minimum 55)
-                var timeout = 10; // seconds (minimum=10(recommended), maximum=60, unlimited=0)
-                var res = CaptureFinger(quality, timeout);
+            setTimeout(() => {
+                let quality = 60;
+                let timeout = 10;
+                let res = CaptureFinger(quality, timeout);
+
                 if (res.httpStaus) {
                     if (res.data.ErrorCode == "0") {
-                        $('#ack_fingerprint').val(res.data.AnsiTemplate); // Take ansi template that is the unique id which is passed by sensor
-                    }//Error codes and alerts below
-                    else if (res.data.ErrorCode == -1307) {
-                        alert('Connect Your Device');
-                        $(this).removeAttr('disabled');
-                    } else if (res.data.ErrorCode == -1140 || res.data.ErrorCode == 700) {
-                        alert('Timeout');
-                        $(this).removeAttr('disabled');
-                    } else if (res.data.ErrorCode == 720) {
-                        alert('Reconnect Device');
-                        $(this).removeAttr('disabled');
-                    } else if (res.data.ErrorCode == 730) {
-                        alert('Capture Finger Again');
-                        $(this).removeAttr('disabled');
+                        $('#ack_fingerprint').val(res.data.AnsiTemplate);
                     } else {
-                        alert('Error Code:' + res.data.ErrorCode);
+                        alert('Error Code: ' + res.data.ErrorCode);
                         $(this).removeAttr('disabled');
+                        hideOverlay();
+                        return;
                     }
-                }
-                else {
+                } else {
                     alert(res.err);
+                    $(this).removeAttr('disabled');
+                    hideOverlay();
+                    return;
                 }
 
-                //Verify the finger is matched with member name
-                var compare_finger = $('#compare_finger').val()
-                var ack_fingerprint = $('#ack_fingerprint').val()
-                var res = VerifyFinger(compare_finger, ack_fingerprint)
-                if (res.httpStaus) {
-                    if (res.data.Status) {
+                // Verify the captured fingerprint against all registered ones
+                let compare_finger = $('#compare_finger').val();
+                let ack_fingerprint = $('#ack_fingerprint').val();
+                let matched = false;
+
+                try {
+                    let fingers = JSON.parse(compare_finger);
+
+                    for (let f of fingers) {
+                        if (!f.fpTemplate) continue;
+
+                        let verifyRes = VerifyFinger(f.fpTemplate, ack_fingerprint);
+                        if (verifyRes.httpStaus && verifyRes.data.Status) {
+                            matched = true;
+                            break;
+                        }
+                    }
+
+                    if (matched) {
                         Swal.fire({
-                            title: 'Fingerprint Matching',
+                            title: 'Fingerprint Matched',
                             icon: 'success',
-                            showConfirmButton: true,
                             confirmButtonColor: '#0c70ab'
                         });
                         $('#fingerValidation').val('1');
                         $("#hand_type").text('Done').attr('class', 'text-success');
                     } else {
-                        if (res.data.ErrorCode != "0") {
-                            alert(res.data.ErrorDescription);
-                        }
-                        else {
-                            Swal.fire({
-                                title: 'Fingerprint Not Matching',
-                                icon: 'error',
-                                showConfirmButton: true,
-                                confirmButtonColor: '#0c70ab'
-                            });
-                            $(this).removeAttr('disabled');
-                        }
+                        Swal.fire({
+                            title: 'Fingerprint Not Matching',
+                            icon: 'error',
+                            confirmButtonColor: '#0c70ab'
+                        });
+                        $(this).removeAttr('disabled');
                     }
-                } else {
-                    alert(res.err)
+
+                } catch (e) {
+                    console.error('Fingerprint comparison error:', e);
+                    alert('Error comparing fingerprints. Please try again.');
+                    $(this).removeAttr('disabled');
                 }
 
-                hideOverlay();//loader stop
-
-            }, 700) //Timeout End
-
-        } else {//If End
+                hideOverlay(); // loader stop
+            }, 700);
+        } else {
             $('#cash_guarentor').show();
         }
+    });
 
-    })//Scan button Onclick end
+//Scan button Onclick end
     function onLoadEditFunction() {//On load for Loan Calculation edit
         $('input#due_start_from').removeAttr('readonly');
         $('select#collection_method').removeAttr('disabled');
