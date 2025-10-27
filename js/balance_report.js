@@ -22,7 +22,7 @@ $(document).ready(function () {
         }else if(reportType =='2'){ //Priciple / Interest
             url = 'reportFile/principal_interest/getBalPrincipalinterest.php';
             tid = 'princ_intrst_table';
-            colArr = [14,15, 17, 18, 19, 20,21,22,23];
+            colArr = [14,15, 17, 18, 19, 20,22,23];
             $('#balance_table_div').hide();
             $('#princ_intrst_table_div').show();
 

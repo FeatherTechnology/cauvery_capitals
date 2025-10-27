@@ -102,7 +102,7 @@ $query = "SELECT
             cp.cus_id,
             cr.autogen_cus_id,
             cp.req_id,
-            CONCAT(cp.first_name, ' ', cp.last_name) AS customer_name,,
+            CONCAT(cp.first_name, ' ', cp.last_name) AS customer_name,
             al.area_name,
             lcc.loan_category_creation_name AS loan_cat_name,
             ac.ag_name,
