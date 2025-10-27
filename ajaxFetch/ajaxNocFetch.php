@@ -35,7 +35,7 @@ $column = array(
     'cp.id',
     'cp.cus_id',
     'cr.autogen_cus_id',
-    'cp.first_name',
+    'CONCAT(cp.first_name, cp.last_name)',
     'ac.area_name',
     'bc.branch_name',
     'al.line_name',
@@ -44,7 +44,7 @@ $column = array(
 );
 
 if ($userid == 1) {
-    $query = 'SELECT cp.cus_id as cp_cus_id, cr.autogen_cus_id, cp.first_name, ac.area_name,  al.line_name, bc.branch_name, cp.mobile1, ii.cus_id as ii_cus_id, ii.req_id, 0 as response 
+    $query = "SELECT cp.cus_id as cp_cus_id, cr.autogen_cus_id, CONCAT(cp.first_name,' ', cp.last_name) AS customer_name, ac.area_name,  al.line_name, bc.branch_name, cp.mobile1, ii.cus_id as ii_cus_id, ii.req_id, 0 as response 
     FROM acknowlegement_customer_profile cp 
     JOIN customer_register cr ON cp.cus_id = cr.cus_id
     JOIN in_issue ii ON cp.cus_id = ii.cus_id
@@ -52,11 +52,11 @@ if ($userid == 1) {
     JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
     JOIN area_line_mapping al ON al.map_id = alma.line_map_id
     JOIN branch_creation bc ON al.branch_id = bc.branch_id
-    where ii.status = 0 and ii.cus_status = 21 GROUP BY ii.cus_id '; // Only Issued and all lines not relying on sub area
+    where ii.status = 0 and ii.cus_status = 21 GROUP BY ii.cus_id "; // Only Issued and all lines not relying on sub area
 } else {
     $query = " SELECT cp.cus_id AS cp_cus_id,
     cr.autogen_cus_id,
-    cp.first_name,
+    CONCAT(cp.first_name,' ', cp.last_name) AS customer_name, 
     ac.area_name,
     al.line_name,
     bc.branch_name,
@@ -145,7 +145,7 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
 
     $search = " AND (cp.cus_id LIKE '%" . $_POST['search'] . "%'
             OR cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%'
-            OR cp.first_name LIKE '%" . $_POST['search'] . "%'
+            OR CONCAT(cp.first_name,' ', cp.last_name) LIKE '%" . $_POST['search'] . "%'
             OR ac.area_name LIKE '%" . $_POST['search'] . "%'
             OR al.line_name LIKE '%" . $_POST['search'] . "%'
             OR bc.branch_name LIKE '%" . $_POST['search'] . "%'
@@ -190,7 +190,7 @@ foreach ($result as $row) {
 
     $sub_array[] = $row['cp_cus_id'];
     $sub_array[] = $row['autogen_cus_id'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['customer_name'];
 
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row["branch_name"];
