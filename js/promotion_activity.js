@@ -89,11 +89,11 @@ $(document).ready(function () {
 
         let btnName = $(".toggle-button.active").first().val();
 
-        if(btnName =='Existing'){
-            showPromotionList('followupFiles/promotion/showPromotionList.php', 'expromotion_list');
+        if (btnName == 'Existing') {
+            showPromotionList('followupFiles/promotion/showPromotionList.php', 'expromotion_list', '15');
 
-        } else if(btnName =='Repromotion'){
-            showPromotionList('followupFiles/promotion/showRepromotionList.php', 'repromotion_list');
+        } else if (btnName == 'Repromotion') {
+            showPromotionList('followupFiles/promotion/showRepromotionList.php', 'repromotion_list', '16');
             
         }  
     });
@@ -784,7 +784,7 @@ function intNotintOnclick() {
     })
 }
 
-function showPromotionList(url, tableid) {
+function showPromotionList(url, tableid, colNo) {
     let followUpSts = $('#follow_up_sts').val();
     let dateType = $('#date_type').val();
     let followUpFromDate = $('#follow_up_fromdate').val();
@@ -830,7 +830,7 @@ function showPromotionList(url, tableid) {
             intNotintOnclick();
             promoChartOnclick();
             promotionListOnclick();
-            promotionChartColor(tableid);
+            promotionChartColor(tableid, colNo);
         }
     });
 }
@@ -857,9 +857,9 @@ function promotionListOnclick() {
     })
 }
 
-function promotionChartColor(tableid) {
+function promotionChartColor(tableid, colNo) {
     $(`#${tableid} tbody tr`).not('th').each(function () {
-        var element = $(this).find('td:eq(15)'); // Get the text content of the 15th td element (Follow date)
+        var element = $(this).find(`td:eq(${colNo})`); // Get the text content of the 15th td element (Follow date)
 
         let tddate = element.text();
         let datecorrection = tddate.split("-").reverse().join("-").replaceAll(/\s/g, ''); // Correct the date format

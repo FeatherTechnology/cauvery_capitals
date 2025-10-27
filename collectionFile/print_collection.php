@@ -11,6 +11,10 @@ $row = $qry->fetch();
 
 extract($row); // Extracts the array values into variables
 
+$sql = $connect->query("SELECT autogen_cus_id FROM customer_register WHERE cus_id = '$cus_id'");
+$rowSql = $sql->fetch();
+$autogen_cus_id = $rowSql['autogen_cus_id'];
+
 $sql = $connect->query("SELECT alm.line_name, alc.area_name FROM `acknowlegement_customer_profile` cp  JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id join area_line_mapping_area alma on alma.area_id = alc.area_id JOIN area_line_mapping alm ON alma.line_map_id = alm.map_id WHERE cp.req_id='" . strip_tags($req_id) . "'");
 $rowSql = $sql->fetch();
 $line_name = $rowSql['line_name'];
@@ -91,6 +95,7 @@ $coll_modes = ['1' => 'Cash', '2' => 'Cheque', '3' => 'ECS', '4' => 'IMPS/NEFT/R
             <div>Time :</div>
             <div>Line :</div>
             <div>Area :</div>
+            <div>Aadhaar Number :</div>
             <div>Customer ID :</div>
             <b>
                 <div>Customer Name :</div>
@@ -134,6 +139,7 @@ $coll_modes = ['1' => 'Cash', '2' => 'Cheque', '3' => 'ECS', '4' => 'IMPS/NEFT/R
             <div><?php echo $line_name; ?></div>
             <div><?php echo $area_name; ?></div>
             <div><?php echo $cus_id; ?></div>
+            <div><?php echo $autogen_cus_id; ?></div>
             <b>
                 <div><?php echo $cus_name; ?></div>
             </b>

@@ -23,8 +23,6 @@ if (isset($_POST['submit_loanIssue']) && $_POST['submit_loanIssue'] != '') {
 <?php
 }
 
-// $getBankDetails = $userObj->getBankDetails($mysqli);
-
 $getRequestData = $userObj->getRequestForVerification($mysqli, $idupd);
 if (sizeof($getRequestData) > 0) {
 	for ($i = 0; $i < sizeof($getRequestData); $i++) {
@@ -78,6 +76,11 @@ if (sizeof($getRequestData) > 0) {
 		$due_period					= $getRequestData['due_period'];
 		$cus_status					= $getRequestData['cus_status'];
 	}
+}
+
+$getCustomerReg = $userObj->getCustomerRegister($mysqli, $cus_id);
+if (sizeof($getCustomerReg) > 0) { 
+	$autogen_cus_id 			= $getCustomerReg['autogen_cus_id'];
 }
 
 //////////////////////// Customer Profile Info ///////////////////////////////
@@ -456,10 +459,17 @@ if (sizeof($getLoanCalculation) > 0) {
 									<div class="row">
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
-												<label for="cus_id">Customer ID</label>
+												<label for="cus_id">Aadhaar Number</label>
 												<input type="text" class="form-control" id="cus_id" name="cus_id" value='<?php if (isset($cp_cus_id)) {
 																																echo $cp_cus_id;
 																															} ?>' readonly tabindex='1'>
+											</div>
+										</div>
+
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
+											<div class="form-group">
+												<label for="autogen_cus_id">Customer ID</label>
+												<input type="text" class="form-control" id="autogen_cus_id" name="autogen_cus_id" tabindex='2' value='<?php if (isset($autogen_cus_id)) { echo $autogen_cus_id; } ?>' readonly>
 											</div>
 										</div>
 

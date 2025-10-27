@@ -37,6 +37,7 @@ if (sizeof($getCustomerReg) > 0) {
 		$cus_reg_id				= $getCustomerReg['cus_reg_id'];
 		$req_id					= $getCustomerReg['req_id'];
 		$cus_id					= $getCustomerReg['cus_id'];
+		$autogen_cus_id			= $getCustomerReg['autogen_cus_id'];
 		$first_name				= $getCustomerReg['first_name'];
 		$last_name				= $getCustomerReg['last_name'];
 		$dob					= $getCustomerReg['dob'];
@@ -260,11 +261,15 @@ if (sizeof($getCustomerReg) > 0) {
 									<div class="row">
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
-												<label for="cus_id">Customer ID</label><span class="required">&nbsp;*</span>
-												<input type="text" class="form-control" id="cus_id" name="cus_id" value='<?php if (isset($cus_id)) {
-																																echo $cus_id;
-																															} ?>' tabindex='1' data-type="adhaar-number" maxlength="14" placeholder="Enter Adhaar Number" readonly>
-												<span class="text-danger" style='display:none' id='cusidCheck'>Please Enter Customer ID</span>
+												<label for="cus_id">Aadhaar Number</label><span class="required">&nbsp;*</span>
+												<input type="text" class="form-control" id="cus_id" name="cus_id" value='<?php if (isset($cus_id)) {echo $cus_id;} ?>' tabindex='1' data-type="adhaar-number" maxlength="14" placeholder="Enter Adhaar Number" readonly>
+												<span class="text-danger" style='display:none' id='cusidCheck'>Please Enter Aadhaar Number</span>
+											</div>
+										</div>
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
+											<div class="form-group">
+												<label for="autogen_cus_id">Customer ID</label><span class="required">&nbsp;*</span>
+												<input type="text" class="form-control" id="autogen_cus_id" name="autogen_cus_id" value='<?php if (isset($autogen_cus_id)) { echo $autogen_cus_id; } ?>' tabindex='2' readonly>
 											</div>
 										</div>
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
@@ -1092,11 +1097,18 @@ if (sizeof($getCustomerReg) > 0) {
 
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 								<div class="form-group">
-									<label for="cus_id_doc">Customer ID </label> <span class="required">* </span>
+									<label for="cus_id_doc">Aadhaar Number</label> <span class="required">* </span>
 									<input type="text" class="form-control" id="cus_id_doc" name="cus_id_doc" value='<?php if (isset($cus_id)) echo $cus_id; ?>' readonly tabindex="1">
 								</div>
 							</div>
 
+							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+								<div class="form-group">
+									<label for="autogen_cus_id_doc">Customer ID</label> <span class="required">*</span>
+									<input type="text" class="form-control" id="autogen_cus_id_doc" name="autogen_cus_id_doc" value='<?php if (isset($autogen_cus_id)) echo $autogen_cus_id; ?>' readonly tabindex="66">
+								</div>
+							</div>
+							
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 								<div class="form-group">
 									<label for="first_name"> First Name </label> <span class="required"> * </span>

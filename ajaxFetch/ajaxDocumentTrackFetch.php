@@ -16,6 +16,7 @@ if ($userid != 1) {
 $column = array(
     'dt.id',
     'dt.cus_id',
+    'cr.autogen_cus_id',
     'cr.customer_name',
     'bc.branch_name',
     'al.area_name',
@@ -27,7 +28,7 @@ $column = array(
 );
 
 // Base query
-$query = "SELECT dt.*, cr.first_name, bc.branch_name, al.area_id, al.area_name, agm.group_name, alm.line_name
+$query = "SELECT dt.*, cr.autogen_cus_id, cr.first_name, bc.branch_name, al.area_id, al.area_name, agm.group_name, alm.line_name
         FROM document_track dt
         JOIN customer_register cr ON dt.cus_id = cr.cus_id
         JOIN area_list_creation al ON cr.area = al.area_id
@@ -47,6 +48,7 @@ if ($doc_rec_access != '0') {
 if (isset($_POST['search']) && $_POST['search'] != "") {
     $search = $_POST['search'];
     $query .= " AND ( dt.cus_id LIKE '%$search%' OR
+                cr.autogen_cus_id LIKE '%$search%' OR
                 cr.first_name LIKE '%$search%'  )";
 }
 
@@ -84,6 +86,7 @@ foreach ($result as $row) {
 
     $sub_array[] = date('d-m-Y', strtotime($row['created_date'])); //Date column
     $sub_array[] = $row['cus_id']; //cus id column
+    $sub_array[] = $row['autogen_cus_id']; //autogen_cus_id column
     $cus_name = $row['first_name']; //cus name column
     $sub_array[] = $cus_name; //cus name column
     $sub_array[] = $row['branch_name']; //Branch name column

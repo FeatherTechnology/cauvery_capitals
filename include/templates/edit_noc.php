@@ -5,11 +5,6 @@
 		Cauvery Capitals - NOC
 	</div>
 </div><br>
-<!-- <div class="text-right" style="margin-right: 25px;">
-    <a href="verification">
-        <button type="button" class="btn btn-primary"><span class="icon-add"></span>&nbsp; Add verification</button>
-    </a>
-</div><br><br> -->
 <!-- Page header end -->
 
 <!-- Main container start -->
@@ -43,6 +38,7 @@
 						<thead>
 							<tr>
 								<th width="50">S.No.</th>
+								<th>Aadhaar Number</th>
 								<th>Customer ID</th>
 								<th>Customer Name</th>
 								<th>Area</th>
