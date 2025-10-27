@@ -55,7 +55,8 @@ $(document).ready(function () {
   $("#category").on("change", function () {
     let category = $("#category").val();
     $("#check_name, #check_mobileno, #check_aadhar").empty();
-    $("#cus_check, #fam_check, #group_check").empty();
+    // $("#cus_check, #fam_check, #group_check").empty();
+    $("#cus_check, #fam_check").empty();
 
     if (category == 0) {
       $("#nameCheck").show();
@@ -215,7 +216,8 @@ $(document).ready(function () {
     let name = $(this).val();
     let category = $("#category").val();
     let req_id = $("#req_id").val();
-    $("#cus_check, #fam_check, #group_check").empty();
+    // $("#cus_check, #fam_check, #group_check").empty();
+    $("#cus_check, #fam_check").empty();
 
     if (name != "") {
       $.ajax({
@@ -240,16 +242,16 @@ $(document).ready(function () {
         },
       });
 
-      $.ajax({
-        url: "verificationFile/verification_group_datacheck.php",
-        type: "POST",
-        data: { name: name, req_id: req_id, category: category },
-        cache: false,
-        success: function (html) {
-          $("#group_check").empty();
-          $("#group_check").html(html);
-        },
-      });
+      // $.ajax({
+      //   url: "verificationFile/verification_group_datacheck.php",
+      //   type: "POST",
+      //   data: { name: name, req_id: req_id, category: category },
+      //   cache: false,
+      //   success: function (html) {
+      //     $("#group_check").empty();
+      //     $("#group_check").html(html);
+      //   },
+      // });
     }
   });
 
@@ -1115,6 +1117,18 @@ $(document).ready(function () {
     let value = $(this).val();
     $(this).val(formatIndianNumber(value));
   });
+
+  $(document).on("click", "#hide_document_history", function () {
+    $("#docHistoryDiv").empty();
+    $("#show_document_history").show();
+    $("#hide_document_history").hide();
+  })
+
+  $(document).on("click", "#hide_loan_history", function () {
+    $("#loanHistoryDiv").empty();
+    $("#show_loan_history").show();
+    $("#hide_loan_history").hide();
+  })
 
   ///Hide AND Show doc Card END
 }); ////////Document Ready End
@@ -4219,6 +4233,8 @@ function docHistoryTable() {
 }
 
 function getDocumentHistory() {
+  $("#show_document_history").hide();
+  $("#hide_document_history").show();
   let cus_id = $("#cus_id_load").val();
   let req_id = $("#req_id").val();
   let cus_type = $("#cus_type").val();
@@ -4479,6 +4495,26 @@ function onLoadEditFunction() {
 }
 
 $("#refresh_cal").click(function () {
+
+    var intrest_rate = $("#int_rate").val();
+    var doc_charge = $("#doc_charge").val();
+    var proc_fee = $("#proc_fee").val();
+    var due_period = $("#due_period").val();
+    var profit_method = $("#profit_method").val();
+
+    if( intrest_rate == ""|| doc_charge == "" || proc_fee == "" || due_period == "" || profit_method == ""){
+        event.preventDefault();
+        Swal.fire({
+            timerProgressBar: true,
+            timer: 3000,
+            title: 'Please Fill out Loan Info!',
+            icon: 'error',
+            showConfirmButton: true,
+            confirmButtonColor: '#009688'
+            });
+        return;
+    }
+
   $(".int-diff").text("*");
   $(".due-diff").text("*");
 
@@ -4832,6 +4868,8 @@ function getLoaninfo(loan_category) {
 
 //loan history table contents get from closed file loan lists
 function getLoanHistory() {
+  $("#show_loan_history").hide();
+  $("#hide_loan_history").show();
   let cus_id = $("#cus_id_load").val();
   let req_id = $("#req_id").val();
   let cus_type = $("#cus_type").val();
@@ -5177,9 +5215,7 @@ function profitCalAjax(profit_type, loan_cat) {
             }
             var selected = "";
             if (
-              profit_method_upd != "" &&
-              profit_method_upd != undefined &&
-              profit_method_upd == profit_method[i]
+            (profit_method_upd == profit_method[i] || profit_method[i] == "after_intrest")
             ) {
               selected = "selected";
             }
@@ -5589,10 +5625,10 @@ function schemeCalAjax(scheme_id) {
 //To Get Loan Calculation for After Interest
 function getLoanAfterInterest() {
 var loan_amt = $("#loan_amt").val().replace(/[, ]+/g, '');
-var int_rate = $("#int_rate").val().replace(/[, ]+/g, '');
-var due_period = $("#due_period").val().replace(/[, ]+/g, '');
-var doc_charge = $("#doc_charge").val().replace(/[, ]+/g, '');
-var proc_fee = $("#proc_fee").val().replace(/[, ]+/g, '');
+var int_rate = $("#int_rate").val();
+var due_period = $("#due_period").val();
+var doc_charge = $("#doc_charge").val();
+var proc_fee = $("#proc_fee").val();
 
 
   $("#loan_amt_cal").val(formatIndianNumber(String(loan_amt))); //get loan amt from loan info card

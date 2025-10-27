@@ -8,10 +8,10 @@ if (isset($_POST['submit_loanIssue']) && $_POST['submit_loanIssue'] != '') {
 
 	$response = $userObj->addloanIssue($mysqli, $userid);
 
-	if($response !=''){
+	if ($response['loanid'] !='') {
 ?>
 	<script>
-		alert(`The Loan ID is: <?php echo $response; ?> `);
+		alert("The Loan ID is: <?php echo $response['loanid']; ?>\nThe Doc ID is: <?php echo $response['docid']; ?>");
 	</script>
 <?php
 	}
@@ -23,7 +23,7 @@ if (isset($_POST['submit_loanIssue']) && $_POST['submit_loanIssue'] != '') {
 <?php
 }
 
-$getBankDetails = $userObj->getBankDetails($mysqli);
+// $getBankDetails = $userObj->getBankDetails($mysqli);
 
 $getRequestData = $userObj->getRequestForVerification($mysqli, $idupd);
 if (sizeof($getRequestData) > 0) {
@@ -755,28 +755,28 @@ if (sizeof($getLoanCalculation) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="disabledInput">Interest Rate </label>&nbsp;<span class="text-danger min-max-int">*</span><!-- Min and max intrest rate-->
-										<input tabindex="27" type="text" class="form-control" id="int_rate" name="int_rate" value='<?php if (isset($int_rate)) echo $int_rate; ?>'>
+										<input tabindex="27" type="number" class="form-control" id="int_rate" name="int_rate" value='<?php if (isset($int_rate)) echo $int_rate; ?>'>
 										<span class="text-danger" style='display:none' id='int_rateCheck'>Please Enter Interest Rate</span>
 									</div>
 								</div>
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="disabledInput">Due Period </label>&nbsp;<span class="text-danger min-max-due">*</span><!-- Min and max Profit Method-->
-										<input tabindex="28" type="text" class="form-control" id="due_period" name="due_period">
+										<input tabindex="28" type="number" class="form-control" id="due_period" name="due_period">
 										<span class="text-danger" style='display:none' id='due_periodCheck'>Please Enter Due Period</span>
 									</div>
 								</div>
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="disabledInput">Document Charges </label>&nbsp;<span class="text-danger min-max-doc">*</span><!-- Min and max Document charges-->
-										<input tabindex="29" type="text" class="form-control" id="doc_charge" name="doc_charge" value='<?php if (isset($doc_charge)) echo $doc_charge; ?>'>
+										<input tabindex="29" type="number" class="form-control" id="doc_charge" name="doc_charge" value='<?php if (isset($doc_charge)) echo $doc_charge; ?>'>
 										<span class="text-danger" style='display:none' id='doc_chargeCheck'>Please Enter Document Charge</span>
 									</div>
 								</div>
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="disabledInput">Processing Fees</label>&nbsp;<span class="text-danger min-max-proc">*</span><!-- Min and max Processing fee-->
-										<input tabindex="30" type="text" class="form-control" id="proc_fee" name="proc_fee" value='<?php if (isset($proc_fee)) echo $proc_fee; ?>'>
+										<input tabindex="30" type="number" class="form-control" id="proc_fee" name="proc_fee" value='<?php if (isset($proc_fee)) echo $proc_fee; ?>'>
 										<span class="text-danger" style='display:none' id='proc_feeCheck'>Please Enter Processing fee</span>
 									</div>
 								</div>
@@ -942,25 +942,25 @@ if (sizeof($getLoanCalculation) > 0) {
 												<span class="text-danger" style="display: none;" id="pay_type"> Please Select Payment Type </span>
 											</div>
 										</div>
-										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" id="bankDiv" style="display:none">
+										<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" id="bankDiv" style="display:none">
 											<div class="form-group">
 												<label for="disabledInput">Bank Name </label>&nbsp;<span class="text-danger">*</span>
 												<select type="text" class="form-control" id="bank_id" name="bank_id" tabindex="46">
 													<option value=""> Select Bank Name</option>
-													<?php if (sizeof($getBankDetails) > 0) {
+													<#? php if (sizeof($getBankDetails) > 0) {
 														for ($i = 0; $i < sizeof($getBankDetails); $i++) {
 															$bank_id = $getBankDetails[$i]['id'];
 															$bank_name = $getBankDetails[$i]['short_name'] . ' - ' . substr($getBankDetails[$i]['acc_no'], -5);
 													?>
-															<option value="<?php echo $bank_id; ?>">
-																<?php echo $bank_name; ?>
+															<option value="<#?php echo $bank_id; ?>">
+																<#?php echo $bank_name; ?>
 															</option>
-													<?php }
-													} ?>
+													<#?php }
+													} ?#>
 												</select>
 												<span class="text-danger" style="display: none;" id="bank_idCheck"> Please Select Bank Name </span>
 											</div>
-										</div>
+										</div> -->
 									</div>
 
 									<div class="row">

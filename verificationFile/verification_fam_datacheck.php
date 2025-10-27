@@ -7,7 +7,7 @@ include '../ajaxconfig.php';
     <thead>
         <tr>
             <th width='100'>S.No</th>
-            <th> Customer ID </th>
+            <th> Aadhar Number </th>
             <th> Name</th>
             <th> Relationship </th>
             <th width='300'> Under Customer Name </th>
@@ -35,8 +35,8 @@ include '../ajaxconfig.php';
             }
         }
 
-        $cusInfo = $connect->query("SELECT CONCAT(a.first_name, ' ', a.last_name) AS famname ,a.`relationship`,a.`relation_aadhar`,b.`cus_id`, CONCAT(b.first_name, ' ', b.last_name) AS customer_name FROM `verification_family_info` a left join `customer_register` b 
-        on a.req_id = b.req_ref_id  WHERE a.`req_id` != '$req_id' && a.$category = '$name' order by a.id desc");
+        $cusInfo = $connect->query("SELECT CONCAT(a.first_name, ' ', a.last_name) AS famname ,a.`relationship`,a.`relation_aadhar`, rc.`cus_id`, CONCAT(rc.first_name, ' ', rc.last_name) AS customer_name FROM `verification_family_info` a left join `request_creation` rc on a.req_id = rc.req_id  
+        WHERE a.`req_id` != '$req_id' && a.$category = '$name' order by a.id desc");
 
         $i = 1;
         while ($cus = $cusInfo->fetch()) {
