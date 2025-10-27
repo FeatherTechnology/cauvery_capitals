@@ -48,7 +48,7 @@ if (isset($_POST['from_date']) && isset($_POST['to_date']) && $_POST['from_date'
 $where  .= $user_based;
 
 $column = array(
-    'ii.id',
+    'ii.updated_date',
     'ii.loan_id',
     'ad.doc_id',
     'ii.cus_id',
@@ -57,7 +57,9 @@ $column = array(
     "CONCAT(fam.first_name, ' ', fam.last_name)",
     'fam.relationship',
     'al.area_name',
+    'ag.group_name',
     'alm.line_name',
+    'adm.duefollowup_name',
     'bc.branch_name',
     'lcc.loan_category_creation_name',
     'ac.ag_name',
@@ -90,7 +92,9 @@ $query = "SELECT
         CONCAT(fam.first_name, ' ', fam.last_name) AS guarantor_name,
         fam.relationship,
         al.area_name,
+        ag.group_name,
         alm.line_name,
+        adm.duefollowup_name,
         bc.branch_name,
         lcc.loan_category_creation_name as loan_cat_name,
         ac.ag_name,
@@ -127,6 +131,8 @@ $query = "SELECT
         LEFT JOIN branch_creation bc ON ag.branch_id = bc.branch_id
         JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
         JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+        JOIN area_duefollowup_mapping_area adma ON adma.area_id = al.area_id
+        JOIN area_duefollowup_mapping adm ON adm.map_id = adma.map_id
         LEFT JOIN request_creation req ON ii.req_id = req.req_id
         LEFT JOIN loan_issue li ON li.req_id = ii.req_id
         LEFT JOIN loan_category_creation lcc ON lc.loan_category = lcc.loan_category_creation_id
@@ -134,7 +140,7 @@ $query = "SELECT
         LEFT JOIN verification_family_info vfi_received_by ON li.relationship !='Customer' AND li.cash_guarentor_name = vfi_received_by.relation_aadhar
 
         WHERE ii.cus_status >= 14 AND lc.due_type = 'EMI'
-        $where GROUP BY ii.loan_id";
+        $where";
 
 if (isset($_POST['search'])) {
     if ($_POST['search'] != "") {
@@ -147,7 +153,9 @@ if (isset($_POST['search'])) {
             OR CONCAT(fam.first_name, ' ', fam.last_name) LIKE '%$search%'
             OR fam.relationship LIKE '%" . $_POST['search'] . "%' 
             OR al.area_name LIKE '%" . $_POST['search'] . "%' 
+            OR ag.group_name LIKE '%" . $_POST['search'] . "%' 
             OR alm.line_name LIKE '%" . $_POST['search'] . "%' 
+            OR adm.duefollowup_name LIKE '%" . $_POST['search'] . "%' 
             OR bc.branch_name LIKE '%" . $_POST['search'] . "%' 
             OR lcc.loan_category_creation_name LIKE '%" . $_POST['search'] . "%' 
             OR ac.ag_name LIKE '%" . $_POST['search'] . "%' 
@@ -155,6 +163,7 @@ if (isset($_POST['search'])) {
             OR ii.updated_date LIKE '%" . $_POST['search'] . "%') ";
     }
 }
+$query .= 'GROUP BY ii.loan_id';
 
 if (isset($_POST['order'])) {
     $query .= " ORDER BY " . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'];
@@ -208,7 +217,9 @@ foreach ($result as $row) {
     $sub_array[] = $row['guarantor_name'];
     $sub_array[] = $row['relationship'];
     $sub_array[] = $row['area_name'];
+    $sub_array[] = $row['group_name'];
     $sub_array[] = $row['line_name'];
+    $sub_array[] = $row['duefollowup_name'];
     $sub_array[] = $row['branch_name'];
     $sub_array[] = $row['loan_cat_name'];
     $sub_array[] = $row['ag_name'];

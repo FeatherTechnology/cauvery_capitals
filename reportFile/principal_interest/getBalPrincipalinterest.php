@@ -46,8 +46,10 @@ if (isset($_POST['to_date']) && $_POST['to_date'] != '') {
 }
 
 $column = [
-    'lc.loan_cal_id',
+    'ii.loan_id',
+    'ag.group_name',
     'alm.line_name',
+    'adm.duefollowup_name',
     'ii.loan_id',
     'ad.doc_id',
     'ii.updated_date',
@@ -90,7 +92,9 @@ while ($row = $run->fetch()) {
 $req_id_list = implode(',', $req_id_list);
 
 $query = "SELECT 
+           ag.group_name, 
             alm.line_name AS line,
+            adm.duefollowup_name,
             ii.loan_id,
             ad.doc_id,
             ii.updated_date AS loan_date,
@@ -137,8 +141,12 @@ $query = "SELECT
             loan_issue li ON lc.req_id = li.req_id 
         JOIN 
             area_list_creation al ON cp.area_confirm_area = al.area_id
+             JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
+        JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
         JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
         JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+        JOIN area_duefollowup_mapping_area adma ON adma.area_id = al.area_id
+        JOIN area_duefollowup_mapping adm ON adm.map_id = adma.map_id
         JOIN 
             in_verification iv ON lc.req_id = iv.req_id
         JOIN 
@@ -182,7 +190,9 @@ if(isset($_POST['loan_cat'])){
 if (isset($_POST['search']) && $_POST['search'] != "") {
     $search = $_POST['search'];
     $query .= " AND (
+       ag.group_name LIKE '%$search%' OR
         alm.line_name LIKE '%$search%' OR
+        adm.duefollowup_name LIKE '%$search%' OR
         ii.loan_id LIKE '%$search%' OR
         ad.doc_id LIKE '%$search%' OR
         ii.updated_date LIKE '%$search%' OR
@@ -264,7 +274,9 @@ foreach ($result as $row) {
     $fine = intval($row['fine']) - (intval($row['fine_track']) + intval($row['fine_waiver']));
 
     $sub_array[] = $sno;
+    $sub_array[] = $row['group_name'];
     $sub_array[] = $row['line'];
+    $sub_array[] = $row['duefollowup_name'];
     $sub_array[] = $row['loan_id'];
     $sub_array[] = $row['doc_id'];
     $sub_array[] = date('d-m-Y', strtotime($row['loan_date']));

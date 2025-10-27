@@ -61,7 +61,8 @@ $closed_lvl_arr = [
 ];
 
 $column = array(
-    'ii.id',
+    'cs.id',
+    'ag.group_name',
     'alm.line_name',
     'ii.loan_id',
     'ad.doc_id',
@@ -81,6 +82,7 @@ $column = array(
 );
 
 $query = "SELECT 
+ ag.group_name,
     alm.line_name AS line,
     ii.loan_id,
     ad.doc_id,
@@ -110,6 +112,8 @@ JOIN
     acknowlegement_documentation ad ON ii.req_id = ad.req_id
 JOIN 
     area_list_creation al ON cp.area_confirm_area = al.area_id
+JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
+        JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
 JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
 JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
 LEFT JOIN 
@@ -143,6 +147,7 @@ WHERE
 if (isset($_POST['search'])) {
     if ($_POST['search'] != "") {
         $query .= " and (alm.line_name LIKE '%" . $_POST['search'] . "%' OR
+          ag.group_name LIKE '%" . $_POST['search'] . "%' OR
             ii.loan_id LIKE '%" . $_POST['search'] . "%' OR
             ad.doc_id LIKE '%" . $_POST['search'] . "%' OR
             ii.updated_date LIKE '%" . $_POST['search'] . "%' OR
@@ -157,6 +162,7 @@ if (isset($_POST['search'])) {
             cs.created_date LIKE '%" . $_POST['search'] . "%' ) ";
     }
 }
+$query.="GROUP BY ii.loan_id";
 if (isset($_POST['order'])) {
     $query .= " ORDER BY " . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'];
 } else {
@@ -185,13 +191,14 @@ $sno = 1;
 foreach ($result as $row) {
     $sub_array   = array();
     $sub_array[] = $sno;
+    $sub_array[] = $row['group_name'];
     $sub_array[] = $row['line'];
     $sub_array[] = $row['loan_id'];
     $sub_array[] = $row['doc_id'];
     $sub_array[] = date('d-m-Y', strtotime($row['loan_date']));
     $sub_array[] = $row['cus_id'];
     $sub_array[] = $row['autogen_cus_id'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['customer_name'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['loan_cat_name'];
     $sub_array[] = $row['ag_name'];
