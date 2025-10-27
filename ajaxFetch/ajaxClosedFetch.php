@@ -33,6 +33,7 @@ if ($userid != 1) {
 $column = array(
     'cp.id',
     'cp.cus_id',
+    'cr.autogen_cus_id',
     'cp.first_name',
     'ac.area_name',
     'bc.branch_name',
@@ -42,17 +43,19 @@ $column = array(
 );
 
 if ($userid == 1) {
-    $query = 'SELECT cp.cus_id as cp_cus_id,cp.first_name,ac.area_name, al.line_name, bc.branch_name,cp.mobile1, ii.cus_id as ii_cus_id, ii.req_id 
+    $query = 'SELECT cp.cus_id as cp_cus_id, cr.autogen_cus_id, cp.first_name, ac.area_name, al.line_name, bc.branch_name, cp.mobile1, ii.cus_id as ii_cus_id, ii.req_id 
     FROM acknowlegement_customer_profile cp 
+    JOIN customer_register cr ON cp.cus_id = cr.cus_id
     JOIN in_issue ii ON cp.cus_id = ii.cus_id
     JOIN area_list_creation ac ON cp.area_confirm_area = ac.area_id
-   JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
+    JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
     JOIN area_line_mapping al ON al.map_id = alma.line_map_id
     JOIN branch_creation bc ON al.branch_id = bc.branch_id
     where ii.status = 0 and ii.cus_status = 20 '; // Only Issued and all lines not relying on sub area
 } else {
-    $query = "SELECT cp.cus_id as cp_cus_id,cp.first_name,ac.area_name, al.line_name, bc.branch_name,cp.mobile1, ii.cus_id as ii_cus_id, ii.req_id 
+    $query = "SELECT cp.cus_id as cp_cus_id, cr.autogen_cus_id, cp.first_name, ac.area_name, al.line_name, bc.branch_name, cp.mobile1, ii.cus_id as ii_cus_id, ii.req_id 
     FROM acknowlegement_customer_profile cp 
+    JOIN customer_register cr ON cp.cus_id = cr.cus_id
     JOIN in_issue ii ON cp.cus_id = ii.cus_id
     JOIN area_list_creation ac ON cp.area_confirm_area = ac.area_id
     JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
@@ -65,6 +68,7 @@ if ($userid == 1) {
 if (isset($_POST['search']) && $_POST['search'] != "") {
 
     $query .= " AND(cp.cus_id LIKE '%" . $_POST['search'] . "%'
+            OR cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%'
             OR cp.first_name LIKE '%" . $_POST['search'] . "%'
             OR ac.area_name LIKE '%" . $_POST['search'] . "%'
             OR bc.branch_name LIKE '%" . $_POST['search'] . "%'
@@ -74,7 +78,7 @@ if (isset($_POST['search']) && $_POST['search'] != "") {
 $query .= " GROUP BY ii.cus_id ";
 $query .= " ORDER BY cp.updated_date ASC ";
 $query1 = '';
-// echo $query;
+
 if ($_POST['length'] != -1) {
     $query1 = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
 }
@@ -99,6 +103,7 @@ foreach ($result as $row) {
     $sub_array[] = $sno;
 
     $sub_array[] = $row['cp_cus_id'];
+    $sub_array[] = $row['autogen_cus_id'];
     $sub_array[] = $row['first_name'];
 
     $sub_array[] = $row['area_name'];

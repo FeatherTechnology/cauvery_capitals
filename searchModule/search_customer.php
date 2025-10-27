@@ -7,6 +7,7 @@ $last_name = $_POST['last_name'] ?? '';
 $area = $_POST['area'] ?? '';
 $mobile = $_POST['mobile'] ?? '';
 $loan_id = $_POST['loan_id'] ?? '';
+$autogen_cus_id = $_POST['autogen_cus_id'] ?? '';
 $fingerprint_person_id = $_POST['fingerprint_person_id'] ?? '';
 $cus_id = (!empty($cus_id)) ? $cus_id : $fingerprint_person_id;
 
@@ -16,6 +17,10 @@ $fam_sql = '';
 if ($cus_id != '') {
     $sql = "SELECT cus_id from customer_register WHERE cus_id LIKE '%$cus_id%' ";
     $fam_sql = "SELECT id from verification_family_info WHERE relation_aadhar LIKE '%$cus_id%' ";
+} else if ($autogen_cus_id != '') {
+    $sql = "SELECT cus_id from customer_register WHERE autogen_cus_id LIKE '%$autogen_cus_id%' ";
+    $fam_sql = "SELECT id from verification_family_info vfi JOIN customer_register cr ON vfi.relation_aadhar = cr.cus_id WHERE cr.autogen_cus_id LIKE '%$autogen_cus_id%' ";
+
 } else if ($first_name != '') {
     $sql = "SELECT cus_id from customer_register WHERE first_name LIKE '%$first_name%' ";
     $fam_sql = "SELECT id from verification_family_info WHERE first_name LIKE '%$first_name%' ";
@@ -90,7 +95,7 @@ $data = array();
 
 if ($runSql->rowCount() > 0) {
     while ($row = $runSql->fetch()) {
-        $req_sql = $connect->query("SELECT cr.cus_id,cr.first_name as cus_name,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,cr.mobile1,cr.mobile2 
+        $req_sql = $connect->query("SELECT cr.cus_id, cr.autogen_cus_id, cr.first_name as cus_name,ac.area_name,bc.branch_name,alm.line_name,agm.group_name,cr.mobile1,cr.mobile2 
                     FROM customer_register cr 
                     LEFT JOIN area_list_creation ac ON cr.area_confirm_area = ac.area_id 
                     JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
@@ -104,6 +109,7 @@ if ($runSql->rowCount() > 0) {
             $sub_array = array();
             $sub_array['sno'] = $i++;
             $sub_array['cus_id'] = $req_row['cus_id'];
+            $sub_array['autogen_cus_id'] = $req_row['autogen_cus_id'];
             $sub_array['cus_name'] = $req_row['cus_name'];
             $sub_array['area'] = $req_row['area_name'];
             $sub_array['branch'] = $req_row['branch_name'];
@@ -134,7 +140,7 @@ if ($fam_sql != '') {
     if (!empty($fam_id_arr)) {
         $i = 1;
         foreach ($fam_id_arr as $id) {
-            $qry = $connect->query("SELECT fam.cus_id,cr.first_name, CONCAT(fam.first_name, ' ', fam.last_name) AS famname,fam.relationship,fam.relation_aadhar,fam.relation_Mobile FROM verification_family_info fam JOIN customer_register cr ON fam.cus_id = cr.cus_id WHERE fam.id = '$id' ");
+            $qry = $connect->query("SELECT fam.cus_id, cr.first_name, CONCAT(fam.first_name, ' ', fam.last_name) AS famname, fam.relationship, fam.relation_aadhar, fam.relation_Mobile, cr.autogen_cus_id FROM verification_family_info fam JOIN customer_register cr ON fam.cus_id = cr.cus_id WHERE fam.id = '$id' ");
             while ($row = $qry->fetch()) {
                 $sub_array = array();
                 $sub_array['sno'] = $i++;
@@ -144,6 +150,7 @@ if ($fam_sql != '') {
                 $sub_array['mobile'] = $row['relation_Mobile'];
                 $sub_array['under_cus'] = $row['first_name'];
                 $sub_array['under_cus_id'] = $row['cus_id'];
+                $sub_array['under_autogen_cus_id'] = $row['autogen_cus_id'];
 
                 $data['family_data'][] = $sub_array;
             }

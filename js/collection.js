@@ -722,9 +722,6 @@ function OnLoadFunctions(req_id, cus_id) {
               Swal.fire({
                 title: "Print",
                 text: "Do you want to print this collection?",
-                // icon: 'question',
-                // showConfirmButton: true,
-                // confirmButtonColor: '#0c70ab',
                 imageUrl: "img/printer.png",
                 imageWidth: 300,
                 imageHeight: 210,
@@ -743,20 +740,6 @@ function OnLoadFunctions(req_id, cus_id) {
                     cache: false,
                     success: function (html) {
                       $("#printcollection").html(html);
-                      // Get the content of the div element
-                      var content = $("#printcollection").html();
-
-                      // Create a new window
-                      // var w = window.open();
-
-                      // Write the content to the new window
-                      // $(document.body).html(content);
-
-                      // Print the new window
-                      // w.print();
-
-                      // Close the new window
-                      // w.close();
                     },
                   });
                 }
@@ -1181,8 +1164,6 @@ function printCollection(coll_id) {
         cache: false,
         success: function (html) {
           $("#printcollection").html(html);
-          // Get the content of the div element
-          var content = $("#printcollection").html();
           setTimeout(() => {
             location.reload();
           }, 1500);
@@ -1278,9 +1259,6 @@ function validateCommitment() {
 
 //Due Chart List
 function dueChartList(req_id, cus_id, callback) {
-
-    // var req_id = $('#idupd').val()
-    // const cus_id = $('#cusidupd').val()
     $('#dueChartTableDiv').empty();
     $.ajax({
         url: 'collectionFile/getDueChartList.php',
@@ -1293,7 +1271,7 @@ function dueChartList(req_id, cus_id, callback) {
     }).then(function () {
 
         $.post('collectionFile/getDueMethodName.php', { req_id }, function (response) {
-            $('#dueChartTitle').text('Due Chart ( Cus ID : '+ response['cus_id'] + '  | Cus Name : ' + response['cus_name'] + '  | Loan ID : ' + response['loan_id'] + '  | Loan Category : ' + response['loan_category'] + ' )');
+            $('#dueChartTitle').text(`Due Chart ( Aadhaar Number : ${response.cus_id} | Cus ID : ${response.autogen_cus_id}  | Cus Name : ${response.cus_name}  | Loan ID : ${response.loan_id}  | Loan Category : ${response.loan_category} )`);
         }, 'json');
 
         callback();
