@@ -80,6 +80,8 @@
 										<td></td>
 										<td></td>
 										<td></td>
+										<td></td>
+										<td></td>
 									</tr>
 								</tfoot>
 							</table>
@@ -120,6 +122,11 @@
 								<tfoot>
 									<tr>
 										<td colspan="13"></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
 										<td></td>
 										<td></td>
 										<td></td>
