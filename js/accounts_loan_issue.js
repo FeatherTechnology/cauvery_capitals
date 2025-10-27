@@ -44,6 +44,25 @@ $(document).ready(function () {
 
     $('#refresh_cal').click(function () {
 
+    var intrest_rate = $("#int_rate").val();
+    var doc_charge = $("#doc_charge").val();
+    var proc_fee = $("#proc_fee").val();
+    var due_period = $("#due_period").val();
+    var profit_method = $("#profit_method").val();
+
+    if( intrest_rate == ""|| doc_charge == "" || proc_fee == "" || due_period == "" || profit_method == ""){
+        event.preventDefault();
+        Swal.fire({
+            timerProgressBar: true,
+            timer: 3000,
+            title: 'Please Fill out Loan Info!',
+            icon: 'error',
+            showConfirmButton: true,
+            confirmButtonColor: '#009688'
+            });
+        return;
+    }
+
         var profit_method = $('#profit_method').val(); // if profit method changes, due type is EMI
         var due_type = $('#due_type').val();
 
@@ -731,10 +750,10 @@ function schemeCalAjax(scheme_id) {
 //To Get Loan Calculation for After Interest
 function getLoanAfterInterest() {
     var loan_amt   = $('#loan_amt').val().replace(/[\s,]+/g, '');
-    var int_rate   = $('#int_rate').val().replace(/[\s,]+/g, '');
-    var due_period = $('#due_period').val().replace(/[\s,]+/g, '');
-    var doc_charge = $('#doc_charge').val().replace(/[\s,]+/g, '');
-    var proc_fee   = $('#proc_fee').val().replace(/[\s,]+/g, '');
+    var int_rate   = $('#int_rate').val();
+    var due_period = $('#due_period').val();
+    var doc_charge = $('#doc_charge').val();
+    var proc_fee   = $('#proc_fee').val();
 
     $('#loan_amt_cal').val(parseInt(loan_amt).toFixed(0)); //get loan amt from loan info card
     $('#principal_amt_cal').val(parseInt(loan_amt).toFixed(0)); // principal amt as same as loan amt for after interest
