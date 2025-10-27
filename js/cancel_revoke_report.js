@@ -108,7 +108,7 @@ function cancelRevokeTable(){
             };
 
             // Array of column indices to sum
-            var columnsToSum = [7];
+            var columnsToSum = [10];
 
             // Loop through each column index
             columnsToSum.forEach(function (colIndex) {

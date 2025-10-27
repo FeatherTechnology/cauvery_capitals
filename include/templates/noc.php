@@ -262,7 +262,7 @@ if (sizeof($documentationInfo) > 0) {
 							</div>
 							<div id="cus_check"></div></br>
 							<div id="fam_check"></div></br>
-							<div id="group_check"></div>
+							<!-- <div id="group_check"></div> -->
 						</div>
 					</div>
 					<!-- Data Checking END -->
