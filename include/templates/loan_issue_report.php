@@ -33,7 +33,9 @@
 									<th>Guarantor Name</th>
 									<th>Relationship</th>
 									<th>Area</th>
+									<th>Group</th>
 									<th>Line</th>
+									<th>Followup</th>
 									<th>Branch</th>
 									<th>Loan Category</th>
 									<th>Agent</th>
@@ -60,6 +62,8 @@
 								<tfoot>
 									<tr>
 										<td colspan="18"></td>
+										<td></td>
+										<td></td>
 										<td></td>
 										<td></td>
 										<td></td>

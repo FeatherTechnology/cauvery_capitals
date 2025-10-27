@@ -61,7 +61,9 @@ $role_arr = [1 => 'Director', 2 => 'Agent', 3 => 'Staff'];
 
 $column = array(
     'ii.req_id',
+      'ag.group_name',
     'alm.line_name',
+    'adm.duefollowup_name',
     'ii.loan_id',
     'ii.updated_date',
     'lc.maturity_month',
@@ -88,7 +90,9 @@ $column = array(
 
 $query = "SELECT
     ii.req_id,
-    alm.line_name AS line,
+    ag.group_name, 
+            alm.line_name AS line,
+            adm.duefollowup_name,
     ii.loan_id,
     ii.updated_date AS loan_date,
     ii.cus_id,
@@ -120,8 +124,12 @@ JOIN acknowlegement_customer_profile cp ON
     ii.req_id = cp.req_id
 JOIN area_list_creation al ON
     cp.area_confirm_area = al.area_id
-JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
-JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+ JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
+        JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
+        JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
+        JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+        JOIN area_duefollowup_mapping_area adma ON adma.area_id = al.area_id
+        JOIN area_duefollowup_mapping adm ON adm.map_id = adma.map_id
 JOIN acknowlegement_loan_calculation lc ON
     ii.req_id = lc.req_id
 JOIN loan_category_creation lcc ON
@@ -173,7 +181,9 @@ if (isset($_POST['search'])) {
                     OR lcc.loan_category_creation_name LIKE '%" . $_POST['search'] . "%'
                     OR ac.ag_name LIKE '%" . $_POST['search'] . "%'
                     OR u.role LIKE '%" . $_POST['search'] . "%'
-                    OR alm.line_name LIKE '%" . $_POST['search'] . "%'
+                    OR ag.group_name LIKE '%" . $_POST['search'] . "%'
+                      OR alm.line_name LIKE '%" . $_POST['search'] . "%'
+                    OR adm.duefollowup_name LIKE '%" . $_POST['search'] . "%'
                     OR u.fullname LIKE '%" . $_POST['search'] . "%') ";
     }
 }
@@ -237,7 +247,9 @@ foreach ($result as $row) {
 
     $sub_array   = array();
     $sub_array[] = $sno;
+         $sub_array[] = $row['group_name'];
     $sub_array[] = $row['line'];
+    $sub_array[] = $row['duefollowup_name'];
     $sub_array[] = $row['loan_id'];
     $sub_array[] = date('d-m-Y', strtotime($row['loan_date']));
     $sub_array[] = date('d-m-Y', strtotime($row['maturity_date']));
