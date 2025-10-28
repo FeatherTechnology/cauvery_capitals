@@ -10,56 +10,16 @@ $getBankDetails = $userObj->getBankDetails($mysqli);
 $getRequestData = $userObj->getRequestForVerification($mysqli, $idupd);
 if (sizeof($getRequestData) > 0) {
     for ($i = 0; $i < sizeof($getRequestData); $i++) {
-        $req_id                        = $getRequestData['req_id'];
-        $user_type                    = $getRequestData['user_type'];
-        if ($user_type == 'Director') {
-            $role = '1';
-        } else
-			if ($user_type == 'Agent') {
-            $role = '2';
-        } else
-			if ($user_type == 'Staff') {
-            $role = '3';
-        }
-        $user_name                    = $getRequestData['user_name'];
-        $agent_id                    = $getRequestData['agent_id'];
-        $responsible                    = $getRequestData['responsible'];
-        $remarks                    = $getRequestData['remarks'];
-        $declaration                    = $getRequestData['declaration'];
-        $req_code                    = $getRequestData['req_code'];
-        $dor                    = date('d-m-Y', strtotime($getRequestData['dor']));
-        $cus_id                    = $getRequestData['cus_id'];
-        $cus_data                    = $getRequestData['cus_data'];
-        $first_name					= $getRequestData['first_name'];
+        	$req_id						= $getRequestData['req_id'];
+		$agent_id					= $getRequestData['agent_id'];
+		$cus_id					= $getRequestData['cus_id'];
+		$first_name					= $getRequestData['first_name'];
 		$last_name					= $getRequestData['last_name'];
-        $dob                    = $getRequestData['dob'];
-        $age                    = $getRequestData['age'];
-        $gender                    = $getRequestData['gender'];
-        $blood_group                    = $getRequestData['blood_group'];
-        $state                    = $getRequestData['state'];
-        $district                    = $getRequestData['district'];
-        $taluk                    = $getRequestData['taluk'];
-        $area                    = $getRequestData['area'];
-        // $sub_area                    = $getRequestData['sub_area'];
-        $address                    = $getRequestData['address'];
-        $mobile1                    = $getRequestData['mobile1'];
-        $mobile2                    = $getRequestData['mobile2'];
-        $father_name                    = $getRequestData['father_name'];
-        $mother_name                    = $getRequestData['mother_name'];
-        $marital                    = $getRequestData['marital'];
-        $spouse_name                    = $getRequestData['spouse_name'];
-        $occupation_type                    = $getRequestData['occupation_type'];
-        $occupation                    = $getRequestData['occupation'];
-        $pic                    = $getRequestData['pic'];
-        $loan_category                    = $getRequestData['loan_category'];
-        $tot_value                    = $getRequestData['tot_value'];
-        $ad_amt                    = $getRequestData['ad_amt'];
-        $ad_perc                    = $getRequestData['ad_perc'];
-        $loan_amt                    = $getRequestData['loan_amt'];
-        $poss_type                    = $getRequestData['poss_type'];
-        $due_amt                    = $getRequestData['due_amt'];
-        $due_period                    = $getRequestData['due_period'];
-        $cus_status                    = $getRequestData['cus_status'];
+		$loan_category					= $getRequestData['loan_category'];
+		$tot_value					= $getRequestData['tot_value'];
+		$ad_amt					= $getRequestData['ad_amt'];
+		$loan_amt					= $getRequestData['loan_amt'];
+		$due_period					= $getRequestData['due_period'];
         $issue_mode                    = $getRequestData['issue_mode'];
         $payment_type                    = $getRequestData['payment_type'];
         // $selected_bank_id                    = $getRequestData['bank_id'];
@@ -76,63 +36,24 @@ if (sizeof($getCustomerReg) > 0) {
 $getCustomerProfile = $userObj->getAcknowlegeCustomerProfile($mysqli, $idupd);
 
 if (sizeof($getCustomerProfile) > 0) {
-    $cus_Tableid = $getCustomerProfile['cus_Tableid'];
-    $cus_req_id = $getCustomerProfile['req_id'];
-    $cp_cus_id = $getCustomerProfile['cus_id'];
-    $first_name = $getCustomerProfile['first_name'];
+  	$cus_Tableid = $getCustomerProfile['cus_Tableid'];
+	$cp_cus_id = $getCustomerProfile['cus_id'];
+	$first_name = $getCustomerProfile['first_name'];
 	$last_name = $getCustomerProfile['last_name'];
-    $cp_gender = $getCustomerProfile['gender'];
-    $cp_dob = $getCustomerProfile['dob'];
-    $cp_age = $getCustomerProfile['age'];
-    $cp_blood_group = $getCustomerProfile['blood_group'];
-    $cp_mobile1  = $getCustomerProfile['mobile1'];
-    $cp_mobile2 = $getCustomerProfile['mobile2'];
-    $cp_whatsapp = $getCustomerProfile['whatsapp'];
-    $cp_cus_pic = $getCustomerProfile['cus_pic'];
-    $guarentor_name = $getCustomerProfile['guarentor_name'];
-    $guarentor_relation = $getCustomerProfile['guarentor_relation'];
-    $guarentor_photo = $getCustomerProfile['guarentor_photo'];
-    $cus_type = $getCustomerProfile['cus_type'];
-    $cus_exist_type = $getCustomerProfile['cus_exist_type'];
-    $residential_type = $getCustomerProfile['residential_type'];
-    $residential_details = $getCustomerProfile['residential_details'];
-    $residential_address = $getCustomerProfile['residential_address'];
-    $residential_native_address = $getCustomerProfile['residential_native_address'];
-    $cp_occupation_type = $getCustomerProfile['occupation_type'];
-    $occupation_details = $getCustomerProfile['occupation_details'];
-    $occupation_income = $getCustomerProfile['occupation_income'];
-    $occupation_address = $getCustomerProfile['occupation_address'];
-    $area_confirm_type = $getCustomerProfile['area_confirm_type'];
-    $area_confirm_state = $getCustomerProfile['area_confirm_state'];
-    $area_confirm_district = $getCustomerProfile['area_confirm_district'];
-    $area_confirm_taluk = $getCustomerProfile['area_confirm_taluk'];
-    $area_confirm_area = $getCustomerProfile['area_confirm_area'];
-    $area_confirm_subarea = $getCustomerProfile['area_confirm_subarea'];
-    $latlong = $getCustomerProfile['latlong'];
-    $area_group = $getCustomerProfile['area_group'];
-    $area_line = $getCustomerProfile['area_line'];
-    $communication = $getCustomerProfile['communication'];
-    $com_audio = $getCustomerProfile['com_audio'];
-    $verification_person = $getCustomerProfile['verification_person'];
-    $verification_location = $getCustomerProfile['verification_location'];
-    $cp_cus_status = $getCustomerProfile['cus_status'];
-    $how_to_know = $getCustomerProfile['how_to_know'];
-    $loan_count = $getCustomerProfile['loan_count'];
-    $first_loan_date = $getCustomerProfile['first_loan_date'];
-    $travel_with_company = $getCustomerProfile['travel_with_company'];
-    $monthly_income = $getCustomerProfile['monthly_income'];
-    $other_income = $getCustomerProfile['other_income'];
-    $support_income = $getCustomerProfile['support_income'];
-    $commitment = $getCustomerProfile['commitment'];
-    $monthly_due_capacity = $getCustomerProfile['monthly_due_capacity'];
-    $loan_limit = $getCustomerProfile['loan_limit'];
-    // $cus_character = $getCustomerProfile['cus_character'];
-    // $approach = $getCustomerProfile['approach'];
-    // $relationship = $getCustomerProfile['relationship'] ;
-    // $attitude = $getCustomerProfile['attitude'] ;
-    // $behavior = $getCustomerProfile['behavior'] ;
-    // $incident_remark  = $getCustomerProfile['incident_remark'] ;
-    $about_customer = $getCustomerProfile['about_customer'];
+	$cp_mobile1  = $getCustomerProfile['mobile1'];
+	$cp_mobile2 = $getCustomerProfile['mobile2'];
+	$cp_whatsapp = $getCustomerProfile['whatsapp'];
+	$cp_cus_pic = $getCustomerProfile['cus_pic'];
+	$guarentor_name = $getCustomerProfile['guarentor_name'];
+	$guarentor_relation = $getCustomerProfile['guarentor_relation'];
+	$guarentor_photo = $getCustomerProfile['guarentor_photo'];
+	$cus_type = $getCustomerProfile['cus_type'];
+	$cus_exist_type = $getCustomerProfile['cus_exist_type'];
+	$area_confirm_state = $getCustomerProfile['area_confirm_state'];
+	$area_confirm_district = $getCustomerProfile['area_confirm_district'];
+	$area_confirm_taluk = $getCustomerProfile['area_confirm_taluk'];
+	$area_confirm_area = $getCustomerProfile['area_confirm_area'];
+	$verification_person = $getCustomerProfile['verification_person'];
 }
 
 //////////////////////// Customer Profile Info END ///////////////////////////////
@@ -140,77 +61,46 @@ if (sizeof($getCustomerProfile) > 0) {
 ////////  Document Customer Info ///// 
 $getcusInfoForDoc = $userObj->getAckcusInfoForDoc($mysqli, $idupd);
 if (sizeof($getcusInfoForDoc) > 0) {
-
-    $cus_profile_id = $getcusInfoForDoc['cus_profile_id'];
-    $doc_cus_id = $getcusInfoForDoc['cus_id'];
-    $doc_first_name = $getcusInfoForDoc['first_name'];
-	$doc_last_name = $getcusInfoForDoc['last_name'];
-    $doc_area_name = $getcusInfoForDoc['area_name'];
-    $customer_profile_sts = $getcusInfoForDoc['cus_status'];
+	$cus_profile_id = $getcusInfoForDoc['cus_profile_id'];
+	$doc_area_name = $getcusInfoForDoc['area_name'];
 }
 
 
 
 ///////// Loan Calculation ///////////////
-$getCusInfoForLoanCal = $userObj->getAcknowlegeCusInfoForLoanCal($mysqli, $idupd);
-if (sizeof($getCusInfoForLoanCal) > 0) {
-    for ($i = 0; $i < sizeof($getCusInfoForLoanCal); $i++) {
-        $cus_id_lc = $getCusInfoForLoanCal['cus_id'];
-        $first_name_lc = $getCusInfoForLoanCal['first_name'];
-		$last_name_lc = $getCusInfoForLoanCal['last_name'];
-        $cus_pic_lc = $getCusInfoForLoanCal['cus_pic'];
-        $cus_data_lc = $getCusInfoForLoanCal['cus_type'];
-        $mobile_lc = $getCusInfoForLoanCal['mobile'];
-    }
-}
-
 $emicheck = 0;
 
 //Get Loan Calculation info for edit
 $getLoanCalculation = $userObj->getAckLoanCalculationForVerification($mysqli, $req_id);
 if (sizeof($getLoanCalculation) > 0) {
     for ($i = 0; $i < sizeof($getLoanCalculation); $i++) {
-        $loan_cal_id = $getLoanCalculation['loan_cal_id'];
-        $cus_id_loan = $getLoanCalculation['cus_id_loan'];
-        $first_name_loan = $getLoanCalculation['first_name'];
-		$last_name_loan = $getLoanCalculation['last_name'];
-        $cus_data_loan = $getLoanCalculation['cus_data_loan'];
-        $mobile_loan = $getLoanCalculation['mobile_loan'];
-        $pic_loan = $getLoanCalculation['pic_loan'];
         $loan_category_lc = $getLoanCalculation['loan_category'];
-        $tot_value_lc = $getLoanCalculation['tot_value'];
-        $ad_amt_lc = $getLoanCalculation['ad_amt'];
-        $loan_amt_lc = $getLoanCalculation['loan_amt'];
-        $profit_type_lc = $getLoanCalculation['profit_type'];
-        $due_method_calc_lc = $getLoanCalculation['due_method_calc'];
-        $due_type_lc = $getLoanCalculation['due_type'];
-        $profit_method_lc = $getLoanCalculation['profit_method'];
-        $calc_method_lc = $getLoanCalculation['calc_method'];
-        $due_method_scheme_lc = $getLoanCalculation['due_method_scheme'];
-        $profit_method_scheme_lc = $getLoanCalculation['scheme_profit_method'];
-        $day_scheme_lc = $getLoanCalculation['day_scheme'];
-        $scheme_name_lc = $getLoanCalculation['scheme_name'];
-        $int_rate_lc = $getLoanCalculation['int_rate'];
-        $due_period_lc = $getLoanCalculation['due_period'];
-        $doc_charge_lc = $getLoanCalculation['doc_charge'];
-        $proc_fee_lc = $getLoanCalculation['proc_fee'];
-        $loan_amt_cal = $getLoanCalculation['loan_amt_cal'];
-        $principal_amt_cal = $getLoanCalculation['principal_amt_cal'];
-        $int_amt_cal = $getLoanCalculation['int_amt_cal'];
-        $tot_amt_cal = $getLoanCalculation['tot_amt_cal'];
-        $due_amt_cal = $getLoanCalculation['due_amt_cal'];
-        $doc_charge_cal = $getLoanCalculation['doc_charge_cal'];
-        $proc_fee_cal = $getLoanCalculation['proc_fee_cal'];
-        $net_cash_cal = $getLoanCalculation['net_cash_cal'];
-        $due_start_from = $getLoanCalculation['due_start_from'];
-        $maturity_month = $getLoanCalculation['maturity_month'];
-        $collection_method = $getLoanCalculation['collection_method'];
-        $cus_status_lc = $getLoanCalculation['cus_status'];
-    }
-
-    //Get Loan calculation Category info for edit
-    if ($loan_cal_id > 0) {
-        $getLoanCalCategory = $userObj->getAckVerificationLoanCalCategory($mysqli, $loan_cal_id);
+		$tot_value_lc = $getLoanCalculation['tot_value'];
+		$ad_amt_lc = $getLoanCalculation['ad_amt'];
+		$loan_amt_lc = $getLoanCalculation['loan_amt'];
+		$profit_type_lc = $getLoanCalculation['profit_type'];
+		$due_type_lc = $getLoanCalculation['due_type'];
+		$profit_method_lc = $getLoanCalculation['profit_method'];
+		$calc_method_lc = $getLoanCalculation['calc_method'];
+		$due_method_scheme_lc = $getLoanCalculation['due_method_scheme'];
+		$profit_method_scheme_lc = $getLoanCalculation['scheme_profit_method'];
+		$day_scheme_lc = $getLoanCalculation['day_scheme'];
+		$scheme_name_lc = $getLoanCalculation['scheme_name'];
+		$int_rate_lc = $getLoanCalculation['int_rate'];
+		$due_period_lc = $getLoanCalculation['due_period'];
+		$doc_charge_lc = $getLoanCalculation['doc_charge'];
+		$proc_fee_lc = $getLoanCalculation['proc_fee'];
+		$loan_amt_cal = $getLoanCalculation['loan_amt_cal'];
+		$principal_amt_cal = $getLoanCalculation['principal_amt_cal'];
+		$int_amt_cal = $getLoanCalculation['int_amt_cal'];
+		$tot_amt_cal = $getLoanCalculation['tot_amt_cal'];
+		$due_amt_cal = $getLoanCalculation['due_amt_cal'];
+		$doc_charge_cal = $getLoanCalculation['doc_charge_cal'];
+		$proc_fee_cal = $getLoanCalculation['proc_fee_cal'];
+		$net_cash_cal = $getLoanCalculation['net_cash_cal'];
+		$due_start_from = $getLoanCalculation['due_start_from'];
+		$maturity_month = $getLoanCalculation['maturity_month'];
+		$collection_method = $getLoanCalculation['collection_method'];
     }
 
     $emicheck = strpos($due_type_lc, 'EMI') !== false;

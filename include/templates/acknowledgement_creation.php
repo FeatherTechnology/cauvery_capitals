@@ -141,10 +141,6 @@ if (sizeof($getCustomerProfile) > 0) {
 	$latlong = $getCustomerProfile['latlong'];
 	$area_group = $getCustomerProfile['area_group'];
 	$area_line = $getCustomerProfile['area_line'];
-	// $communication = $getCustomerProfile['communication'];
-	// $com_audio = $getCustomerProfile['com_audio'];
-	// $verification_person = $getCustomerProfile['verification_person'];
-	// $verification_location = $getCustomerProfile['verification_location'];
 	$cp_cus_status = $getCustomerProfile['cus_status'];
 	$how_to_know = $getCustomerProfile['how_to_know'];
 	$loan_count = $getCustomerProfile['loan_count'];
@@ -157,12 +153,6 @@ if (sizeof($getCustomerProfile) > 0) {
 	$commitment = $getCustomerProfile['commitment'];
 	$monthly_due_capacity = $getCustomerProfile['monthly_due_capacity'];
 	$loan_limit = $getCustomerProfile['loan_limit'];
-	// $cus_character = $getCustomerProfile['cus_character'];
-	// $approach = $getCustomerProfile['approach'];
-	// $relationship = $getCustomerProfile['relationship'] ;
-	// $attitude = $getCustomerProfile['attitude'] ;
-	// $behavior = $getCustomerProfile['behavior'] ;
-	// $incident_remark  = $getCustomerProfile['incident_remark'] ;
 	$about_customer = $getCustomerProfile['about_customer'];
 	$dow 					= $getCustomerProfile['dow'];
 	$abt_occ 					= $getCustomerProfile['abt_occ'];
@@ -242,13 +232,8 @@ if (sizeof($documentationInfo) > 0) {
 ////////   Documentation End ////////////
 
 ///////// Loan Calculation ///////////////
-// if (isset($_POST['submit_loan_calculation']) && $_POST['submit_loan_calculation'] != '') {
-// 	$userObj->addAcknowledgementLoanCalculation($mysqli, $userid);
-
 ?>
-	<script>
-		// alert('Loan Calculation Details Submitted');
-	</script>
+
 
 <?php
 // }

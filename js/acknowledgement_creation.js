@@ -49,7 +49,6 @@ $(document).ready(function () {
             $('#customer_profile').hide(); $('#cus_document').hide(); $('#customer_loan_calc').show();
             onLoadEditFunction();
             getUserBasedLoanCategory().then(function () {
-                var loan_category = $('#loan_category').val(); // Get the selected loan category
                 return ; // Return the promise from getSubCategory
             }).then(function () {
                 // After both functions are executed
@@ -2819,13 +2818,11 @@ function getUserBasedLoanCategory() {
                     if (loan_category != undefined && loan_category != '' && loan_category == response[i]['loan_category_id']) {
                         selected = 'selected';
                         $('#loan_category_ack').val(response[i]['loan_category_id']);
-                        // getSubCategory(response[i]['loan_category_id']);
                     }
                 } else {
                     if (loan_category_upd != undefined && loan_category_upd != '' && loan_category_upd == response[i]['loan_category_id']) {
                         selected = 'selected';
                         $('#loan_category_ack').val(response[i]['loan_category_id']);
-                        // getSubCategory(response[i]['loan_category_id']);
                     }
                 }
 
@@ -2969,7 +2966,6 @@ function getLoaninfo(loan_category) {
 //to fetch Calculation based inputs
 function profitCalculationInfo() {
     var profit_type = $('#profit_type').val();
-    var due_method = $('#due_method_scheme').val();
     var loan_cat = $('#loan_category').val();
     if (profit_type != '') { //Call only if profit type autamatically set
         profitCalAjax(profit_type, loan_cat); //Call for edit

@@ -54,7 +54,7 @@ if (isset($_POST['order'])) {
     JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
     JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
     LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id 
-    LEFT JOIN ( SELECT cus_id, MAX(follow_date) AS follow_date, status FROM new_promotion GROUP BY cus_id ) np ON req.cus_id = np.cus_id
+    LEFT JOIN new_promotion np ON np.cus_id = req.cus_id AND np.created_date = (SELECT MAX(np1.created_date) FROM new_promotion np1 WHERE np1.cus_id = req.cus_id)
     WHERE req.cus_status BETWEEN 4 AND 9 
     AND CASE WHEN req.cus_status IN (6,7) THEN cp.area_confirm_subarea ELSE cp.area END IN  ($area_list) AND rc.cus_id IS NULL ";
 
