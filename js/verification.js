@@ -4849,13 +4849,13 @@ function getLoaninfo(loan_category) {
         $("#loan_amt").removeAttr("readonly");
         $('#loan_amt').on('input', function () {
             // to calculate loan amount ant advance percentage
-            var loan_amt = $(this).val().replace(/,/g, '');
-            $('#loan_amt').val(formatIndianNumber(loan_amt));
+            var loan_amt_str = $(this).val().replace(/,/g, '');
+            var loan_amt = parseFloat(loan_amt_str); // convert to number
+            $('#loan_amt').val(formatIndianNumber(loan_amt_str));
 
-            if (loan_amt <= parseInt(response["loan_limit"])) {
-              if (loan_amt != NaN) {
+            if (!isNaN(loan_amt) && loan_amt <= parseInt(response["loan_limit"])) {
                 $("#loan_amt").val(formatIndianNumber(loan_amt.toFixed(0)));
-              }
+                
             } else {
               alert("Please Enter Lesser amount!");
               $("#loan_amt").val("");
