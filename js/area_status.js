@@ -4,10 +4,10 @@ $(document).ready(function () {
 
     //Mapping Type Change
 
-    $('#area,#sub_area').click(function () {
+    $('#area').click(function () {
         var area_status = $('input[name=area_status]:checked').val();
         if (area_status == 'area') {
-            $('.area_status').show(); $('.sub_area_status').hide();
+            $('.area_status').show();
             dT1();
         }
     })

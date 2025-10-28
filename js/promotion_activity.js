@@ -236,7 +236,7 @@ $(document).on("click", '.delet_event', function () {
                 title: 'Table cannot be empty.',
                 icon: 'error',
                 showConfirmButton: true,
-                confirmButtonColor: '#009688'
+                confirmButtonColor: '#0c70ab'
             });
         return;
     }
@@ -299,7 +299,7 @@ areaSelect.addEventListener('change', function() {
         Swal.fire({
             title: 'Please enter Event Name!',
             icon: 'error',
-            confirmButtonColor: '#009688'
+            confirmButtonColor: '#0c70ab'
         });
         return;
     }
@@ -307,7 +307,7 @@ areaSelect.addEventListener('change', function() {
         Swal.fire({
             title: 'Please select at least one Area!',
             icon: 'error',
-            confirmButtonColor: '#009688'
+            confirmButtonColor: '#0c70ab'
         });
         return;
     }
@@ -338,7 +338,7 @@ areaSelect.addEventListener('change', function() {
         Swal.fire({
             title: 'Please enter a valid mobile number!',
             icon: 'error',
-            confirmButtonColor: '#009688'
+            confirmButtonColor: '#0c70ab'
         });
         return;
     }
@@ -347,7 +347,7 @@ areaSelect.addEventListener('change', function() {
         Swal.fire({
             title: 'Please fill all fields!',
             icon: 'error',
-            confirmButtonColor: '#009688'
+            confirmButtonColor: '#0c70ab'
         });
         return;
     }
@@ -392,7 +392,7 @@ areaSelect.addEventListener('change', function() {
             Swal.fire({
                 title: res.message,
                 icon: 'success',
-                confirmButtonColor: '#009688'
+                confirmButtonColor: '#0c70ab'
             });
         }
     });

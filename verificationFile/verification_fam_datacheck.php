@@ -36,7 +36,7 @@ include '../ajaxconfig.php';
         }
 
         $cusInfo = $connect->query("SELECT CONCAT(a.first_name, ' ', a.last_name) AS famname ,a.`relationship`,a.`relation_aadhar`, rc.`cus_id`, CONCAT(rc.first_name, ' ', rc.last_name) AS customer_name FROM `verification_family_info` a left join `request_creation` rc on a.req_id = rc.req_id  
-        WHERE a.`req_id` = '$req_id' && a.$category = '$name' order by a.id desc");
+        WHERE a.$category = '$name' order by a.id desc");
 
         $i = 1;
         while ($cus = $cusInfo->fetch()) {

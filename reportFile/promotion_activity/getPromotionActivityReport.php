@@ -57,11 +57,13 @@ LEFT JOIN
     new_cus_promo ncp ON np.cus_id = ncp.cus_id
 LEFT JOIN area_list_creation al ON al.area_id = COALESCE(cp.area, ncp.area)
 
-LEFT JOIN sub_area_list_creation sl ON   sl.sub_area_id = COALESCE(cp.sub_area, ncp.sub_area) 
+LEFT JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
 
-LEFT JOIN area_group_mapping agm ON FIND_IN_SET(sl.sub_area_id, agm.sub_area_id) 
+LEFT JOIN area_group_mapping agm ON agm.map_id = agma.group_map_id  
 
-LEFT JOIN area_line_mapping alm ON FIND_IN_SET(sl.sub_area_id, alm.sub_area_id) 
+LEFT JOIN area_line_mapping_area alma ON alma.area_id = al.area_id  
+
+LEFT JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
 
 LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id  
 

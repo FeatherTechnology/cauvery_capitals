@@ -283,7 +283,7 @@ foreach ($result as $row) {
 
     $sub_array   = array();
     $sub_array[] = $sno;
-        $sub_array[] = $row['group_name'];
+    $sub_array[] = $row['group_name'];
     $sub_array[] = $row['line'];
     $sub_array[] = $row['duefollowup_name'];
     $sub_array[] = $row['loan_id'];
