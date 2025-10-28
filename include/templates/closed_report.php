@@ -25,10 +25,12 @@
 							<table id="closed_report_table" class="table custom-table">
 								<thead>
 									<th>S.No</th>
+									<th>Group</th>
 									<th>Line</th>
 									<th>Loan ID</th>
 									<th>Doc ID</th>
 									<th>Loan Date</th>
+									<th>Aadhaar Number</th>
 									<th>Cust. ID</th>
 									<th>Cust. Name</th>
 									<th>Area</th>
@@ -44,9 +46,10 @@
 								<tbody></tbody>
 								<tfoot>
 									<tr>
-										<td colspan="10"></td>
+										<td colspan="11"></td>
 										<td></td>
-										<td colspan="3"></td>
+										<td></td>
+										<td colspan="5"></td>
 									</tr>
 								</tfoot>
 							</table>

@@ -4713,10 +4713,12 @@ function getUserBasedLoanCategory() {
 
 //Get Category info From Request
 function getCategoryInfo() {
+  var sub_category_upd = $("#sub_category_upd").val();
+  var sub_cat = $("#sub_category_load").val();
   var loan_category = $("#loan_category_load").val();
   $.ajax({
     url: "requestFile/getCategoryInfo.php",
-    data: { loan_category: loan_category },
+    data: { sub_cat: sub_cat, loan_category: loan_category },
     dataType: "json",
     type: "post",
     cache: false,
@@ -4729,32 +4731,32 @@ function getCategoryInfo() {
         for (var i = 0; i < response.length; i++) {
           $("#moduleTable tbody tr").append(
             `<td><label for="disabledInput">` +
-              response[i]["loan_category_ref_name"] +
-              `</label><span class="required">&nbsp;*</span><input type="text" class="form-control" id="category_info" name="category_info[]" 
+            response[i]["loan_category_ref_name"] +
+            `</label><span class="required">&nbsp;*</span><input type="text" class="form-control" id="category_info" name="category_info[]" 
                     value='` +
-              category_info +
-              `' tabindex='` +
-              tb +
-              `' required placeholder='Enter ` +
-              response[i]["loan_category_ref_name"] +
-              `'></td>`
+            category_info +
+            `' tabindex='` +
+            tb +
+            `' required placeholder='Enter ` +
+            response[i]["loan_category_ref_name"] +
+            `'></td>`
           );
           // tb++;
         }
         $("#moduleTable tbody tr").append(
           `<td><button type="button" tabindex='` +
-            tb +
-            `' id="add_category_info[]" name="add_category_info" 
+          tb +
+          `' id="add_category_info[]" name="add_category_info" 
                 class="btn btn-primary add_category_info">Add</button> </td><td><span class='icon-trash-2 deleterow' id='deleterow' tabindex='` +
-            tb +
-            `'></span></td>
+          tb +
+          `'></span></td>
                 </tr></tbody></table>`
         );
 
         var category_content = $("#moduleTable tbody tr").html(); //To get the appended category list
 
         var category_count = $("#moduleTable tbody tr").find("td").length - 2; //To find input fields count
-        getCategoryInputs(category_count, category_content, loan_category);
+        getCategoryInputs(category_count, category_content, sub_category_upd);
 
         $(document).on("click", ".add_category_info", function () {
           $("#moduleTable tbody").append("<tr>" + category_content + "</tr>");
@@ -4774,12 +4776,12 @@ function getCategoryInfo() {
   function getCategoryInputs(
     category_count,
     category_content,
-    loan_category
+    sub_category_upd
   ) {
     var req_id = $("#req_id").val();
     $.ajax({
       url: "verificationFile/LoanCalculation/getCategoryInfo.php",
-      data: { req_id: req_id, loan_category: loan_category },
+      data: { req_id: req_id, sub_category_upd: sub_category_upd },
       dataType: "json",
       type: "post",
       cachec: false,

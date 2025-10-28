@@ -59,12 +59,15 @@ $coll_arr = [1 => 'Cash', 2 => 'Cheque', 3 => 'ECS', 4 => 'IMPS/NEFT/RTGS', 5 =>
 $coll_method = [1 => 'By Self', 2 => 'On Spot'];
 
 $column = array(
-    'cp.id',
+    'coll.coll_id',
+    'ag.group_name',
     'alm.line_name',
+    'adm.duefollowup_name',
     'ii.loan_id',
     'ii.updated_date',
     'coll.cus_id',
-    'coll.first_name',
+    'cr.autogen_cus_id',
+    "CONCAT(coll.first_name, ' ', coll.last_name)", 
     'al.area_name',
     'lcc.loan_category_creation_name',
     'ac.ag_name',
@@ -84,12 +87,15 @@ $column = array(
 );
 
 $query = "SELECT 
+ ag.group_name,
             alm.line_name AS line,
+            adm.duefollowup_name,
             ii.loan_id,
             ii.updated_date AS loan_date,
             coll.cus_id,
+            cr.autogen_cus_id,
             coll.req_id,
-            coll.first_name,
+            CONCAT(coll.first_name, ' ', coll.last_name) AS customer_name,
             coll.coll_mode,
             al.area_name,
             lcc.loan_category_creation_name AS loan_cat_name,
@@ -115,12 +121,17 @@ $query = "SELECT
             cls.consider_level
 
         FROM collection coll
+        JOIN customer_register cr ON coll.cus_id = cr.cus_id
         JOIN acknowlegement_customer_profile cp ON coll.req_id = cp.req_id
         JOIN in_issue ii ON coll.req_id = ii.req_id
         JOIN area_list_creation al ON cp.area_confirm_area = al.area_id
         -- JOIN sub_area_list_creation sal ON cp.area_confirm_subarea = sal.sub_area_id
+       JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
+        JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
         JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
         JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+        JOIN area_duefollowup_mapping_area adma ON adma.area_id = al.area_id
+        JOIN area_duefollowup_mapping adm ON adm.map_id = adma.map_id
         JOIN acknowlegement_loan_calculation lc ON coll.req_id = lc.req_id
         JOIN in_verification iv ON coll.req_id = iv.req_id
         LEFT JOIN bank_creation b ON coll.bank_id = b.id
@@ -135,10 +146,13 @@ $query = "SELECT
 if (isset($_POST['search'])) {
     if ($_POST['search'] != "") {
         $query .= " and (ii.loan_id LIKE '%" . $_POST['search'] . "%'
+                    OR ag.group_name LIKE '%" . $_POST['search'] . "%' 
                     OR alm.line_name LIKE '%" . $_POST['search'] . "%'
+                     OR adm.duefollowup_name LIKE '%" . $_POST['search'] . "%' 
                     OR ii.updated_date LIKE '%" . $_POST['search'] . "%'
                     OR coll.cus_id LIKE '%" . $_POST['search'] . "%'
-                    OR coll.first_name LIKE '%" . $_POST['search'] . "%'
+                    OR cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%'
+                    OR CONCAT(coll.first_name, ' ', coll.last_name) LIKE '%$search%'   
                     OR al.area_name LIKE '%" . $_POST['search'] . "%'
                     OR lcc.loan_category_creation_name LIKE '%" . $_POST['search'] . "%'
                     OR ac.ag_name LIKE '%" . $_POST['search'] . "%'
@@ -182,11 +196,14 @@ $sno = 1;
 foreach ($result as $row) {
     $sub_array   = array();
     $sub_array[] = $sno;
+    $sub_array[] = $row['group_name'];
     $sub_array[] = $row['line'];
+    $sub_array[] = $row['duefollowup_name'];
     $sub_array[] = $row['loan_id'];
     $sub_array[] = date('d-m-Y', strtotime($row['loan_date']));
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['autogen_cus_id'];
+    $sub_array[] = $row['customer_name'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row['loan_cat_name'];
     $sub_array[] = $row['ag_name'];
@@ -202,7 +219,7 @@ foreach ($result as $row) {
         $sub_array[] = '';
         $sub_array[] = '';
     }
-    $sub_array[] = moneyFormatIndia(intVal($row['due_amt_track']));
+     $sub_array[] = moneyFormatIndia(intVal($row['due_amt_track']));
     $sub_array[] = moneyFormatIndia(intval($row['penalty_track']));
     $sub_array[] = moneyFormatIndia(intval($row['coll_charge_track']));
     $sub_array[] = moneyFormatIndia(intval($row['total_paid_track']));
@@ -278,8 +295,6 @@ function moneyFormatIndia($num)
     $thecash = $thecash == 0 ? "" : $thecash;
     return $thecash;
 }
-
-
 
 // Close the database connection
 $connect = null;

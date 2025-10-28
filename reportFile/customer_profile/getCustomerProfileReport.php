@@ -89,8 +89,9 @@ $residentialTypeObj = [
 $column = array(
     'cp.id',
     'cp.cus_id',
-    'cp.first_name',
-    'fam.first_name',
+    'reg.autogen_cus_id',
+    "CONCAT(cp.first_name, ' ', cp.last_name)", 
+    "CONCAT(fam.first_name, ' ', fam.last_name)",
     'fam.relationship',
     'al.area_name',
     'cp.mobile1',
@@ -108,8 +109,10 @@ $column = array(
 );
 
 $query = "SELECT 
-            cp.cus_id,cp.first_name,
+            cp.cus_id,
+            CONCAT(cp.first_name, ' ', cp.last_name) AS customer_name,
             cp.mobile1,
+            reg.autogen_cus_id,
             alm.line_name,
             agm.group_name,
             cp.occupation_type,
@@ -117,7 +120,7 @@ $query = "SELECT
             cp.residential_type,
             cp.residential_details,
             cp.blood_group,
-            fam.first_name AS guarantor_name,
+            CONCAT(fam.first_name, ' ', fam.last_name) AS guarantor_name,
             fam.relationship,
             al.area_name,
             reg.loan_limit,
@@ -140,8 +143,10 @@ $query = "SELECT
 
 if ($_POST['search'] != "") {
     $query .= " and (cp.id LIKE '%" . $_POST['search'] . "%' OR
+            reg.autogen_cus_id LIKE '%" . $_POST['search'] . "%' OR
             cp.cus_id LIKE '%" . $_POST['search'] . "%' OR
-            cp.first_name LIKE '%" . $_POST['search'] . "%' OR
+            CONCAT(cp.first_name, ' ', cp.last_name) LIKE '%$search%' OR
+            CONCAT(fam.first_name, ' ', fam.last_name) LIKE '%$search%' OR
             cp.mobile1 LIKE '%" . $_POST['search'] . "%' OR
             alm.line_name LIKE '%" . $_POST['search'] . "%' OR
             agm.group_name LIKE '%" . $_POST['search'] . "%' OR
@@ -180,7 +185,8 @@ foreach ($result as $row) {
     $sub_array   = array();
     $sub_array[] = $sno;
     $sub_array[] = $row['cus_id'];
-    $sub_array[] = $row['first_name'];
+    $sub_array[] = $row['autogen_cus_id'];
+    $sub_array[] = $row['customer_name'];
     $sub_array[] = $row['guarantor_name'];
     $sub_array[] = $row['relationship'];
     $sub_array[] = $row['area_name'];

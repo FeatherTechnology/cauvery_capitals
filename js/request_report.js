@@ -12,19 +12,16 @@ $(document).ready(function () {
     });
 
     //Request Report Table
-    // var request_report_table = 
     $('#reset_btn').click(function () {
-        // request_report_table.ajax.reload();
         requestReportTable();
-    })
-
+    });
 });
 
 function requestReportTable(){
     $('#request_report_table').DataTable().destroy();
     $('#request_report_table').DataTable({
         "order": [
-            [0, "desc"]
+            [0, "asc"]
         ],
         'processing': true,
         'serverSide': true,
@@ -68,7 +65,7 @@ function requestReportTable(){
             };
 
             // Array of column indices to sum
-            var columnsToSum = [7];
+            var columnsToSum = [8];
 
             // Loop through each column index
             columnsToSum.forEach(function (colIndex) {

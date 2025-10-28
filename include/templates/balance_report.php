@@ -44,11 +44,14 @@
 							<table id="balance_report_table" class="table custom-table">
 								<thead>
 									<th>S.No</th>
+									<th>Group</th>
 									<th>Line</th>
+									<th>Followup</th>
 									<th>Loan ID</th>
 									<th>Doc ID</th>
 									<th>Loan Date</th>
 									<th>Maturity Date</th>
+									<th>Aadhaar Number</th>
 									<th>Cust. ID</th>
 									<th>Cust. Name</th>
 									<th>Area</th>
@@ -68,7 +71,8 @@
 								<tbody></tbody>
 								<tfoot>
 									<tr>
-										<td colspan="11"></td>
+										<td colspan="14"></td>
+										<td></td>
 										<td></td>
 										<td></td>
 										<td></td>
@@ -88,11 +92,14 @@
 							<table id="princ_intrst_table" class="table custom-table">
 								<thead>
 									<th>S.No</th>
+									<th>Group</th>
 									<th>Line</th>
+									<th>Followup</th>
 									<th>Loan ID</th>
 									<th>Doc ID</th>
 									<th>Loan Date</th>
 									<th>Maturity Date</th>
+									<th>Aadhaar Number</th>
 									<th>Cust. ID</th>
 									<th>Cust. Name</th>
 									<th>Area</th>
@@ -123,7 +130,11 @@
 										<td></td>
 										<td></td>
 										<td></td>
-										<td colspan="2"></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
 									</tr>
 								</tfoot>
 							</table>

@@ -1342,7 +1342,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									</div>
 								</div>
 
-								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" style="display: none;">
 									<div class="form-group">
 										<label for="DocID">Document ID</label> <span class="required"> * </span>
 										<input type="text" class="form-control" id="doc_id" name="doc_id" readonly tabindex="8">
