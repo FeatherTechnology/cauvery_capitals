@@ -407,7 +407,7 @@ function swalError(title, icon) {
         title: title,
         icon: icon,
         showConfirmButton: true,
-        confirmButtonColor: '#009688'
+        confirmButtonColor: '#0c70ab'
     })
 }
 

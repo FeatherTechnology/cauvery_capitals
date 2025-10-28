@@ -81,6 +81,6 @@ function swalError(title, text) {
         icon: 'error',
         title: title,
         text: text,
-        confirmButtonColor: '#009688',
+        confirmButtonColor: '#0c70ab',
     });
 }

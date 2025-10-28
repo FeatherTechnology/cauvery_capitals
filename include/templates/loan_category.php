@@ -647,29 +647,27 @@ if ($idupd > 0) {
 									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 advance_div">
 										<div class="form-group"><br>
 											<label for="advance">Advance</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<input checked type="radio" tabindex="21" name="advance" id="advance_yes" value="Yes" <?php if (isset($advance))
-																																		echo ($advance == 'yes') ? 'checked' : '' ?>> &nbsp;&nbsp; <label for="yes">Yes </label> &nbsp;&nbsp;&nbsp;&nbsp;
-											<input type="radio" tabindex='22' name="advance" id="advance_no" value="No" <?php if (isset($advance))
-																															echo ($advance == 'No') ? 'checked' : '' ?>> &nbsp;&nbsp; <label for="no">No </label>
+											<input checked type="radio" tabindex="21" name="advance" id="advance_yes" value="Yes"> &nbsp;&nbsp; <label for="yes">Yes </label> &nbsp;&nbsp;&nbsp;&nbsp;
+											<input type="radio" tabindex='22' name="advance" id="advance_no" value="No"> &nbsp;&nbsp; <label for="no">No </label>
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 total_due" style="display: none;">
 										<div class="form-group">
 											<label for="disabledInput">Total Due</label>&nbsp;<span class="text-danger">*</span>
-											<input type="number" name="total_due" id="total_due" value="<?php if (isset($total_due)) echo $total_due; ?>" placeholder="Enter Total Due" class="form-control">
+											<input type="number" name="total_due" id="total_due" value="" placeholder="Enter Total Due" class="form-control">
 										</div>
 									</div>
 
 									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 advance_due" style="display: none;">
 										<div class="form-group">
 											<label for="disabledInput">Advance Due</label>
-											<input type="number" name="advance_due" id="advance_due" value="<?php if (isset($advance_due)) echo $advance_due; ?>" placeholder="Enter Advance Due" class="form-control">
+											<input type="number" name="advance_due" id="advance_due" value="" placeholder="Enter Advance Due" class="form-control">
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Due Period</label>
-											<input type="text" name="due_period" id="due_period" readonly value="<?php if (isset($due_period)) echo $due_period; ?>" placeholder="Enter Total & Advance Due" class="form-control">
+											<input type="text" name="due_period" id="due_period" readonly value="" placeholder="Enter Total & Advance Due" class="form-control">
 										</div>
 									</div>
 

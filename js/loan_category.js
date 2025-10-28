@@ -646,7 +646,13 @@ function getSchemeDetails(id) {
         $('#proc_fee_min').val(response.proc_fee_min);
         $('#proc_fee_max').val(response.proc_fee_max);
         $('#overdue').val(response.overdue);
+        $('#advance_due').val(response.advance_due);
         $("input[name='advance'][value='" + response.advance_type + "']").prop("checked", true);
+        if (response.advance_type === 'Yes') {
+            $(".advance_due").show();
+        } else {
+            $(".advance_due").hide();
+        }
 
         // Set Interest Type radio
         if (response.intreset_type === 'amt') {
@@ -818,7 +824,7 @@ function swalError(title, text) {
         icon: 'warning',
         title: title,
         text: text,
-        confirmButtonColor: '#009688',
+        confirmButtonColor: '#0c70ab',
     });
 }
 

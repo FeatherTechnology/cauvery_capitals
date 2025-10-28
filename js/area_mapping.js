@@ -619,7 +619,7 @@ function validateGroupAreaMappingForm() {
             title: 'Please Fill out Mandatory fields!',
             icon: 'error',
             showConfirmButton: true,
-            confirmButtonColor: '#009688'
+            confirmButtonColor: '#0c70ab'
         });
         return false; // validation failed
     }
