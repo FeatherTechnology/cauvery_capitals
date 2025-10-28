@@ -4713,12 +4713,11 @@ function getUserBasedLoanCategory() {
 
 //Get Category info From Request
 function getCategoryInfo() {
-  var sub_category_upd = $("#sub_category_upd").val();
-  var sub_cat = $("#sub_category_load").val();
   var loan_category = $("#loan_category_load").val();
+  var loan_category_upd = $("#loan_category_upd").val();
   $.ajax({
     url: "requestFile/getCategoryInfo.php",
-    data: { sub_cat: sub_cat, loan_category: loan_category },
+    data: { loan_category: loan_category },
     dataType: "json",
     type: "post",
     cache: false,
@@ -4756,7 +4755,7 @@ function getCategoryInfo() {
         var category_content = $("#moduleTable tbody tr").html(); //To get the appended category list
 
         var category_count = $("#moduleTable tbody tr").find("td").length - 2; //To find input fields count
-        getCategoryInputs(category_count, category_content, sub_category_upd);
+        getCategoryInputs(category_count, category_content , loan_category_upd);
 
         $(document).on("click", ".add_category_info", function () {
           $("#moduleTable tbody").append("<tr>" + category_content + "</tr>");
@@ -4776,12 +4775,12 @@ function getCategoryInfo() {
   function getCategoryInputs(
     category_count,
     category_content,
-    sub_category_upd
+    loan_category_upd
   ) {
     var req_id = $("#req_id").val();
     $.ajax({
       url: "verificationFile/LoanCalculation/getCategoryInfo.php",
-      data: { req_id: req_id, sub_category_upd: sub_category_upd },
+      data: { req_id: req_id , loan_category:loan_category_upd},
       dataType: "json",
       type: "post",
       cachec: false,

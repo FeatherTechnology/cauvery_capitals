@@ -10,6 +10,7 @@ $column = array(
     'district',
     'mobile',
     'status',
+    'company_id'
 );
 
 $query = "SELECT * FROM company_creation ";
