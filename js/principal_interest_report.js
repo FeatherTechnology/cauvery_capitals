@@ -48,7 +48,7 @@ function collectionReportTable(){
             };
 
             // Array of column indices to sum
-            var columnsToSum = [12,13,14,15,16,17];
+            var columnsToSum = [13,14,15,16,17,18];
 
             // Loop through each column index
             columnsToSum.forEach(function (colIndex) {
