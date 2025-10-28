@@ -12,7 +12,7 @@ $area_list = $Obj->area_list;
 $column = array(
     'cp.cus_reg_id',                  
     'cp.cus_id',     
-    'cr.autogen_cus_id',         
+    'cp.autogen_cus_id',         
     'CONCAT(cp.first_name, cp.last_name)',           
     'al.area_name',       
     'bc.branch_name',         
@@ -31,7 +31,7 @@ $column = array(
 
 $search = '';
 if (isset($_POST['search']) && $_POST['search'] != "") {
-    $search = " and (cp.cus_id LIKE '%" . $_POST['search'] . "%' or cr.autogen_cus_id LIKE '%" . $_POST['search'] . "%' or CONCAT(cp.first_name,' ', cp.last_name) LIKE '%" . $_POST['search'] . "%' or al.area_name LIKE '%" . $_POST['search'] . "%'  or bc.branch_name LIKE '%" . $_POST['search'] . "%' or agm.group_name LIKE '%" . $_POST['search'] . "%' or alm.line_name LIKE '%" . $_POST['search'] . "%' or cp.mobile1 LIKE '%" . $_POST['search'] . "%' or np.status LIKE '%" . $_POST['search'] . "%' ) ";
+    $search = " and (cp.cus_id LIKE '%" . $_POST['search'] . "%' or cp.autogen_cus_id LIKE '%" . $_POST['search'] . "%' or CONCAT(cp.first_name,' ', cp.last_name) LIKE '%" . $_POST['search'] . "%' or al.area_name LIKE '%" . $_POST['search'] . "%'  or bc.branch_name LIKE '%" . $_POST['search'] . "%' or agm.group_name LIKE '%" . $_POST['search'] . "%' or alm.line_name LIKE '%" . $_POST['search'] . "%' or cp.mobile1 LIKE '%" . $_POST['search'] . "%' or np.status LIKE '%" . $_POST['search'] . "%' ) ";
 }
 
 $order = '';

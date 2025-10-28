@@ -25,8 +25,11 @@ $ag_user_id = implode(',', $ids);
 $column = array(
     'tdate',
     'ag_name',
-    'created_date',
-    'total_paid_track'
+    'tdate',
+    'coll_amt',
+    'netcash',
+    'Credit',
+    'Debit',
 );
 
 $query = "SELECT * FROM (
