@@ -90,7 +90,7 @@ $column = array(
     'req.req_id',
     'req.responsible',
     'req.cus_data',
-    'req.req_id',
+    'req.req_id'
 );
 $query = "SELECT 
     req.*,
@@ -98,7 +98,7 @@ $query = "SELECT
     al.area_name,
     lcc.loan_category_creation_name,
     ag.ag_name,
-    CONCAT(req.first_name, ' ', req.last_name) AS customer_name,
+    CONCAT(req.first_name, ' ', req.last_name) AS customer_name
 FROM 
     request_creation req 
 JOIN 

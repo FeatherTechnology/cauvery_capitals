@@ -4510,7 +4510,7 @@ $("#refresh_cal").click(function () {
             title: 'Please Fill out Loan Info!',
             icon: 'error',
             showConfirmButton: true,
-            confirmButtonColor: '#009688'
+            confirmButtonColor: '#0c70ab'
             });
         return;
     }

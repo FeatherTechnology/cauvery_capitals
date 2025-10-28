@@ -968,7 +968,7 @@ function collectBtnClick(button) {
                                 title: response,
                                 icon: 'success',
                                 showConfirmButton: true,
-                                confirmButtonColor: '#009688'
+                                confirmButtonColor: '#0c70ab'
                             }).then(function (result) {
                                 if (result.isConfirmed) {
                                     var user_id = $('#user_id_rec').val();
@@ -993,7 +993,7 @@ function collectBtnClick(button) {
                                 title: response,
                                 icon: 'error',
                                 showConfirmButton: true,
-                                confirmButtonColor: '#009688'
+                                confirmButtonColor: '#0c70ab'
                             });
                         }
                         getClosingBalance();

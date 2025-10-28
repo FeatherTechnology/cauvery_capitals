@@ -305,7 +305,7 @@ function validateBranchForm() {
             title: 'Please enter a 10-digit valid mobile number!',
             icon: 'error',
             showConfirmButton: true,
-            confirmButtonColor: '#009688'
+            confirmButtonColor: '#0c70ab'
         });
         return false; // validation failed
     }
@@ -317,7 +317,7 @@ function validateBranchForm() {
             title: 'Please enter a 10-digit valid WhatsApp number!',
             icon: 'error',
             showConfirmButton: true,
-            confirmButtonColor: '#009688'
+            confirmButtonColor: '#0c70ab'
         });
         return false; // validation failed
     }

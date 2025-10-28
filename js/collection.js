@@ -805,7 +805,7 @@ function OnLoadFunctions(req_id, cus_id) {
                       title: "Moved To Error!",
                       icon: "success",
                       showConfirmButton: true,
-                      confirmButtonColor: "#009688",
+                      confirmButtonColor: "#0c70ab",
                       confirmButtonText: "OK"
                   }).then((result) => {
                       if (result.isConfirmed) {
@@ -846,7 +846,7 @@ function OnLoadFunctions(req_id, cus_id) {
                         title: "Moved To Legal!",
                         icon: "success",
                         showConfirmButton: true,
-                        confirmButtonColor: "#009688",
+                        confirmButtonColor: "#0c70ab",
                         confirmButtonText: "OK"
                     }).then((result) => {
                         // Redirect only if OK is clicked
@@ -888,7 +888,7 @@ function OnLoadFunctions(req_id, cus_id) {
                         title: "Moved To Sub Status!",
                         icon: "success",
                         showConfirmButton: true,
-                        confirmButtonColor: "#009688",
+                        confirmButtonColor: "#0c70ab",
                         confirmButtonText: "OK"
                     }).then((result) => {
                         // Redirect only if OK is clicked
