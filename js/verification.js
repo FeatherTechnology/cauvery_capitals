@@ -85,7 +85,6 @@ $(document).ready(function () {
 
   function famNameList() {
     // To show family name for Data Check.
-    let req_id = $("#req_id").val();
     var first_name = $("#first_name").val();
     var last_name = $("#last_name").val();
     var cus_name = first_name + " " + last_name;
@@ -127,7 +126,6 @@ $(document).ready(function () {
 
   function mobileList() {
     // To show Mobile No for Data Checking.
-    let req_id = $("#req_id").val();
     var mobile1 = $("#mobile1").val();
     var cus_id = $("#cus_id").val(); //customer id
 
@@ -169,7 +167,6 @@ $(document).ready(function () {
 
   function aadharList() {
     // To show Aadhar No for Data Checking.
-    let req_id = $("#req_id").val();
     var first_name = $("#first_name").val();
     var last_name = $("#last_name").val();
     var cus_name = first_name + " " + last_name; //Customer name for display
@@ -5965,88 +5962,6 @@ function getSchemePreIntreset() {
   $("#net_cash_cal").val(formatIndianNumber(String(net_cash)));
 }
 
-// //To Get Loan Calculation for Weekly Scheme method
-// function getLoanWeekly() {
-//     var loan_amt = $('#loan_amt').val();
-//     var int_rate = $('#int_rate').val();
-//     var due_period = $('#due_period').val();
-//     var doc_charge = $('#doc_charge').val();
-//     var proc_fee = $('#proc_fee').val();
-//     $('#loan_amt_cal').val(parseInt(loan_amt).toFixed(0)); //get loan amt from loan info card
-
-//     var int_amt = (parseInt(loan_amt) * (parseFloat(int_rate) / 100)).toFixed(0); //Calculate interest rate
-//     // var roundedInterest = Math.ceil(int_amt / 5) * 5;
-//     // if (roundedInterest < int_amt) {
-//     //     roundedInterest += 5;
-//     // }
-//     // $('.int-diff').text('* (Difference: +' + parseInt(roundedInterest - int_amt) + ')'); //To show the difference amount
-//     // $('#int_amt_cal').val(parseInt(int_amt));
-
-//     var princ_amt = parseInt(loan_amt) - parseInt(int_amt); // Calculate principal amt by subracting interest amt from loan amt
-//     $('#principal_amt_cal').val(parseInt(princ_amt).toFixed(0));
-
-//     var tot_amt = parseInt(princ_amt) + parseFloat(int_amt); //Calculate total amount from principal/loan amt and interest rate
-//     $('#tot_amt_cal').val(parseInt(tot_amt).toFixed(0));
-
-//     var due_amt = parseInt(tot_amt) / parseInt(due_period);//To calculate due amt by dividing total amount and due period given on loan info
-//     var roundDue = Math.ceil(due_amt / 5) * 5; //to increase Due Amt to nearest multiple of 5
-//     if (roundDue < due_amt) {
-//         roundDue += 5;
-//     }
-//     $('.due-diff').text('* (Difference: +' + parseInt(roundDue - due_amt) + ')'); //To show the difference amount
-//     $('#due_amt_cal').val(parseInt(roundDue).toFixed(0));
-
-//     ////////////////////recalculation of total, principal, interest///////////////////
-
-//     var new_tot = parseInt(roundDue) * due_period;
-//     $('#tot_amt_cal').val(new_tot)
-
-//     //to get new interest rate using round due amt
-//     let new_int = (roundDue * due_period) - princ_amt;
-
-//     var roundedInterest = Math.ceil(new_int / 5) * 5;
-//     if (roundedInterest < new_int) {
-//         roundedInterest += 5;
-//     }
-
-//     $('.int-diff').text('* (Difference: +' + parseInt(roundedInterest - int_amt) + ')'); //To show the difference amount
-//     $('#int_amt_cal').val(parseInt(roundedInterest));
-
-//     var new_princ = parseInt(new_tot) - parseInt(roundedInterest);
-//     // $('.princ-diff').text('* (Difference: +' + parseInt(princ_amt - new_princ) + ')'); //To show the difference amount from old to new
-//     $('#principal_amt_cal').val(new_princ);
-
-//     //////////////////////////////////////////////////////////////////////////////////
-
-//     var doc_type = $('.min-max-doc').text(); //Scheme may have document charge in rupees or percentage . so getting symbol from span
-//     if (doc_type.includes('₹')) {
-//         var doc_charge = parseInt(doc_charge); //Get document charge from loan info and directly show the document charge provided because of it is in rupees
-//     } else if (doc_type.includes('%')) {
-//         var doc_charge = parseInt(loan_amt) * (parseFloat(doc_charge) / 100); //Get document charge from loan info and multiply with loan amt to get actual doc charge
-//     }
-//     var roundeddoccharge = Math.ceil(doc_charge / 5) * 5; //to increase document charge to nearest multiple of 5
-//     if (roundeddoccharge < doc_charge) {
-//         roundeddoccharge += 5;
-//     }
-//     $('.doc-diff').text('* (Difference: +' + parseInt(roundeddoccharge - doc_charge) + ')'); //To show the difference amount from old to new
-//     $('#doc_charge_cal').val(parseInt(roundeddoccharge));
-
-//     var proc_type = $('.min-max-proc').text();//Scheme may have Processing fee in rupees or percentage . so getting symbol from span
-//     if (proc_type.includes('₹')) {
-//         var proc_fee = parseInt(proc_fee);//Get processing fee from loan info and directly show the Processing Fee provided because of it is in rupees
-//     } else if (proc_type.includes('%')) {
-//         var proc_fee = parseInt(loan_amt) * (parseInt(proc_fee) / 100);//Get processing fee from loan info and multiply with loan amt to get actual proc fee
-//     }
-//     var roundeprocfee = Math.ceil(proc_fee / 5) * 5; //to increase Processing fee to nearest multiple of 5
-//     if (roundeprocfee < proc_fee) {
-//         roundeprocfee += 5;
-//     }
-//     $('.proc-diff').text('* (Difference: +' + parseInt(roundeprocfee - proc_fee) + ')'); //To show the difference amount from old to new
-//     $('#proc_fee_cal').val(parseInt(roundeprocfee));
-
-//     var net_cash = parseInt(princ_amt) - parseInt(doc_charge) - parseInt(proc_fee); //Net cash will be calculated by subracting other charges
-//     $('#net_cash_cal').val(parseInt(net_cash).toFixed(0));
-// }
 
 //To Get Loan Calculation for Weekly Scheme method
 function getSchemeAfterIntreset() {
@@ -6143,89 +6058,7 @@ function getSchemeAfterIntreset() {
     parseFloat(roundeprocfee); //Net cash will be calculated by subracting other charges
   $("#net_cash_cal").val(parseInt(net_cash).toFixed(0));
 }
-// //To Get Loan Calculation for Daily Scheme method
-// function getLoanDaily() {
-//     var loan_amt = $('#loan_amt').val();
-//     var int_rate = $('#int_rate').val();
-//     var due_period = $('#due_period').val();
-//     var doc_charge = $('#doc_charge').val();
-//     var proc_fee = $('#proc_fee').val();
 
-//     $('#loan_amt_cal').val(parseInt(loan_amt).toFixed(0)); //get loan amt from loan info card
-
-//     var int_amt = (parseInt(loan_amt) * (parseFloat(int_rate) / 100)).toFixed(0); //Calculate interest rate
-//     // var roundedInterest = Math.ceil(int_amt / 5) * 5;
-//     // if (roundedInterest < int_amt) {
-//     //     roundedInterest += 5;
-//     // }
-//     // $('.int-diff').text('* (Difference: +' + parseInt(roundedInterest - int_amt) + ')'); //To show the difference amount
-//     $('#int_amt_cal').val(parseInt(int_amt));
-
-//     var princ_amt = parseInt(loan_amt) - parseInt(int_amt); // Calculate principal amt by subracting interest amt from loan amt
-//     $('#principal_amt_cal').val(parseInt(princ_amt).toFixed(0));
-
-//     var tot_amt = parseInt(princ_amt) + parseFloat(int_amt); //Calculate total amount from principal/loan amt and interest rate
-//     $('#tot_amt_cal').val(parseInt(tot_amt).toFixed(0));
-
-//     var due_amt = parseInt(tot_amt) / parseInt(due_period);//To calculate due amt by dividing total amount and due period given on loan info
-//     var roundDue = Math.ceil(due_amt / 5) * 5; //to increase Due Amt to nearest multiple of 5
-//     if (roundDue < due_amt) {
-//         roundDue += 5;
-//     }
-//     $('.due-diff').text('* (Difference: +' + parseInt(roundDue - due_amt) + ')'); //To show the difference amount
-//     $('#due_amt_cal').val(parseInt(roundDue).toFixed(0));
-
-//     ////////////////////recalculation of total, principal, interest///////////////////
-
-//     var new_tot = parseInt(roundDue) * due_period;
-//     $('#tot_amt_cal').val(new_tot)
-
-//     //to get new interest rate using round due amt
-//     let new_int = (roundDue * due_period) - princ_amt;
-
-//     var roundedInterest = Math.ceil(new_int / 5) * 5;
-//     if (roundedInterest < new_int) {
-//         roundedInterest += 5;
-//     }
-
-//     $('.int-diff').text('* (Difference: +' + parseInt(roundedInterest - int_amt) + ')'); //To show the difference amount
-//     $('#int_amt_cal').val(parseInt(roundedInterest));
-
-//     var new_princ = parseInt(new_tot) - parseInt(roundedInterest);
-//     // $('.princ-diff').text('* (Difference: +' + parseInt(princ_amt - new_princ) + ')'); //To show the difference amount from old to new
-//     $('#principal_amt_cal').val(new_princ);
-
-//     //////////////////////////////////////////////////////////////////////////////////
-
-//     var doc_type = $('.min-max-doc').text(); //Scheme may have document charge in rupees or percentage . so getting symbol from span
-//     if (doc_type.includes('₹')) {
-//         var doc_charge = parseInt(doc_charge); //Get document charge from loan info and directly show the document charge provided because of it is in rupees
-//     } else if (doc_type.includes('%')) {
-//         var doc_charge = parseInt(loan_amt) * (parseFloat(doc_charge) / 100); //Get document charge from loan info and multiply with loan amt to get actual doc charge
-//     }
-//     var roundeddoccharge = Math.ceil(doc_charge / 5) * 5; //to increase document charge to nearest multiple of 5
-//     if (roundeddoccharge < doc_charge) {
-//         roundeddoccharge += 5;
-//     }
-//     $('.doc-diff').text('* (Difference: +' + parseInt(roundeddoccharge - doc_charge) + ')'); //To show the difference amount from old to new
-//     $('#doc_charge_cal').val(parseInt(roundeddoccharge));
-
-//     var proc_type = $('.min-max-proc').text();//Scheme may have Processing fee in rupees or percentage . so getting symbol from span
-//     if (proc_type.includes('₹')) {
-//         var proc_fee = parseInt(proc_fee);//Get processing fee from loan info and directly show the Processing Fee provided because of it is in rupees
-//     } else if (proc_type.includes('%')) {
-//         var proc_fee = parseInt(loan_amt) * (parseInt(proc_fee) / 100);//Get processing fee from loan info and multiply with loan amt to get actual proc fee
-//     }
-//     var roundeprocfee = Math.ceil(proc_fee / 5) * 5; //to increase Processing fee to nearest multiple of 5
-//     if (roundeprocfee < proc_fee) {
-//         roundeprocfee += 5;
-//     }
-//     $('.proc-diff').text('* (Difference: +' + parseInt(roundeprocfee - proc_fee) + ')'); //To show the difference amount from old to new
-//     $('#proc_fee_cal').val(parseInt(roundeprocfee));
-
-//     var net_cash = parseInt(princ_amt) - parseInt(doc_charge) - parseInt(proc_fee); //Net cash will be calculated by subracting other charges
-//     $('#net_cash_cal').val(parseInt(net_cash).toFixed(0));
-// }
 
 //Validation for Loan calculation
 function loan_calc_validation() {

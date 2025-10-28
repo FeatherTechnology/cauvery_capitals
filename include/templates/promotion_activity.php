@@ -313,8 +313,8 @@ if (sizeof($getUser) > 0) {
 											<th>Last Name</th>
 											<th>Mobile</th>
 											<th>Area</th>
-											<th>Sub Area</th>
-											<th colspan="2">Action</th>
+											<th>Action</th>
+											<th colspan="2">Delete</th>
 										</tr>
 									</thead>
 										<tbody>

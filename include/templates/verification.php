@@ -986,16 +986,6 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 										<span class="text-danger" style='display:none' id='areaCheck'>Please Select Area</span>
 									</div>
 								</div>
-
-								<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-									<div class="form-group">
-										<label for="sub_area">Sub Area</label>&nbsp;<span class="text-danger">*</span>
-										<select tabindex="45" type="text" class="form-control" id="sub_area" name="sub_area">
-											<option value=''>Select Sub Area</option>
-										</select>
-										<span class="text-danger" style='display:none' id='subareaCheck'>Please Select Sub Area</span>
-									</div>
-								</div> -->
 								<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
 									<div class="form-group">
 										<label for="latlong">Location</label>

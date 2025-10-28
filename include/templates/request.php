@@ -213,7 +213,6 @@ if ($idupd > 0) {
 			<input type="hidden" class="form-control" value="<?php if (isset($district)) echo $district; ?>" id="district_upd" name="district_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($taluk)) echo $taluk; ?>" id="taluk_upd" name="taluk_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($area)) echo $area; ?>" id="area_upd" name="area_upd">
-			<input type="hidden" class="form-control" value="<?php if (isset($sub_area)) echo $sub_area; ?>" id="sub_area_upd" name="sub_area_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($address)) echo $address; ?>" id="address_upd" name="address_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($mobile1)) echo $mobile1; ?>" id="mobile1_upd" name="mobile1_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($mobile2)) echo $mobile2; ?>" id="mobile2_upd" name="mobile2_upd">

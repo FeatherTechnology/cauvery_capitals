@@ -15,13 +15,13 @@ $role_type = $userRow['role_type'];
 if ($role_type == 7) {
     // Role 7 (Admin)→ See all records
     $sql = $connect->query("
-        SELECT ncp.id,ncp.cus_id,ncp.first_name,ncp.mobile,ncp.insert_login_id,ncp.created_date,a.area_name FROM new_cus_promo ncp JOIN area_list_creation a ON ncp.area = a.area_id
+        SELECT ncp.id,ncp.cus_id,CONCAT(ncp.first_name,' ',ncp.last_name) AS customer_name,ncp.mobile,ncp.insert_login_id,ncp.created_date,a.area_name FROM new_cus_promo ncp JOIN area_list_creation a ON ncp.area = a.area_id
         WHERE 1
     ");
 } else {
     // Other roles → See only their own records
     $sql = $connect->query("
-        SELECT ncp.id,ncp.cus_id,ncp.first_name,ncp.mobile,ncp.insert_login_id,ncp.created_date,a.area_name FROM new_cus_promo ncp JOIN area_list_creation a ON ncp.area = a.area_id
+        SELECT ncp.id,ncp.cus_id,CONCAT(ncp.first_name,' ',ncp.last_name) AS customer_name,ncp.mobile,ncp.insert_login_id,ncp.created_date,a.area_name FROM new_cus_promo ncp JOIN area_list_creation a ON ncp.area = a.area_id
         WHERE ncp.insert_login_id = $user_id
     ");
 }
@@ -46,7 +46,7 @@ if ($role_type == 7) {
             <tr>
                 <td><?php echo date('d-m-Y', strtotime($row['created_date'])); ?></td>
                 <td><?php echo isset($row['cus_id']) ? $row['cus_id'] : ''; ?></td>
-                <td><?php echo $row['first_name']; ?></td>
+                <td><?php echo $row['customer_name']; ?></td>
                 <td><?php echo $row['mobile']; ?></td>
                 <td><?php echo $row['area_name']; ?></td>
                    <td>
@@ -118,7 +118,7 @@ if ($role_type == 7) {
         }
     })
     $('#new_promo_table tbody tr').not('th').each(function() {
-        let tddate = $(this).find('td:eq(9)').text(); // Get the text content of the 8th td element (Follow date)
+        let tddate = $(this).find('td:eq(8)').text(); // Get the text content of the 8th td element (Follow date)
         let datecorrection = tddate.split("-").reverse().join("-").replaceAll(/\s/g, ''); // Correct the date format
         let values = new Date(datecorrection); // Create a Date object from the corrected date
         values.setHours(0, 0, 0, 0); // Set the time to midnight for accurate date comparison
@@ -135,17 +135,17 @@ if ($role_type == 7) {
         if (tddate != '' && values != 'Invalid Date') { // Check if the extracted date and the created Date object are valid
 
             if (values < curDate) { // Compare the extracted date with the current date
-                $(this).find('td:eq(9)').css({
+                $(this).find('td:eq(8)').css({
                     'background-color': colors.past,
                     'color': 'white'
                 }); // Apply styling for past dates
             } else if (values > curDate) {
-                $(this).find('td:eq(9)').css({
+                $(this).find('td:eq(8)').css({
                     'background-color': colors.future,
                     'color': 'white'
                 }); // Apply styling for future dates
             } else {
-                $(this).find('td:eq(9)').css({
+                $(this).find('td:eq(8)').css({
                     'background-color': colors.current,
                     'color': 'white'
                 }); // Apply styling for the current date

@@ -563,13 +563,13 @@ function searchCustomer() {
 
 function validateCustSearch() {
     let response = true;
-    let cus_id = $('#cus_id_search').val(); let cus_name = $('#first_name_search').val(); let cus_mob = $('#cus_mob_search').val();
+    let cus_id = $('#cus_id_search').val(); let first_name_search = $('#first_name_search').val();  let last_name_search = $('#last_name_search').val(); let cus_mob = $('#cus_mob_search').val();
     cus_id = cus_id.replaceAll(" ", "");//will remove all spaces 
 
-    validateField(cus_id, cus_name, cus_mob, '.searchDetailsCheck');
+    validateField(cus_id, first_name_search,last_name_search, cus_mob, '.searchDetailsCheck');
 
-    function validateField(cus_id, cus_name, cus_mob, fieldId) {
-        if (cus_id == '' && cus_name == '' && cus_mob == '') {
+    function validateField(cus_id,first_name_search, last_name_search, cus_mob, fieldId) {
+        if (cus_id == '' && first_name_search == '' &&  last_name_search == '' && cus_mob == '') {
             response = false;
             event.preventDefault();
             $(fieldId).show();
