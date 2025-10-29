@@ -11,18 +11,20 @@ if (isset($_POST['submit_company_creation']) && $_POST['submit_company_creation'
 	if (isset($_POST['id']) && $_POST['id'] > 0 && is_numeric($_POST['id'])) {
 		$id = $_POST['id'];
 		$bankupdatedetails = $userObj->updatecompanycreation($mysqli, $id, $userid);
-?>
-		<script>
-			location.href = '<?php echo $HOSTPATH;  ?>edit_company_creation&msc=2';
-		</script>
-	<?php	} else {
-		$addcompanydetails = $userObj->addcompanycreation($mysqli, $userid);
 	?>
-		<script>
+	<script>
+			location.href = '<?php echo $HOSTPATH;  ?>edit_company_creation&msc=2';
+	</script>
+
+	<?php	} else {
+			$addcompanydetails = $userObj->addcompanycreation($mysqli, $userid); ?>
+
+	<script>
 			location.href = '<?php echo $HOSTPATH;  ?>edit_company_creation&msc=1';
-		</script>
+	</script>
+
 	<?php
-	}
+	    }
 }
 
 $del = 0;
@@ -52,7 +54,6 @@ if ($idupd > 0) {
 			$company_id                 	 = $getCompanyCreation['company_id'];
 			$company_name          		     = $getCompanyCreation['company_name'];
 			$address1      			     = $getCompanyCreation['address1'];
-			$address2      			 = $getCompanyCreation['address2'];
 			$state       			 = $getCompanyCreation['state'];
 			$district                	 = $getCompanyCreation['district'];
 			$taluk       		    	 = $getCompanyCreation['taluk'];
@@ -79,7 +80,6 @@ if ($idupd > 0) {
 <div class="text-right" style="margin-right: 25px;">
 	<a href="edit_company_creation">
 		<button type="button" class="btn btn-primary"><span class="icon-arrow-left"></span>&nbsp; Back</button>
-		<!-- <button type="button" class="btn btn-primary"><span class="icon-border_color"></span>&nbsp Edit Employee Master</button> -->
 	</a>
 </div><br><br>
 <!-- Page header end -->
