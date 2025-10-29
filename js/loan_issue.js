@@ -963,13 +963,17 @@ function profitCalAjax(profit_type,  loan_cat) {
                     $('#calc_method').val('');
                     //To set min and maximum 
                     $('.min-max-int').text('* (' + response['intrest_rate_min'] + '% - ' + response['intrest_rate_max'] + '%) ');
-                    $('#int_rate').attr('onChange', `if( parseFloat($(this).val()) > '` + response['intrest_rate_max'] + `' ){ alert("Enter Lesser Value"); $(this).val(""); }else
-                                        if( parseFloat($(this).val()) < '`+ response['intrest_rate_min'] + `' && parseFloat($(this).val()) != '' ){ alert("Enter Higher Value"); $(this).val(""); } `); //To check value between rage
+
+                    $('#int_rate').attr('onChange', `let val = parseFloat($(this).val());let min = ${parseFloat(response["intrest_rate_min"])};let max = ${parseFloat(response["intrest_rate_max"])}; if (!isNaN(val)) { if (val > max) {alert("Enter Lesser Value"); $(this).val(""); } else if (val < min) { alert("Enter Higher Value"); $(this).val(""); } }else{ alert("Please enter a valid numeric value"); $(this).val("");}`); //To check value between rage
+
                     $('#int_rate').val(int_rate_upd);
+
                     $('.min-max-due').text('* (' + response['due_period_min'] + ' - ' + response['due_period_max'] + ') ');
-                    $('#due_period').attr('onChange', `if( parseInt($(this).val()) > '` + response['due_period_max'] + `' ){ alert("Enter Lesser Value"); $(this).val(""); }else
-                                        if( parseInt($(this).val()) < '`+ response['due_period_min'] + `' && parseInt($(this).val()) != '' ){ alert("Enter Higher Value"); $(this).val(""); } `); //To check value between rage
+
+                    $('#due_period').attr('onChange', `let val = parseFloat($(this).val());let min = ${parseFloat(response["due_period_min"])};let max = ${parseFloat(response["due_period_max"])}; if (!isNaN(val)) { if(val > max){ alert("Enter Lesser Value"); $(this).val(""); } else if(val < min){ alert("Enter Higher Value"); $(this).val(""); } }else{ alert("Please enter a valid numeric value"); $(this).val("");}`); //To check value between rage
+
                     $('#due_period').val(due_period_upd);
+
                     if (response['doc_charge_type'] == 'amt') {
                         type = '₹';
                         $('.min-max-doc').text('* (' + type + response['document_charge_min'] + ' - ' + type + response['document_charge_max'] + ') '); // Set min-max values with ₹ symbol before the numbers
@@ -979,13 +983,7 @@ function profitCalAjax(profit_type,  loan_cat) {
                     }
 
                     // Setting onChange event to ensure the value is within the specified range
-                    $('#doc_charge').attr('onChange', `if( parseInt($(this).val()) > '` + response['document_charge_max'] + `' ){
-                            alert("Enter Lesser Value");
-                            $(this).val("");
-                        } else if( parseInt($(this).val()) < '`+ response['document_charge_min'] + `' && parseInt($(this).val()) != '' ){
-                            alert("Enter Higher Value");
-                            $(this).val("");
-                        }`);
+                    $('#doc_charge').attr('onChange', `let val = parseFloat($(this).val());let min = ${parseFloat(response["document_charge_min"])};let max = ${parseFloat(response["document_charge_max"])}; if (!isNaN(val)) { if(val > max){ alert("Enter Lesser Value"); $(this).val(""); } else if(val < min){ alert("Enter Higher Value"); $(this).val(""); } }else{ alert("Please enter a valid numeric value"); $(this).val("");}`);
 
                     // Set the value for the doc_charge field
                     $('#doc_charge').val(doc_charge_upd);
@@ -1003,13 +1001,7 @@ function profitCalAjax(profit_type,  loan_cat) {
                     }
 
                     // Setting onChange event to ensure the value is within the specified range
-                    $('#proc_fee').attr('onChange', `if( parseInt($(this).val()) > '` + response['processing_fee_max'] + `' ){
-                            alert("Enter Lesser Value");
-                            $(this).val("");
-                        } else if( parseInt($(this).val()) < '`+ response['processing_fee_min'] + `' && parseInt($(this).val()) != '' ){
-                            alert("Enter Higher Value");
-                            $(this).val("");
-                        }`);
+                    $('#proc_fee').attr('onChange', `let val = parseFloat($(this).val());let min = ${parseFloat(response["processing_fee_min"])};let max = ${parseFloat(response["processing_fee_max"])}; if (!isNaN(val)) { if(val > max){ alert("Enter Lesser Value"); $(this).val(""); } else if(val < min){ alert("Enter Higher Value"); $(this).val(""); } }else{ alert("Please enter a valid numeric value"); $(this).val("");}`);
 
                     // Set the value for the doc_charge field
                     $('#proc_fee').val(proc_fee_upd);
@@ -1029,17 +1021,12 @@ function profitCalAjax(profit_type,  loan_cat) {
 
           //To set min and maximum
           $(".min-max-int").text("* (" + response["intrest_rate_min"] + "% - " + response["intrest_rate_max"] + "%) ");
-          $("#int_rate").attr("onChange", `if( parseFloat($(this).val()) > '` + response["intrest_rate_max"] + `' ){ alert("Enter Lesser Value"); 
-            $(this).val(""); }
-            else if( parseFloat($(this).val()) < '` + response["intrest_rate_min"] + `' && parseFloat($(this).val()) != '' ){ alert("Enter Higher Value"); 
-            $(this).val(""); } `); //To check value between rage
+          $("#int_rate").attr("onChange", `let val = parseFloat($(this).val());let min = ${parseFloat(response["intrest_rate_min"])};let max = ${parseFloat(response["intrest_rate_max"])}; if (!isNaN(val)) { if (val > max) {alert("Enter Lesser Value"); $(this).val(""); } else if (val < min) { alert("Enter Higher Value"); $(this).val(""); } }else{ alert("Please enter a valid numeric value"); $(this).val("");}`); //To check value between rage
           $("#int_rate").val(int_rate_upd);
 
           $(".min-max-due").text("* (" + response["due_period_min"] + " - " + response["due_period_max"] + ") ");
 
-          $("#due_period").attr("onChange", `if( parseInt($(this).val()) > '` + response["due_period_max"] + `' ){ alert("Enter Lesser Value");
-            $(this).val(""); }
-            else if( parseInt($(this).val()) < '` + response["due_period_min"] + `' && parseInt($(this).val()) != '' ){ alert("Enter Higher Value"); $(this).val(""); } `); //To check value between rage
+          $("#due_period").attr("onChange", `let val = parseFloat($(this).val());let min = ${parseFloat(response["due_period_min"])};let max = ${parseFloat(response["due_period_max"])}; if (!isNaN(val)) { if(val > max){ alert("Enter Lesser Value"); $(this).val(""); } else if(val < min){ alert("Enter Higher Value"); $(this).val(""); } }else{ alert("Please enter a valid numeric value"); $(this).val("");}`); //To check value between rage
 
           $("#due_period").val(due_period_upd);
 
@@ -1050,10 +1037,7 @@ function profitCalAjax(profit_type,  loan_cat) {
           } //Setting symbols
           $(".min-max-doc").text("* (" + response["document_charge_min"] + " " + type + " - " + response["document_charge_max"] + " " + type + ") "); //setting min max values in span
 
-          $("#doc_charge").attr("onChange", `if( parseInt($(this).val()) > '` + response["document_charge_max"] + `' ){ alert("Enter Lesser Value"); 
-            $(this).val(""); }
-            else if( parseInt($(this).val()) < '` + response["document_charge_min"] + `' && parseInt($(this).val()) != '' ){ alert("Enter Higher Value");
-            $(this).val(""); } `); //To check value between rage
+          $("#doc_charge").attr("onChange", `let val = parseFloat($(this).val());let min = ${parseFloat(response["document_charge_min"])};let max = ${parseFloat(response["document_charge_max"])}; if (!isNaN(val)) { if(val > max){ alert("Enter Lesser Value"); $(this).val(""); } else if(val < min){ alert("Enter Higher Value"); $(this).val(""); } }else{ alert("Please enter a valid numeric value"); $(this).val("");}`); //To check value between rage
 
           $("#doc_charge").val(doc_charge_upd);
 
@@ -1065,9 +1049,7 @@ function profitCalAjax(profit_type,  loan_cat) {
 
           $(".min-max-proc").text("* (" + response["processing_fee_min"] + " " + type + " - " + response["processing_fee_max"] + " " + type + ") "); //setting min max values in span
 
-          $("#proc_fee").attr("onChange", `if( parseFloat($(this).val()) > '` + response["processing_fee_max"] + `' ){ alert("Enter Lesser Value"); $(this).val(""); }
-            else if( parseFloat($(this).val()) < '` + response["processing_fee_min"] + `' && parseFloat($(this).val()) != '' ){ alert("Enter Higher Value");
-            $(this).val(""); } `); //To check value between rage
+          $("#proc_fee").attr("onChange", `let val = parseFloat($(this).val());let min = ${parseFloat(response["processing_fee_min"])};let max = ${parseFloat(response["processing_fee_max"])}; if (!isNaN(val)) { if(val > max){ alert("Enter Lesser Value"); $(this).val(""); } else if(val < min){ alert("Enter Higher Value"); $(this).val(""); } }else{ alert("Please enter a valid numeric value"); $(this).val("");}`); //To check value between rage
 
           $("#proc_fee").val(proc_fee_upd);
         }
@@ -1190,7 +1172,7 @@ function getLoanAfterInterest() {
     $('#int_amt_cal').val(formatIndianNumber(String(interest_rate)));
 
     var tot_amt = parseInt(loan_amt) + parseFloat(interest_rate); //Calculate total amount from principal/loan amt and interest rate
-    $('#tot_amt_cal').val(formatIndianNumber(String(tot_amt).toFixed(0)));
+    $('#tot_amt_cal').val(formatIndianNumber(String(tot_amt)));
 
     var due_amt = parseInt(tot_amt) / parseInt(due_period);//To calculate due amt by dividing total amount and due period given on loan info
     var roundDue = Math.ceil(due_amt / 5) * 5; //to increase Due Amt to nearest multiple of 5
