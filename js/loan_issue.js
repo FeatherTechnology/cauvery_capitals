@@ -1121,19 +1121,16 @@ function schemeCalAjax(scheme_id) {
                 $('#due_period').val(response['due_period']); $('#due_period').attr('readonly', true); // setting readonly due to fixed due period
                 if (response['intreset_type'] == 'amt') { type = '₹' } else if (response['intreset_type'] == 'percentage') { type = '%'; } //Setting symbols
                 $('.min-max-int').text('* (' + response['intreset_min'] + ' ' + type + ' - ' + response['intreset_max'] + ' ' + type + ') '); //setting min max values in span
-                $('#int_rate').attr('onChange', `if( parseInt($(this).val()) > '` + response['intreset_max'] + `' ){ alert("Enter Lesser Value"); $(this).val(""); }else
-                                        if( parseInt($(this).val()) < '`+ response['intreset_min'] + `' && parseInt($(this).val()) != '' ){ alert("Enter Higher Value"); $(this).val(""); } `); //To check value between rage
+                $('#int_rate').attr('onChange', `let val = parseFloat($(this).val());let min = ${parseFloat(response["intreset_min"])};let max = ${parseFloat(response["intreset_max"])}; if (!isNaN(val)) { if (val > max) {alert("Enter Lesser Value"); $(this).val(""); } else if (val < min) { alert("Enter Higher Value"); $(this).val(""); } }else{ alert("Please enter a valid numeric value"); $(this).val("");}`); //To check value between rage
                 $('#int_rate').val(int_rate_upd);
                 if (response['doc_charge_type'] == 'amt') { type = '₹' } else if (response['doc_charge_type'] == 'percentage') { type = '%'; } //Setting symbols
                 $('.min-max-doc').text('* (' + response['doc_charge_min'] + ' ' + type + ' - ' + response['doc_charge_max'] + ' ' + type + ') '); //setting min max values in span
-                $('#doc_charge').attr('onChange', `if( parseInt($(this).val()) > '` + response['doc_charge_max'] + `' ){ alert("Enter Lesser Value"); $(this).val(""); }else
-                                        if( parseInt($(this).val()) < '`+ response['doc_charge_min'] + `' && parseInt($(this).val()) != '' ){ alert("Enter Higher Value"); $(this).val(""); } `); //To check value between rage
+                $('#doc_charge').attr('onChange', `let val = parseFloat($(this).val());let min = ${parseFloat(response["doc_charge_min"])};let max = ${parseFloat(response["doc_charge_max"])}; if (!isNaN(val)) { if(val > max){ alert("Enter Lesser Value"); $(this).val(""); } else if(val < min){ alert("Enter Higher Value"); $(this).val(""); } }else{ alert("Please enter a valid numeric value"); $(this).val("");}`); //To check value between rage
                 $('#doc_charge').val(doc_charge_upd);
 
                 if (response['proc_fee_type'] == 'amt') { type = '₹' } else if (response['proc_fee_type'] == 'percentage') { type = '%'; }//Setting symbols
                 $('.min-max-proc').text('* (' + response['proc_fee_min'] + ' ' + type + ' - ' + response['proc_fee_max'] + ' ' + type + ') ');//setting min max values in span
-                $('#proc_fee').attr('onChange', `if( parseInt($(this).val()) > '` + response['proc_fee_max'] + `' ){ alert("Enter Lesser Value"); $(this).val(""); }else
-                                    if( parseInt($(this).val()) < '`+ response['proc_fee_min'] + `' && parseInt($(this).val()) != '' ){ alert("Enter Higher Value"); $(this).val(""); } `); //To check value between rage
+                $('#proc_fee').attr('onChange', `let val = parseFloat($(this).val());let min = ${parseFloat(response["proc_fee_min"])};let max = ${parseFloat(response["proc_fee_max"])}; if (!isNaN(val)) { if(val > max){ alert("Enter Lesser Value"); $(this).val(""); } else if(val < min){ alert("Enter Higher Value"); $(this).val(""); } }else{ alert("Please enter a valid numeric value"); $(this).val("");}`); //To check value between rage
                 $('#proc_fee').val(proc_fee_upd);
             }
         })
