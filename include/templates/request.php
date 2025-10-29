@@ -245,13 +245,13 @@ if ($idupd > 0) {
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 								<div class="form-group">
 									<label for="user_type">User type</label><span class="required">&nbsp;*</span>
-									<input type="text" class="form-control" id="user_type" name="user_type" readonly value='<?php if (isset($user_type)) echo $user_type; ?>' tabindex="1">
+									<input type="text" class="form-control" id="user_type" name="user_type" tabindex="-1" readonly value='<?php if (isset($user_type)) echo $user_type; ?>'>
 								</div>
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 								<div class="form-group">
 									<label for="user">User Name</label><span class="required">&nbsp;*</span>
-									<input type="text" class="form-control" id="user" name="user" readonly value='<?php if (isset($user_name)) echo $user_name; ?>' tabindex='2'>
+									<input type="text" class="form-control" id="user" name="user" tabindex="-1" readonly value='<?php if (isset($user_name)) echo $user_name; ?>'>
 								</div>
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 agent" <?php if (isset($role)) {
@@ -259,7 +259,7 @@ if ($idupd > 0) {
 																																	} ?>>
 								<div class="form-group">
 									<label for="agent">Agent</label>
-									<select tabindex="3" type="text" class="form-control" id="agent" name="agent">
+									<select type="text" class="form-control" id="agent" name="agent">
 										<option value="">Select Agent Name</option>
 									</select>
 									<span class="text-danger" style='display:none' id='agentCheck'>Please Select Agent</span>
@@ -268,7 +268,7 @@ if ($idupd > 0) {
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 responsible" style="display: none">
 								<div class="form-group">
 									<label for="responsible">Responsible&nbsp;<span class="required">&nbsp;*</span></label>
-									<select tabindex="4" type="text" class="form-control" id="responsible" name="responsible">
+									<select type="text" class="form-control" id="responsible" name="responsible">
 										<option value="">Select Responsible</option>
 										<option value="0" <?php if (isset($responsible) and $responsible == '0') echo 'selected'; ?>>Yes</option>
 										<option value="1" <?php if (isset($responsible) and $responsible == '1') echo 'selected'; ?>>No</option>
@@ -281,7 +281,7 @@ if ($idupd > 0) {
 																																	} ?>>
 								<div class="form-group">
 									<label for="remark">Remarks</label><span class="required">&nbsp;*</span>
-									<input type="text" class="form-control" id="remark" name="remark" value='<?php if (isset($remarks)) echo $remarks; ?>' tabindex='5' placeholder="Enter Remarks" pattern="[a-zA-Z\s]+">
+									<input type="text" class="form-control" id="remark" name="remark" value='<?php if (isset($remarks)) echo $remarks; ?>' placeholder="Enter Remarks" pattern="[a-zA-Z\s]+">
 									<span class="text-danger" style='display:none' id='remarkCheck'>Please Enter Remarks</span>
 								</div>
 							</div>
@@ -290,29 +290,29 @@ if ($idupd > 0) {
 																																		} ?>>
 								<div class="form-group">
 									<label for="declaration">Declaration</label><span class="required">&nbsp;*</span>
-									<input type="text" class="form-control" id="declaration" name="declaration" value='<?php if (isset($declaration)) echo $declaration; ?>' tabindex='6' placeholder="Enter Declaration" pattern="[a-zA-Z\s]+">
+									<input type="text" class="form-control" id="declaration" name="declaration" value='<?php if (isset($declaration)) echo $declaration; ?>' placeholder="Enter Declaration" pattern="[a-zA-Z\s]+">
 									<span class="text-danger" style='display:none' id='declarationCheck'>Please Enter Declaration</span>
 								</div>
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 								<div class="form-group">
 									<label for="req_code">Request ID</label><span class="required">&nbsp;*</span>
-									<input type="text" class="form-control" id="req_code" name="req_code" readonly value='<?php if (isset($req_code)) echo $req_code; ?>' tabindex='7'>
+									<input type="text" class="form-control" id="req_code" name="req_code" tabindex="-1" readonly value='<?php if (isset($req_code)) echo $req_code; ?>'>
 								</div>
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 								<div class="form-group">
 									<label for="dor">Date Of request</label><span class="required">&nbsp;*</span>
-									<input type="hidden" class="form-control" id="dor" name="dor" readonly value='<?php if (isset($dor1)) {
+									<input type="hidden" class="form-control" id="dor" name="dor" tabindex="-1" readonly value='<?php if (isset($dor1)) {
 																														echo $dor1;
 																													} else {
 																														echo date('Y-m-d');
 																													} ?>'>
-									<input type="text" class="form-control" id="dor1" name="dor1" readonly value='<?php if (isset($dor)) {
+									<input type="text" class="form-control" id="dor1" name="dor1" tabindex="-1" readonly value='<?php if (isset($dor)) {
 																														echo $dor;
 																													} else {
 																														echo date('d-m-Y');
-																													} ?>' tabindex='8'>
+																													} ?>'>
 								</div>
 							</div>
 						</div>
@@ -331,14 +331,14 @@ if ($idupd > 0) {
 									<label for="cus_id">Aadhaar Number</label><span class="required">&nbsp;*</span>
 									<input type="text" class="form-control" id="cus_id" name="cus_id" value='<?php if (isset($cus_id)) {
 																													echo $cus_id;
-																												} ?>' tabindex='9' data-type="adhaar-number" maxlength="14" placeholder="Enter Adhaar Number">
+																												} ?>' data-type="adhaar-number" maxlength="14" placeholder="Enter Adhaar Number">
 									<span class="text-danger" style='display:none' id='cusidCheck'>Please Enter Aadhaar Number</span>
 								</div>
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-6">
 								<div class="form-group">
 									<label for="autogen_cus_id">Customer ID</label><span class="required">&nbsp;*</span>
-									<input type="text" class="form-control" id="autogen_cus_id" name="autogen_cus_id" tabindex='10' readonly>
+									<input type="text" class="form-control" id="autogen_cus_id" tabindex="-1" name="autogen_cus_id"  readonly>
 								</div>
 							</div>
 							<?php if ($role != '2') { //customer status not for agents
@@ -346,7 +346,7 @@ if ($idupd > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-6">
 									<div class="form-group">
 										<br>
-										<input type="button" class="btn btn-outline-secondary text-right" id="cus_status" name="cus_status" value="Customer Status" tabindex='10'>
+										<input type="button" class="btn btn-outline-secondary text-right" id="cus_status" name="cus_status" value="Customer Status">
 									</div>
 								</div>
 							<?php } ?>
@@ -357,9 +357,9 @@ if ($idupd > 0) {
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 								<div class="form-group">
 									<label for="cus_data">Customer Data</label><span class="required">&nbsp;*</span>
-									<input type="text" class="form-control" id="cus_data" name="cus_data" readonly value='<?php if (isset($cus_data)) {
+									<input type="text" class="form-control" id="cus_data" name="cus_data" tabindex="-1" readonly value='<?php if (isset($cus_data)) {
 																																echo $cus_data;
-																															} ?>' tabindex='11'>
+																															} ?>'>
 								</div>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
@@ -367,7 +367,7 @@ if ($idupd > 0) {
 									<label for="first_name">First Name</label><span class="required">&nbsp;*</span>
 									<input type="text" class="form-control" id="first_name" name="first_name" oninput="formatFirstName(this)" value='<?php if (isset($first_name)) {
 																														echo $first_name;
-																													} ?>' tabindex='12' placeholder="Enter First Name">
+																													} ?>' placeholder="Enter First Name">
 									<span class="text-danger" style='display:none' id='firstnameCheck'>Please Enter First Name</span>
 								</div>
 							</div>
@@ -376,7 +376,7 @@ if ($idupd > 0) {
 									<label for="last_name">Last Name</label><span class="required">&nbsp;*</span>
 									<input type="text" class="form-control" id="last_name" name="last_name" oninput="formatLastName(this)" value='<?php if (isset($last_name)) {
 																														echo $last_name;
-																													} ?>' tabindex='12' placeholder="Enter Last Name">
+																													} ?>' placeholder="Enter Last Name">
 									<span class="text-danger" style='display:none' id='lastnameCheck'>Please Enter Last Name</span>
 								</div>
 							</div>
@@ -385,22 +385,22 @@ if ($idupd > 0) {
 									<label for="dob">Date of Birth</label><span class="required">&nbsp;*</span>
 									<input type="date" class="form-control" id="dob" name="dob" value='<?php if (isset($dob)) {
 																											echo $dob;
-																										} ?>' tabindex='13'>
+																										} ?>'>
 									<span class="text-danger" style='display:none' id='dobCheck'>Please Select DOB</span>
 								</div>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 								<div class="form-group">
 									<label for="age">Age</label><span class="required">&nbsp;*</span>
-									<input type="text" class="form-control" id="age" name="age" readonly value='<?php if (isset($age)) {
+									<input type="text" class="form-control" id="age" name="age" tabindex="-1" readonly value='<?php if (isset($age)) {
 																													echo $age;
-																												} ?>' tabindex='14'>
+																												} ?>'>
 								</div>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 								<div class="form-group">
 									<label for="gender">Gender&nbsp;<span class="required">&nbsp;*</span></label>
-									<select tabindex="15" type="text" class="form-control" id="gender" name="gender">
+									<select type="text" class="form-control" id="gender" name="gender">
 										<option value="">Select Gender</option>
 										<option value="1" <?php if (isset($gender) and $gender == '1') echo 'selected'; ?>>Male</option>
 										<option value="2" <?php if (isset($gender) and $gender == '2') echo 'selected'; ?>>Female</option>
@@ -413,7 +413,7 @@ if ($idupd > 0) {
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 								<div class="form-group">
 									<label for="disabledInput">State</label>&nbsp;<span class="text-danger">*</span>
-									<select type="text" class="form-control" id="state" name="state" tabindex="16">
+									<select type="text" class="form-control" id="state" name="state">
 										<option value="SelectState">Select State</option>
 										<option value="TamilNadu" <?php if (isset($state) && $state == 'TamilNadu') echo 'selected' ?>>Tamil Nadu</option>
 										<option value="Puducherry" <?php if (isset($state) && $state == 'Puducherry') echo 'selected' ?>>Puducherry</option>
@@ -425,7 +425,7 @@ if ($idupd > 0) {
 								<div class="form-group">
 									<label for="disabledInput">District</label>&nbsp;<span class="text-danger">*</span>
 									<input type="hidden" class="form-control" id="district1" name="district1">
-									<select type="text" class="form-control" id="district" name="district" tabindex='17'>
+									<select type="text" class="form-control" id="district" name="district">
 										<option value="Select District">Select District</option>
 									</select>
 									<span class="text-danger" style='display:none' id='districtCheck'>Please Select District</span>
@@ -435,7 +435,7 @@ if ($idupd > 0) {
 								<div class="form-group">
 									<label for="disabledInput">Taluk</label>&nbsp;<span class="text-danger">*</span>
 									<input type="hidden" class="form-control" id="taluk1" name="taluk1">
-									<select type="text" class="form-control" id="taluk" name="taluk" tabindex="18">
+									<select type="text" class="form-control" id="taluk" name="taluk">
 										<option value="Select Taluk">Select Taluk</option>
 									</select>
 									<span class="text-danger" style='display:none' id='talukCheck'>Please Select Taluk</span>
@@ -444,7 +444,7 @@ if ($idupd > 0) {
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 								<div class="form-group">
 									<label for="disabledInput">Area</label>&nbsp;<span class="text-danger">*</span>
-									<select tabindex="19" type="text" class="form-control" id="area" name="area">
+									<select type="text" class="form-control" id="area" name="area">
 										<option value="">Select Area</option>
 
 									</select>
@@ -456,7 +456,7 @@ if ($idupd > 0) {
 									<label for="address">Address</label><span class="required">&nbsp;*</span>
 									<input type="text" class="form-control" id="address" name="address" value='<?php if (isset($address)) {
 																													echo $address;
-																												} ?>' tabindex='20' placeholder="Enter Address">
+																												} ?>' placeholder="Enter Address">
 									<span class="text-danger" style='display:none' id='addressCheck'>Please Enter Address</span>
 								</div>
 							</div>
@@ -465,14 +465,14 @@ if ($idupd > 0) {
 									<label for="mobile1">Mobile No 1</label><span class="required">&nbsp;*</span>
 									<input type="number" class="form-control" id="mobile1" name="mobile1" onkeypress="if(this.value.length==10) return false;" value='<?php if (isset($mobile1)) {
 																																											echo $mobile1;
-																																										} ?>' tabindex='21' placeholder="Enter Mobile Number">
+																																										} ?>' placeholder="Enter Mobile Number">
 									<span class="text-danger" style='display:none' id='mobile1Check'>Please Enter Mobile Number</span>
 								</div>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 								<div class="form-group">
 									<label for="mobile2">Mobile No 2</label>
-									<input type="number" class="form-control" id="mobile2" name="mobile2" onkeypress="if(this.value.length==10) return false;" value='<?php if (isset($mobile2)) { echo $mobile2; } ?>' tabindex='22' placeholder="Enter Mobile Number">
+									<input type="number" class="form-control" id="mobile2" name="mobile2" onkeypress="if(this.value.length==10) return false;" value='<?php if (isset($mobile2)) { echo $mobile2; } ?>' placeholder="Enter Mobile Number">
 									<span class="text-danger" style='display:none' id='mobile2Check'>Please Enter Mobile Number</span>
 								</div>
 							</div>
@@ -480,11 +480,11 @@ if ($idupd > 0) {
 								<div class="form-group">
 									<label>Choose Mobile Number for WhatsApp:</label><br>
 									<label>
-										<input type="radio" name="mobile_whatsapp" value="mobile1" id="mobile1_radio" class="personal_info_disble"  <?php if($idupd > 0){ if($mobile_whatsapp == 'mobile1'){ echo'checked'; }} ?> tabindex="23" >
+										<input type="radio" name="mobile_whatsapp" value="mobile1" id="mobile1_radio" class="personal_info_disble"  <?php if($idupd > 0){ if($mobile_whatsapp == 'mobile1'){ echo'checked'; }} ?> >
 										Mobile Number 1
 									</label><br>
 									<label>
-										<input type="radio" name="mobile_whatsapp" value="mobile2" id="mobile2_radio" class="personal_info_disble" <?php if($idupd > 0){ if($mobile_whatsapp =='mobile2'){ echo'checked'; }} ?> tabindex="24">
+										<input type="radio" name="mobile_whatsapp" value="mobile2" id="mobile2_radio" class="personal_info_disble" <?php if($idupd > 0){ if($mobile_whatsapp =='mobile2'){ echo'checked'; }} ?> >
 										Mobile Number 2
 									</label>
 									<input type="hidden" id="selected_mobile_radio">
@@ -493,7 +493,7 @@ if ($idupd > 0) {
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 								<div class="form-group">
 									<label for="whatsapp_no"> WhatsApp Number </label>
-									<input type="number" class="form-control  personal_info_disble" id="whatsapp_no" name="whatsapp_no" onKeyPress="if(this.value.length==10) return false;" placeholder="Enter WhatsApp Number"value='<?php if (isset($whatsapp_no)) { echo $whatsapp_no; } ?>' tabindex="25" readonly>
+									<input type="number" class="form-control  personal_info_disble" id="whatsapp_no" name="whatsapp_no" tabindex="-1" onKeyPress="if(this.value.length==10) return false;" placeholder="Enter WhatsApp Number"value='<?php if (isset($whatsapp_no)) { echo $whatsapp_no; } ?>' readonly>
 								</div>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
@@ -501,7 +501,7 @@ if ($idupd > 0) {
 									<label for="father_name">Father Name</label><span class="required">&nbsp;*</span>
 									<input type="text" class="form-control" id="father_name" name="father_name" value='<?php if (isset($father_name)) {
 																															echo $father_name;
-																														} ?>' tabindex='26' placeholder="Enter Father's Name" pattern="[a-zA-Z\s]+">
+																														} ?>'  placeholder="Enter Father's Name" pattern="[a-zA-Z\s]+">
 									<span class="text-danger" style='display:none' id='fathernameCheck'>Please Enter Father Name</span>
 								</div>
 							</div>
@@ -510,14 +510,14 @@ if ($idupd > 0) {
 									<label for="mother_name">Mother Name</label><span class="required">&nbsp;*</span>
 									<input type="text" class="form-control" id="mother_name" name="mother_name" value='<?php if (isset($mother_name)) {
 																															echo $mother_name;
-																														} ?>' tabindex='27' placeholder="Enter Mother's Name" pattern="[a-zA-Z\s]+">
+																														} ?>'  placeholder="Enter Mother's Name" pattern="[a-zA-Z\s]+">
 									<span class="text-danger" style='display:none' id='mothernameCheck'>Please Enter Mother Name</span>
 								</div>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 								<div class="form-group">
 									<label for="marital">Marital Status<span class="required">&nbsp;*</span></label>
-									<select tabindex="28" type="text" class="form-control" id="marital" name="marital">
+									<select type="text" class="form-control" id="marital" name="marital">
 										<option value="">Select Marital Status</option>
 										<option value="1" <?php if (isset($marital) and $marital == '1') echo 'selected'; ?>>Married</option>
 										<option value="2" <?php if (isset($marital) and $marital == '2') echo 'selected'; ?>>Unmarried</option>
@@ -530,14 +530,14 @@ if ($idupd > 0) {
 									<label for="spouse_name">Spouse Name</label><span class="required">&nbsp;*</span>
 									<input type="text" class="form-control" id="spouse_name" name="spouse_name" value='<?php if (isset($spouse_name)) {
 																															echo $spouse_name;
-																														} ?>' tabindex='29' placeholder="Enter Spouse Name" pattern="[a-zA-Z\s]+">
+																														} ?>' placeholder="Enter Spouse Name" pattern="[a-zA-Z\s]+">
 									<span class="text-danger" style='display:none' id='spousenameCheck'>Please Enter Spouse Name</span>
 								</div>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 								<div class="form-group">
 									<label for="occupation_type">Occupation Type<span class="required">&nbsp;*</span></label>
-									<select tabindex="30" type="text" class="form-control" id="occupation_type" name="occupation_type">
+									<select type="text" class="form-control" id="occupation_type" name="occupation_type">
 										<option value="">Select Occupation Type</option>
 										<option value="1" <?php if (isset($occupation_type) and $occupation_type == '1') echo 'selected'; ?>>Govt Job</option>
 										<option value="2" <?php if (isset($occupation_type) and $occupation_type == '2') echo 'selected'; ?>>Pvt Job</option>
@@ -555,7 +555,7 @@ if ($idupd > 0) {
 									<label for="occupation">Occupation</label><span class="required">&nbsp;*</span>
 									<input type="text" class="form-control" id="occupation" name="occupation" value='<?php if (isset($occupation)) {
 																															echo $occupation;
-																														} ?>' tabindex='31' placeholder="Enter Occupation" pattern="[a-zA-Z\s]+">
+																														} ?>' placeholder="Enter Occupation" pattern="[a-zA-Z\s]+">
 									<span class="text-danger" style='display:none' id='occupationCheck'>Please Enter Occupation</span>
 								</div>
 							</div>
@@ -569,7 +569,7 @@ if ($idupd > 0) {
 								<img id='imgshow' src='img/avatar.png' />
 								<input type="file" onchange="compressImage(this, 200)" class="form-control" id="pic" name="pic" value='<?php if (isset($pic)) {
 																																			echo $pic;
-																																		} ?>' tabindex='32'>
+																																		} ?>' >
 								<span class="text-danger" style='display:none' id='picCheck'>Please Choose Image</span>
 							</div>
 						</div>
@@ -585,7 +585,7 @@ if ($idupd > 0) {
 						<div class="form-group">
 							<label class="label">Loan Category</label>&nbsp;<span class="text-danger">*</span>
 							<input type="hidden" id="agent_loan" name="agent_loan">
-							<select tabindex="33" type="text" class="form-control" id="loan_category" name="loan_category">
+							<select type="text" class="form-control" id="loan_category" name="loan_category">
 								<option value="">Select Loan Category</option>
 								<?php if (sizeof($loanCategoryList) > 0) {
 									for ($j = 0; $j < count($loanCategoryList); $j++) { ?>
@@ -604,7 +604,7 @@ if ($idupd > 0) {
 							<label for="tot_value">Total value</label><span class="required">&nbsp;*</span>
 							<input type="text" class="form-control" id="tot_value" name="tot_value" value='<?php if (isset($tot_value)) {
 																													echo moneyFormatIndia($tot_value);
-																												} ?>' tabindex='34' placeholder="Enter Total Value">
+																												} ?>' placeholder="Enter Total Value">
 						</div>
 						<span class="text-danger" style='display:none' id='totvalueCheck'>Please Enter Total Value</span>
 					</div>
@@ -613,7 +613,7 @@ if ($idupd > 0) {
 							<label for="ad_amt">Advance Amount</label><span class="required">&nbsp;*</span>
 							<input type="text" class="form-control" id="ad_amt" name="ad_amt" value='<?php if (isset($ad_amt)) {
 																											echo moneyFormatIndia($ad_amt);
-																										} ?>' tabindex='35' placeholder="Enter Advance Amount">
+																										} ?>' placeholder="Enter Advance Amount">
 							<span class="text-danger" style='display:none' id='adamtCheck'>Please Enter Advance Amount</span>
 						</div>
 					</div>
@@ -621,17 +621,17 @@ if ($idupd > 0) {
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 advance_yes" style="display:none">
 						<div class="form-group">
 							<label for="ad_perc">Advance %</label><span class="required">&nbsp;*</span>
-							<input type="text" class="form-control" id="ad_perc" name="ad_perc" readonly value='<?php if (isset($ad_perc)) {
+							<input type="text" class="form-control" id="ad_perc" name="ad_perc" readonly  tabindex="-1" value='<?php if (isset($ad_perc)) {
 																													echo $ad_perc;
-																												} ?>' tabindex='36'>
+																												} ?>'>
 						</div>
 					</div>
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 loan_amt" style="display:none">
 						<div class="form-group">
 							<label for="loan_amt">Loan Amount</label><span class="required">&nbsp;*</span>
-							<input type="text" class="form-control" id="loan_amt" name="loan_amt" readonly value='<?php if (isset($loan_amt)) {
+							<input type="text" class="form-control" id="loan_amt" name="loan_amt" readonly tabindex="-1" value='<?php if (isset($loan_amt)) {
 																														echo moneyFormatIndia($loan_amt);
-																													} ?>' tabindex='37'>
+																													} ?>'>
 							<span class="text-danger" style='display:none' id='loanamtCheck'>Please Enter Loan Amount</span>
 						</div>
 					</div>
@@ -652,7 +652,7 @@ if ($idupd > 0) {
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group">
 							<label for="poss_type">Possibility<span class="required">&nbsp;*</span></label>
-							<select tabindex="38" type="text" class="form-control" id="poss_type" name="poss_type">
+							<select type="text" class="form-control" id="poss_type" name="poss_type">
 								<option value="">Select Possibility</option>
 								<option value="1" <?php if (isset($poss_type) and $poss_type == '1') echo 'selected'; ?>>Due Amount</option>
 								<option value="2" <?php if (isset($poss_type) and $poss_type == '2') echo 'selected'; ?>>Due Period</option>
@@ -665,7 +665,7 @@ if ($idupd > 0) {
 						<div class="form-group">
 							<label for="due_amt">Due Amount</label><span class="required">&nbsp;*</span>
 							<input type="text" class="form-control" id="due_amt" name="due_amt"
-								value='<?php echo isset($due_amt) ? moneyFormatIndia($due_amt) : ''; ?>' tabindex='39'>
+								value='<?php echo isset($due_amt) ? moneyFormatIndia($due_amt) : ''; ?>'>
 							<span class="text-danger" style='display:none' id='dueamtCheck'>Please Enter Due Amount</span>
 						</div>
 					</div>
@@ -675,7 +675,7 @@ if ($idupd > 0) {
 						<div class="form-group">
 							<label for="due_period">Due Period</label><span class="required">&nbsp;*</span>
 							<input type="number" class="form-control" id="due_period" name="due_period"
-								value='<?php echo isset($due_period) ? $due_period : ''; ?>' tabindex='40'>
+								value='<?php echo isset($due_period) ? $due_period : ''; ?>'>
 							<span class="text-danger" style='display:none' id='dueperiodCheck'>Please Enter Due Period</span>
 						</div>
 					</div>
@@ -690,26 +690,26 @@ if ($idupd > 0) {
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group">
 							<label for="calc_loan_amt">Loan Amount</label>
-							<input type="number" class="form-control" id="calc_loan_amt" name="calc_loan_amt" tabindex='41'>
+							<input type="number" class="form-control" id="calc_loan_amt" name="calc_loan_amt">
 						</div>
 					</div>
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group">
 							<label for="calc_int_rate">Rate of Interest</label>
-							<input type="number" class="form-control" id="calc_int_rate" name="calc_int_rate" tabindex='42' pattern="[0-9]*\.?[0-9]+">
+							<input type="number" class="form-control" id="calc_int_rate" name="calc_int_rate" pattern="[0-9]*\.?[0-9]+">
 						</div>
 					</div>
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group">
 							<label for="calc_due_period">Due Period</label>
-							<input type="number" class="form-control" id="calc_due_period" name="calc_due_period" tabindex='43'>
+							<input type="number" class="form-control" id="calc_due_period" name="calc_due_period">
 						</div>
 					</div>
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12"></div>
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group" style="text-align:center">
 							<span class="text-danger" style='display:none' id='calcCheck'>Please Fill All<br><br></span>
-							<button type="button" class="btn btn-primary" id="get_emi" name="get_emi" tabindex='44'>Get Due Amount&nbsp;<span class="icon-arrow-down-circle"></span></button>
+							<button type="button" class="btn btn-primary" id="get_emi" name="get_emi">Get Due Amount&nbsp;<span class="icon-arrow-down-circle"></span></button>
 						</div>
 					</div>
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12"></div>
@@ -718,7 +718,7 @@ if ($idupd > 0) {
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group">
 							<label for="calc_due_amt">Due Amount</label>
-							<input type="text" class="form-control" id="calc_due_amt" name="calc_due_amt" readonly tabindex="45">
+							<input type="text" class="form-control" id="calc_due_amt" name="calc_due_amt" tabindex="-1" readonly>
 						</div>
 					</div>
 				</div>
@@ -726,8 +726,8 @@ if ($idupd > 0) {
 		</div>
 		<div class="col-md-12 hidediv">
 			<div class="text-right">
-				<button type="submit" name="submit_request" id="submit_request" class="btn btn-primary" value="Submit" tabindex="46"><span class="icon-check"></span>&nbsp;Submit</button>
-				<button type="reset" class="btn btn-outline-secondary" tabindex="47">Clear</button>
+				<button type="submit" name="submit_request" id="submit_request" class="btn btn-primary" value="Submit" ><span class="icon-check"></span>&nbsp;Submit</button>
+				<button type="reset" class="btn btn-outline-secondary" >Clear</button>
 			</div>
 		</div>
 
@@ -738,7 +738,7 @@ if ($idupd > 0) {
 
 
 <!-- Customer Status Modal -->
-<div class="modal fade customerstatus" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade customerstatus" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content" style="background-color: white">
 			<div class="modal-header">

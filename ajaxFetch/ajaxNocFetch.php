@@ -133,6 +133,7 @@ if ($userid == 1) {
 
     $forcount = "SELECT cp.cus_id 
         FROM acknowlegement_customer_profile cp 
+        JOIN customer_register cr ON cp.cus_id = cr.cus_id
         JOIN in_issue ii ON cp.cus_id = ii.cus_id
         JOIN area_list_creation ac ON cp.area_confirm_area = ac.area_id
         JOIN area_line_mapping_area ala ON ac.area_id = ala.area_id

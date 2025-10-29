@@ -15,6 +15,7 @@ if ($userid != 1) {
 
 $column = array(
     'dt.id',
+    'dt.id',
     'dt.cus_id',
     'cr.autogen_cus_id',
     'CONCAT(cr.first_name, cr.last_name)',
@@ -22,7 +23,7 @@ $column = array(
     'al.area_name',
     'agm.group_name',
     'alm.line_name',
-    'dt.id',
+    'dt.track_status',
     'dt.id',
     'dt.id'
 );
