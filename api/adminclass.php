@@ -149,10 +149,6 @@ class admin
 		if (isset($_POST['address1'])) {
 			$address1 = $_POST['address1'];
 		}
-		$address2 = '';
-		if (isset($_POST['address2'])) {
-			$address2 = $_POST['address2'];
-		}
 		if (isset($_POST['state'])) {
 			$state = $_POST['state'];
 		}
@@ -184,9 +180,9 @@ class admin
 			$landline = $_POST['landline'];
 		}
 
-		$insertQry = "INSERT INTO company_creation(company_name, address1, address2, state, district, taluk, place, pincode, website, mailid, 
+		$insertQry = "INSERT INTO company_creation(company_name, address1, state, district, taluk, place, pincode, website, mailid, 
 			mobile,whatsapp,landline,insert_user_id,created_date) 
-			VALUES('" . strip_tags($company_name) . "','" . strip_tags($address1) . "', '" . strip_tags($address2) . "', '" . strip_tags($state) . "', '" . strip_tags($district) . "', 
+			VALUES('" . strip_tags($company_name) . "','" . strip_tags($address1) . "', '" . strip_tags($state) . "', '" . strip_tags($district) . "', 
 			'" . strip_tags($taluk) . "', '" . strip_tags($place) . "', '" . strip_tags($pincode) . "', '" . strip_tags($website) . "', '" . strip_tags($mailid) . "', '" . strip_tags($mobile) . "',
 			'" . strip_tags($whatsapp) . "','" . strip_tags($landline) . "','" . strip_tags($userid) . "',current_timestamp )";
 
@@ -205,7 +201,6 @@ class admin
 			$detailrecords['company_id']      = $row->company_id;
 			$detailrecords['company_name']    = $row->company_name;
 			$detailrecords['address1']    = $row->address1;
-			$detailrecords['address2']    = $row->address2;
 			$detailrecords['state']    = $row->state;
 			$detailrecords['district']    = $row->district;
 			$detailrecords['taluk']    = $row->taluk;
@@ -231,10 +226,6 @@ class admin
 		if (isset($_POST['address1'])) {
 			$address1 = $_POST['address1'];
 		}
-		$address2 = '';
-		if (isset($_POST['address2'])) {
-			$address2 = $_POST['address2'];
-		}
 		if (isset($_POST['state'])) {
 			$state = $_POST['state'];
 		}
@@ -265,8 +256,7 @@ class admin
 		if (isset($_POST['landline'])) {
 			$landline = $_POST['landline'];
 		}
-		$updateQry = "UPDATE company_creation SET company_name = '" . strip_tags($company_name) . "', address1='" . strip_tags($address1) . "', 
-			address2='" . strip_tags($address2) . "', state='" . strip_tags($state) . "', district='" . strip_tags($district) . "', taluk='" . strip_tags($taluk) . "', 
+		$updateQry = "UPDATE company_creation SET company_name = '" . strip_tags($company_name) . "', address1='" . strip_tags($address1) . "', state='" . strip_tags($state) . "', district='" . strip_tags($district) . "', taluk='" . strip_tags($taluk) . "', 
 			place='" . strip_tags($place) . "', pincode='" . strip_tags($pincode) . "', website='" . strip_tags($website) . "', mailid='" . strip_tags($mailid) . "', mobile='" . strip_tags($mobile) . "',
 			whatsapp='" . strip_tags($whatsapp) . "',landline='" . strip_tags($landline) . "',update_user_id='" . strip_tags($userid) . "',updated_date= current_timestamp(), status = '0' WHERE company_id= '" . strip_tags($id) . "' ";
 		$updresult = $mysqli->query($updateQry) or die("Error in in update Query!." . $mysqli->error);
@@ -651,10 +641,6 @@ class admin
 		if (isset($_POST['address1'])) {
 			$address1 = $_POST['address1'];
 		}
-		$address2 = '';
-		if (isset($_POST['address2'])) {
-			$address2 = $_POST['address2'];
-		}
 		if (isset($_POST['state'])) {
 			$state = $_POST['state'];
 		}
@@ -685,10 +671,9 @@ class admin
 		if (isset($_POST['userid'])) {
 			$userid = $_POST['userid'];
 		}
-		$branchInsert = "INSERT INTO branch_creation(branch_code, branch_name, mobile_number, email_id, address1, address2, state, district,
+		$branchInsert = "INSERT INTO branch_creation(branch_code, branch_name, mobile_number, email_id, address1, state, district,
         taluk, place, pincode, whatsapp_number, landline_number, company_name, insert_login_id)
-        VALUES('" . strip_tags($branch_code) . "','" . strip_tags($branch_name) . "', '" . strip_tags($mobile_number) . "','" . strip_tags($email_id) . "', '" . strip_tags($address1) . "',
-        '" . strip_tags($address2) . "', '" . strip_tags($state) . "', '" . strip_tags($district) . "',  '" . strip_tags($taluk) . "','" . strip_tags($place) . "', '" . strip_tags($pincode) . "',
+        VALUES('" . strip_tags($branch_code) . "','" . strip_tags($branch_name) . "', '" . strip_tags($mobile_number) . "','" . strip_tags($email_id) . "', '" . strip_tags($address1) . "', '" . strip_tags($state) . "', '" . strip_tags($district) . "',  '" . strip_tags($taluk) . "','" . strip_tags($place) . "', '" . strip_tags($pincode) . "',
         '" . strip_tags($whatsapp_number) . "', '" . strip_tags($landline_number) . "', '" . strip_tags($company_name) . "', '" . strip_tags($userid) . "' )";
 		$insresult = $mysqli->query($branchInsert) or die("Error " . $mysqli->error);
 	}
@@ -707,7 +692,6 @@ class admin
 			$detailrecords['district']    = $row->district;
 			$detailrecords['email_id']        = $row->email_id;
 			$detailrecords['address1']      = $row->address1;
-			$detailrecords['address2']      = $row->address2;
 			$detailrecords['state']       = $row->state;
 			$detailrecords['place']         = $row->place;
 			$detailrecords['pincode']       = $row->pincode;
@@ -732,10 +716,6 @@ class admin
 		}
 		if (isset($_POST['address1'])) {
 			$address1 = $_POST['address1'];
-		}
-		$address2 = '';
-		if (isset($_POST['address2'])) {
-			$address2 = $_POST['address2'];
 		}
 		if (isset($_POST['state'])) {
 			$state = $_POST['state'];
@@ -768,7 +748,7 @@ class admin
 			$userid = $_POST['userid'];
 		}
 		$branchUpdaet = "UPDATE branch_creation SET branch_code = '" . strip_tags($branch_code) . "', branch_name = '" . strip_tags($branch_name) . "',
-			mobile_number='" . strip_tags($mobile_number) . "', email_id='" . strip_tags($email_id) . "', address1='" . strip_tags($address1) . "', address2='" . strip_tags($address2) . "',
+			mobile_number='" . strip_tags($mobile_number) . "', email_id='" . strip_tags($email_id) . "', address1='" . strip_tags($address1) . "',
 			state='" . strip_tags($state) . "', taluk = '" . strip_tags($taluk) . "', district = '" . strip_tags($district) . "', place='" . strip_tags($place) . "',
 			pincode='" . strip_tags($pincode) . "', whatsapp_number='" . strip_tags($whatsapp_number) . "', company_name='" . strip_tags($company_name) . "', landline_number='" . strip_tags($landline_number) . "',
 			update_login_id='" . strip_tags($userid) . "', status = '0' WHERE branch_id= '" . strip_tags($id) . "' ";

@@ -36,7 +36,7 @@ $column = array(
     'rc.status'
 );
 
-$query = "SELECT rc.*, cr.autogen_cus_id, CONCAT(rc.first_name,' ', rc.last_name) AS customer_name, rc. a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
+$query = "SELECT rc.*, cr.autogen_cus_id, CONCAT(rc.first_name,' ', rc.last_name) AS customer_name, a.area_name, ag.group_name, bc.branch_name, alm.line_name,lcc.loan_category_creation_name
     FROM request_creation rc
     JOIN customer_register cr ON rc.cus_id = cr.cus_id
     JOIN area_list_creation a ON rc.area = a.area_id

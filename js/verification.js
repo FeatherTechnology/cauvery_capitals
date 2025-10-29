@@ -1110,9 +1110,13 @@ $(document).ready(function () {
     }
   });
 
-  $('#cus_monthly_income, #cus_Commitment, #cus_other_income, #cus_support_income, #cus_monDue_capacity, #cus_loan_limit, #cus_occ_income').on('input', function () {
+  $('#cus_monthly_income, #cus_Commitment, #cus_other_income, #cus_support_income, #cus_monDue_capacity, #cus_loan_limit, #cus_occ_income,#loan_amt').on('input', function () {
     let value = $(this).val();
     $(this).val(formatIndianNumber(value));
+  });
+
+  $("#due_period").on("change", function () {
+    $('#due_start_from').trigger('change');
   });
 
   $(document).on("click", "#hide_document_history", function () {

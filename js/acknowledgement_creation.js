@@ -993,6 +993,9 @@ $(document).ready(function () {
         }
     });    
     ///Hide AND Show doc Card END
+    $("#due_period").on("change", function () {
+        $('#due_start_from').trigger('change');
+    });
 
 });   ////////Document Ready End
 

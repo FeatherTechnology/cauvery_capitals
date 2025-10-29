@@ -658,6 +658,9 @@ $(document).on('change', '.verification_bank_update', function () {
         }
 
     });
+    $("#due_period").on("change", function () {
+        $('#due_start_from').trigger('change');
+    });
 });
 
 
