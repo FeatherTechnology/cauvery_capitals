@@ -143,8 +143,6 @@ if ($idupd > 0) {
 			for ($i = 0; $i < sizeof($getAreaMappingDuefollowup); $i++) {
 				$map_id2                	 = $getAreaMappingDuefollowup['map_id'];
 				$duefollowup_name          	 = $getAreaMappingDuefollowup['duefollowup_name'];
-				// $loan_category_id          	 = $getAreaMappingDuefollowup['loan_category_id'];
-				// $due_line_name          	 = $getAreaMappingDuefollowup['line_name'];
 				$area_id2         		     = $getAreaMappingDuefollowup['area_id'];
 				$cus_sts      			     = $getAreaMappingDuefollowup['customer_status'];
 				$cus_count      			 = $getAreaMappingDuefollowup['cus_count'];
@@ -196,8 +194,6 @@ if (isset($_GET['type'])) {
 		<input type="hidden" value="<?php if (isset($area_id1)) echo $area_id1; ?>" id="area_id1_upd" name="area_id1_upd">
 		<input type="hidden" value="<?php if (isset($area_id2)) echo $area_id2; ?>" id="area_id2_upd" name="area_id2_upd">
 		<input type="hidden" value="<?php if (isset($cus_sts)) echo $cus_sts; ?>" id="cus_sts" name="cus_sts">
-		<!-- <input type="hidden" value="<?php if (isset($due_line_name)) echo $due_line_name; ?>" id="due_line_name" name="due_line_name"> -->
-		<!-- <input type="hidden" value="<?php if(isset($loan_category_id)) echo $loan_category_id; ?>" id="loan_cat_upd" name="loan_cat_upd"> -->
 
 		<!-- Row start -->
 		<div class="row gutters">

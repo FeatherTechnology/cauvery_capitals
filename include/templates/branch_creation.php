@@ -51,7 +51,6 @@ if ($idupd > 0) {
             $branch_name                       = $getBranchCreation['branch_name'];
             $mobile_number                       = $getBranchCreation['mobile_number'];
             $address1                 = $getBranchCreation['address1'];
-            $address2                         = $getBranchCreation['address2'];
             $state                     = $getBranchCreation['state'];
             $place                   = $getBranchCreation['place'];
             $pincode                    = $getBranchCreation['pincode'];
@@ -132,7 +131,6 @@ if ($idupd > 0) {
                                         <div class="form-group">
                                             <label for="disabledInput">Address</label>
                                             <input type="text" id="address1" name="address1" class="form-control" value="<?php if (isset($address1)) echo $address1; ?>" placeholder="Enter Address" tabindex='4'>
-                                            <!-- <span id="address1check" class="text-danger" >Enter Address1 </span>  -->
                                         </div>
                                     </div>
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
@@ -175,7 +173,6 @@ if ($idupd > 0) {
                                         <div class="form-group">
                                             <label for="inputReadOnly">Place</label>&nbsp;<span class="text-danger">*</span>
                                             <input class="form-control" id="place" name="place" type="text" required value="<?php if (isset($place)) echo $place; ?>" placeholder="Enter Place" tabindex='8'>
-                                            <!-- <span class="text-danger" id="placecheck">Enter Valid place</span>  -->
                                         </div>
                                     </div>
 
@@ -183,7 +180,6 @@ if ($idupd > 0) {
                                         <div class="form-group">
                                             <label class="label">Pincode</label>&nbsp;<span class="text-danger">*</span>
                                             <input type="number" required onkeydown="javascript: return event.keyCode == 69 ? false : true" name="pincode" id="pincode" class="form-control" placeholder="Enter Pincode" value="<?php if (isset($pincode)) echo $pincode; ?>" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" tabindex='9'>
-                                            <!-- <span id="pincodecheck" class="text-danger">Enter Pincode</span>  -->
                                         </div>
                                     </div>
                                 </div>

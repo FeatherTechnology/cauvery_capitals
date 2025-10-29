@@ -54,7 +54,6 @@ if ($idupd > 0) {
 		for ($i = 0; $i < sizeof($getLoanCategoryDetails); $i++) {
 			$loan_category_id                 	 = $getLoanCategoryDetails['loan_category_id'];
 			$loan_category_name          		     = $getLoanCategoryDetails['loan_category_name'];
-			// $sub_category_name      			     = $getLoanCategoryDetails['sub_category_name'];
 			$loan_limit      			     = $getLoanCategoryDetails['loan_limit'];
 			$loan_category_ref_id       			 = $getLoanCategoryDetails['loan_category_ref_id'];
 			$loan_category_ref_name                	 = $getLoanCategoryDetails['loan_category_ref_name'];
@@ -65,7 +64,7 @@ if ($idupd > 0) {
 
 if ($idupd > 0) {
 	$getLoanCalculation = $userObj->getLoanCalculation($mysqli, $idupd);
-$profit_method ='';
+	$profit_method ='';
 	if (sizeof($getLoanCalculation) > 0) {
 		for ($ibranch = 0; $ibranch < sizeof($getLoanCalculation); $ibranch++) {
 
@@ -216,9 +215,7 @@ if ($idupd > 0) {
 												<tbody>
 													<tr>
 														<td>
-															<input type="text" tabindex="4" name="loan_category_ref_name[]" id="loan_category_ref_name" class="form-control" value="<?php if (isset($loan_category_ref_name)) {
-																																														echo $loan_category_ref_name[$i];
-																																													} ?>">
+															<input type="text" tabindex="4" name="loan_category_ref_name[]" id="loan_category_ref_name" class="form-control" value="<?php if (isset($loan_category_ref_name)) {echo $loan_category_ref_name[$i];} ?>">
 														</td>
 														<td>
 															<button type="button" tabindex="4" id="add_category_ref[]" name="add_category_ref" value="Submit" class="btn btn-primary add_category_ref">Add</button>
@@ -235,13 +232,9 @@ if ($idupd > 0) {
 													<tbody>
 														<?php for ($i = 0; $i <= sizeof($loan_category_ref_name) - 1; $i++) { ?>
 															<tr>
-																<input type="hidden" name="loan_category_ref_id[]" id="loan_category_ref_id" value="<?php if (isset($loan_category_ref_id)) {
-																																						echo $loan_category_ref_id[$i];
-																																					} ?>">
+																<input type="hidden" name="loan_category_ref_id[]" id="loan_category_ref_id" value="<?php if (isset($loan_category_ref_id)) { echo $loan_category_ref_id[$i]; } ?>">
 																<td>
-																	<input type="text" tabindex="<?php echo $k; ?>" name="loan_category_ref_name[]" id="loan_category_ref_name" class="form-control" value="<?php if (isset($loan_category_ref_name)) {
-																																																				echo $loan_category_ref_name[$i];
-																																																			} ?>">
+																	<input type="text" tabindex="<?php echo $k; ?>" name="loan_category_ref_name[]" id="loan_category_ref_name" class="form-control" value="<?php if (isset($loan_category_ref_name)) { echo $loan_category_ref_name[$i]; } ?>">
 																</td>
 																<td>
 																	<button type="button" tabindex="<?php echo $k; ?>" id="add_category_ref[]" name="add_category_ref" value="Submit" class="btn btn-primary add_category_ref">Add</button>
@@ -501,7 +494,6 @@ if ($idupd > 0) {
 											<th>Max Processing Fees</th>
 											<th>Over Due</th>
 											<th>Status</th>
-											<!-- <th>Action</th> -->
 										</tr>
 									</thead>
 									<tbody>

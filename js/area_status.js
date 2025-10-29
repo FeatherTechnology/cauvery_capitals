@@ -68,7 +68,6 @@ function enable(area_id) {
                 cache: false,
                 success: function (response) {
                     if (response.includes('Successfully')) {
-                        // dT2();
                         dT1();
                         $('#area_enable').show();
                         setTimeout(function () {
@@ -93,7 +92,6 @@ function disable(area_id) {
                 cache: false,
                 success: function (response) {
                     if (response.includes('Successfully')) {
-                        // dT2();
                         dT1();
                         $('#area_disable').show();
                         setTimeout(function () {
