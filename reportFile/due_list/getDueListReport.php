@@ -157,7 +157,7 @@ LEFT JOIN
 JOIN 
     in_issue ii ON lc.req_id = ii.req_id
 JOIN 
-    loan_issue li ON lc.req_id = li.req_id
+    loan_issue li ON lc.req_id = li.req_id AND li.balance_amount = 0
 JOIN 
     area_list_creation al ON cp.area_confirm_area = al.area_id
      JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
