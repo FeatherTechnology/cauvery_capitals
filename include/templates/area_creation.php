@@ -149,15 +149,15 @@ if ($idupd > 0) {
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-10 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Pincode</label>&nbsp;<span class="text-danger"></span>
-											<input type="number" tabindex="8" onKeyPress="if(this.value.length==6) return false;" class="form-control" id="pincode" name="pincode" value="<?php if (isset($pincode)) echo $pincode; ?>" placeholder="Enter Pincode">
+											<input type="number" tabindex="6" onKeyPress="if(this.value.length==6) return false;" class="form-control" id="pincode" name="pincode" value="<?php if (isset($pincode)) echo $pincode; ?>" placeholder="Enter Pincode">
 										</div>
 									</div>
 								</div>
 								<br><br><br>
 								<div class="row">
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<button type="button" tabindex="9" id="downloadarea" name="downloadarea" class="btn btn-primary"><span class="icon-download"></span>&nbsp;Download</button>
-										<button type="button" data-toggle="modal" data-target="#areaUploadModal" tabindex="10" id="uploadArea" name="uploadArea" class="btn btn-primary"><span class="icon-upload"></span>&nbsp;Upload</button>
+										<button type="button" tabindex="7" id="downloadarea" name="downloadarea" class="btn btn-primary"><span class="icon-download"></span>&nbsp;Download</button>
+										<button type="button" data-toggle="modal" data-target="#areaUploadModal" tabindex="8" id="uploadArea" name="uploadArea" class="btn btn-primary"><span class="icon-upload"></span>&nbsp;Upload</button>
 									</div>
 								</div>
 							</div>
@@ -167,8 +167,8 @@ if ($idupd > 0) {
 
 				<div class="col-md-12 ">
 					<div class="text-right">
-						<button type="submit" name="submit_area_creation" id="submit_area_creation" class="btn btn-primary" value="Submit" tabindex="11"><span class="icon-check"></span>&nbsp;Submit</button>
-						<button type="reset" class="btn btn-outline-secondary" tabindex="12">Clear</button>
+						<button type="submit" name="submit_area_creation" id="submit_area_creation" class="btn btn-primary" value="Submit" tabindex="9"><span class="icon-check"></span>&nbsp;Submit</button>
+						<button type="reset" class="btn btn-outline-secondary" tabindex="10">Clear</button>
 					</div>
 
 				</div>
@@ -213,8 +213,8 @@ if ($idupd > 0) {
 						<div class="form-group">
 							<label class="label">Enter Area</label>
 							<input type="hidden" name="area_id" id="area_id">
-							<input type="text" name="area_name" id="area_name" class="form-control" placeholder="Enter Area">
-							<span class="text-danger" tabindex="1" id="areanameCheck">Enter Area</span>
+							<input type="text" name="area_name" id="area_name" class="form-control" tabindex="1" placeholder="Enter Area">
+							<span class="text-danger" id="areanameCheck">Enter Area</span>
 						</div>
 					</div>
 					<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-12">

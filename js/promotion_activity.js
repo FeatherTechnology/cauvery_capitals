@@ -659,9 +659,9 @@ function validateNewCusAdd() {
 }
 
 function submitPromotion() {
-    let cus_id = $('#promo_cus_id').val();
+    let cus_id = $('#promo_cus_id').val();  let orgin_table = $('#orgin_table').val();
     let status = $('#promo_status').val(); let label = $('#promo_label').val(); let remark = $('#promo_remark').val(); let follow_date = $('#promo_fdate').val();
-    let args = { 'cus_id': cus_id, 'status': status, 'label': label, 'remark': remark, 'follow_date': follow_date };
+    let args = { 'cus_id': cus_id, 'status': status, 'label': label, 'remark': remark, 'follow_date': follow_date , 'orgin_table': orgin_table };
 
     $.post('followupFiles/promotion/submitNewPromotion.php', args, function (response) {
         if (response.includes('Error')) {
