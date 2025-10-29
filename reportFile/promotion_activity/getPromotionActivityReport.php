@@ -19,6 +19,7 @@ if (!empty($id_list)) {
 }
 
 $role_arr = [1 => 'Director', 2 => 'Agent', 3 => 'Staff'];
+$status_arr = [1 => 'Existing', 2 => 'New Promotion', 3 => 'Repromotion'];
 
 $column = array(
     'np.id',
@@ -37,12 +38,12 @@ $column = array(
     'np.follow_date',
     'u.role',
     'u.fullname',
-    'np.id'
+    'np.follow_up_status'
 );
 
 $query = "SELECT 
     np.cus_id, np.created_date, np.status, np.remark, u.role,cp.autogen_cus_id,
-    u.fullname,
+    u.fullname, np.follow_up_status,
     COALESCE(cp.first_name, ncp.first_name) AS customer_name,
     COALESCE(cp.mobile1, ncp.mobile) AS mobile1,
     COALESCE(al.area_name, ncp.area) AS area_name,
@@ -130,18 +131,8 @@ foreach ($result as $row) {
     $sub_array[] = date('d-m-Y', strtotime($row['follow_date']));
     $sub_array[] = isset($role_arr[$row['role']]) ? $role_arr[$row['role']] : '';
     $sub_array[] = $row['fullname'];
+    $sub_array[] = isset($status_arr[$row['follow_up_status']]) ? $status_arr[$row['follow_up_status']] : '';
 
-    if (!empty($row['cus_status'])) {
-        if (is_numeric($row['cus_status']) && $row['cus_status'] >= 4 && $row['cus_status'] <= 9) {
-            $status = 'Repromotion';
-        } elseif (is_numeric($row['cus_status']) && $row['cus_status'] >= 20) {
-            $status = 'Existing';
-        }
-    } else {
-        $status = 'New Promotion';
-    }
-
-    $sub_array[] = $status; 
     $data[] = $sub_array;
     $sno++;
 }

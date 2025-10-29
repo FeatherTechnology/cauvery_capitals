@@ -120,7 +120,7 @@ if ($idupd > 0) {
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">State</label>&nbsp;<span class="text-danger">*</span>
-											<select type="text" class="form-control" id="state" name="state" tabindex="4">
+											<select type="text" class="form-control" id="state" name="state" tabindex="3">
 												<option value="SelectState">Select State</option>
 												<option value="TamilNadu" <?php if (isset($state) && $state == 'TamilNadu') echo 'selected' ?>>Tamil Nadu</option>
 												<option value="Puducherry" <?php if (isset($state) && $state == 'Puducherry') echo 'selected' ?>>Puducherry</option>
@@ -131,7 +131,7 @@ if ($idupd > 0) {
 										<div class="form-group">
 											<label for="disabledInput">District</label>&nbsp;<span class="text-danger">*</span>
 											<input type="hidden" class="form-control" id="district1" name="district1">
-											<select type="text" class="form-control" id="district" name="district" tabindex='5'>
+											<select type="text" class="form-control" id="district" name="district" tabindex="4">
 												<option value="Select District">Select District</option>
 											</select>
 										</div>
@@ -140,7 +140,7 @@ if ($idupd > 0) {
 										<div class="form-group">
 											<label for="disabledInput">Taluk</label>&nbsp;<span class="text-danger">*</span>
 											<input type="hidden" class="form-control" id="taluk1" name="taluk1">
-											<select type="text" class="form-control" id="taluk" name="taluk" tabindex="6">
+											<select type="text" class="form-control" id="taluk" name="taluk" tabindex="5">
 												<option value="Select Taluk">Select Taluk</option>
 											</select>
 										</div>
@@ -148,13 +148,13 @@ if ($idupd > 0) {
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Place</label>&nbsp;<span class="text-danger">*</span>
-											<input type="text" class="form-control" id="place" name="place" value="<?php if (isset($place)) echo $place; ?>" pattern="[a-zA-Z\s]+" placeholder="Enter Place" tabindex="7">
+											<input type="text" class="form-control" id="place" name="place" value="<?php if (isset($place)) echo $place; ?>" pattern="[a-zA-Z\s]+" placeholder="Enter Place" tabindex="6">
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Pincode</label>&nbsp;<span class="text-danger">*</span>
-											<input type="number" onKeyPress="if(this.value.length==6) return false;" class="form-control" id="pincode" name="pincode" value="<?php if (isset($pincode)) echo $pincode; ?>" placeholder="Enter Pincode" tabindex="8">
+											<input type="number" onKeyPress="if(this.value.length==6) return false;" class="form-control" id="pincode" name="pincode" value="<?php if (isset($pincode)) echo $pincode; ?>" placeholder="Enter Pincode" tabindex="7">
 										</div>
 									</div>
 								</div>
@@ -174,31 +174,31 @@ if ($idupd > 0) {
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Website</label>
-											<input type="text" class="form-control" id="website" name="website" value="<?php if (isset($website)) echo $website; ?>" placeholder="Enter Website Name" tabindex="9">
+											<input type="text" class="form-control" id="website" name="website" value="<?php if (isset($website)) echo $website; ?>" placeholder="Enter Website Name" tabindex="8">
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Mail ID</label>
-											<input type="email" class="form-control" id="mailid" name="mailid" value="<?php if (isset($mailid)) echo $mailid; ?>" placeholder="Enter Mail ID" tabindex="10">
+											<input type="email" class="form-control" id="mailid" name="mailid" value="<?php if (isset($mailid)) echo $mailid; ?>" placeholder="Enter Mail ID" tabindex="9">
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Mobile No.</label>
-											<input type="number" class="form-control" id="mobile" name="mobile" value="<?php if (isset($mobile)) echo $mobile; ?>" onKeyPress="if(this.value.length==10) return false;" placeholder="Enter Mobile Number" tabindex="11">
+											<input type="number" class="form-control" id="mobile" name="mobile" value="<?php if (isset($mobile)) echo $mobile; ?>" onKeyPress="if(this.value.length==10) return false;" placeholder="Enter Mobile Number" tabindex="10">
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Whatsapp No.</label>
-											<input type="number" class="form-control" id="whatsapp" name="whatsapp" value="<?php if (isset($whatsapp)) echo $whatsapp; ?>" onKeyPress="if(this.value.length==10	) return false;" placeholder="Enter Whatsapp Number" tabindex="12">
+											<input type="number" class="form-control" id="whatsapp" name="whatsapp" value="<?php if (isset($whatsapp)) echo $whatsapp; ?>" onKeyPress="if(this.value.length==10	) return false;" placeholder="Enter Whatsapp Number" tabindex="11">
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Landline No.</label>
-											<input type="number" class="form-control" id="landline" name="landline" value="<?php if (isset($landline)) echo $landline; ?>" onKeyPress="if(this.value.length==10	) return false;" placeholder="Enter Landline Number" tabindex="13">
+											<input type="number" class="form-control" id="landline" name="landline" value="<?php if (isset($landline)) echo $landline; ?>" onKeyPress="if(this.value.length==10	) return false;" placeholder="Enter Landline Number" tabindex="12">
 										</div>
 									</div>
 								</div>
@@ -208,8 +208,8 @@ if ($idupd > 0) {
 				</div>
 				<div class="col-md-12 ">
 					<div class="text-right">
-						<button type="submit" name="submit_company_creation" id="submit_company_creation" class="btn btn-primary" value="Submit" tabindex="14"><span class="icon-check"></span>&nbsp;Submit</button>
-						<button type="reset" class="btn btn-outline-secondary" tabindex="15">Clear</button>
+						<button type="submit" name="submit_company_creation" id="submit_company_creation" class="btn btn-primary" value="Submit" tabindex="13"><span class="icon-check"></span>&nbsp;Submit</button>
+						<button type="reset" class="btn btn-outline-secondary" tabindex="14">Clear</button>
 					</div>
 				</div>
 

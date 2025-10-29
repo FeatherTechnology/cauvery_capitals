@@ -313,7 +313,7 @@ if ($idupd > 0) {
 										<div class="form-group">
 											<label class="label">Loan Category</label>&nbsp;<span class="text-danger">*</span>
 											<input type="hidden" class="form-control" id="loan_category" name="loan_category" value='<?php if (isset($loan_category)) echo $loan_category; ?>'>
-											<select tabindex="101" type="text" class="form-control" id="loan_category1" name="loan_category1" multiple>
+											<select tabindex="18" type="text" class="form-control" id="loan_category1" name="loan_category1" multiple>
 												<option value="">Select Loan Category</option>
 											</select>
 										</div>
@@ -322,7 +322,7 @@ if ($idupd > 0) {
 										<div class="form_group">
 											<label for="disabledInput">Scheme Name</label>
 											<input type="hidden" class="form-control" id="scheme" name="scheme" value='<?php if (isset($scheme)) echo $scheme; ?>'>
-											<select tabindex="103" type="text" class="form-control" id="scheme1" name="scheme1" multiple>
+											<select tabindex="19" type="text" class="form-control" id="scheme1" name="scheme1" multiple>
 												<option value="">Select Scheme Name</option>
 
 											</select>
@@ -337,22 +337,22 @@ if ($idupd > 0) {
 									<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
 										<div class="form-group">
 											<label for=''>Loan Payment</label>&nbsp;<span class="text-danger">*</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<input type="radio" tabindex="104" name="loan_pay" id="loan_pay0" value="0" <?php if (isset($loan_payment) and $loan_payment == '0') echo 'checked'; ?>></input><label for='loan_pay0'>&nbsp;&nbsp;Yes</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<input type="radio" tabindex="105" name="loan_pay" id="loan_pay1" value="1" <?php if (isset($loan_payment) and $loan_payment == '1') echo 'checked'; ?>></input><label for='loan_pay1'>&nbsp;&nbsp;No</label>
+											<input type="radio" tabindex="20" name="loan_pay" id="loan_pay0" value="0" <?php if (isset($loan_payment) and $loan_payment == '0') echo 'checked'; ?>></input><label for='loan_pay0'>&nbsp;&nbsp;Yes</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<input type="radio" tabindex="21" name="loan_pay" id="loan_pay1" value="1" <?php if (isset($loan_payment) and $loan_payment == '1') echo 'checked'; ?>></input><label for='loan_pay1'>&nbsp;&nbsp;No</label>
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
 										<div class="form-group">
 											<label for=''>Responsible</label>&nbsp;<span class="text-danger">*</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<input type="radio" tabindex="106" name="responsible" id="responsible0" value="0" <?php if (isset($responsible) and $responsible == '0') echo 'checked'; ?>></input><label for='responsible0'>&nbsp;&nbsp;Yes</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<input type="radio" tabindex="107" name="responsible" id="responsible1" value="1" <?php if (isset($responsible) and $responsible == '1') echo 'checked'; ?>></input><label for='responsible1'>&nbsp;&nbsp;No</label>
+											<input type="radio" tabindex="22" name="responsible" id="responsible0" value="0" <?php if (isset($responsible) and $responsible == '0') echo 'checked'; ?>></input><label for='responsible0'>&nbsp;&nbsp;Yes</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<input type="radio" tabindex="23" name="responsible" id="responsible1" value="1" <?php if (isset($responsible) and $responsible == '1') echo 'checked'; ?>></input><label for='responsible1'>&nbsp;&nbsp;No</label>
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
 										<div class="form-group">
 											<label for=''>Collection Point</label>&nbsp;<span class="text-danger">*</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<input type="radio" tabindex="108" name="coll_point" id="coll_point0" value="0" <?php if (isset($coll_point) and $coll_point == '0') echo 'checked'; ?>></input><label for='coll_point0'>&nbsp;&nbsp;Yes</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<input type="radio" tabindex="109" name="coll_point" id="coll_point1" value="1" <?php if (isset($coll_point) and $coll_point == '1') echo 'checked'; ?>></input><label for='coll_point1'>&nbsp;&nbsp;No</label>
+											<input type="radio" tabindex="24" name="coll_point" id="coll_point0" value="0" <?php if (isset($coll_point) and $coll_point == '0') echo 'checked'; ?>></input><label for='coll_point0'>&nbsp;&nbsp;Yes</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<input type="radio" tabindex="25" name="coll_point" id="coll_point1" value="1" <?php if (isset($coll_point) and $coll_point == '1') echo 'checked'; ?>></input><label for='coll_point1'>&nbsp;&nbsp;No</label>
 										</div>
 									</div>
 
@@ -373,31 +373,31 @@ if ($idupd > 0) {
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Bank Name</label>&nbsp;<span class="text-danger">*</span>
-											<input type="text" class="form-control" id="bank_name" name="bank_name" value="<?php if (isset($bank_name)) echo $bank_name; ?>" placeholder="Enter Bank Name" tabindex="110" pattern="[a-zA-Z\s]+">
+											<input type="text" class="form-control" id="bank_name" name="bank_name" value="<?php if (isset($bank_name)) echo $bank_name; ?>" placeholder="Enter Bank Name" tabindex="26" pattern="[a-zA-Z\s]+">
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Branch Name</label>&nbsp;<span class="text-danger">*</span>
-											<input type="text" class="form-control" id="bank_branch_name" name="bank_branch_name" value="<?php if (isset($bank_branch_name)) echo $bank_branch_name; ?>" placeholder="Enter Branch Name" tabindex="111" pattern="[a-zA-Z\s]+">
+											<input type="text" class="form-control" id="bank_branch_name" name="bank_branch_name" value="<?php if (isset($bank_branch_name)) echo $bank_branch_name; ?>" placeholder="Enter Branch Name" tabindex="27" pattern="[a-zA-Z\s]+">
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Bank Account Number</label>&nbsp;<span class="text-danger">*</span>
-											<input type="number" class="form-control" id="acc_no" name="acc_no" value="<?php if (isset($acc_no)) echo $acc_no; ?>" placeholder="Enter Account Number" tabindex="112">
+											<input type="number" class="form-control" id="acc_no" name="acc_no" value="<?php if (isset($acc_no)) echo $acc_no; ?>" placeholder="Enter Account Number" tabindex="28">
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">IFSC Code</label>&nbsp;<span class="text-danger">*</span>
-											<input type="text" class="form-control" id="ifsc" name="ifsc" value="<?php if (isset($ifsc)) echo $ifsc; ?>" placeholder="Enter IFSC Code" tabindex="113">
+											<input type="text" class="form-control" id="ifsc" name="ifsc" value="<?php if (isset($ifsc)) echo $ifsc; ?>" placeholder="Enter IFSC Code" tabindex="29">
 										</div>
 									</div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Account Holder Name</label>&nbsp;<span class="text-danger">*</span>
-											<input type="text" class="form-control" id="holder_name" name="holder_name" value="<?php if (isset($holder_name)) echo $holder_name; ?>" placeholder="Enter Holder Name" tabindex="114" pattern="[a-zA-Z\s]+">
+											<input type="text" class="form-control" id="holder_name" name="holder_name" value="<?php if (isset($holder_name)) echo $holder_name; ?>" placeholder="Enter Holder Name" tabindex="30" pattern="[a-zA-Z\s]+">
 										</div>
 									</div>
 								</div>
@@ -416,7 +416,7 @@ if ($idupd > 0) {
 								<div class="row">
 									<div class="col-xl-6 col-lg-6 col-md-8 col-sm-12 col-12">
 										<div class="form-group">
-											<textarea type="text" class="form-control" id="more_info" name="more_info" width="100%" placeholder="Enter More information..." tabindex="115"><?php if (isset($more_info)) echo $more_info; ?></textarea>
+											<textarea type="text" class="form-control" id="more_info" name="more_info" width="100%" placeholder="Enter More information..." tabindex="31"><?php if (isset($more_info)) echo $more_info; ?></textarea>
 										</div>
 									</div>
 								</div>
@@ -426,8 +426,8 @@ if ($idupd > 0) {
 				</div>
 				<div class="col-md-12 ">
 					<div class="text-right">
-						<button type="submit" name="submit_agent_creation" id="submit_agent_creation" class="btn btn-primary" value="Submit" tabindex="116"><span class="icon-check"></span>&nbsp;Submit</button>
-						<button type="reset" class="btn btn-outline-secondary" tabindex="117">Clear</button>
+						<button type="submit" name="submit_agent_creation" id="submit_agent_creation" class="btn btn-primary" value="Submit" tabindex="32"><span class="icon-check"></span>&nbsp;Submit</button>
+						<button type="reset" class="btn btn-outline-secondary" tabindex="33">Clear</button>
 					</div>
 				</div>
 

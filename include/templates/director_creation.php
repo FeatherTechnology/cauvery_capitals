@@ -119,7 +119,7 @@ if($idupd>0)
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group" >
 											<label for="disabledInput">Director Type</label>&nbsp;<span class="text-danger">*</span>
-											<select  class='form-control' type="text" id="dir_type" name="dir_type" tabindex="1">
+											<select  class='form-control' type="text" id="dir_type" name="dir_type" tabindex="2">
 												<option value="">Select Director Type</option>
 												<option value="1" <?php if(isset($dir_type) and $dir_type == '1' ) echo 'selected';?> >Director</option>
 												<option value="2" <?php if(isset($dir_type) and $dir_type == '2' ) echo 'selected';?> >Executive Director</option>
@@ -129,19 +129,19 @@ if($idupd>0)
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Director ID</label>&nbsp;<span class="text-danger">*</span>
-                                            <input type="text" class="form-control" id="dir_code" name="dir_code" value="<?php if(isset($dir_code)) echo $dir_code; ?>"  readonly tabindex="2">
+                                            <input type="text" class="form-control" id="dir_code" name="dir_code" value="<?php if(isset($dir_code)) echo $dir_code; ?>"  readonly tabindex="3">
                                         </div>
                                     </div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Director Name</label>&nbsp;<span class="text-danger">*</span>
-                                            <input type="text" class="form-control" id="dir_name" name="dir_name" value="<?php if(isset($dir_name)) echo $dir_name; ?>"placeholder="Enter Director Name" pattern="[a-zA-Z\s]+" tabindex="3">
+                                            <input type="text" class="form-control" id="dir_name" name="dir_name" value="<?php if(isset($dir_name)) echo $dir_name; ?>"placeholder="Enter Director Name" pattern="[a-zA-Z\s]+" tabindex="4">
                                         </div>
                                     </div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Address</label>
-                                            <input type="text" class="form-control" id="address1" name="address1" value="<?php if(isset($address1)) echo $address1; ?>" placeholder="Enter Address" tabindex="4">
+                                            <input type="text" class="form-control" id="address1" name="address1" value="<?php if(isset($address1)) echo $address1; ?>" placeholder="Enter Address" tabindex="5">
                                         </div>
                                     </div>
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
