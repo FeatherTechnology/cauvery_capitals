@@ -58,7 +58,8 @@
                                         <td colspan="8"></td>
                                         <td></td>
                                         <td></td>
-                                        <td colspan="6"></td>
+                                        <td></td>
+                                        <td colspan="5"></td>
                                     </tr>
                                 </tfoot>
                             </table>
