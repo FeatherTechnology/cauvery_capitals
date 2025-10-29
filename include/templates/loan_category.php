@@ -217,6 +217,7 @@ if ($idupd > 0) {
 														<td>
 															<input type="text" tabindex="5" name="loan_category_ref_name[]" id="loan_category_ref_name" class="form-control" value="<?php if (isset($loan_category_ref_name)) {
 																																														echo $loan_category_ref_name[$i];
+																																														} ?>">
 														</td>
 														<td>
 															<button type="button" tabindex="6" id="add_category_ref[]" name="add_category_ref" value="Submit" class="btn btn-primary add_category_ref">Add</button>
