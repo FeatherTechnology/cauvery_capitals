@@ -1700,7 +1700,7 @@ function checkBalance() {
 //Submit Validation
 function loanIssueSumitValidation() {
     var issueMode = $('#issued_mode').val(); var paymenType = $('#payment_type').val(); var cash = $('#cash').val(); var guarentorName = $('#cash_guarentor_name').val();
-    var fingerMatch = $('#fingerValidation').val();
+    // var fingerMatch = $('#fingerValidation').val();
     var ag_id = $('#agent_id').val(); 
     // var bank_id = $('#bank_id').val(); 
     var validation = true ;
@@ -1759,13 +1759,13 @@ function loanIssueSumitValidation() {
                 $('#cash_guarentor').hide();
             }
 
-            if (fingerMatch != '1') {
-                event.preventDefault();
-                $('#finger_check').show();
-                validation = false ;
-            } else {
-                $('#finger_check').hide();
-            }
+            // if (fingerMatch != '1') {
+            // //     event.preventDefault();
+            // //     $('#finger_check').show();
+            // //     validation = false ;
+            // // } else {
+            // //     $('#finger_check').hide();
+            // // }
         }
     }
     return validation;

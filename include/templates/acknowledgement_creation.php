@@ -482,14 +482,14 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="user">Agent Name</label><span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="agent_name" name="agent_name" readonly value='<?php if (isset($agent_name)) echo $agent_name; ?>' tabindex='2'>
+										<input type="text" class="form-control" id="agent_name" name="agent_name" readonly value='<?php if (isset($agent_name)) echo $agent_name; ?>' tabindex='3'>
 									</div>
 								</div>
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 responsible" style="display: none" >
 									<div class="form-group">
 										<label for="responsible">Responsible&nbsp;<span class="required">&nbsp;*</span></label>
-										<input tabindex="3" type="text" class="form-control" id="responsible" name="responsible" value="<?php if (isset($responsible) and $responsible == '0') { echo 'Yes'; } else { echo 'No'; } ?>" readonly>
+										<input type="text" class="form-control" id="responsible" name="responsible" value="<?php if (isset($responsible) and $responsible == '0') { echo 'Yes'; } else { echo 'No'; } ?>" readonly>
 									</div>
 								</div>
 
@@ -507,14 +507,14 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 																																			} ?>>
 									<div class="form-group">
 										<label for="declaration">Declaration</label><span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="declaration" name="declaration" value='<?php if (isset($declaration)) echo $declaration; ?>' tabindex='5' placeholder="Enter Declaration" pattern="[a-zA-Z\s]+" readonly>
+										<input type="text" class="form-control" id="declaration" name="declaration" value='<?php if (isset($declaration)) echo $declaration; ?>' placeholder="Enter Declaration" pattern="[a-zA-Z\s]+" readonly>
 									</div>
 								</div>
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="req_code">Request ID</label><span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="req_code" name="req_code" readonly value='<?php if (isset($req_code)) echo $req_code; ?>' tabindex='7'>
+										<input type="text" class="form-control" id="req_code" name="req_code" readonly value='<?php if (isset($req_code)) echo $req_code; ?>' tabindex='5'>
 									</div>
 								</div>
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
@@ -522,7 +522,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<label for="dor">Date Of request</label><span class="required">&nbsp;*</span>
 										<input type="text" class="form-control" id="dor" name="dor" readonly value='<?php if (isset($dor)) {
 																														echo $dor;
-																													} ?>' tabindex='8'>
+																													} ?>' tabindex='6'>
 									</div>
 								</div>
 							</div>
@@ -539,21 +539,21 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="cus_id">Aadhaar Number</label><span class="required">&nbsp;*</span>
-												<input type="text" class="form-control" id="cus_id" name="cus_id" tabindex='9' data-type="adhaar-number" maxlength="14" placeholder="Enter Aadhaar Number" value='<?php if (isset($cus_id)) {echo $cus_id;} ?>'>
+												<input type="text" class="form-control" id="cus_id" name="cus_id" tabindex='7' data-type="adhaar-number" maxlength="14" placeholder="Enter Aadhaar Number" value='<?php if (isset($cus_id)) {echo $cus_id;} ?>'>
 											</div>
 										</div>
 
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="autogen_cus_id">Customer ID</label><span class="required">&nbsp;*</span>
-												<input type="text" class="form-control" id="autogen_cus_id" name="autogen_cus_id" tabindex='10' value='<?php if (isset($autogen_cus_id)) { echo $autogen_cus_id; } ?>' readonly>
+												<input type="text" class="form-control" id="autogen_cus_id" name="autogen_cus_id" tabindex='8' value='<?php if (isset($autogen_cus_id)) { echo $autogen_cus_id; } ?>' readonly>
 											</div>
 										</div>
 
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="first_name">First Name</label><span class="required">&nbsp;*</span>
-												<input type="text" class="form-control" id="first_name" name="first_name" tabindex='10' oninput="formatFirstName(this)" placeholder="Enter First Name" value='<?php if (isset($first_name)) { echo $first_name; } ?>'>
+												<input type="text" class="form-control" id="first_name" name="first_name" tabindex='9' oninput="formatFirstName(this)" placeholder="Enter First Name" value='<?php if (isset($first_name)) { echo $first_name; } ?>'>
 											</div>
 										</div>
 
@@ -564,10 +564,10 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 											</div>
 										</div>
 
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
 											<div class="form-group">
 												<label for="gender">Gender&nbsp;<span class="required">&nbsp;*</span></label>
-												<select type="text" class="form-control" id="gender" name="gender" tabindex="11">
+												<select class="form-control" id="gender" name="gender" tabindex="11">
 													<option value="">Select Gender</option>
 													<option value="1" <?php if (isset($gender) and $gender == '1') echo 'selected'; ?>>Male</option>
 													<option value="2" <?php if (isset($gender) and $gender == '2') echo 'selected'; ?>>Female</option>
@@ -956,7 +956,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<label for="disabledInput">Group</label>
 										<input type="text" class="form-control" name="area_group" id="area_group" value="<?php if (isset($area_group)) {
 																																echo $area_group;
-																															} ?>" readonly tabindex="38">
+																															} ?>" readonly tabindex="37">
 									</div>
 								</div>
 
@@ -965,7 +965,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<label for="disabledInput">Line</label>
 										<input type="text" class="form-control" name="area_line" id="area_line" value="<?php if (isset($area_line)) {
 																															echo $area_line;
-																														} ?>" readonly tabindex="39">
+																														} ?>" readonly tabindex="38">
 									</div>
 								</div>
 
@@ -1082,7 +1082,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="summarykmnw"> How to Know </label> <span class="required">*</span>
-										<select type="text" class="form-control" name="cus_how_know" id="cus_how_know" tabindex="40">
+										<select type="text" class="form-control" name="cus_how_know" id="cus_how_know" tabindex="39">
 											<option value=""> Select How to Know </option>
 											<option value="0" <?php if (isset($how_to_know) and $how_to_know == '0') echo 'selected'; ?>> Customer Reference </option>
 											<option value="1" <?php if (isset($how_to_know) and $how_to_know == '1') echo 'selected'; ?>> Advertisement </option>
@@ -1100,7 +1100,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<label for="loancnt"> Loan Counts </label>
 										<input type="text" class="form-control" name="cus_loan_count" id="cus_loan_count" value="<?php if (isset($loan_count)) {
 																																		echo $loan_count;
-																																	} ?>" readonly tabindex="41">
+																																	} ?>" readonly tabindex="40">
 									</div>
 								</div>
 
@@ -1109,7 +1109,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<label for="loandate"> First Loan Date </label>
 										<input type="text" class="form-control" name="cus_frst_loanDate" id="cus_frst_loanDate" value="<?php if (isset($first_loan_date)) {
 																																			echo $first_loan_date;
-																																		} ?>" readonly tabindex="42">
+																																		} ?>" readonly tabindex="41">
 									</div>
 								</div>
 
@@ -1118,7 +1118,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<label for="travel"> Travel with Company </label>
 										<input type="text" class="form-control" name="cus_travel_cmpy" id="cus_travel_cmpy" value="<?php if (isset($travel_with_company)) {
 																																		echo $travel_with_company;
-																																	} ?>" readonly tabindex="43">
+																																	} ?>" readonly tabindex="42">
 									</div>
 								</div>
 
@@ -1133,7 +1133,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<label for="minvcome"> Monthly Income </label> <span class="required">*</span>
 										<input type="text" class="form-control" name="cus_monthly_income" id="cus_monthly_income" placeholder="Enter Monthly Income" value="<?php if (isset($monthly_income)) {
 																																													echo  moneyFormatIndia($monthly_income);
-																																												} ?>" tabindex="44">
+																																												} ?>" tabindex="43">
 									</div>
 								</div>
 
@@ -1142,7 +1142,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<label for="otherincome"> Other Income </label> <span class="required">*</span>
 										<input type="text" class="form-control" name="cus_other_income" id="cus_other_income" placeholder="Enter Other Income" value="<?php if (isset($other_income)) {
 																																											echo  moneyFormatIndia($other_income);;
-																																										} ?>" tabindex="45">
+																																										} ?>" tabindex="44">
 									</div>
 								</div>
 
@@ -1151,7 +1151,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<label for="suppincome"> Support Income </label> <span class="required">*</span>
 										<input type="text" class="form-control" name="cus_support_income" id="cus_support_income" placeholder="Enter Support Income" value="<?php if (isset($support_income)) {
 																																													echo moneyFormatIndia($support_income);
-																																												} ?>" tabindex="46">
+																																												} ?>" tabindex="45">
 									</div>
 								</div>
 
@@ -1160,7 +1160,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<label for="commit"> Commitment </label> <span class="required">*</span>
 										<input type="text" class="form-control" name="cus_Commitment" id="cus_Commitment" placeholder="Enter Commitment" value="<?php if (isset($commitment)) {
 																																										echo moneyFormatIndia($commitment);
-																																									} ?>" tabindex="47">
+																																									} ?>" tabindex="46">
 									</div>
 								</div>
 
@@ -1169,7 +1169,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<label for="duecapacity"> Monthly Due Capacity </label> <span class="required">*</span>
 										<input type="text" class="form-control" name="cus_monDue_capacity" id="cus_monDue_capacity" placeholder="Enter Monthly Due Capacity" value="<?php if (isset($monthly_due_capacity)) {
 																																															echo moneyFormatIndia($monthly_due_capacity);
-																																														} ?>" tabindex="48">
+																																														} ?>" tabindex="47">
 									</div>
 								</div>
 
@@ -1178,7 +1178,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<label for="loanlimit"> Customer Limit </label>
 										<input type="text" class="form-control" name="cus_loan_limit" id="cus_loan_limit" placeholder="Enter Customer Limit" value="<?php if (isset($loan_limit)) {
 																																											echo moneyFormatIndia($loan_limit);
-																																										} ?>" tabindex="49">
+																																										} ?>" tabindex="48">
 									</div>
 								</div>
 
@@ -1213,7 +1213,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-6 col-md-8 col-sm-12 col-12">
 									<div class="form-group">
 										<label for="abtCustomer"> About Customer </label> <span class="required">*</span>
-										<textarea class="form-control" name="about_cus" id="about_cus" readonly tabindex="50"> <?php if (isset($about_customer)) {
+										<textarea class="form-control" name="about_cus" id="about_cus" readonly tabindex="49"> <?php if (isset($about_customer)) {
 																																	echo $about_customer;
 																																} ?> </textarea>
 									</div>
@@ -1278,28 +1278,28 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="autogen_cus_id_doc">Customer ID</label><span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="autogen_cus_id_doc" name="autogen_cus_id_doc" tabindex='54' value='<?php if (isset($autogen_cus_id)) { echo $autogen_cus_id; } ?>' readonly>
+										<input type="text" class="form-control" id="autogen_cus_id_doc" name="autogen_cus_id_doc" tabindex='2' value='<?php if (isset($autogen_cus_id)) { echo $autogen_cus_id; } ?>' readonly>
 									</div>
 								</div>
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="doc_first_name"> First Name </label> <span class="required"> * </span>
-										<input type="text" class="form-control" id="doc_first_name" name="doc_first_name" value='<?php if (isset($doc_first_name)) echo $doc_first_name; ?>' readonly tabindex="2">
+										<input type="text" class="form-control" id="doc_first_name" name="doc_first_name" value='<?php if (isset($doc_first_name)) echo $doc_first_name; ?>' readonly tabindex="3">
 									</div>
 								</div>
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="doc_last_name"> Last Name </label> <span class="required"> * </span>
-										<input type="text" class="form-control" id="doc_last_name" name="doc_last_name" value='<?php if (isset($doc_last_name)) echo $doc_last_name; ?>' readonly tabindex="2">
+										<input type="text" class="form-control" id="doc_last_name" name="doc_last_name" value='<?php if (isset($doc_last_name)) echo $doc_last_name; ?>' readonly tabindex="4">
 									</div>
 								</div>
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 responsible" style="display: none" >
 									<div class="form-group">
 										<label for="responsible">Responsible&nbsp;<span class="required">&nbsp;*</span></label>
-										<input tabindex="3" type="text" class="form-control" id="responsible" name="responsible" value="<?php if (isset($responsible) and $responsible == '0') { echo 'Yes'; } else { echo 'No'; } ?>" readonly>
+										<input tabindex="5" type="text" class="form-control" id="responsible" name="responsible" value="<?php if (isset($responsible) and $responsible == '0') { echo 'Yes'; } else { echo 'No'; } ?>" readonly>
 									</div>
 								</div>
 
@@ -1308,7 +1308,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 																																		} ?>>
 									<div class="form-group">
 										<label for="remark">Remarks</label><span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="remarks" name="remarks" value='<?php if (isset($remarks)) echo $remarks; ?>' tabindex='4' placeholder="Enter Remarks" pattern="[a-zA-Z\s]+" readonly>
+										<input type="text" class="form-control" id="remarks" name="remarks" value='<?php if (isset($remarks)) echo $remarks; ?>' tabindex='6' placeholder="Enter Remarks" pattern="[a-zA-Z\s]+" readonly>
 									</div>
 								</div>
 
@@ -1317,20 +1317,20 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 																																			} ?>>
 									<div class="form-group">
 										<label for="declaration">Declaration</label><span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="declaration" name="declaration" value='<?php if (isset($declaration)) echo $declaration; ?>' tabindex='5' placeholder="Enter Declaration" pattern="[a-zA-Z\s]+" readonly>
+										<input type="text" class="form-control" id="declaration" name="declaration" value='<?php if (isset($declaration)) echo $declaration; ?>' tabindex='7' placeholder="Enter Declaration" pattern="[a-zA-Z\s]+" readonly>
 									</div>
 								</div>
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="DocArea"> Area </label> <span class="required"> * </span>
-										<input tabindex="6" type="text" class="form-control" id="doc_area" name="doc_area" value="<?php if (isset($doc_area_name)) echo $doc_area_name; ?>" readonly>
+										<input tabindex="8" type="text" class="form-control" id="doc_area" name="doc_area" value="<?php if (isset($doc_area_name)) echo $doc_area_name; ?>" readonly>
 									</div>
 								</div>
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" style="display: none;">
 									<div class="form-group">
 										<label for="DocID">Document ID</label> <span class="required"> * </span>
-										<input type="text" class="form-control" id="doc_id" name="doc_id" readonly tabindex="8">
+										<input type="text" class="form-control" id="doc_id" name="doc_id" readonly tabindex="9">
 									</div>
 								</div>
 							</div>
@@ -1346,7 +1346,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="doc_id">Documents</label>
-										<select class="form-control" name="choose_document" id="choose_document">
+										<select class="form-control" name="choose_document" id="choose_document" tabindex="10">
 											<option value="0">Select Document</option>
 											<option value="1">Signed Doc</option>
 											<option value="2">Cheque</option>
@@ -1365,7 +1365,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 					<!-- Signed Doc Info START -->
 					<div class="card doc_card" id="signed_doc_card" style="display: none;">
 						<div class="card-header"> Signed Doc Info  <span class="required">*</span>
-							<button type="button" class="btn btn-primary" id="add_sign_doc" name="add_sign_doc" data-toggle="modal" data-target=".addSignDoc" style="padding: 5px 35px;  float: right;" tabindex="9" onclick="resetsignInfo()"><span class="icon-add"></span></button>
+							<button type="button" class="btn btn-primary" id="add_sign_doc" name="add_sign_doc" data-toggle="modal" data-target=".addSignDoc" style="padding: 5px 35px;  float: right;" tabindex="11" onclick="resetsignInfo()"><span class="icon-add"></span></button>
 						</div>
 						<span class="text-danger" style='display:none' id='signed_infoCheck'>Please Fill Signed Doc Info </span>
 						<div class="card-body">
@@ -1393,7 +1393,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 					<!-- Cheque Info START -->
 					<div class="card doc_card" id="cheque_info_card" style="display: none;">
 						<div class="card-header"> Cheque Info
-							<button type="button" class="btn btn-primary" id="add_Cheque" name="add_Cheque" data-toggle="modal" data-target=".addCheque" style="padding: 5px 35px;  float: right;" tabindex="10" onclick="resetchequeInfo()"><span class="icon-add"></span></button>
+							<button type="button" class="btn btn-primary" id="add_Cheque" name="add_Cheque" data-toggle="modal" data-target=".addCheque" style="padding: 5px 35px;  float: right;" tabindex="12" onclick="resetchequeInfo()"><span class="icon-add"></span></button>
 						</div>
 						<span class="text-danger" style='display:none' id='Cheque_infoCheck'>Please Fill Cheque Info </span>
 						<div class="card-body">
@@ -1429,7 +1429,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="form-group">
 										<label for="MortgageProcess"> Mortgage Process</label> <span class="required">&nbsp;*</span>
 										<input type="hidden" class="form-control" id="mortgage_process_post" name="mortgage_process_post" value="<?php echo $mortgage_process; ?>">
-										<select type="text" class="form-control" id="mortgage_process" name="mortgage_process" tabindex="11">
+										<select type="text" class="form-control" id="mortgage_process" name="mortgage_process" tabindex="13">
 											<option value=""> Select Mortgage Process </option>
 											<option value="0" <?php if (isset($mortgage_process) and $mortgage_process == '0') echo 'selected'; ?>> YES </option>
 											<option value="1" <?php if (isset($mortgage_process) and $mortgage_process == '1') echo 'selected'; ?>> NO </option>
@@ -1446,7 +1446,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="PropertyHoldertype "> Property Holder type </label> <span class="required">&nbsp;*</span>
-											<select type="text" class="form-control" id="Propertyholder_type" name="Propertyholder_type" tabindex="12">
+											<select type="text" class="form-control" id="Propertyholder_type" name="Propertyholder_type" tabindex="14">
 												<option value=""> Select Holder type </option>
 												<option value="0" <?php if (isset($Propertyholder_type) and $Propertyholder_type == '0') echo 'selected'; ?>> Customer </option>
 												<option value="1" <?php if (isset($Propertyholder_type) and $Propertyholder_type == '1') echo 'selected'; ?>> Guarantor </option>
@@ -1458,12 +1458,13 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
-											<label for="PropertyHolderName "> Property Holder Name </label>
-											<input type="text" class="form-control" id="Propertyholder_name" name="Propertyholder_name" value="<?php if (isset($Propertyholder_name)) echo $Propertyholder_name; ?>" readonly tabindex="13">
+											<label for="PropertyHolderName "> Property Holder Name </label> <span class="required">&nbsp;*</span>
+											<input type="text" class="form-control" id="Propertyholder_name" name="Propertyholder_name" value="<?php if (isset($Propertyholder_name)) echo $Propertyholder_name; ?>" readonly tabindex="15">
 
-											<select type="text" class="form-control" id="Propertyholder_relationship_name" name="Propertyholder_relationship_name" style="display: none;" tabindex='13'>
+											<select type="text" class="form-control" id="Propertyholder_relationship_name" name="Propertyholder_relationship_name" style="display: none;" tabindex='16'>
 												<option value=""> Select Relationship </option>
 											</select>
+											<span class="text-danger" id="propertyholderNameCheck"> Select Property Holder Name </span>
 										</div>
 									</div>
 
@@ -1471,14 +1472,14 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="chequeRelationship"> Relationship </label>
-											<input type="text" class="form-control" id="doc_property_relation" name="doc_property_relation" value="<?php if (isset($doc_property_relation)) echo $doc_property_relation; ?>" readonly tabindex="14">
+											<input type="text" class="form-control" id="doc_property_relation" name="doc_property_relation" value="<?php if (isset($doc_property_relation)) echo $doc_property_relation; ?>" readonly tabindex="17">
 										</div>
 									</div>
 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="DocPropertyType"> Property Type </label> <span class="required">&nbsp;*</span>
-											<input type="text" class="form-control" id="doc_property_pype" name="doc_property_pype" placeholder="Enter Property Type" value="<?php if (isset($doc_property_type)) echo $doc_property_type; ?>" tabindex="15">
+											<input type="text" class="form-control" id="doc_property_pype" name="doc_property_pype" placeholder="Enter Property Type" value="<?php if (isset($doc_property_type)) echo $doc_property_type; ?>" tabindex="18">
 											<span class="text-danger" id="docpropertytypeCheck"> Enter Property Type </span>
 										</div>
 									</div>
@@ -1486,7 +1487,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="DocPropertyMeasurement"> Property Measurement </label> <span class="required">&nbsp;*</span>
-											<input type="text" class="form-control" id="doc_property_measurement" name="doc_property_measurement" placeholder="Enter Property Measurement" value="<?php if (isset($doc_property_measurement)) echo $doc_property_measurement; ?>" tabindex="16">
+											<input type="text" class="form-control" id="doc_property_measurement" name="doc_property_measurement" placeholder="Enter Property Measurement" value="<?php if (isset($doc_property_measurement)) echo $doc_property_measurement; ?>" tabindex="19">
 											<span class="text-danger" id="docpropertymeasureCheck"> Enter Property Measurement </span>
 										</div>
 									</div>
@@ -1494,7 +1495,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="DocPropertyLocation"> Property Location </label> <span class="required">&nbsp;*</span>
-											<input type="text" class="form-control" id="doc_property_location" name="doc_property_location" placeholder="Enter Property Location" value="<?php if (isset($doc_property_location)) echo $doc_property_location; ?>" tabindex="17">
+											<input type="text" class="form-control" id="doc_property_location" name="doc_property_location" placeholder="Enter Property Location" value="<?php if (isset($doc_property_location)) echo $doc_property_location; ?>" tabindex="20">
 											<span class="text-danger" id="docpropertylocCheck"> Enter Property Location </span>
 										</div>
 									</div>
@@ -1502,7 +1503,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="PropertyValue"> Property Value </label> <span class="required">&nbsp;*</span>
-											<input type="text" class="form-control" id="doc_property_value" name="doc_property_value" placeholder="Enter Property Value" value="<?php if (isset($doc_property_value)) echo $doc_property_value; ?>" tabindex="18">
+											<input type="text" class="form-control" id="doc_property_value" name="doc_property_value" placeholder="Enter Property Value" value="<?php if (isset($doc_property_value)) echo $doc_property_value; ?>" tabindex="21">
 											<span class="text-danger" id="docpropertyvalueCheck"> Enter Property Value </span>
 										</div>
 									</div>
@@ -1512,7 +1513,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="MortgageName"> Mortgage Name </label> <span class="required">&nbsp;*</span>
-											<input type="text" class="form-control" id="mortgage_name" name="mortgage_name" onkeydown="return /[a-z ]/i.test(event.key)" placeholder="Enter Mortgage Name" value="<?php if (isset($mortgage_name)) echo $mortgage_name; ?>" tabindex="19">
+											<input type="text" class="form-control" id="mortgage_name" name="mortgage_name" onkeydown="return /[a-z ]/i.test(event.key)" placeholder="Enter Mortgage Name" value="<?php if (isset($mortgage_name)) echo $mortgage_name; ?>" tabindex="22">
 											<span class="text-danger" id="mortgagenameCheck"> Enter Mortgage Name </span>
 										</div>
 									</div>
@@ -1520,7 +1521,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="mortgageDesignation"> Designation </label> <span class="required">&nbsp;*</span>
-											<input type="text" class="form-control" id="mortgage_dsgn" name="mortgage_dsgn" onkeydown="return /[a-z ]/i.test(event.key)" placeholder="Enter Designation" value="<?php if (isset($mortgage_dsgn)) echo $mortgage_dsgn; ?>" tabindex="20">
+											<input type="text" class="form-control" id="mortgage_dsgn" name="mortgage_dsgn" onkeydown="return /[a-z ]/i.test(event.key)" placeholder="Enter Designation" value="<?php if (isset($mortgage_dsgn)) echo $mortgage_dsgn; ?>" tabindex="23">
 											<span class="text-danger" id="mortgagedsgnCheck"> Enter Designation </span>
 										</div>
 									</div>
@@ -1528,7 +1529,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="MortgageNumber"> Mortgage Number </label> <span class="required">&nbsp;*</span>
-											<input type="text" class="form-control" id="mortgage_nuumber" name="mortgage_nuumber" placeholder="Enter Mortgage Number" value="<?php if (isset($mortgage_nuumber)) echo $mortgage_nuumber; ?>" tabindex="21">
+											<input type="text" class="form-control" id="mortgage_nuumber" name="mortgage_nuumber" placeholder="Enter Mortgage Number" value="<?php if (isset($mortgage_nuumber)) echo $mortgage_nuumber; ?>" tabindex="24">
 											<span class="text-danger" id="mortgagenumCheck"> Enter Mortgage Number </span>
 										</div>
 									</div>
@@ -1536,7 +1537,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="RegOffice"> Reg Office </label> <span class="required">&nbsp;*</span>
-											<input type="text" class="form-control" id="reg_office" name="reg_office" placeholder="Enter Reg Office" value="<?php if (isset($reg_office)) echo $reg_office; ?>" tabindex="22">
+											<input type="text" class="form-control" id="reg_office" name="reg_office" placeholder="Enter Reg Office" value="<?php if (isset($reg_office)) echo $reg_office; ?>" tabindex="25">
 											<span class="text-danger" id="regofficeCheck"> Enter Reg Office </span>
 										</div>
 									</div>
@@ -1544,7 +1545,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="MortgageValue"> Mortgage Value </label> <span class="required">&nbsp;*</span>
-											<input type="text" class="form-control" id="mortgage_value" name="mortgage_value" placeholder="Enter Mortgage Value" value="<?php if (isset($mortgage_value)) echo $mortgage_value; ?>" tabindex="23">
+											<input type="text" class="form-control" id="mortgage_value" name="mortgage_value" placeholder="Enter Mortgage Value" value="<?php if (isset($mortgage_value)) echo $mortgage_value; ?>" tabindex="26">
 											<span class="text-danger" id="mortgagevalueCheck"> Enter Mortgage Value </span>
 										</div>
 									</div>
@@ -1552,7 +1553,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="MortgageDocument"> Mortgage Document </label> <span class="required">&nbsp;*</span>
-											<select type="text" class="form-control" id="mortgage_document" name="mortgage_document" tabindex="24">
+											<select type="text" class="form-control" id="mortgage_document" name="mortgage_document" tabindex="27">
 												<option value=""> Select Mortgage Document </option>
 												<option value="0" <?php if (isset($mortgage_document) and $mortgage_document == '0') echo 'selected'; ?>> YES </option>
 												<option value="1" <?php if (isset($mortgage_document) and $mortgage_document == '1') echo 'selected'; ?>> NO </option>
@@ -1564,7 +1565,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" id="docUpd" style="display: none;">
 										<div class="form-group">
 											<label for="MortgageDocumentUpd"> Mortgage Document Uploads </label> 
-											<input type="file" onchange="compressImage(this,200)" class="form-control" id="mortgage_document_upd" name="mortgage_document_upd" tabindex="25">
+											<input type="file" onchange="compressImage(this,200)" class="form-control" id="mortgage_document_upd" name="mortgage_document_upd" tabindex="28">
 											<input type="hidden" id="mortgage_doc_upd" name="mortgage_doc_upd" value="<?php if (isset($mortgage_document_upd)) echo $mortgage_document_upd; ?>">
 											<a href="<?php echo "uploads/verification/mortgage_doc/" . $mortgage_document_upd; ?>" target="_blank" >  <?php if (isset($mortgage_document_upd)) echo $mortgage_document_upd; ?> </a>
 											<span class="text-danger" id="mortgagedocUpdCheck"> Upload Mortgage Document </span>
@@ -1575,7 +1576,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<div class="form-group">
 											<label for="pendingDocument"> Pending </label> <span class="required">&nbsp;*</span>
 											<label class="switch">
-												<input type="checkbox" value="YES" id="pendingchk" name="pendingchk" checked tabindex="26">
+												<input type="checkbox" value="YES" id="pendingchk" name="pendingchk" checked tabindex="29">
 												<span class="slider round"></span>
 											</label>
 										</div>
@@ -1596,7 +1597,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="form-group">
 										<label for="EndorsementProcess"> Endorsement Process</label> <span class="required">&nbsp;*</span>
 										<input type="hidden" class="form-control" id="endorsement_process_post" name="endorsement_process_post" value="<?php echo $endorsement_process; ?>">
-										<select type="text" class="form-control" id="endorsement_process" name="endorsement_process" tabindex="27">
+										<select type="text" class="form-control" id="endorsement_process" name="endorsement_process" tabindex="30">
 											<option value=""> Select Endorsement Process </option>
 											<option value="0" <?php if (isset($endorsement_process) and $endorsement_process == '0') echo 'selected'; ?>> YES </option>
 											<option value="1" <?php if (isset($endorsement_process) and $endorsement_process == '1') echo 'selected'; ?>> NO </option>
@@ -1613,7 +1614,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="OwnerType "> Owner Type </label> <span class="required">&nbsp;*</span>
-										<select type="text" class="form-control" id="owner_type" name="owner_type" tabindex="28">
+										<select type="text" class="form-control" id="owner_type" name="owner_type" tabindex="31">
 											<option value=""> Select Holder type </option>
 											<option value="0" <?php if (isset($owner_type) and $owner_type == '0') echo 'selected'; ?>> Customer </option>
 											<option value="1" <?php if (isset($owner_type) and $owner_type == '1') echo 'selected'; ?>> Guarantor </option>
@@ -1625,12 +1626,13 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
-										<label for="OwnerName "> Owner Name </label>
+										<label for="OwnerName "> Owner Name </label> <span class="required">&nbsp;*</span>
 										<input type="text" class="form-control" id="owner_name" name="owner_name" value="<?php if (isset($owner_name)) echo $owner_name; ?>" readonly>
 
-										<select type="text" class="form-control" id="ownername_relationship_name" name="ownername_relationship_name" style="display: none;" tabindex="29">
+										<select type="text" class="form-control" id="ownername_relationship_name" name="ownername_relationship_name" style="display: none;" tabindex="32">
 											<option value=""> Select Relationship </option>
 										</select>
+										<span class="text-danger" id="ownerNameCheck"> Select Owner Name </span>
 									</div>
 								</div>
 
@@ -1638,14 +1640,14 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="chequeRelationship"> Relationship </label>
-										<input type="text" class="form-control" id="en_relation" name="en_relation" value="<?php if (isset($en_relation)) echo $en_relation; ?>" readonly tabindex="30">
+										<input type="text" class="form-control" id="en_relation" name="en_relation" value="<?php if (isset($en_relation)) echo $en_relation; ?>" readonly tabindex="33">
 									</div>
 								</div>
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="Vehicletype"> Vehicle type </label> <span class="required">&nbsp;*</span>
-										<select type="text" class="form-control" id="vehicle_type" name="vehicle_type" tabindex="31">
+										<select type="text" class="form-control" id="vehicle_type" name="vehicle_type" tabindex="34">
 											<option value=""> Select Vehicle type </option>
 											<option value="0" <?php if (isset($vehicle_type) and $vehicle_type == '0') echo 'selected'; ?>> 2 Wheeler </option>
 											<option value="1" <?php if (isset($vehicle_type) and $vehicle_type == '1') echo 'selected'; ?>> 4 Wheeler </option>
@@ -1657,7 +1659,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="VehicleProcess"> Vehicle Process </label> <span class="required">&nbsp;*</span>
-										<select type="text" class="form-control" id="vehicle_process" name="vehicle_process" tabindex="32">
+										<select type="text" class="form-control" id="vehicle_process" name="vehicle_process" tabindex="35">
 											<option value=""> Select Vehicle Process </option>
 											<option value="0" <?php if (isset($vehicle_process) and $vehicle_process == '0') echo 'selected'; ?>> New </option>
 											<option value="1" <?php if (isset($vehicle_process) and $vehicle_process == '1') echo 'selected'; ?>> Old </option>
@@ -1669,7 +1671,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="endro_Company"> Company </label> <span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="en_Company" name="en_Company" placeholder="Enter Company" value="<?php if (isset($en_Company)) echo $en_Company; ?>" tabindex="33">
+										<input type="text" class="form-control" id="en_Company" name="en_Company" placeholder="Enter Company" value="<?php if (isset($en_Company)) echo $en_Company; ?>" tabindex="36">
 										<span class="text-danger" id="enCompanyCheck"> Enter Company </span>
 									</div>
 								</div>
@@ -1677,7 +1679,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="enModel"> Model </label> <span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="en_Model" name="en_Model" placeholder="Enter Model" value="<?php if (isset($en_Model)) echo $en_Model; ?>" tabindex="34">
+										<input type="text" class="form-control" id="en_Model" name="en_Model" placeholder="Enter Model" value="<?php if (isset($en_Model)) echo $en_Model; ?>" tabindex="37">
 										<span class="text-danger" id="enModelCheck"> Enter Model </span>
 									</div>
 								</div>
@@ -1685,7 +1687,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="VehicleRegNo"> Vehicle Reg No. </label>
-										<input type="text" class="form-control" id="vehicle_reg_no" name="vehicle_reg_no" placeholder="Enter Vehicle No" value="<?php if (isset($vehicle_reg_no)) echo $vehicle_reg_no; ?>" tabindex="35">
+										<input type="text" class="form-control" id="vehicle_reg_no" name="vehicle_reg_no" placeholder="Enter Vehicle No" value="<?php if (isset($vehicle_reg_no)) echo $vehicle_reg_no; ?>" tabindex="38">
 										<span class="text-danger" id="vehicle_reg_noCheck"> Enter Vehicle No </span>
 									</div>
 								</div>
@@ -1693,7 +1695,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="Endorsementname"> Endorsement name </label> <span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="endorsement_name" name="endorsement_name" onkeydown="return /[a-z ]/i.test(event.key)" placeholder="Enter Endorsement Name" value="<?php if (isset($endorsement_name)) echo $endorsement_name; ?>" tabindex="36">
+										<input type="text" class="form-control" id="endorsement_name" name="endorsement_name" onkeydown="return /[a-z ]/i.test(event.key)" placeholder="Enter Endorsement Name" value="<?php if (isset($endorsement_name)) echo $endorsement_name; ?>" tabindex="39">
 										<span class="text-danger" id="endorsementnameCheck"> Enter Endorsement Name</span>
 									</div>
 								</div>
@@ -1701,7 +1703,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="enKey"> Key </label> <span class="required">&nbsp;*</span>
-										<select type="text" class="form-control" id="en_Key" name="en_Key" tabindex="37">
+										<select type="text" class="form-control" id="en_Key" name="en_Key" tabindex="40">
 											<option value=""> Select Key </option>
 											<option value="0" <?php if (isset($en_Key) and $en_Key == '0') echo 'selected'; ?>> YES </option>
 											<option value="1" <?php if (isset($en_Key) and $en_Key == '1') echo 'selected'; ?>> NO </option>
@@ -1713,7 +1715,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="RC"> RC </label> <span class="required">&nbsp;*</span>
-										<select type="text" class="form-control" id="en_RC" name="en_RC" tabindex="38">
+										<select type="text" class="form-control" id="en_RC" name="en_RC" tabindex="41">
 											<option value=""> Select RC </option>
 											<option value="0" <?php if (isset($en_RC) and $en_RC == '0') echo 'selected'; ?>> YES </option>
 											<option value="1" <?php if (isset($en_RC) and $en_RC == '1') echo 'selected'; ?>> NO </option>
@@ -1725,7 +1727,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" id="RCdocUpd" style="display: none;">
 									<div class="form-group">
 										<label for="RCDocumentUpd"> RC Uploads </label> 
-										<input type="file" onchange="compressImage(this,200)" class="form-control" id="RC_document_upd" name="Rc_document_upd" tabindex="39">
+										<input type="file" onchange="compressImage(this,200)" class="form-control" id="RC_document_upd" name="Rc_document_upd" tabindex="42">
 										<input type="hidden" id="rc_doc_upd" name="rc_doc_upd" value="<?php if (isset($Rc_document_upd)) echo $Rc_document_upd; ?>">
 										<a href="<?php echo "uploads/verification/endorsement_doc/" . $Rc_document_upd; ?>" target="_blank" > <?php if (isset($Rc_document_upd)) echo $Rc_document_upd; ?>  </a>
 										<span class="text-danger" id="rcdocUpdCheck"> Upload RC </span>
@@ -1736,7 +1738,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 									<div class="form-group">
 										<label for="pendingendorse"> Pending </label> <span class="required">&nbsp;*</span>
 										<label class="switch">
-											<input type="checkbox" value="YES" id="endorsependingchk" name="endorsependingchk" checked tabindex="40">
+											<input type="checkbox" value="YES" id="endorsependingchk" name="endorsependingchk" checked tabindex="43">
 											<span class="slider round"></span>
 										</label>
 									</div>
@@ -1749,7 +1751,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 					<!-- Gold Info Start -->
 					<div class="card doc_card" id="gold_info_card" style="display: none;">
 						<div class="card-header"> Gold Info
-							<button type="button" class="btn btn-primary" id="add_gold" name="add_gold" data-toggle="modal" data-target=".addGold" style="padding: 5px 35px;  float: right;" tabindex='41' onclick="resetgoldInfo()"><span class="icon-add"></span></button>
+							<button type="button" class="btn btn-primary" id="add_gold" name="add_gold" data-toggle="modal" data-target=".addGold" style="padding: 5px 35px;  float: right;" tabindex='44' onclick="resetgoldInfo()"><span class="icon-add"></span></button>
 						</div>
 						<span class="text-danger" style='display:none' id='Gold_infoCheck'>Please Fill Gold Info </span>
 						<div class="card-body">
@@ -1780,7 +1782,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 					<!-- Documents Info START-->
 					<div class="card doc_card" id="documents_info_card" style="display: none;">
 						<div class="card-header"> Documents Info
-							<button type="button" class="btn btn-primary" id="add_document" name="add_document" data-toggle="modal" data-target=".addDocument" style="padding: 5px 35px;  float: right;" tabindex="42" onclick="resetdocInfo()"><span class="icon-add"></span></button>
+							<button type="button" class="btn btn-primary" id="add_document" name="add_document" data-toggle="modal" data-target=".addDocument" style="padding: 5px 35px;  float: right;" tabindex="45" onclick="resetdocInfo()"><span class="icon-add"></span></button>
 						</div>
 						<div class="card-body">
 							<div class="row">
@@ -1824,8 +1826,8 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 
 					<div class="col-md-12 ">
 						<div class="text-right">
-							<button type="submit" name="submit_documentation" id="submit_documentation" class="btn btn-primary" value="Submit" tabindex="43"><span class="icon-check"></span>&nbsp;Submit</button>
-							<button type="reset" class="btn btn-outline-secondary" tabindex="44">Clear</button>
+							<button type="submit" name="submit_documentation" id="submit_documentation" class="btn btn-primary" value="Submit" tabindex="46"><span class="icon-check"></span>&nbsp;Submit</button>
+							<button type="reset" class="btn btn-outline-secondary" tabindex="47">Clear</button>
 						</div>
 					</div>
 
@@ -1911,14 +1913,14 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="user">Agent Name</label><span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="agent_name" name="agent_name" readonly value='<?php if (isset($agent_name)) echo $agent_name; ?>' tabindex='2'>
+										<input type="text" class="form-control" id="agent_name" name="agent_name" readonly value='<?php if (isset($agent_name)) echo $agent_name; ?>' tabindex='3'>
 									</div>
 								</div>
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 responsible" style="display: none" >
 									<div class="form-group">
 										<label for="responsible">Responsible&nbsp;<span class="required">&nbsp;*</span></label>
-										<input tabindex="3" type="text" class="form-control" id="responsible" name="responsible" value="<?php if (isset($responsible) and $responsible == '0') { echo 'Yes'; } else { echo 'No'; } ?>" readonly>
+										<input tabindex="4" type="text" class="form-control" id="responsible" name="responsible" value="<?php if (isset($responsible) and $responsible == '0') { echo 'Yes'; } else { echo 'No'; } ?>" readonly>
 									</div>
 								</div>
 
@@ -1927,7 +1929,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 																																		} ?>>
 									<div class="form-group">
 										<label for="remark">Remarks</label><span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="remarks" name="remarks" value='<?php if (isset($remarks)) echo $remarks; ?>' tabindex='4' placeholder="Enter Remarks" pattern="[a-zA-Z\s]+" readonly>
+										<input type="text" class="form-control" id="remarks" name="remarks" value='<?php if (isset($remarks)) echo $remarks; ?>' tabindex='5' placeholder="Enter Remarks" pattern="[a-zA-Z\s]+" readonly>
 									</div>
 								</div>
 
@@ -1936,14 +1938,14 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 																																			} ?>>
 									<div class="form-group">
 										<label for="declaration">Declaration</label><span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="declaration" name="declaration" value='<?php if (isset($declaration)) echo $declaration; ?>' tabindex='5' placeholder="Enter Declaration" pattern="[a-zA-Z\s]+" readonly>
+										<input type="text" class="form-control" id="declaration" name="declaration" value='<?php if (isset($declaration)) echo $declaration; ?>' tabindex='6' placeholder="Enter Declaration" pattern="[a-zA-Z\s]+" readonly>
 									</div>
 								</div>
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="DocArea"> Area </label> <span class="required"> * </span>
-										<input tabindex="6" type="text" class="form-control" id="doc_area" name="doc_area" value="<?php if (isset($doc_area_name)) echo $doc_area_name; ?>" readonly>
+										<input tabindex="7" type="text" class="form-control" id="doc_area" name="doc_area" value="<?php if (isset($doc_area_name)) echo $doc_area_name; ?>" readonly>
 									</div>
 								</div>
 
@@ -2017,7 +2019,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 																														echo $cus_id_loan;
 																													} elseif (isset($cus_id_lc)) {
 																														echo $cus_id_lc;
-																													} ?>' tabindex="10">
+																													} ?>' >
 					<!--</div>
 										</div>
 
@@ -2028,12 +2030,12 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 																															echo $first_name_loan;
 																														} elseif (isset($first_name_lc)) {
 																															echo $first_name_lc;
-																														} ?>' tabindex="11">
+																														} ?>' >
 					<input type="hidden" class="form-control" id="last_name_loan" name="last_name_loan" readonly value='<?php if (isset($last_name_loan)) {
 																															echo $last_name_loan;
 																														} elseif (isset($last_name_lc)) {
 																															echo $last_name_lc;
-																														} ?>' tabindex="11">
+																														} ?>'>
 					<!--</div>
 										</div>
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
@@ -2043,7 +2045,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 																															echo $cus_data_loan;
 																														} elseif (isset($cus_data_lc)) {
 																															echo $cus_data_lc;
-																														} ?>' tabindex="12">
+																														} ?>'>
 					<!--</div>
 										</div>
 
@@ -2054,7 +2056,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 																														echo $mobile_loan;
 																													} elseif (isset($mobile_lc)) {
 																														echo $mobile_lc;
-																													} ?>' tabindex="13">
+																													} ?>'>
 					<!--</div>
 										</div>
 									</div>
@@ -2153,7 +2155,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<input type="hidden" class="form-control" id="verify_remark_ack" name="verify_remark_ack" value="<?php if (isset($verify_remark)) {
 																																								echo $verify_remark;
 																																							} ?>">
-										<input type="text" class="form-control" id="verify_remark" name="verify_remark" value='<?php if (isset($verify_remark)) echo $verify_remark; ?>' tabindex='17' placeholder="Enter Remarks" pattern="[a-zA-Z\s]+">
+										<input type="text" class="form-control" id="verify_remark" name="verify_remark" value='<?php if (isset($verify_remark)) echo $verify_remark; ?>' tabindex='16' placeholder="Enter Remarks" pattern="[a-zA-Z\s]+">
 									</div>
 								</div>
 
@@ -2174,7 +2176,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 											<div class="form-group">
 												<label class="label">Loan Category</label>&nbsp;<span class="text-danger">*</span>
 												<input type="hidden" class="form-control" id="loan_category_ack" name="loan_category_ack">
-												<select tabindex="16" type="text" class="form-control" id="loan_category" name="loan_category">
+												<select tabindex="17" type="text" class="form-control" id="loan_category" name="loan_category">
 													<option value="">Select Loan Category</option>
 												</select>
 												<span class="text-danger" style='display:none' id='loancategoryCheck'>Please Select Loan Category</span>
@@ -2308,7 +2310,7 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 											<div class="form-group">
 												<label for="scheme_profit_method">Profit Method</label>&nbsp;<span class="text-danger">*</span>
 												<input type="hidden" class="form-control" id="profit_method_scheme_ack" name="profit_method_scheme_ack" value="<?php echo $profit_method_scheme_lc; ?>">
-												<select tabindex="25" type="text" class="form-control" id="scheme_profit_method" name="scheme_profit_method">
+												<select tabindex="29" type="text" class="form-control" id="scheme_profit_method" name="scheme_profit_method">
 													<option value="">Select Profit Method</option>
 												</select>
 												<span class="text-danger" style='display:none' id='scheme_methodCheck'>Please Select Profit Method</span>
@@ -2317,28 +2319,28 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="disabledInput">Interest Rate </label>&nbsp;<span class="text-danger min-max-int">*</span><!-- Min and max intrest rate-->
-												<input tabindex="29" type="number" class="form-control" id="int_rate" name="int_rate" value='<?php if (isset($int_rate)) echo $int_rate; ?>'>
+												<input tabindex="30" type="number" class="form-control" id="int_rate" name="int_rate" value='<?php if (isset($int_rate)) echo $int_rate; ?>'>
 												<span class="text-danger" style='display:none' id='int_rateCheck'>Please Enter Interest Rate</span>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="disabledInput">Due Period </label>&nbsp;<span class="text-danger min-max-due">*</span><!-- Min and max Profit Method-->
-												<input tabindex="30" type="number" class="form-control" id="due_period" name="due_period" value=''>
+												<input tabindex="31" type="number" class="form-control" id="due_period" name="due_period" value=''>
 												<span class="text-danger" style='display:none' id='due_periodCheck'>Please Enter Due Period</span>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="disabledInput">Document Charges </label>&nbsp;<span class="text-danger min-max-doc">*</span><!-- Min and max Document charges-->
-												<input tabindex="31" type="number" class="form-control" id="doc_charge" name="doc_charge" value='<?php if (isset($doc_charge)) echo $doc_charge; ?>'>
+												<input tabindex="32" type="number" class="form-control" id="doc_charge" name="doc_charge" value='<?php if (isset($doc_charge)) echo $doc_charge; ?>'>
 												<span class="text-danger" style='display:none' id='doc_chargeCheck'>Please Enter Document Charge</span>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="disabledInput">Processing Fees</label>&nbsp;<span class="text-danger min-max-proc">*</span><!-- Min and max Processing fee-->
-												<input tabindex="32" type="number" class="form-control" id="proc_fee" name="proc_fee" value='<?php if (isset($proc_fee)) echo $proc_fee; ?>'>
+												<input tabindex="33" type="number" class="form-control" id="proc_fee" name="proc_fee" value='<?php if (isset($proc_fee)) echo $proc_fee; ?>'>
 												<span class="text-danger" style='display:none' id='proc_feeCheck'>Please Enter Processing fee</span>
 											</div>
 										</div>
@@ -2358,55 +2360,55 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="disabledInput">Loan Amount</label>&nbsp;<span class="text-danger">*</span>
-												<input type="text" class="form-control" readonly id="loan_amt_cal" name="loan_amt_cal" value='<?php if (isset($loan_amt_cal)) echo moneyFormatIndia($loan_amt_cal); ?>' tabindex='33'>
+												<input type="text" class="form-control" readonly id="loan_amt_cal" name="loan_amt_cal" value='<?php if (isset($loan_amt_cal)) echo moneyFormatIndia($loan_amt_cal); ?>' tabindex='34'>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="disabledInput">Principal Amount</label>&nbsp;<span class="text-danger">*</span>
-												<input type="text" class="form-control" readonly id="principal_amt_cal" name="principal_amt_cal" value='<?php if (isset($principal_amt_cal)) echo moneyFormatIndia($principal_amt_cal); ?>' tabindex='34'>
+												<input type="text" class="form-control" readonly id="principal_amt_cal" name="principal_amt_cal" value='<?php if (isset($principal_amt_cal)) echo moneyFormatIndia($principal_amt_cal); ?>' tabindex='35'>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="disabledInput">Interest Amount</label>&nbsp;<span class="text-danger int-diff">*</span>
-												<input type="text" class="form-control" readonly id="int_amt_cal" name="int_amt_cal" value='<?php if (isset($int_amt_cal)) echo moneyFormatIndia($int_amt_cal); ?>' tabindex='35'>
+												<input type="text" class="form-control" readonly id="int_amt_cal" name="int_amt_cal" value='<?php if (isset($int_amt_cal)) echo moneyFormatIndia($int_amt_cal); ?>' tabindex='36'>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 emi_div" style="display: <?php echo ($emicheck ? 'block' : 'none'); ?>;">
 											<div class="form-group">
 												<label for="disabledInput">Total Amount</label>&nbsp;<span class="text-danger">*</span>
-												<input type="text" class="form-control" readonly id="tot_amt_cal" name="tot_amt_cal" value='<?php if (isset($tot_amt_cal)) echo moneyFormatIndia($tot_amt_cal); ?>' tabindex='36'>
+												<input type="text" class="form-control" readonly id="tot_amt_cal" name="tot_amt_cal" value='<?php if (isset($tot_amt_cal)) echo moneyFormatIndia($tot_amt_cal); ?>' tabindex='37'>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 emi_div" style="display: <?php echo ($emicheck ? 'block' : 'none'); ?>;">
 											<div class="form-group">
 												<label for="disabledInput">Due Amount</label>&nbsp;<span class="text-danger due-diff">*</span>
-												<input type="text" class="form-control" readonly id="due_amt_cal" name="due_amt_cal" value='<?php if (isset($due_amt_cal)) echo moneyFormatIndia($due_amt_cal) ?>' tabindex='37'>
+												<input type="text" class="form-control" readonly id="due_amt_cal" name="due_amt_cal" value='<?php if (isset($due_amt_cal)) echo moneyFormatIndia($due_amt_cal) ?>' tabindex='38'>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="disabledInput">Document Charges</label>&nbsp;<span class="text-danger">*</span>
-												<input type="text" class="form-control" readonly id="doc_charge_cal" name="doc_charge_cal" value='<?php if (isset($doc_charge_cal)) echo moneyFormatIndia($doc_charge_cal); ?>' tabindex='38'>
+												<input type="text" class="form-control" readonly id="doc_charge_cal" name="doc_charge_cal" value='<?php if (isset($doc_charge_cal)) echo moneyFormatIndia($doc_charge_cal); ?>' tabindex='39'>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="disabledInput">Processing Fee</label>&nbsp;<span class="text-danger">*</span>
-												<input type="text" class="form-control" readonly id="proc_fee_cal" name="proc_fee_cal" value='<?php if (isset($proc_fee_cal)) echo moneyFormatIndia($proc_fee_cal); ?>' tabindex='39'>
+												<input type="text" class="form-control" readonly id="proc_fee_cal" name="proc_fee_cal" value='<?php if (isset($proc_fee_cal)) echo moneyFormatIndia($proc_fee_cal); ?>' tabindex='40'>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="disabledInput">Net Cash</label>&nbsp;<span class="text-danger">*</span>
-												<input type="text" class="form-control" readonly id="net_cash_cal" name="net_cash_cal" value='<?php if (isset($net_cash_cal)) echo moneyFormatIndia($net_cash_cal); ?>' tabindex='40'>
+												<input type="text" class="form-control" readonly id="net_cash_cal" name="net_cash_cal" value='<?php if (isset($net_cash_cal)) echo moneyFormatIndia($net_cash_cal); ?>' tabindex='41'>
 											</div>
 										</div>
 										<div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-12">
 											<div class="text-right">
 												<label for="disabledInput" style="visibility:hidden">Net Cash</label>
-												<input type="hidden" class="form-control btn btn-outline-secondary" id="refresh_cal" name="refresh_cal" value='Refresh' tabindex='41'>
+												<input type="hidden" class="form-control btn btn-outline-secondary" id="refresh_cal" name="refresh_cal" value='Refresh' tabindex='42'>
 											</div>
 										</div>
 									</div>
@@ -2425,21 +2427,21 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="disabledInput">Due Start From</label>&nbsp;<span class="text-danger">*</span>
-												<input type="date" class="form-control" id="due_start_from" name="due_start_from" value='<?php if (isset($due_start_from)) echo $due_start_from; ?>' tabindex="42">
+												<input type="date" class="form-control" id="due_start_from" name="due_start_from" value='<?php if (isset($due_start_from)) echo $due_start_from; ?>' tabindex="43">
 												<span class="text-danger" style='display:none' id='due_start_fromCheck'>Please Select Due Start Month</span>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="disabledInput">Maturity Date</label>&nbsp;<span class="text-danger">*</span>
-												<input type="date" class="form-control" id="maturity_month" name="maturity_month" value='<?php if (isset($maturity_month)) echo $maturity_month; ?>' readonly tabindex="43">
+												<input type="date" class="form-control" id="maturity_month" name="maturity_month" value='<?php if (isset($maturity_month)) echo $maturity_month; ?>' readonly tabindex="44">
 												<span class="text-danger" style='display:none' id='maturity_monthCheck'>Please Select Maturity Month</span>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="disabledInput">Collection Format</label>&nbsp;<span class="text-danger">*</span>
-												<select type="text" class="form-control" id="collection_method" name="collection_method" tabindex="44">
+												<select type="text" class="form-control" id="collection_method" name="collection_method" tabindex="45">
 													<option value="">Select Collection Format</option>
 													<option value="1" <?php if (isset($collection_method) and $collection_method == '1') echo 'selected'; ?>>BySelf</option>
 													<option value="2" <?php if (isset($collection_method) and $collection_method == '2') echo 'selected'; ?>>On Spot</option>
@@ -2457,8 +2459,8 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 					<!-- Collection Info End -->
 					<div class="col-md-12 ">
 						<div class="text-right">
-							<button type="submit" name="submit_loan_calculation" id="submit_loan_calculation" class="btn btn-primary" value="Submit" tabindex="45"><span class="icon-check"></span>&nbsp;Submit</button>
-							<button type="reset" class="btn btn-outline-secondary" tabindex="46">Clear</button>
+							<button type="submit" name="submit_loan_calculation" id="submit_loan_calculation" class="btn btn-primary" value="Submit" tabindex="46"><span class="icon-check"></span>&nbsp;Submit</button>
+							<button type="reset" class="btn btn-outline-secondary" tabindex="47">Clear</button>
 						</div>
 					</div>
 				</div>
@@ -2553,10 +2555,11 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 
 						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" style="display: none;" id="relation_doc">
 							<div class="form-group">
-								<label for="signRelationship"> Relationship </label>
+								<label for="signRelationship"> Relationship </label> <span class="required">&nbsp;*</span>
 								<select type="text" class="form-control" id="signType_relationship" name="signType_relationship" tabindex='5'>
 									<option value=""> Select Relationship </option>
 								</select>
+								<span class="text-danger" id="signTyperRelationshipCheck"> Select Relationship </span>
 							</div>
 						</div>
 
@@ -2666,12 +2669,13 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 
 						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 							<div class="form-group">
-								<label for="HolderName "> Holder Name </label>
+								<label for="HolderName "> Holder Name </label> <span class="required">&nbsp;*</span>
 								<input type="text" class="form-control" id="holder_name" name="holder_name" readonly tabindex='2'>
 
 								<select type="text" class="form-control" id="holder_relationship_name" name="holder_relationship_name" style="display: none;" tabindex='2'>
 									<option value=""> Select Holder Name </option>
 								</select>
+								<span class="text-danger" id="holderNameCheck"> Select Holder Name </span>
 							</div>
 						</div>
 
@@ -2956,12 +2960,13 @@ $area_topbar = isset($doc_area_name) && $doc_area_name != '' ? $doc_area_name : 
 
 						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 							<div class="form-group">
-								<label for="docholdername"> Holder Name </label>
+								<label for="docholdername"> Holder Name </label> <span class="required">&nbsp;*</span>
 								<input type="text" class="form-control" id="docholder_name" name="docholder_name" value="" readonly tabindex="5">
 
 								<select type="text" class="form-control" id="docholder_relationship_name" name="docholder_relationship_name" style="display: none;" tabindex="5" >
 									<option value=""> Select Relationship </option>
 								</select>
+								<span class="text-danger" id="docHolderNameCheck" style='display:none'> Select Holder Name </span>
 							</div>
 						</div>
 

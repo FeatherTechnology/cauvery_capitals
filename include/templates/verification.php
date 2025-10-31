@@ -1570,12 +1570,13 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
-											<label for="Propertyholder_name"> Property Holder Name </label>
+											<label for="Propertyholder_name"> Property Holder Name </label> <span class="required">&nbsp;*</span>
 											<input type="text" class="form-control" id="Propertyholder_name" name="Propertyholder_name" value="<?php if (isset($Propertyholder_name)) echo $Propertyholder_name; ?>" readonly tabindex="16">
 
 											<select type="text" class="form-control" id="Propertyholder_relationship_name" name="Propertyholder_relationship_name" style="display: none;" tabindex='17'>
 												<option value=""> Select Relationship </option>
 											</select>
+											<span class="text-danger" id="propertyholderNameCheck"> Select Property Holder Name </span>
 										</div>
 									</div>
 
@@ -1664,12 +1665,13 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
-										<label for="owner_name"> Owner Name </label>
+										<label for="owner_name"> Owner Name </label> <span class="required">&nbsp;*</span>
 										<input type="text" class="form-control" id="owner_name" name="owner_name" value="<?php if (isset($owner_name)) echo $owner_name; ?>" readonly tabindex="25">
 
 										<select type="text" class="form-control" id="ownername_relationship_name" name="ownername_relationship_name" style="display: none;" tabindex="26">
 											<option value=""> Select Relationship </option>
 										</select>
+										<span class="text-danger" id="ownerNameCheck"> Select Owner Name </span>
 									</div>
 								</div>
 
@@ -3099,10 +3101,11 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" style="display: none;" id="relation_doc">
 						<div class="form-group">
-							<label for="signType_relationship"> Relationship </label>
+							<label for="signType_relationship"> Relationship </label> <span class="required">&nbsp;*</span>
 							<select type="text" class="form-control" id="signType_relationship" name="signType_relationship" tabindex='5'>
 								<option value=""> Select Relationship </option>
 							</select>
+							<span class="text-danger" id="signTyperRelationshipCheck"> Select Relationship </span>
 						</div>
 					</div>
 
@@ -3196,12 +3199,13 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group">
-							<label for="holder_name"> Holder Name </label>
+							<label for="holder_name"> Holder Name </label> <span class="required">&nbsp;*</span>
 							<input type="text" class="form-control" id="holder_name" name="holder_name" readonly tabindex='1'>
 
 							<select type="text" class="form-control" id="holder_relationship_name" name="holder_relationship_name" style="display: none;" tabindex='1'>
 								<option value=""> Select Holder Name </option>
 							</select>
+							<span class="text-danger" id="holderNameCheck"> Select Holder Name </span>
 						</div>
 					</div>
 
@@ -3567,12 +3571,13 @@ $area_topbar = isset($area_name) && $area_name != '' ? $area_name : $area_namefo
 
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group">
-							<label for="docholder_name"> Holder Name </label>
+							<label for="docholder_name"> Holder Name </label> <span class="required">&nbsp;*</span>
 							<input type="text" class="form-control" id="docholder_name" name="docholder_name" value="" readonly tabindex="1">
 
 							<select type="text" class="form-control" id="docholder_relationship_name" name="docholder_relationship_name" style="display: none;" tabindex="1">
 								<option value=""> Select Relationship </option>
 							</select>
+							<span class="text-danger" id="docHolderNameCheck" style='display:none'> Select Holder Name </span>
 						</div>
 					</div>
 

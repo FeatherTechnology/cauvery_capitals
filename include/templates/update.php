@@ -275,7 +275,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="first_name">First Name</label><span class="required">&nbsp;*</span>
-													<input type="text" class="form-control" id="first_name" name="first_name" oninput="formatFirstName(this)" value='<?php if (isset ($first_name)) {echo $first_name; } ?>' tabindex='12' placeholder="Enter First Name">
+													<input type="text" class="form-control" id="first_name" name="first_name" oninput="formatFirstName(this)" value='<?php if (isset ($first_name)) {echo $first_name; } ?>' tabindex='3' placeholder="Enter First Name">
 												<span class="text-danger" style='display:none' id='firstnameCheck'>Please Enter First Name</span>
 											</div>
 										</div>
@@ -283,7 +283,7 @@ if (sizeof($getCustomerReg) > 0) {
 											<div class="form-group">
 												<label for="last_name">Last Name</label><span class="required">&nbsp;*</span>
 												<input type="text" class="form-control" id="last_name" name="last_name" oninput="formatLastName(this)" value='<?php if 
-												(isset($last_name)) { echo $last_name; } ?>' tabindex='12' placeholder="Enter Last Name">
+												(isset($last_name)) { echo $last_name; } ?>' tabindex='4' placeholder="Enter Last Name">
 												<span class="text-danger" style='display:none' id='lastnameCheck'>Please Enter Last Name</span>
 											</div>
 										</div>
@@ -292,7 +292,7 @@ if (sizeof($getCustomerReg) > 0) {
 												<label for="dob">Date of Birth</label><span class="required">&nbsp;*</span>
 												<input type="date" class="form-control" id="dob" name="dob" value='<?php if (isset($dob)) {
 																														echo $dob;
-																													} ?>' tabindex='3'>
+																													} ?>' tabindex='5'>
 												<span class="text-danger" style='display:none' id='dobCheck'>Please Select DOB</span>
 											</div>
 										</div>
@@ -301,13 +301,13 @@ if (sizeof($getCustomerReg) > 0) {
 												<label for="age">Age</label><span class="required">&nbsp;*</span>
 												<input type="text" class="form-control" id="age" name="age" readonly value='<?php if (isset($age)) {
 																																echo $age;
-																															} ?>' tabindex='4'>
+																															} ?>' tabindex='6'>
 											</div>
 										</div>
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="gender">Gender&nbsp;<span class="required">&nbsp;*</span></label>
-												<select tabindex="5" type="text" class="form-control" id="gender" name="gender">
+												<select tabindex="7" type="text" class="form-control" id="gender" name="gender">
 													<option value="">Select Gender</option>
 													<option value="1" <?php if (isset($gender) and $gender == '1') echo 'selected'; ?>>Male</option>
 													<option value="2" <?php if (isset($gender) and $gender == '2') echo 'selected'; ?>>Female</option>
@@ -320,7 +320,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="state">State</label>&nbsp;<span class="text-danger">*</span>
-												<select type="text" class="form-control" id="state" name="state" tabindex="6">
+												<select type="text" class="form-control" id="state" name="state" tabindex="8">
 													<option value="SelectState">Select State</option>
 													<option value="TamilNadu" <?php if (isset($state) && $state == 'TamilNadu') echo 'selected' ?>>Tamil Nadu</option>
 													<option value="Puducherry" <?php if (isset($state) && $state == 'Puducherry') echo 'selected' ?>>Puducherry</option>
@@ -332,7 +332,7 @@ if (sizeof($getCustomerReg) > 0) {
 											<div class="form-group">
 												<label for="district">District</label>&nbsp;<span class="text-danger">*</span>
 												<input type="hidden" class="form-control" id="district1" name="district1">
-												<select type="text" class="form-control" id="district" name="district" tabindex='7'>
+												<select type="text" class="form-control" id="district" name="district" tabindex='9'>
 													<option value="Select District">Select District</option>
 												</select>
 												<span class="text-danger" style='display:none' id='districtCheck'>Please Select District</span>
@@ -342,7 +342,7 @@ if (sizeof($getCustomerReg) > 0) {
 											<div class="form-group">
 												<label for="taluk">Taluk</label>&nbsp;<span class="text-danger">*</span>
 												<input type="hidden" class="form-control" id="taluk1" name="taluk1">
-												<select type="text" class="form-control" id="taluk" name="taluk" tabindex="8">
+												<select type="text" class="form-control" id="taluk" name="taluk" tabindex="10">
 													<option value="Select Taluk">Select Taluk</option>
 												</select>
 												<span class="text-danger" style='display:none' id='talukCheck'>Please Select Taluk</span>
@@ -351,7 +351,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="area">Area</label>&nbsp;<span class="text-danger">*</span>
-												<select tabindex="9" type="text" class="form-control" id="area" name="area">
+												<select tabindex="11" type="text" class="form-control" id="area" name="area">
 													<option value="">Select Area</option>
 
 												</select>
@@ -363,7 +363,7 @@ if (sizeof($getCustomerReg) > 0) {
 												<label for="address">Address</label><span class="required">&nbsp;*</span>
 												<input type="text" class="form-control" id="cus_address" name="cus_address" value='<?php if (isset($address)) {
 																																		echo $address;
-																																	} ?>' tabindex='11' placeholder="Enter Address">
+																																	} ?>' tabindex='12' placeholder="Enter Address">
 												<span class="text-danger" style='display:none' id='addressCheck'>Please Enter Address</span>
 											</div>
 										</div>
@@ -372,7 +372,7 @@ if (sizeof($getCustomerReg) > 0) {
 												<label for="mobile1">Mobile No 1</label><span class="required">&nbsp;*</span>
 												<input type="number" class="form-control" id="mobile1" name="mobile1" onkeypress="if(this.value.length==10) return false;" value='<?php if (isset($mobile1)) {
 																																														echo $mobile1;
-																																													} ?>' tabindex='12' placeholder="Enter Mobile Number">
+																																													} ?>' tabindex='13' placeholder="Enter Mobile Number">
 												<span class="text-danger" style='display:none' id='mobile1Check'>Please Enter Mobile Number</span>
 											</div>
 										</div>
@@ -381,7 +381,7 @@ if (sizeof($getCustomerReg) > 0) {
 												<label for="mobile2">Mobile No 2</label>
 												<input type="number" class="form-control" id="mobile2" name="mobile2" onkeypress="if(this.value.length==10) return false;" value='<?php if (isset($mobile2)) {
 																																														echo $mobile2;
-																																													} ?>' tabindex='13' placeholder="Enter Mobile Number">
+																																													} ?>' tabindex='14' placeholder="Enter Mobile Number">
 												<span class="text-danger" style='display:none' id='mobile2Check'>Please Enter Mobile Number</span>
 											</div>
 										</div>
@@ -390,7 +390,7 @@ if (sizeof($getCustomerReg) > 0) {
 												<label for="father_name">Father Name</label><span class="required">&nbsp;*</span>
 												<input type="text" class="form-control" id="father_name" name="father_name" value='<?php if (isset($father_name)) {
 																																		echo $father_name;
-																																	} ?>' tabindex='14' placeholder="Enter Father's Name" pattern="[a-zA-Z\s]+">
+																																	} ?>' tabindex='15' placeholder="Enter Father's Name" pattern="[a-zA-Z\s]+">
 												<span class="text-danger" style='display:none' id='fathernameCheck'>Please Enter Father Name</span>
 											</div>
 										</div>
@@ -399,14 +399,14 @@ if (sizeof($getCustomerReg) > 0) {
 												<label for="mother_name">Mother Name</label><span class="required">&nbsp;*</span>
 												<input type="text" class="form-control" id="mother_name" name="mother_name" value='<?php if (isset($mother_name)) {
 																																		echo $mother_name;
-																																	} ?>' tabindex='15' placeholder="Enter Mother's Name" pattern="[a-zA-Z\s]+">
+																																	} ?>' tabindex='16' placeholder="Enter Mother's Name" pattern="[a-zA-Z\s]+">
 												<span class="text-danger" style='display:none' id='mothernameCheck'>Please Enter Mother Name</span>
 											</div>
 										</div>
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="marital">Marital Status<span class="required">&nbsp;*</span></label>
-												<select type="text" class="form-control" id="marital" name="marital" tabindex='15'>
+												<select type="text" class="form-control" id="marital" name="marital" tabindex='17'>
 													<option value="">Select Marital Status</option>
 													<option value="1" <?php if (isset($marital) and $marital == '1') echo 'selected'; ?>>Married</option>
 													<option value="2" <?php if (isset($marital) and $marital == '2') echo 'selected'; ?>>Unmarried</option>
@@ -419,14 +419,14 @@ if (sizeof($getCustomerReg) > 0) {
 												<label for="spouse_name">Spouse Name</label><span class="required">&nbsp;*</span>
 												<input type="text" class="form-control" id="spouse_name" name="spouse_name" value='<?php if (isset($spouse_name)) {
 																																		echo $spouse_name;
-																																	} ?>' tabindex='16' placeholder="Enter Spouse Name" pattern="[a-zA-Z\s]+">
+																																	} ?>' tabindex='18' placeholder="Enter Spouse Name" pattern="[a-zA-Z\s]+">
 												<span class="text-danger" style='display:none' id='spousenameCheck'>Please Enter Spouse Name</span>
 											</div>
 										</div>
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="occupation_type">Occupation Type<span class="required">&nbsp;*</span></label>
-												<select tabindex="17" type="text" class="form-control" id="occupation_type" name="occupation_type">
+												<select tabindex="19" type="text" class="form-control" id="occupation_type" name="occupation_type">
 													<option value="">Select Occupation Type</option>
 													<option value="1" <?php if (isset($occupation_type) and $occupation_type == '1') echo 'selected'; ?>>Govt Job</option>
 													<option value="2" <?php if (isset($occupation_type) and $occupation_type == '2') echo 'selected'; ?>>Pvt Job</option>
@@ -444,7 +444,7 @@ if (sizeof($getCustomerReg) > 0) {
 												<label for="occupation">Occupation</label><span class="required">&nbsp;*</span>
 												<input type="text" class="form-control" id="occupation" name="occupation" value='<?php if (isset($occupation)) {
 																																		echo $occupation;
-																																	} ?>' tabindex='18' placeholder="Enter Occupation" pattern="[a-zA-Z\s]+">
+																																	} ?>' tabindex='20' placeholder="Enter Occupation" pattern="[a-zA-Z\s]+">
 												<span class="text-danger" style='display:none' id='occupationCheck'>Please Enter Occupation</span>
 											</div>
 										</div>
@@ -458,7 +458,7 @@ if (sizeof($getCustomerReg) > 0) {
 																																	echo $pic;
 																																} ?>'>
 											<img id='imgshow' class="imgshow" src='img/avatar.png' /><br>
-											<input type="file" onchange="compressImage(this,200)" class="form-control" id="pic" name="pic" tabindex='20' value='<?php if (isset($pic)) {
+											<input type="file" onchange="compressImage(this,200)" class="form-control" id="pic" name="pic" tabindex='21' value='<?php if (isset($pic)) {
 																																											echo $pic;
 																																										} ?>'>
 										</div>
@@ -471,7 +471,7 @@ if (sizeof($getCustomerReg) > 0) {
 					<!-- Family info START -->
 					<div class="card">
 						<div class="card-header">Family Info <span style="font-weight:bold" class=""></span>
-							<button type="button" class="btn btn-primary" id="add_group" name="add_group" data-toggle="modal" data-target=".addGroup" style="padding: 5px 35px; float: right;" tabindex='21' onclick="resetFamInfo();"><span class="icon-add"></span></button>
+							<button type="button" class="btn btn-primary" id="add_group" name="add_group" data-toggle="modal" data-target=".addGroup" style="padding: 5px 35px; float: right;" tabindex='22' onclick="resetFamInfo();"><span class="icon-add"></span></button>
 						</div>
 						<span class="text-danger" style='display:none' id='family_infoCheck'>Please Fill Family Info </span>
 						<div class="card-body">
@@ -516,7 +516,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="loan_id"> Loan ID </label><span class="required">&nbsp;*</span>
-												<select type="text" class="form-control" id="loan_id" name="loan_id" tabindex="22">
+												<select type="text" class="form-control" id="loan_id" name="loan_id" tabindex="23">
 													<option> Select Lona ID</option>
 												</select>
 												<span class="text-danger" style='display:none' id='loan_idCheck'>Please Choose Loan ID</span>
@@ -525,7 +525,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="guarentor_name"> Guarentor Name </label><span class="required">&nbsp;*</span>
-												<select type="text" class="form-control" id="guarentor_name" name="guarentor_name" tabindex="22">
+												<select type="text" class="form-control" id="guarentor_name" name="guarentor_name" tabindex="24">
 													<option> Select Guarantor </option>
 												</select>
 												<span class="text-danger" style='display:none' id='guarentor_nameCheck'>Please Choose Guarentor Name</span>
@@ -535,7 +535,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="guarentor_relationship"> Guarentor Relationship </label>
-												<input type="text" class="form-control" id="guarentor_relationship" name="guarentor_relationship" tabindex="23" value='' readonly>
+												<input type="text" class="form-control" id="guarentor_relationship" name="guarentor_relationship" tabindex="25" value='' readonly>
 											</div>
 										</div>
 									</div>
@@ -547,7 +547,7 @@ if (sizeof($getCustomerReg) > 0) {
 											<label for="pic" style="margin-left: -20px;"> Guarentor Photo </label><span class="required">&nbsp;*</span><br>
 											<input type="hidden" name="guarentor_image" id="guarentor_image" value="">
 											<img id='imgshows' class="imgshow" src='img/avatar.png' />
-											<input type="file" onchange="compressImage(this,200)" class="form-control" id="guarentorpic" name="guarentorpic" tabindex="24" value="">
+											<input type="file" onchange="compressImage(this,200)" class="form-control" id="guarentorpic" name="guarentorpic" tabindex="26" value="">
 											<span class="text-danger" style='display:none' id='guarentorpicCheck'>Please Choose Guarentor Image</span>
 										</div>
 									</div>
@@ -567,7 +567,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="cus_res_type"> Residential Type </label>
-										<select type="text" class="form-control" name="cus_res_type" id="cus_res_type" tabindex="25">
+										<select type="text" class="form-control" name="cus_res_type" id="cus_res_type" tabindex="27">
 											<option> Select Residential Type </option>
 											<option value="0" <?php if (isset($residential_type) and $residential_type == '0') echo 'selected'; ?>> Own </option>
 											<option value="1" <?php if (isset($residential_type) and $residential_type == '1') echo 'selected'; ?>> Rental </option>
@@ -582,7 +582,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_res_details"> Resident Details </label>
 										<input type="text" class="form-control" name="cus_res_details" id="cus_res_details" placeholder="Enter Resident Details" value="<?php if (isset($residential_details)) {
 																																											echo $residential_details;
-																																										} ?>" tabindex="26">
+																																										} ?>" tabindex="28">
 									</div>
 								</div>
 
@@ -591,7 +591,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_res_address"> Address </label>
 										<input type="text" class="form-control" name="cus_res_address" id="cus_res_address" placeholder="Enter Address" value="<?php if (isset($residential_address)) {
 																																									echo $residential_address;
-																																								} ?>" tabindex="27">
+																																								} ?>" tabindex="29">
 									</div>
 								</div>
 
@@ -600,7 +600,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_res_native"> Native Address </label>
 										<input type="text" class="form-control" name="cus_res_native" id="cus_res_native" placeholder="Enter Native Address" value="<?php if (isset($residential_native_address)) {
 																																										echo $residential_native_address;
-																																									} ?>" tabindex="28">
+																																									} ?>" tabindex="30">
 									</div>
 								</div>
 
@@ -619,7 +619,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="cus_occ_type"> Occupation Type </label>
-										<select type="text" class="form-control" name="cus_occ_type" id="cus_occ_type" tabindex="29">
+										<select type="text" class="form-control" name="cus_occ_type" id="cus_occ_type" tabindex="31">
 											<option value="">Select Occupation Type</option>
 											<option value="1" <?php if (isset($cr_occupation_type) and $cr_occupation_type == '1') echo 'selected'; ?>>Govt Job</option>
 											<option value="2" <?php if (isset($cr_occupation_type) and $cr_occupation_type == '2') echo 'selected'; ?>>Pvt Job</option>
@@ -637,7 +637,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_occ_detail"> Occupation Detail </label>
 										<input type="text" class="form-control" name="cus_occ_detail" id="cus_occ_detail" placeholder="Enter Occupation Detail" onkeydown="return /[a-z ]/i.test(event.key)" value="<?php if (isset($occupation_details)) {
 																																																						echo $occupation_details;
-																																																					} ?>" tabindex="30">
+																																																					} ?>" tabindex="32">
 									</div>
 								</div>
 
@@ -646,7 +646,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_occ_income"> Income </label>
 										<input type="number" class="form-control" name="cus_occ_income" id="cus_occ_income" placeholder="Enter Income" value="<?php if (isset($occupation_income)) {
 																																									echo $occupation_income;
-																																								} ?>" tabindex="31">
+																																								} ?>" tabindex="33">
 									</div>
 								</div>
 
@@ -655,7 +655,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_occ_address"> Address </label>
 										<input type="text" class="form-control" name="cus_occ_address" id="cus_occ_address" placeholder="Enter Address" value="<?php if (isset($occupation_address)) {
 																																									echo $occupation_address;
-																																								} ?>" tabindex="32">
+																																								} ?>" tabindex="34">
 									</div>
 								</div>
 
@@ -664,7 +664,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_occ_dow"> Duration of Working </label>
 										<input type="text" class="form-control" name="cus_occ_dow" id="cus_occ_dow" placeholder="Enter Duration of Working" value="<?php if (isset($dow)) {
 																																										echo $dow;
-																																									} ?>" tabindex="33">
+																																									} ?>" tabindex="35">
 									</div>
 								</div>
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
@@ -672,7 +672,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_occ_abt"> About Occupation </label>
 										<input type="text" class="form-control" name="cus_occ_abt" id="cus_occ_abt" placeholder="Enter About Occupation" value="<?php if (isset($abt_occ)) {
 																																									echo $abt_occ;
-																																								} ?>" tabindex="34">
+																																								} ?>" tabindex="36">
 									</div>
 								</div>
 
@@ -690,7 +690,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="area_cnfrm"> Area confirm </label><span class="required">&nbsp;*</span>
-										<select type="text" class="form-control" name="area_cnfrm" id="area_cnfrm" tabindex="35">
+										<select type="text" class="form-control" name="area_cnfrm" id="area_cnfrm" tabindex="37">
 											<option value="">Select Area Type</option>
 											<option value="0" <?php if (isset($area_confirm_type) and $area_confirm_type == '0') echo 'selected'; ?>> Residential Area </option>
 											<option value="1" <?php if (isset($area_confirm_type) and $area_confirm_type == '1') echo 'selected'; ?>> Occupation Area </option>
@@ -702,7 +702,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8">
 									<div class="form-group">
 										<label for="area_state">State</label>&nbsp;<span class="text-danger">*</span>
-										<select type="text" class="form-control" id="area_state" name="area_state" tabindex="36">
+										<select type="text" class="form-control" id="area_state" name="area_state" tabindex="38">
 											<option value="SelectState">Select State</option>
 											<option value="TamilNadu" <?php if (isset($area_confirm_state) and $area_confirm_state == 'TamilNadu') echo 'selected'; ?>>Tamil Nadu</option>
 											<option value="Puducherry" <?php if (isset($area_confirm_state) and $area_confirm_state == 'Puducherry') echo 'selected'; ?>>Puducherry</option>
@@ -715,7 +715,7 @@ if (sizeof($getCustomerReg) > 0) {
 									<div class="form-group">
 										<label for="area_district">District</label>&nbsp;<span class="text-danger">*</span>
 										<input type="hidden" class="form-control" id="area_district1" name="area_district1">
-										<select type="text" class="form-control" id="area_district" name="area_district" tabindex='37'>
+										<select type="text" class="form-control" id="area_district" name="area_district" tabindex='39'>
 											<option value="Select District">Select District</option>
 										</select>
 										<span class="text-danger" style='display:none' id='areadistrictCheck'>Please Enter District </span>
@@ -726,7 +726,7 @@ if (sizeof($getCustomerReg) > 0) {
 									<div class="form-group">
 										<label for="area_taluk">Taluk</label>&nbsp;<span class="text-danger">*</span>
 										<input type="hidden" class="form-control" id="area_taluk1" name="area_taluk1">
-										<select type="text" class="form-control" id="area_taluk" name="area_taluk" tabindex="38">
+										<select type="text" class="form-control" id="area_taluk" name="area_taluk" tabindex="40">
 											<option value="Select Taluk">Select Taluk</option>
 										</select>
 										<span class="text-danger" style='display:none' id='areatalukCheck'>Please Enter Taluk </span>
@@ -736,7 +736,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="area_confirm">Area</label>&nbsp;<span class="text-danger">*</span>
-										<select tabindex="39" type="text" class="form-control" id="area_confirm" name="area_confirm">
+										<select tabindex="41" type="text" class="form-control" id="area_confirm" name="area_confirm">
 											<option value="">Select Area</option>
 										</select>
 										<span class="text-danger" style='display:none' id='areaconfirmCheck'>Please Enter Area </span>
@@ -759,7 +759,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="area_group">Group</label>
 										<input type="text" class="form-control" name="area_group" id="area_group" value="<?php if (isset($area_group)) {
 																																echo $area_group;
-																															} ?>" readonly tabindex="41">
+																															} ?>" readonly tabindex="42">
 									</div>
 								</div>
 
@@ -768,7 +768,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="area_line">Line</label>
 										<input type="text" class="form-control" name="area_line" id="area_line" value="<?php if (isset($area_line)) {
 																															echo $area_line;
-																														} ?>" readonly tabindex="42">
+																														} ?>" readonly tabindex="43">
 									</div>
 								</div>
 
@@ -780,7 +780,7 @@ if (sizeof($getCustomerReg) > 0) {
 					<!-- Property info START -->
 					<div class="card">
 						<div class="card-header"> Property info <span style="font-weight:bold" class=""></span>
-							<button type="button" class="btn btn-primary" id="property_add" name="property_add" data-toggle="modal" data-target=".addproperty" style="padding: 5px 35px;  float: right; " onclick="propertyHolder(); resetpropertyInfo();" tabindex='43'><span class="icon-add"></span></button>
+							<button type="button" class="btn btn-primary" id="property_add" name="property_add" data-toggle="modal" data-target=".addproperty" style="padding: 5px 35px;  float: right; " onclick="propertyHolder(); resetpropertyInfo();" tabindex='44'><span class="icon-add"></span></button>
 						</div>
 						<span class="text-danger" style='display:none' id='property_infoCheck'>Please Fill Property Info </span>
 						<div class="card-body">
@@ -815,7 +815,7 @@ if (sizeof($getCustomerReg) > 0) {
 					<!-- Bank info START -->
 					<div class="card">
 						<div class="card-header"> Bank info <span style="font-weight:bold" class=""></span>
-							<button type="button" class="btn btn-primary" id="bank_add" name="bank_add" data-toggle="modal" data-target=".addbank" style="padding: 5px 35px;  float: right;" tabindex='44' onclick="resetbankInfo();"><span class="icon-add"></span></button>
+							<button type="button" class="btn btn-primary" id="bank_add" name="bank_add" data-toggle="modal" data-target=".addbank" style="padding: 5px 35px;  float: right;" tabindex='45' onclick="resetbankInfo();"><span class="icon-add"></span></button>
 						</div>
 						<span class="text-danger" style='display:none' id='bank_infoCheck'>Please Fill Bank Info </span>
 						<div class="card-body">
@@ -853,7 +853,7 @@ if (sizeof($getCustomerReg) > 0) {
 					<!-- KYC info START -->
 					<div class="card">
 						<div class="card-header"> KYC info<span class="required">&nbsp;*</span><span style="font-weight:bold" class=""></span>
-							<button type="button" class="btn btn-primary" id="kyc_add" name="kyc_add" data-toggle="modal" data-target=".addkyc" style="padding: 5px 35px; float: right; " tabindex='45' onclick="resetkycInfo();"><span class="icon-add"></span></button>
+							<button type="button" class="btn btn-primary" id="kyc_add" name="kyc_add" data-toggle="modal" data-target=".addkyc" style="padding: 5px 35px; float: right; " tabindex='46' onclick="resetkycInfo();"><span class="icon-add"></span></button>
 						</div>
 						<span class="text-danger" style='display:none' id='kyc_infoCheck'>Please Fill KYC Info </span>
 						<div class="card-body">
@@ -892,7 +892,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="cus_how_know"> How to Know </label> <span class="required">*</span>
-										<select type="text" class="form-control" name="cus_how_know" id="cus_how_know" tabindex="46">
+										<select type="text" class="form-control" name="cus_how_know" id="cus_how_know" tabindex="47">
 											<option value=""> Select How to Know </option>
 											<option value="0" <?php if (isset($how_to_know) and $how_to_know == '0') echo 'selected'; ?>> Customer Reference </option>
 											<option value="1" <?php if (isset($how_to_know) and $how_to_know == '1') echo 'selected'; ?>> Advertisement </option>
@@ -911,7 +911,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_loan_count"> Loan Counts </label>
 										<input type="text" class="form-control" name="cus_loan_count" id="cus_loan_count" value="<?php if (isset($loan_count)) {
 																																		echo $loan_count;
-																																	} ?>" readonly tabindex="47">
+																																	} ?>" readonly tabindex="48">
 									</div>
 								</div>
 
@@ -920,7 +920,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_frst_loanDate"> First Loan Date </label>
 										<input type="text" class="form-control" name="cus_frst_loanDate" id="cus_frst_loanDate" value="<?php if (isset($first_loan_date)) {
 																																			echo $first_loan_date;
-																																		} ?>" readonly tabindex="48">
+																																		} ?>" readonly tabindex="49">
 									</div>
 								</div>
 
@@ -929,7 +929,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_travel_cmpy"> Travel with Company </label>
 										<input type="text" class="form-control" name="cus_travel_cmpy" id="cus_travel_cmpy" value="<?php if (isset($travel_with_company)) {
 																																		echo $travel_with_company;
-																																	} ?>" readonly tabindex="49">
+																																	} ?>" readonly tabindex="50">
 									</div>
 								</div>
 
@@ -944,7 +944,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_monthly_income"> Monthly Income </label> <span class="required">*</span>
 										<input type="text" class="form-control" name="cus_monthly_income" id="cus_monthly_income" placeholder="Enter Monthly Income" value="<?php if (isset($monthly_income)) {
 																																													echo moneyFormatIndia($monthly_income);
-																																												} ?>" tabindex="50">
+																																												} ?>" tabindex="51">
 										<span class="text-danger" style='display:none' id='monthlyIncomeCheck'>Please Enter Monthly Income </span>
 									</div>
 								</div>
@@ -954,7 +954,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_other_income"> Other Income </label> <span class="required">*</span>
 										<input type="text" class="form-control" name="cus_other_income" id="cus_other_income" placeholder="Enter Other Income" value="<?php if (isset($other_income)) {
 																																											echo moneyFormatIndia($other_income);
-																																										} ?>" tabindex="51">
+																																										} ?>" tabindex="52">
 										<span class="text-danger" style='display:none' id='otherIncomeCheck'>Please Enter Other Income </span>
 									</div>
 								</div>
@@ -964,7 +964,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_support_income"> Support Income </label> <span class="required">*</span>
 										<input type="text" class="form-control" name="cus_support_income" id="cus_support_income" placeholder="Enter Support Income" value="<?php if (isset($support_income)) {
 																																													echo moneyFormatIndia($support_income);
-																																												} ?>" tabindex="52">
+																																												} ?>" tabindex="53">
 										<span class="text-danger" style='display:none' id='supportIncomeCheck'>Please Enter Support Income </span>
 									</div>
 								</div>
@@ -974,7 +974,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_Commitment"> Commitment </label> <span class="required">*</span>
 										<input type="text" class="form-control" name="cus_Commitment" id="cus_Commitment" placeholder="Enter Commitment" value="<?php if (isset($commitment)) {
 																																										echo moneyFormatIndia($commitment);
-																																									} ?>" tabindex="53">
+																																									} ?>" tabindex="54">
 										<span class="text-danger" style='display:none' id='commitmentCheck'>Please Enter Commitment </span>
 									</div>
 								</div>
@@ -984,7 +984,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_monDue_capacity"> Monthly Due Capacity </label> <span class="required">*</span>
 										<input type="text" class="form-control" name="cus_monDue_capacity" id="cus_monDue_capacity" placeholder="Enter Monthly Due Capacity" value="<?php if (isset($monthly_due_capacity)) {
 																																															echo moneyFormatIndia($monthly_due_capacity);
-																																														} ?>" tabindex="54">
+																																														} ?>" tabindex="55">
 										<span class="text-danger" style='display:none' id='monthlyDueCapacityCheck'> Please Enter Monthly Due Capacity </span>
 									</div>
 								</div>
@@ -994,7 +994,7 @@ if (sizeof($getCustomerReg) > 0) {
 										<label for="cus_loan_limit"> Loan Limit </label> <span class="required">*</span>
 										<input type="text" class="form-control" name="cus_loan_limit" id="cus_loan_limit" placeholder="Enter Loan Limit" value="<?php if (isset($loan_limit)) {
 																																										echo moneyFormatIndia($loan_limit);
-																																									} ?>" tabindex="55">
+																																									} ?>" tabindex="56">
 										<span class="text-danger" style='display:none' id='loanLimitCheck'>Please Enter Loan Limit </span>
 									</div>
 								</div>
@@ -1004,7 +1004,7 @@ if (sizeof($getCustomerReg) > 0) {
 							<hr>
 							<div class="row">
 								<div class="col-12">
-									<button type="button" class="btn btn-primary" id="add_cus_label" name="add_cus_label" data-toggle="modal" data-target=".addCusLabel" style="padding: 5px 35px; float: right;" tabindex="56" onclick="resetfeedback();"><span class="icon-add"></span></button>
+									<button type="button" class="btn btn-primary" id="add_cus_label" name="add_cus_label" data-toggle="modal" data-target=".addCusLabel" style="padding: 5px 35px; float: right;" tabindex="57" onclick="resetfeedback();"><span class="icon-add"></span></button>
 								</div>
 							</div> <br>
 
@@ -1034,7 +1034,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
 									<div class="form-group">
 										<label for="about_cus"> About Customer </label> <span class="required">*</span>
-										<textarea class="form-control" name="about_cus" id="about_cus" tabindex="57"><?php if (isset($about_customer)) {
+										<textarea class="form-control" name="about_cus" id="about_cus" tabindex="58"><?php if (isset($about_customer)) {
 																															echo $about_customer;
 																														} ?></textarea>
 										<span class="text-danger" style='display:none' id='aboutcusCheck'> Please Enter About Customer </span>
@@ -1064,8 +1064,8 @@ if (sizeof($getCustomerReg) > 0) {
 
 					<div class="col-md-12 ">
 						<div class="text-right">
-							<button type="submit" name="submit_update_cus_profile" id="submit_update_cus_profile" class="btn btn-primary" value="Submit" tabindex="58"><span class="icon-check"></span>&nbsp;Submit</button>
-							<button type="reset" class="btn btn-outline-secondary" tabindex="59">Clear</button>
+							<button type="submit" name="submit_update_cus_profile" id="submit_update_cus_profile" class="btn btn-primary" value="Submit" tabindex="59"><span class="icon-check"></span>&nbsp;Submit</button>
+							<button type="reset" class="btn btn-outline-secondary" tabindex="60">Clear</button>
 						</div>
 					</div>
 
@@ -1105,28 +1105,28 @@ if (sizeof($getCustomerReg) > 0) {
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 								<div class="form-group">
 									<label for="autogen_cus_id_doc">Customer ID</label> <span class="required">*</span>
-									<input type="text" class="form-control" id="autogen_cus_id_doc" name="autogen_cus_id_doc" value='<?php if (isset($autogen_cus_id)) echo $autogen_cus_id; ?>' readonly tabindex="66">
+									<input type="text" class="form-control" id="autogen_cus_id_doc" name="autogen_cus_id_doc" value='<?php if (isset($autogen_cus_id)) echo $autogen_cus_id; ?>' readonly tabindex="2">
 								</div>
 							</div>
 							
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 								<div class="form-group">
 									<label for="first_name"> First Name </label> <span class="required"> * </span>
-									<input type="text" class="form-control" id="first_name" name="first_name" value='<?php if (isset($first_name)) echo $first_name; ?>' readonly tabindex="2">
+									<input type="text" class="form-control" id="first_name" name="first_name" value='<?php if (isset($first_name)) echo $first_name; ?>' readonly tabindex="3">
 								</div>
 							</div>
 
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 								<div class="form-group">
 									<label for="last_name"> Last Name </label> <span class="required"> * </span>
-									<input type="text" class="form-control" id="last_name" name="last_name" value='<?php if (isset($last_name)) echo $last_name; ?>' readonly tabindex="2">
+									<input type="text" class="form-control" id="last_name" name="last_name" value='<?php if (isset($last_name)) echo $last_name; ?>' readonly tabindex="4">
 								</div>
 							</div>
 
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 								<div class="form-group">
 									<label for="doc_area"> Area </label> <span class="required"> * </span>
-									<input tabindex="3" type="text" class="form-control" id="doc_area" name="doc_area" value="<?php if (isset($area_name)) echo $area_name; ?>" readonly>
+									<input tabindex="5" type="text" class="form-control" id="doc_area" name="doc_area" value="<?php if (isset($area_name)) echo $area_name; ?>" readonly>
 								</div>
 							</div>
 
@@ -1255,7 +1255,7 @@ if (sizeof($getCustomerReg) > 0) {
 
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
-											<label> Property Holder Name </label>
+											<label> Property Holder Name </label> <span class="required">&nbsp;*</span>
 											<input type="text" class="form-control" id="Propertyholder_name" name="Propertyholder_name" value="" readonly tabindex="10">
 
 											<select type="text" class="form-control" id="Propertyholder_relationship_name" name="Propertyholder_relationship_name" style="display: none;" tabindex='10'>
@@ -1386,7 +1386,7 @@ if (sizeof($getCustomerReg) > 0) {
 
 							<div class="col-md-12 ">
 								<div class="text-right">
-									<button type="button" name="update_mortgage" id="update_mortgage" class="btn btn-primary" value="Submit" tabindex="23"><span class="icon-check"></span>&nbsp;Submit</button>
+									<button type="button" name="update_mortgage" id="update_mortgage" class="btn btn-primary" value="Submit" tabindex="24"><span class="icon-check"></span>&nbsp;Submit</button>
 								</div>
 							</div>
 
@@ -1405,7 +1405,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="endorsement_process"> Endorsement Process</label> <span class="required">&nbsp;*</span>
-										<select type="text" class="form-control" id="endorsement_process" name="endorsement_process" tabindex="24">
+										<select type="text" class="form-control" id="endorsement_process" name="endorsement_process" tabindex="25">
 											<option value=""> Select Endorsement Process </option>
 											<option value="0"> YES </option>
 											<option value="1"> NO </option>
@@ -1420,7 +1420,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label> Owner Type </label> <span class="required">&nbsp;*</span>
-										<select type="text" class="form-control" id="owner_type" name="owner_type" tabindex="25">
+										<select type="text" class="form-control" id="owner_type" name="owner_type" tabindex="26">
 											<option value=""> Select Holder type </option>
 											<option value="0"> Customer </option>
 											<option value="1"> Guarantor </option>
@@ -1432,13 +1432,13 @@ if (sizeof($getCustomerReg) > 0) {
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
-										<label> Owner Name </label>
-										<input type="text" class="form-control" id="owner_name" name="owner_name" value="" readonly tabindex='26'>
+										<label> Owner Name </label> <span class="required">&nbsp;*</span>
+										<input type="text" class="form-control" id="owner_name" name="owner_name" value="" readonly tabindex='27'>
 
-										<select type="text" class="form-control" id="ownername_relationship_name" name="ownername_relationship_name" style="display: none;" tabindex="26">
+										<select type="text" class="form-control" id="ownername_relationship_name" name="ownername_relationship_name" style="display: none;" tabindex="27">
 											<option value=""> Select Relationship </option>
 										</select>
-										<span class="text-danger" id="ownernameCheck" style='display:none'> Select Owner type </span>
+										<span class="text-danger" id="ownernameCheck" style='display:none'> Select Owner Name </span>
 									</div>
 								</div>
 
@@ -1446,14 +1446,14 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="en_relation"> Relationship </label>
-										<input type="text" class="form-control" id="en_relation" name="en_relation" value="" readonly tabindex="27">
+										<input type="text" class="form-control" id="en_relation" name="en_relation" value="" readonly tabindex="28">
 									</div>
 								</div>
 
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="vehicle_type"> Vehicle type </label> <span class="required">&nbsp;*</span>
-										<select type="text" class="form-control" id="vehicle_type" name="vehicle_type" tabindex="28">
+										<select type="text" class="form-control" id="vehicle_type" name="vehicle_type" tabindex="29">
 											<option value=""> Select Vehicle type </option>
 											<option value="0"> 2 Wheeler </option>
 											<option value="1"> 4 Wheeler </option>
@@ -1465,7 +1465,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="vehicle_process"> Vehicle Process </label> <span class="required">&nbsp;*</span>
-										<select type="text" class="form-control" id="vehicle_process" name="vehicle_process" tabindex="29">
+										<select type="text" class="form-control" id="vehicle_process" name="vehicle_process" tabindex="30">
 											<option value=""> Select Vehicle Process </option>
 											<option value="0"> New </option>
 											<option value="1"> Old </option>
@@ -1477,7 +1477,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="en_Company"> Company </label> <span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="en_Company" name="en_Company" placeholder="Enter Company" value="" tabindex="30">
+										<input type="text" class="form-control" id="en_Company" name="en_Company" placeholder="Enter Company" value="" tabindex="31">
 										<span class="text-danger" id="enCompanyCheck" style='display:none'> Enter Company </span>
 									</div>
 								</div>
@@ -1485,7 +1485,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="en_Model"> Model </label> <span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="en_Model" name="en_Model" placeholder="Enter Model" value="" tabindex="31">
+										<input type="text" class="form-control" id="en_Model" name="en_Model" placeholder="Enter Model" value="" tabindex="32">
 										<span class="text-danger" id="enModelCheck" style='display:none'> Enter Model </span>
 									</div>
 								</div>
@@ -1493,7 +1493,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="vehicle_reg_no"> Vehicle Reg No. </label>
-										<input type="text" class="form-control" id="vehicle_reg_no" name="vehicle_reg_no" placeholder="Enter Vehicle No" value="" tabindex="32">
+										<input type="text" class="form-control" id="vehicle_reg_no" name="vehicle_reg_no" placeholder="Enter Vehicle No" value="" tabindex="33">
 										<span class="text-danger" id="vehicle_reg_noCheck" style='display:none'> Enter Vehicle No </span>
 									</div>
 								</div>
@@ -1501,7 +1501,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="endorsement_name"> Endorsement name </label> <span class="required">&nbsp;*</span>
-										<input type="text" class="form-control" id="endorsement_name" name="endorsement_name" onkeydown="return /[a-z ]/i.test(event.key)" placeholder="Enter Endorsement Name" value="" tabindex="33">
+										<input type="text" class="form-control" id="endorsement_name" name="endorsement_name" onkeydown="return /[a-z ]/i.test(event.key)" placeholder="Enter Endorsement Name" value="" tabindex="34">
 										<span class="text-danger" id="endorsementnameCheck" style='display:none'> Enter Endorsement Name</span>
 									</div>
 								</div>
@@ -1509,7 +1509,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="en_Key"> Key </label> <span class="required">&nbsp;*</span>
-										<select type="text" class="form-control" id="en_Key" name="en_Key" tabindex="36">
+										<select type="text" class="form-control" id="en_Key" name="en_Key" tabindex="35">
 											<option value=""> Select Key </option>
 											<option value="0"> YES </option>
 											<option value="1"> NO </option>
@@ -1521,7 +1521,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 									<div class="form-group">
 										<label for="en_RC"> RC </label> <span class="required">&nbsp;*</span>
-										<select type="text" class="form-control" id="en_RC" name="en_RC" tabindex="37">
+										<select type="text" class="form-control" id="en_RC" name="en_RC" tabindex="36">
 											<option value=""> Select RC </option>
 											<option value="0"> YES </option>
 											<option value="1"> NO </option>
@@ -1533,7 +1533,7 @@ if (sizeof($getCustomerReg) > 0) {
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" id="end_doc_upd" style="display: none;">
 									<div class="form-group">
 										<label for="RC_document_upd"> RC Uploads </label> 
-										<input type="file" onchange="compressImage(this,200)" class="form-control" id="RC_document_upd" name="Rc_document_upd" tabindex="38">
+										<input type="file" onchange="compressImage(this,200)" class="form-control" id="RC_document_upd" name="Rc_document_upd" tabindex="37">
 										<input type="hidden" id="rc_doc_upd" name="rc_doc_upd" value="">
 										<a href="" target="_blank" id="rc_doc_img"> </a>
 										<span class="text-danger" id="rcdocUpdCheck" style='display:none'> Upload RC </span>
@@ -1544,7 +1544,7 @@ if (sizeof($getCustomerReg) > 0) {
 									<div class="form-group">
 										<label for="endorsependingchk"> Pending </label> <span class="required">&nbsp;*</span>
 										<label class="switch">
-											<input type="checkbox" value="YES" id="endorsependingchk" name="endorsependingchk" checked tabindex="39">
+											<input type="checkbox" value="YES" id="endorsependingchk" name="endorsependingchk" checked tabindex="38">
 											<span class="slider round"></span>
 										</label>
 									</div>
@@ -1554,7 +1554,7 @@ if (sizeof($getCustomerReg) > 0) {
 
 							<div class="col-md-12 ">
 								<div class="text-right">
-									<button type="button" name="update_endorsement" id="update_endorsement" class="btn btn-primary" value="Submit" tabindex="40"><span class="icon-check"></span>&nbsp;Submit</button>
+									<button type="button" name="update_endorsement" id="update_endorsement" class="btn btn-primary" value="Submit" tabindex="39"><span class="icon-check"></span>&nbsp;Submit</button>
 								</div>
 							</div>
 
@@ -1566,7 +1566,7 @@ if (sizeof($getCustomerReg) > 0) {
 				<!-- Gold Info Start -->
 				<div class="card edit-document-card" id="gold_info_card" style='display:none'>
 					<div class="card-header"> Gold Info
-						<button type="button" class="btn btn-primary" id="add_gold" name="add_gold" data-toggle="modal" data-target=".addGold" style="padding: 5px 35px;  float: right;" tabindex='41'><span class="icon-add"></span></button>
+						<button type="button" class="btn btn-primary" id="add_gold" name="add_gold" data-toggle="modal" data-target=".addGold" style="padding: 5px 35px;  float: right;" tabindex='40'><span class="icon-add"></span></button>
 					</div>
 					<span class="text-danger" style='display:none' id='Gold_infoCheck'>Please Fill Gold Info </span>
 					<div class="card-body">
@@ -1584,7 +1584,7 @@ if (sizeof($getCustomerReg) > 0) {
 
 				<div class="card edit-document-card" id="documents_info_card" style='display:none'>
 					<div class="card-header"> Documents Info
-						<button type="button" class="btn btn-primary" id="add_document" name="add_document" data-toggle="modal" data-target=".addDocument" style="padding: 5px 35px;  float: right;" tabindex="42"><span class="icon-add"></span></button>
+						<button type="button" class="btn btn-primary" id="add_document" name="add_document" data-toggle="modal" data-target=".addDocument" style="padding: 5px 35px;  float: right;" tabindex="41"><span class="icon-add"></span></button>
 					</div>
 					<div class="card-body">
 						<div class="row">
@@ -1611,7 +1611,7 @@ if (sizeof($getCustomerReg) > 0) {
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="card documentation-card">
 					<div class="card-header">Old Data
-						<button type="button" class="btn btn-primary" id="add_cus_old_data" name="add_cus_old_data" data-toggle="modal" data-target=".add_cus_old" style="padding: 5px 35px; float: right;" tabindex='43'><span class="icon-add"></span></button>
+						<button type="button" class="btn btn-primary" id="add_cus_old_data" name="add_cus_old_data" data-toggle="modal" data-target=".add_cus_old" style="padding: 5px 35px; float: right;" tabindex='42'><span class="icon-add"></span></button>
 					</div>
 					<div class="card-body">
 						<div class="row">
@@ -2088,10 +2088,11 @@ if (sizeof($getCustomerReg) > 0) {
 
 						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" style="display: none;" id="relation_doc">
 							<div class="form-group">
-								<label for="signRelationship"> Relationship </label>
+								<label for="signRelationship"> Relationship </label> <span class="required">&nbsp;*</span>
 								<select type="text" class="form-control" id="signType_relationship" name="signType_relationship" tabindex='5'>
 									<option value=""> Select Relationship </option>
 								</select>
+								<span class="text-danger" id="signTyperRelationshipCheck"> Select Relationship </span>
 							</div>
 						</div>
 
@@ -2196,12 +2197,13 @@ if (sizeof($getCustomerReg) > 0) {
 
 						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 							<div class="form-group">
-								<label for="HolderName "> Holder Name </label>
+								<label for="HolderName "> Holder Name </label> <span class="required">&nbsp;*</span>
 								<input type="text" class="form-control" id="holder_name" name="holder_name" readonly tabindex='2'>
 
 								<select type="text" class="form-control" id="holder_relationship_name" name="holder_relationship_name" style="display: none;" >
 									<option value=""> Select Holder Name </option>
 								</select>
+								<span class="text-danger" id="holderNameCheck"> Select Holder Name </span>
 							</div>
 						</div>
 
@@ -2583,12 +2585,13 @@ if (sizeof($getCustomerReg) > 0) {
 
 						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 							<div class="form-group">
-								<label for="docholdername"> Holder Name </label>
+								<label for="docholdername"> Holder Name </label> <span class="required">&nbsp;*</span>
 								<input type="text" class="form-control" id="docholder_name" name="docholder_name" value="" readonly tabindex="1" readonly>
 
 								<select type="text" class="form-control" id="docholder_relationship_name" name="docholder_relationship_name" style="display: none;" tabindex="1">
 									<option value=""> Select Relationship </option>
 								</select>
+								<span class="text-danger" id="docHolderNameCheck" style='display:none'> Select Holder Name </span>
 							</div>
 						</div>
 

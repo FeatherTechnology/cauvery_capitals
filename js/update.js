@@ -334,6 +334,19 @@ $(document).ready(function () {
             $('#mortgage_document').val('');
             $('#mortgage_document_upd').val('');
             $('#mortgage_doc_upd').val('');//old uploaded name
+
+            $("#propertyholdertypeCheck").hide();
+            $("#docpropertytypeCheck").hide();
+            $("#docpropertymeasureCheck").hide();
+            $("#docpropertylocCheck").hide();
+            $("#docpropertyvalueCheck").hide();
+            $("#propertyholderNameCheck").hide();
+            $("#mortgagenameCheck").hide();
+            $("#mortgagedsgnCheck").hide();
+            $("#mortgagenumCheck").hide();
+            $("#regofficeCheck").hide();
+            $("#mortgagevalueCheck").hide();
+            $("#mortgagedocCheck").hide();
         }
     })
 
@@ -447,6 +460,16 @@ $(document).ready(function () {
             $('#vehicle_process').val('');
             $('#en_Company').val('');
             $('#en_Model').val('');
+
+            $("#ownertypeCheck").hide();
+            $("#vehicletypeCheck").hide();
+            $("#vehicleprocessCheck").hide();
+            $("#enCompanyCheck").hide();
+            $("#enModelCheck").hide();
+            $("#ownernameCheck").hide();
+            $("#endorsementnameCheck").hide();
+            $("#enKeyCheck").hide();
+            $("#enRCCheck").hide();
         }
     })
 
@@ -3622,7 +3645,8 @@ function MEValidation(id) {
 
                 if (owner_type != '' && owner_type != '2') {//check owner type is not family
                     validateField(owner_name, '#ownernameCheck');
-                } else if (owner_type != '' && owner_type == '2') {//check owner type is family
+                } else if (owner_type != '' && owner_type == '2') {
+                    console.log("gg")//check owner type is family
                     validateField(ownername_relationship_name, '#ownernameCheck');
                 }
                 validateField(vehicle_type, '#vehicletypeCheck');
@@ -3645,10 +3669,12 @@ function MEValidation(id) {
 
     function validateField(value, fieldId) {
         if (value === '') {
+            console.log("qq")
             response = false;
             event.preventDefault();
             $(fieldId).show();
         } else {
+            console.log("ss")
             $(fieldId).hide();
         }
     }
@@ -3800,6 +3826,7 @@ function resetsignInfo(req_id, cus_id) {
             $("#signTypeCheck").hide();
             $("#docCountCheck").hide();
             $('#docupdCheck').hide();
+            $('#signTyperRelationshipCheck').hide();
         }
     }).then(function () {
         signInfoEditEvent();//call for event listener
@@ -3888,7 +3915,7 @@ function submitSignedDoc(req_id, cus_id) {
     let doc_Count = $("#doc_Count").val();
     let signType_relationship = $("#signType_relationship").val();
 
-    if (sign_type != "" && doc_Count != "") {
+    if ( sign_type !== "" && doc_Count !== "" && ((sign_type === "2" || sign_type === "3") ? signType_relationship !== "" : true)) {
 
         for (var i = 0; i < files.length; i++) {
             formdata.append('signdoc_upd[]', files[i])
@@ -3938,6 +3965,14 @@ function submitSignedDoc(req_id, cus_id) {
             $("#docCountCheck").hide();
         }
 
+        if (sign_type == '2' || sign_type == '3') {
+            if (signType_relationship == '') {
+                $('#signTyperRelationshipCheck').show();
+            } else {
+                $('#signTyperRelationshipCheck').hide();
+            }
+        }
+
         // if(files.length <= 0 || files.length != doc_Count){
         //     $('#docupdCheck').show();
         // }else{
@@ -3980,6 +4015,7 @@ function resetchequeInfo(req_id, cus_id) {
             $("#chequebankCheck").hide();
             $("#chequeCountCheck").hide();
             $('#chequeupdCheck').hide();
+            $("#holderNameCheck").hide();
 
         }
     }).then(function () {
@@ -4088,7 +4124,9 @@ function submitCheque(req_id, cus_id) {
         i++;
     })
 
-  if ( holder_type != "" && chequebank_name != "" && cheque_count != "" && req_id != "" && !chequeArr.includes('')) { // !chequeArr.includes('') will check if any of array values is empty
+
+  if ( holder_type != "" && chequebank_name != "" && cheque_count != "" && req_id != "" && !chequeArr.includes('') 
+    && ((holder_type === "2") ? holder_relationship_name !== "" : true)) { // !chequeArr.includes('') will check if any of array values is empty
 
         for (var i = 0; i < files.length; i++) {
             formdata.append('cheque_upd[]', files[i])
@@ -4156,6 +4194,14 @@ function submitCheque(req_id, cus_id) {
             $('#chequeNoCheck').show();
         } else {
             $('#chequeNoCheck').hide();
+        }
+
+        if (holder_type == '2') {
+            if (holder_relationship_name == "") {
+                $("#holderNameCheck").show();
+            } else {
+                $("#holderNameCheck").hide();
+            }
         }
 
         // if (files.length != cheque_count || chequeArr.includes('')) {
@@ -4350,6 +4396,7 @@ function resetdocInfo(req_id, cus_id) {
             $("#documentTypeCheck").hide();
             $("#docholderCheck").hide();
             $('#docinfoupdCheck').hide();
+            $('#docHolderNameCheck').hide();
 
         }
     }).then(function () {
@@ -4408,7 +4455,7 @@ function submitDocument(req_id, cus_id) {
     let relation_name = $("#docholder_relationship_name").val();
     let relation = $("#doc_relation").val();
 
-    if ( doc_name != "" && doc_details != "" && doc_type != "" && doc_holder != "") {
+    if ( doc_name != "" && doc_details != "" && doc_type != "" && doc_holder != "" && ((doc_holder === "2") ? relation_name !== "" : true)) {
             
         for (var i = 0; i < files.length; i++) {
             formdata.append('document_info_upd[]', files[i])
@@ -4485,6 +4532,14 @@ function submitDocument(req_id, cus_id) {
         }else{
             $("#docholderCheck").hide();
         } 
+
+        if (doc_holder == '2') {
+            if (relation_name == "") {
+                $("#docHolderNameCheck").show();
+            } else {
+                $("#docHolderNameCheck").hide();
+            }
+        }
 
         // if(files.length <= 0){
         //     $('#docinfoupdCheck').show();
