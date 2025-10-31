@@ -454,6 +454,7 @@ $(document).ready(function () {
   $("#docpropertymeasureCheck").hide();
   $("#docpropertylocCheck").hide();
   $("#docpropertyvalueCheck").hide();
+  $("#propertyholderNameCheck").hide();
 
   // $('#mortgagenameCheck').hide(); $('#mortgagedsgnCheck').hide(); $('#mortgagenumCheck').hide(); $('#regofficeCheck').hide(); $('#mortgagevalueCheck').hide(); $('#mortgagedocCheck').hide();
 
@@ -464,6 +465,7 @@ $(document).ready(function () {
   $("#vehicleprocessCheck").hide();
   $("#enCompanyCheck").hide();
   $("#enModelCheck").hide();
+  $("#ownerNameCheck").hide();
   // $('#vehicle_reg_noCheck').hide(); $('#endorsementnameCheck').hide(); $('#enRCCheck').hide(); $('#enKeyCheck').hide();
 
   //Gold Info
@@ -480,6 +482,7 @@ $(document).ready(function () {
   $("#documentdetailsCheck").hide();
   $("#documentTypeCheck").hide();
   $("#docholderCheck").hide();
+  $("#docHolderNameCheck").hide();
 
   $("#sign_type").change(function () {
     // Signed Type
@@ -800,6 +803,13 @@ $(document).ready(function () {
       $("#doc_property_measurement").val("");
       $("#doc_property_location").val("");
       $("#doc_property_value").val("");
+
+      $("#propertyholdertypeCheck").hide();
+      $("#docpropertytypeCheck").hide();
+      $("#docpropertymeasureCheck").hide();
+      $("#docpropertylocCheck").hide();
+      $("#docpropertyvalueCheck").hide();
+      $("#propertyholderNameCheck").hide();
     }
 
     let mort = process == "0" ? true : false;
@@ -893,6 +903,13 @@ $(document).ready(function () {
       // $('#endorsement_name').val('');
       // $('#en_RC').val('');
       // $('#en_Key').val('');
+
+      $("#ownertypeCheck").hide();
+      $("#vehicletypeCheck").hide();
+      $("#vehicleprocessCheck").hide();
+      $("#enCompanyCheck").hide();
+      $("#enModelCheck").hide();
+      $("#ownerNameCheck").hide();
     }
 
     let endorse = process == "0" ? true : false;
@@ -1555,11 +1572,6 @@ function closeFamModal() {
       // Remove the last element (customer itself) from the array
       response.pop();
 
-      // Sort response alphabetically by fam_name
-      response.sort(function(a, b) {
-        return a.fam_name.localeCompare(b.fam_name);
-      });
-
       // Build HTML options
       var htmlString = "<option value=''>Select Guarantor</option>";
       for (var i = 0; i < response.length; i++) {
@@ -1571,6 +1583,11 @@ function closeFamModal() {
 
       // Append to the dropdown
       $("#guarentor_name").html(htmlString);
+      
+       // Sort response alphabetically by fam_name
+      response.sort(function(a, b) {
+        return a.fam_name.localeCompare(b.fam_name);
+      });
 
       // Call existing functions
       resetFamInfo();
@@ -3465,7 +3482,7 @@ $(document).on("click", "#signInfoBtn", function () {
   let doc_Count = $("#doc_Count").val();
   let signedID = $("#signedID").val();
 
-  if (sign_type != "" && doc_Count != "" && req_id != "") {
+  if ( sign_type !== "" && doc_Count !== "" && req_id !== "" && ((sign_type === "2" || sign_type === "3") ? signType_relationship !== "" : true)) {
     $.ajax({
       url: "verificationFile/documentation/signed_doc_info_submit.php",
       type: "POST",
@@ -3507,6 +3524,7 @@ $(document).on("click", "#signInfoBtn", function () {
     $("#docNameCheck").hide();
     $("#signTypeCheck").hide();
     $("#docCountCheck").hide();
+    $("#signTyperRelationshipCheck").hide();
   } else {
     if (sign_type == "") {
       $("#signTypeCheck").show();
@@ -3518,6 +3536,14 @@ $(document).on("click", "#signInfoBtn", function () {
       $("#docCountCheck").show();
     } else {
       $("#docCountCheck").hide();
+    }
+
+    if (sign_type == '2' || sign_type == '3') {
+      if (signType_relationship == '') {
+          $('#signTyperRelationshipCheck').show();
+      } else {
+          $('#signTyperRelationshipCheck').hide();
+      }
     }
   }
 });
@@ -3542,6 +3568,11 @@ function resetsignInfo() {
       $("#signType_relationship").val("");
       $("#doc_Count").val("");
       $("#signedID").val("");
+
+      $("#docNameCheck").hide();
+      $("#signTypeCheck").hide();
+      $("#docCountCheck").hide();
+      $("#signTyperRelationshipCheck").hide();
     },
   });
 }
@@ -3643,6 +3674,7 @@ function resetsigninfoList() {
 $("#chequebankCheck").hide();
 $("#holdertypeCheck").hide();
 $("#chequeCountCheck").hide();
+$("#holderNameCheck").hide();
 
 $(document).on("click", "#chequeInfoBtn", function () {
   let req_id = $("#req_id").val();
@@ -3656,12 +3688,7 @@ $(document).on("click", "#chequeInfoBtn", function () {
   let cheque_count = $("#cheque_count").val();
   let chequeID = $("#chequeID").val();
 
-  if (
-    holder_type != "" &&
-    chequebank_name != "" &&
-    cheque_count != "" &&
-    req_id != ""
-  ) {
+  if ( holder_type != "" && chequebank_name != "" && cheque_count != "" && req_id != ""  && ((holder_type === "2") ? holder_relationship_name !== "" : true) ) {
     $.ajax({
       url: "verificationFile/documentation/cheque_info_submit.php",
       type: "POST",
@@ -3705,6 +3732,7 @@ $(document).on("click", "#chequeInfoBtn", function () {
     $("#chequebankCheck").hide();
     $("#holdertypeCheck").hide();
     $("#chequeCountCheck").hide();
+    $("#holderNameCheck").hide();
   } else {
     if (holder_type == "") {
       $("#holdertypeCheck").show();
@@ -3722,6 +3750,14 @@ $(document).on("click", "#chequeInfoBtn", function () {
       $("#chequeCountCheck").show();
     } else {
       $("#chequeCountCheck").hide();
+    }
+
+    if (holder_type == '2') {
+      if (holder_relationship_name == "") {
+          $("#holderNameCheck").show();
+      } else {
+          $("#holderNameCheck").hide();
+      }
     }
   }
 });
@@ -3744,6 +3780,11 @@ function resetchequeInfo() {
       $("#chequebank_name").val("");
       $("#cheque_count").val("");
       $("#chequeID").val("");
+
+      $("#chequebankCheck").hide();
+      $("#holdertypeCheck").hide();
+      $("#chequeCountCheck").hide();
+      $("#holderNameCheck").hide();
     },
   });
 }
@@ -3993,6 +4034,7 @@ $("#documentnameCheck").hide();
 $("#documentdetailsCheck").hide();
 $("#documentTypeCheck").hide();
 $("#docholderCheck").hide();
+$("#docHolderNameCheck").hide();
 //Document info submit button action
 $("#docInfoBtn").click(function () {
   let req_id = $("#req_id").val();
@@ -4006,13 +4048,7 @@ $("#docInfoBtn").click(function () {
   let relation_name = $("#docholder_relationship_name").val();
   let relation = $("#doc_relation").val();
 
-  if (
-    doc_name != "" &&
-    doc_details != "" &&
-    doc_type != "" &&
-    doc_holder != "" &&
-    relation != ""
-  ) {
+  if ( doc_name != "" && doc_details != "" && doc_type != "" && doc_holder != "" && relation != "" && ((doc_holder === "2") ? relation_name !== "" : true) ) {
     $.ajax({
       url: "verificationFile/documentation/doc_info_submit.php",
       data: {
@@ -4058,6 +4094,13 @@ $("#docInfoBtn").click(function () {
     $("#documentdetailsCheck").show();
     $("#documentTypeCheck").show();
     $("#docholderCheck").show();
+    if (doc_holder == '2') {
+      if (relation_name == "") {
+          $("#docHolderNameCheck").show();
+      } else {
+          $("#docHolderNameCheck").hide();
+      }
+    }
   }
 });
 
@@ -4146,6 +4189,12 @@ function resetdocInfo() {
       $("#relation_name").val("");
       $("#docholder_relationship_name").val("");
       $("#doc_relation").val("");
+
+      $("#documentnameCheck").hide();
+      $("#documentdetailsCheck").hide();
+      $("#documentTypeCheck").hide();
+      $("#docholderCheck").hide();
+      $("#docHolderNameCheck").hide();
     },
   });
 }
@@ -4323,12 +4372,14 @@ function doc_submit_validation(submit_btn) {
   var cus_id_doc = $("#cus_id_doc").val();
   var mortgage_process = $("#mortgage_process").val();
   var Propertyholder_type = $("#Propertyholder_type").val();
+  var Propertyholder_relationship_name = $("#Propertyholder_relationship_name").val();
   var doc_property_pype = $("#doc_property_pype").val();
   var doc_property_measurement = $("#doc_property_measurement").val();
   var doc_property_location = $("#doc_property_location").val();
   var doc_property_value = $("#doc_property_value").val();
   var endorsement_process = $("#endorsement_process").val();
   var owner_type = $("#owner_type").val();
+  var ownername_relationship_name = $("#ownername_relationship_name").val();
   var vehicle_type = $("#vehicle_type").val();
   var vehicle_process = $("#vehicle_process").val();
   var en_Company = $("#en_Company").val();
@@ -4400,6 +4451,15 @@ function doc_submit_validation(submit_btn) {
     } else {
       $("#docpropertyvalueCheck").hide();
     }
+    if (Propertyholder_type == '2') {
+      if (Propertyholder_relationship_name == "") {
+          event.preventDefault();
+          validation = false;
+          $("#propertyholderNameCheck").show();
+      } else {
+          $("#propertyholderNameCheck").hide();
+      }
+    }
   }
 
   if (endorsement_process == "") {
@@ -4445,6 +4505,15 @@ function doc_submit_validation(submit_btn) {
       $("#enModelCheck").show();
     } else {
       $("#enModelCheck").hide();
+    }
+    if (owner_type == '2') {
+      if (ownername_relationship_name == "") {
+          event.preventDefault();
+          validation = false;
+          $("#ownerNameCheck").show();
+      } else {
+          $("#ownerNameCheck").hide();
+      }
     }
   }
 return validation;

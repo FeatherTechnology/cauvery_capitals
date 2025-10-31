@@ -316,7 +316,7 @@ if (sizeof($getLoanCalculation) > 0) {
 												<label for="first_name">First Name</label>
 												<input type="text" class="form-control" id="first_name" name="first_name" value='<?php if (isset($first_name)) {
 																																	echo $first_name;
-																																} ?>' readonly tabindex='2'>
+																																} ?>' readonly tabindex='3'>
 											</div>
 										</div>
 
@@ -325,7 +325,7 @@ if (sizeof($getLoanCalculation) > 0) {
 												<label for="last_name">Last Name</label>
 												<input type="text" class="form-control" id="last_name" name="last_name" value='<?php if (isset($last_name)) {
 																																	echo $last_name;
-																																} ?>' readonly tabindex='2'>
+																																} ?>' readonly tabindex='4'>
 											</div>
 										</div>
 
@@ -334,7 +334,7 @@ if (sizeof($getLoanCalculation) > 0) {
 												<label for="name"> Customer Type </label>
 												<input type="text" class="form-control" name="cus_type" id="cus_type" value="<?php if (isset($cus_type)) {
 																																	echo $cus_type;
-																																} ?>" readonly tabindex='3'>
+																																} ?>" readonly tabindex='5'>
 											</div>
 										</div>
 
@@ -345,7 +345,7 @@ if (sizeof($getLoanCalculation) > 0) {
 												<label for="ExistType"> Exist Type </label>
 												<input type="text" class="form-control" name="cus_exist_type" id="cus_exist_type" value="<?php if (isset($cus_exist_type)) {
 																																				echo $cus_exist_type;
-																																			} ?>" readonly tabindex='4'>
+																																			} ?>" readonly tabindex='6'>
 											</div>
 										</div>
 
@@ -354,7 +354,7 @@ if (sizeof($getLoanCalculation) > 0) {
 												<label for="mobile1">Mobile No 1</label>
 												<input type="number" class="form-control" id="mobile1" name="mobile1" value='<?php if (isset($cp_mobile1)) {
 																																	echo $cp_mobile1;
-																																} ?>' readonly tabindex='5'>
+																																} ?>' readonly tabindex='7'>
 											</div>
 										</div>
 
@@ -363,7 +363,7 @@ if (sizeof($getLoanCalculation) > 0) {
 												<label for="mobile2">Mobile No 2</label>
 												<input type="number" class="form-control" id="mobile2" name="mobile2" value='<?php if (isset($cp_mobile2)) {
 																																	echo $cp_mobile2;
-																																} ?>' readonly tabindex='6'>
+																																} ?>' readonly tabindex='8'>
 											</div>
 										</div>
 
@@ -372,14 +372,14 @@ if (sizeof($getLoanCalculation) > 0) {
 												<label for="whatsapp">Whatsapp No </label>
 												<input type="number" class="form-control" id="whatsapp_no" name="whatsapp_no" value="<?php if (isset($cp_whatsapp)) {
 																																			echo $cp_whatsapp;
-																																		} ?>" readonly tabindex='7'>
+																																		} ?>" readonly tabindex='9'>
 											</div>
 										</div>
 
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="form-group">
 												<label for="DocArea"> Area </label>
-												<input type="text" class="form-control" id="doc_area" name="doc_area" value="<?php if (isset($doc_area_name)) echo $doc_area_name; ?>" readonly tabindex='8'>
+												<input type="text" class="form-control" id="doc_area" name="doc_area" value="<?php if (isset($doc_area_name)) echo $doc_area_name; ?>" readonly tabindex='10'>
 											</div>
 										</div>
 									</div>
@@ -412,7 +412,7 @@ if (sizeof($getLoanCalculation) > 0) {
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-8">
 											<div class="form-group">
 												<label for="GuarentorName"> Guarentor Name </label>
-												<select type="text" class="form-control" id="guarentor_name" name="guarentor_name" disabled tabindex='10'>
+												<select type="text" class="form-control" id="guarentor_name" name="guarentor_name" disabled tabindex='11'>
 													<option> Select Guarantor </option>
 												</select>
 											</div>
@@ -423,7 +423,7 @@ if (sizeof($getLoanCalculation) > 0) {
 												<label for="GuarentorRelationship"> Guarentor Relationship </label>
 												<input type="text" class="form-control" id="guarentor_relationship" name="guarentor_relationship" value='<?php if (isset($guarentor_relation)) {
 																																								echo $guarentor_relation;
-																																							} ?>' readonly tabindex='11'>
+																																							} ?>' readonly tabindex='12'>
 											</div>
 										</div>
 									</div>
@@ -457,7 +457,7 @@ if (sizeof($getLoanCalculation) > 0) {
 										<label for="LoanCategory"> Loan Category </label>
 										<input type="text" class="form-control" id="loan_category" name="loan_category" value="<?php if (isset($loan_category_lc)) {
 																																	echo $loan_category_lc;
-																																} ?>" readonly tabindex='12'>
+																																} ?>" readonly tabindex='13'>
 									</div>
 								</div>
 
@@ -816,7 +816,7 @@ if (sizeof($getLoanCalculation) > 0) {
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 cash_issue" style="display:none">
 											<div class="form-group">
 												<label for="disabledInput">Cash</label>
-												<input type="text" class="form-control" id="cash" name="cash" tabindex="47">
+												<input type="text" class="form-control" id="cash" name="cash" tabindex="46">
 												<span class="text-danger" style="display: none;" id="cash_amnt"> Please Enter Cash </span>
 											</div>
 										</div>
@@ -827,7 +827,7 @@ if (sizeof($getLoanCalculation) > 0) {
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 checque" style="display:none">
 											<div class="form-group">
 												<label for="disabledInput">Cheque number</label>
-												<input type="number" class="form-control" id="chequeno" name="chequeno" tabindex="48">
+												<input type="number" class="form-control" id="chequeno" name="chequeno" tabindex="47">
 												<span class="text-danger" style="display: none;" id="cheque_num"> Please Enter Cheque Number </span>
 											</div>
 										</div>
@@ -835,14 +835,14 @@ if (sizeof($getLoanCalculation) > 0) {
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 checque" style="display:none">
 											<div class="form-group">
 												<label for="disabledInput">Cheque Value</label>
-												<input type="text" class="form-control" id="chequeValue" name="chequeValue" tabindex="49">
+												<input type="text" class="form-control" id="chequeValue" name="chequeValue" tabindex="48">
 												<span class="text-danger" style="display: none;" id="cheque_val"> Please Enter Cheque Value </span>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 checque" style="display:none">
 											<div class="form-group">
 												<label for="disabledInput">Cheque Remark</label>
-												<input type="text" class="form-control" id="chequeRemark" name="chequeRemark" tabindex="50">
+												<input type="text" class="form-control" id="chequeRemark" name="chequeRemark" tabindex="49">
 												<span class="text-danger" style="display: none;" id="cheque_remark"> Please Enter Cheque Remark </span>
 											</div>
 										</div>
@@ -854,7 +854,7 @@ if (sizeof($getLoanCalculation) > 0) {
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 transaction" style="display:none">
 											<div class="form-group">
 												<label for="disabledInput">Transaction ID</label>
-												<input type="text" class="form-control" id="transaction_id" name="transaction_id" tabindex="51">
+												<input type="text" class="form-control" id="transaction_id" name="transaction_id" tabindex="50">
 												<span class="text-danger" style="display: none;" id="transact_id"> Please Enter Transaction ID </span>
 											</div>
 										</div>
@@ -862,14 +862,14 @@ if (sizeof($getLoanCalculation) > 0) {
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 transaction" style="display:none">
 											<div class="form-group">
 												<label for="disabledInput">Transaction Value </label>
-												<input type="text" class="form-control" id="transaction_value" name="transaction_value" tabindex="52">
+												<input type="text" class="form-control" id="transaction_value" name="transaction_value" tabindex="51">
 												<span class="text-danger" style="display: none;" id="transact_val"> Please Enter Transaction Value </span>
 											</div>
 										</div>
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 transaction" style="display:none">
 											<div class="form-group">
 												<label for="disabledInput">Transaction Remark </label>
-												<input type="text" class="form-control" id="transaction_remark" name="transaction_remark" tabindex="53">
+												<input type="text" class="form-control" id="transaction_remark" name="transaction_remark" tabindex="52">
 												<span class="text-danger" style="display: none;" id="transact_remark"> Please Enter Transaction Remark </span>
 											</div>
 										</div>
@@ -877,7 +877,7 @@ if (sizeof($getLoanCalculation) > 0) {
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 balance" style="display:none">
 											<div class="form-group">
 												<label for="disabledInput">Balance Amount </label>
-												<input type="text" class="form-control" id="balance" name="balance" readonly tabindex='54'>
+												<input type="text" class="form-control" id="balance" name="balance" readonly tabindex='53'>
 											</div>
 										</div>
 
@@ -901,7 +901,7 @@ if (sizeof($getLoanCalculation) > 0) {
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="GuarentorName"> Name </label><span class="required">&nbsp;*</span>
-												<select type="text" class="form-control" id="cash_guarentor_name" name="cash_guarentor_name" tabindex="55">
+												<select type="text" class="form-control" id="cash_guarentor_name" name="cash_guarentor_name" tabindex="54">
 													<option> Select Guarantor </option>
 												</select>
 												<span class="text-danger" style="display: none;" id="cash_guarentor"> Please Select the Name </span>
@@ -911,7 +911,7 @@ if (sizeof($getLoanCalculation) > 0) {
 										<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 											<div class="form-group">
 												<label for="GuarentorRelationship"> Relationship </label>
-												<input type="text" class="form-control" id="relationship" name="relationship" readonly tabindex="56">
+												<input type="text" class="form-control" id="relationship" name="relationship" readonly tabindex="55">
 											</div>
 										</div>
 
@@ -920,7 +920,7 @@ if (sizeof($getLoanCalculation) > 0) {
 												<input type="hidden" class="form-control" id="compare_finger" name="compare_finger"> <!--Already Store in Finger Print Table... when select fam name above the finger print will be shown here to compare. -->
 												<input type="hidden" class="form-control" id="ack_fingerprint" name="ack_fingerprint"> <!-- finger print value from Device when scanning.-->
 												<input type="hidden" class="form-control" id="fingerValidation" name="fingerValidation"> <!-- set val as 1 when finger Print Matching becuz to use for finger print validation if submit click.-->
-												<button type="button" class='btn btn-success scanBtn' style='background-color: #0c70ab;margin-top: 19px;' onclick="event.preventDefault()" title='Put Your Thumb' tabindex='57'><i class="material-icons" id="icon-flipped"> &#xe90d; </i>&nbsp;Scan</button>
+												<button type="button" class='btn btn-success scanBtn' style='background-color: #0c70ab;margin-top: 19px;' onclick="event.preventDefault()" title='Put Your Thumb' tabindex='56'><i class="material-icons" id="icon-flipped"> &#xe90d; </i>&nbsp;Scan</button>
 												<span class="text-danger" id="hand_type" style="position: relative;top: 12px;"> </span>
 											</div>
 										</div>
@@ -936,7 +936,7 @@ if (sizeof($getLoanCalculation) > 0) {
 					<div class="card" id="bankInfo" style="display:none">
 
 						<div class="card-header"> Bank info <span style="font-weight:bold" class=""></span>
-							<button type="button" class="btn btn-primary" id="bank_add" name="bank_add" data-toggle="modal" data-target=".addbank" style="padding: 5px 35px;  float: right;" tabindex='58' onclick="resetbankInfo()"><span class="icon-add"></span></button>
+							<button type="button" class="btn btn-primary" id="bank_add" name="bank_add" data-toggle="modal" data-target=".addbank" style="padding: 5px 35px;  float: right;" tabindex='57' onclick="resetbankInfo()"><span class="icon-add"></span></button>
 						</div>
 
 						<div class="card-body">
@@ -972,7 +972,7 @@ if (sizeof($getLoanCalculation) > 0) {
 					<!-- Submit Button Start -->
 					<div class="col-md-12 ">
 						<div class="text-right">
-							<button type="submit" name="submit_loanIssue" id="submit_loanIssue" class="btn btn-primary" value="Submit" tabindex="59"><span class="icon-check"></span>&nbsp;Submit</button>
+							<button type="submit" name="submit_loanIssue" id="submit_loanIssue" class="btn btn-primary" value="Submit" tabindex="58"><span class="icon-check"></span>&nbsp;Submit</button>
 							<!-- <button type="reset" class="btn btn-outline-secondary" tabindex="20">Clear</button> -->
 						</div>
 					</div>
@@ -1021,7 +1021,7 @@ if (sizeof($getLoanCalculation) > 0) {
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group">
 							<label for="bank_name "> Bank Name </label> <span class="required">&nbsp;*</span>
-							<input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Enter Bank Name" onkeydown="return /[a-z ]/i.test(event.key)" tabindex='60'>
+							<input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Enter Bank Name" onkeydown="return /[a-z ]/i.test(event.key)" tabindex='59'>
 							<span class="text-danger" id="bankNameCheck" style="display: none;"> Enter Bank Name </span>
 						</div>
 					</div>
@@ -1029,7 +1029,7 @@ if (sizeof($getLoanCalculation) > 0) {
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group">
 							<label for="branch_name"> Branch Name </label> <span class="required">&nbsp;*</span>
-							<input type="text" class="form-control" id="branch_name" name="branch_name" placeholder="Enter Branch Name" onkeydown="return /[a-z ]/i.test(event.key)" tabindex='61'>
+							<input type="text" class="form-control" id="branch_name" name="branch_name" placeholder="Enter Branch Name" onkeydown="return /[a-z ]/i.test(event.key)" tabindex='60'>
 							<span class="text-danger" id="branchCheck" style="display: none;"> Enter Branch Name </span>
 						</div>
 					</div>
@@ -1037,7 +1037,7 @@ if (sizeof($getLoanCalculation) > 0) {
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group">
 							<label for="account_holder_name"> Account Holder Name </label> <span class="required">&nbsp;*</span>
-							<input type="text" class="form-control" id="account_holder_name" name="account_holder_name" placeholder="Enter Account Holder Name" onkeydown="return /[a-z ]/i.test(event.key)" tabindex='62'>
+							<input type="text" class="form-control" id="account_holder_name" name="account_holder_name" placeholder="Enter Account Holder Name" onkeydown="return /[a-z ]/i.test(event.key)" tabindex='61'>
 							<span class="text-danger" id="accholdCheck" style="display: none;"> Enter Account Holder Name </span>
 						</div>
 					</div>
@@ -1045,7 +1045,7 @@ if (sizeof($getLoanCalculation) > 0) {
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group">
 							<label for="account_number"> Account Number </label> <span class="required">&nbsp;*</span>
-							<input type="number" class="form-control" id="account_number" name="account_number" placeholder="Enter Account Number" tabindex='63'>
+							<input type="number" class="form-control" id="account_number" name="account_number" placeholder="Enter Account Number" tabindex='62'>
 							<span class="text-danger" id="accnoCheck" style="display: none;"> Enter Account Number </span>
 						</div>
 					</div>
@@ -1053,20 +1053,20 @@ if (sizeof($getLoanCalculation) > 0) {
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group">
 							<label for="Ifsc_code"> IFSC Code </label> <span class="required">&nbsp;*</span>
-							<input type="text" class="form-control" id="Ifsc_code" name="Ifsc_code" placeholder="Enter IFSC Code" tabindex='64'>
+							<input type="text" class="form-control" id="Ifsc_code" name="Ifsc_code" placeholder="Enter IFSC Code" tabindex='63'>
 							<span class="text-danger" id="ifscCheck" style="display: none;"> Enter IFSC Code </span>
 						</div>
 					</div>
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 						<div class="form-group">
 							<label for="bank_upload"> Upload</label>
-							<input type="file" class="form-control" id="bank_upload" name="bank_upload" tabindex="65">
+							<input type="file" class="form-control" id="bank_upload" name="bank_upload" tabindex="64">
 							<input type="hidden" id="bank_upload_id">
 						</div>
 					</div>
 					<div class="col-xl-2 col-lg-2 col-md-6 col-sm-4 col-12">
 						<input type="hidden" name="bankID" id="bankID">
-						<button type="button" tabindex="66" name="bankInfoBtn" id="bankInfoBtn" class="btn btn-primary" style="margin-top: 19px;">Submit</button>
+						<button type="button" tabindex="65" name="bankInfoBtn" id="bankInfoBtn" class="btn btn-primary" style="margin-top: 19px;">Submit</button>
 					</div>
 
 				</div>
@@ -1091,7 +1091,7 @@ if (sizeof($getLoanCalculation) > 0) {
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal" tabindex='67' onclick="resetbankinfoList()">Close</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" tabindex='66' onclick="resetbankinfoList()">Close</button>
 			</div>
 		</div>
 	</div>
