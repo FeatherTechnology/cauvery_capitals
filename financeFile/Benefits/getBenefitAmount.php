@@ -82,32 +82,47 @@ function moneyFormatIndia($num)
 
 function getSubareaList($connect, $user_id)
 {
+    if ($user_id != '') { 
+        // Step 1: Get line_id for user
+        $userQry = $connect->query("SELECT line_id FROM USER WHERE user_id = $user_id");
+        $rowuser = $userQry->fetch();
+        $line_id = $rowuser['line_id'] ?? '';
 
-    if ($user_id != '') { //to get user's sub area id based on user's branch assigned
+        if ($line_id != '') {
+            // Step 2: Split comma-separated line IDs
+            $line_id = explode(',', $line_id);
+            $area_list = array();
 
-        $userQry = $connect->query("SELECT line_id FROM USER WHERE user_id = $user_id ");
-        while ($rowuser = $userQry->fetch()) {
-            $group_id = $rowuser['line_id'];
+            // Step 3: Get all area_ids for each line
+            foreach ($line_id as $line) {
+                $groupQry = $connect->query("SELECT area_id FROM area_line_mapping_area WHERE line_map_id = $line");
+                while ($row_sub = $groupQry->fetch()) {
+                    $area_list[] = $row_sub['area_id'];
+                }
+            }
+
+            // Step 4: Merge and clean up
+            $area_ids = array();
+            foreach ($area_list as $subarray) {
+                $area_ids = array_merge($area_ids, explode(',', $subarray));
+            }
+
+            // Step 5: Remove duplicates and join
+            $area_ids = array_unique($area_ids);
+            $area_list = implode(',', $area_ids);
+        } else {
+            $area_list = '';
         }
-        $group_id = explode(',', $group_id);
-        $sub_area_list = array();
-        foreach ($group_id as $group) {
-            $groupQry = $connect->query("SELECT sub_area_id FROM area_line_mapping where map_id = $group ");
-            $row_sub = $groupQry->fetch();
-            $sub_area_list[] = $row_sub['sub_area_id'];
-        }
-        $sub_area_ids = array();
-        foreach ($sub_area_list as $subarray) {
-            $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
-        }
-        $sub_area_list = array();
-        $sub_area_list = implode(',', $sub_area_ids);
     } else {
-        $sub_area_list = '';
+        $area_list = '';
     }
-    $condition = ($sub_area_list != '') ? " and FIND_IN_SET(iv.sub_area ,'" . $sub_area_list . "')" : '';
+
+    // Step 6: Build SQL condition
+    $condition = ($area_list != '') ? " AND FIND_IN_SET(iv.area, '$area_list')" : '';
+
     return $condition;
 }
+
 
 // Close the database connection
 $connect = null;

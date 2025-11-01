@@ -71,22 +71,23 @@ function getSubareaList($connect, $user_id)
             $line_id = $rowuser['line_id'];
         }
         $line_id = explode(',', $line_id);
-        $sub_area_list = array();
+        $area_list_array = []; 
         foreach ($line_id as $line) {
-            $groupQry = $connect->query("SELECT sub_area_id FROM area_line_mapping where map_id = $line ");
-            $row_sub = $groupQry->fetch();
-            $sub_area_list[] = $row_sub['sub_area_id'];
+            $lineQry = $connect->query("SELECT area_id FROM area_line_mapping_area where line_map_id = $line ");
+            while ($row_sub = $lineQry->fetch(PDO::FETCH_ASSOC)) {
+                $area_list_array[] = $row_sub['area_id']; 
+            }
         }
-        $sub_area_ids = array();
-        foreach ($sub_area_list as $subarray) {
-            $sub_area_ids = array_merge($sub_area_ids, explode(',', $subarray));
+        $area_ids = [];
+        foreach ($area_list_array as $subarray) {
+            $area_ids = array_merge($area_ids, explode(',', $subarray));
         }
-        $sub_area_list = array();
-        $sub_area_list = implode(',', $sub_area_ids);
+        $area_ids = array_unique($area_ids);
+        $area_list = implode(',', $area_ids);
     } else {
-        $sub_area_list = '';
+        $area_list = '';
     }
-    $condition = ($sub_area_list != '') ? " and FIND_IN_SET(iv.sub_area ,'" . $sub_area_list . "')" : '';
+    $condition = ($area_list != '') ? " and iv.area IN( $area_list)" : '';
     return $condition;
 }
 
