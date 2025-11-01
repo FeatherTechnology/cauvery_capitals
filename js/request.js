@@ -1,4 +1,3 @@
-
 // Document is ready
 $(document).ready(function () {
 
@@ -21,7 +20,6 @@ $(document).ready(function () {
 
             var idupd = $('#id').val();
             var cus_id_upd = $('#cus_id_upd').val();
-
 
             if (idupd == undefined) {
                 // if page loaded for update, then no need to customer details

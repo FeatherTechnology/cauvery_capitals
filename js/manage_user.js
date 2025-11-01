@@ -611,6 +611,7 @@ $(function () {
             }
 
             $('.cash_tally_access').show()
+            $('.bank_details').show()
         }
 
         var mastermodule = document.getElementById('mastermodule');

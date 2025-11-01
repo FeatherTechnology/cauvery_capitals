@@ -2680,10 +2680,10 @@ function hexpenseModalBtnClick() {
             $('#cat_hexp').empty();
         $('#cat_hexp').append("<option value=''>Select Category</option>");
 
-        // Sort the response alphabetically by cat_name before appending
-        response.sort(function(a, b) {
-            return a.cat_name.localeCompare(b.cat_name);
-        });
+        // // Sort the response alphabetically by cat_name before appending
+        // response.sort(function(a, b) {
+        //     return a.cat_name.localeCompare(b.cat_name);
+        // });
 
         for (var i = 0; i < response.length; i++) {
             $('#cat_hexp').append("<option value='" + response[i]['cat_id'] + "'>" + response[i]['cat_name'] + "</option>");
@@ -2788,7 +2788,7 @@ function hexpenseValidation() {
 //To get inputs Details for Bank expense table 
 function getBexpenseTable() {
 
-    var bank_id = $('input[name=cash_type]:checked').val();
+    var bank_id = $('input[name=expense_cash_type]:checked').val();
     var op_date = $('#op_date').text();
     $.ajax({
         url: 'accountsFile/cashtally/expense/getBexpenseTable.php',
@@ -2955,10 +2955,10 @@ function bexpenseModalBtnClick() {
            $('#cat_bexp').empty();
     $('#cat_bexp').append("<option value=''>Select Category</option>");
 
-    // Sort the response alphabetically by cat_name before appending
-    response.sort(function(a, b) {
-        return a.cat_name.localeCompare(b.cat_name);
-    });
+    // // Sort the response alphabetically by cat_name before appending
+    // response.sort(function(a, b) {
+    //     return a.cat_name.localeCompare(b.cat_name);
+    // });
 
     for (var i = 0; i < response.length; i++) {
         $('#cat_bexp').append("<option value='" + response[i]['cat_id'] + "'>" + response[i]['cat_name'] + "</option>");
@@ -5074,7 +5074,11 @@ function validateHandCash(amt) {
 
 //this function will check the amount entered were lesser or equal to hand closing balance
 function validateBankCash(amt) {
-    var cash_type = $('input[name=cash_type]:checked').val(); // selected bank ID
+    if(amt.id == 'amt_bexp'){
+    var cash_type = $('input[name=expense_cash_type]:checked').val(); // selected bank ID
+    }else{
+    var cash_type = $('input[name=other_trans_cash_type]:checked').val(); // selected bank ID
+    }
     var entered_amt = parseInt(amt.value) || 0;
 
     if (cash_type) {

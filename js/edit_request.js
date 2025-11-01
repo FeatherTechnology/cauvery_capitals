@@ -5,9 +5,9 @@ $(document).ready(function () {
     $('.closeModal').click(function () {
         $('#cusHistoryTable tbody').empty();
     })
-
-
 });//document ready end
+
+
 function callOnClickEvents() {
 
     setTimeout(() => {
@@ -180,7 +180,7 @@ function warningSwal(title, text) {
         html: text,
         icon: 'warning',
         showConfirmButton: true,
-        confirmButtonColor: '#0c70ab', // warning color (orange/yellow)
+        confirmButtonColor: '#0c70ab',
         confirmButtonText: 'OK'
     });
 }
@@ -191,7 +191,7 @@ function successSwal(title, text) {
         html: text,
         icon: 'success',
         showConfirmButton: true,
-        confirmButtonColor: '#0c70ab', // your success green
+        confirmButtonColor: '#0c70ab',
         confirmButtonText: 'OK'
     }).then((result) => {
         // Reload only if OK is clicked

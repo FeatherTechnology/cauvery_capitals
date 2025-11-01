@@ -327,12 +327,6 @@ function guarentorName() {
         data: { "cus_id": cus_id },
         dataType: 'json',
         success: function (response) {
-
-            // 🔹 Sort the response by fam_name before appending
-            response.sort(function (a, b) {
-                return a.fam_name.localeCompare(b.fam_name);
-            });
-
             $("#guarentor_name").empty();
             $("#guarentor_name").append("<option value=''>" + 'Select Guarantor' + "</option>");
 
@@ -346,6 +340,11 @@ function guarentorName() {
                 }
                 $("#guarentor_name").append("<option value='" + fam_id + "' " + selected + ">" + fam_name + "</option>");
             }
+            // 🔹 Sort the response by fam_name before appending
+            response.sort(function (a, b) {
+                return a.fam_name.localeCompare(b.fam_name);
+            });
+
         }
     });
 }
