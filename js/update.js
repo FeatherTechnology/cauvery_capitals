@@ -86,15 +86,8 @@ $(document).ready(function () {
 
     $('#area_confirm').change(function () {
         var areaselected = $(this).val();
-        // var sub_area_upd = '';
-        // getAreaBasedSubArea(areaselected, sub_area_upd, '#area_sub_area');
         getGroupandLine(areaselected)
     })
-
-    // $('#area_sub_area').change(function () {
-    //     var sub_area_id = $(this).val();
-    //     getGroupandLine(sub_area_id);
-    // })
 
     $('#getlatlong').click(function () {
         event.preventDefault();
@@ -780,7 +773,6 @@ function callCustomerProfileFunctn(){
 
     var area_upd = $('#area_upd').val();
     if (area_upd != '') {
-        var sub_area_upd = $('#sub_area_upd').val();
         getGroupandLine(area_upd)
     }
 

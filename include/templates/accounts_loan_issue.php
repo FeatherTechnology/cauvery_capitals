@@ -227,9 +227,6 @@ if (sizeof($getLoanCalculation) > 0) {
             <input type="hidden" name="area_upd" id="area_upd" value="<?php if (isset($area_confirm_area)) {
                                                                             echo $area_confirm_area;
                                                                         } ?>" />
-            <input type="hidden" name="sub_area_upd" id="sub_area_upd" value="<?php if (isset($area_confirm_subarea)) {
-                                                                                    echo $area_confirm_subarea;
-                                                                                } ?>" />
             <input type="hidden" name="verification_person_upd" id="verification_person_upd" value="<?php if (isset($verification_person)) {
                                                                                                         echo $verification_person;
                                                                                                     } ?>" />

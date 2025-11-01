@@ -2861,21 +2861,6 @@ $('#submit_loan_calculation').click(function (e) {
 });
 
 
-function getGroupandLine(sub_area_id) {
-
-    $.ajax({
-        url: 'verificationFile/getGroupandLine.php',
-        data: { 'sub_area_id': sub_area_id },
-        dataType: 'json',
-        type: 'post',
-        cache: false,
-        success: function (response) {
-            $('#area_group').val(response['group_name']);
-            $('#area_line').val(response['line_name']);
-        }
-    })
-}
-
 //Fetch Loan category list Based on Agent
 function getUserBasedLoanCategory() {
     var loan_category = $('#loan_category_load').val();

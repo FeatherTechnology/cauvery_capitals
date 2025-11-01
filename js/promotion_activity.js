@@ -188,40 +188,6 @@ $(document).on("click", '.add_event_mem', function () {
     });
 });
 
-// $(document).on('change', '.cus_area_name', function() {
-//     const $this = $(this);
-//     const selectedAreas = $this.val();
-//     const $row = $this.closest('tr');
-//     const $subAreaSelect = $row.find('.sub_area_name');
-//     const hiddenSubAreaId = $row.find('.hidden_area').text().trim() || "";
-
-//     if (!selectedAreas || selectedAreas.length === 0) {
-//         $subAreaSelect.empty().append('<option value="">Select Sub Area Name</option>');
-//         return;
-//     }
-
-//     $.ajax({
-//         url: 'followupFiles/promotion/getUserBasedArea.php',
-//         type: 'POST',
-//         dataType: 'json',
-//         data: { area_id: selectedAreas },
-//         success: function(response) {
-//             $subAreaSelect.empty().append('<option value="">Select Sub Area Name</option>');
-//             response.forEach(function(sub) {
-//                 let option = $('<option>', { value: sub.sub_area_id, text: sub.sub_area_name });
-//                 if (sub.sub_area_id.toString() === hiddenSubAreaId) {
-//                     option.prop('selected', true);
-//                 }
-
-//                 $subAreaSelect.append(option);
-//             });
-//         },
-//         error: function(xhr, status, error) {
-//             console.error("Error fetching sub-areas:", error);
-//         }
-//     });
-// });
-
 // Delete unwanted Rows
 $(document).on("click", '.delet_event', function () {
     var $row = $(this).closest('tr'); 
