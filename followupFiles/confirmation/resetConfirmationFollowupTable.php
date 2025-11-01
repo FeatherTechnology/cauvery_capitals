@@ -34,19 +34,19 @@ if (isset($_SESSION["userid"])) {
     $userid = $_SESSION["userid"];
 }
 if ($userid != 1) {
-     $userQry = $connect->query("SELECT group_id , line_id , due_followup_lines, promo_act_area_access FROM USER WHERE user_id = $userid ");
+     $userQry = $connect->query("SELECT group_id , line_id , due_followup_lines, conf_follow_area_access FROM USER WHERE user_id = $userid ");
             $rowuser = $userQry->fetch();
             $group_id = $rowuser['group_id'];
             $line_id = $rowuser['line_id'];
             $due_followup_lines = $rowuser['due_followup_lines'];
-            $promo_act_area_access = $rowuser['promo_act_area_access'];
+            $conf_follow_area_access = $rowuser['conf_follow_area_access'];
 
             $group_id = explode(',', $group_id);
             $line_id = explode(',', $line_id);
             $due_followup_lines = explode(',', $due_followup_lines);
             $area_list_array = [];
 
-            if ($promo_act_area_access == 1) {
+            if ($conf_follow_area_access == 1) {
 
                 foreach ($group_id as $group) {
                     $groupQry = $connect->query("SELECT area_id FROM area_group_mapping_area WHERE group_map_id = $group");
@@ -63,7 +63,7 @@ if ($userid != 1) {
                 $area_ids = array_unique($area_ids);
                 $area_list = implode(',', $area_ids);
 
-            } else if ($promo_act_area_access == 2) {
+            } else if ($conf_follow_area_access == 2) {
 
                 foreach ($line_id as $line) {
                     $groupQry = $connect->query("SELECT area_id FROM area_line_mapping_area WHERE line_map_id = $line");
@@ -80,7 +80,7 @@ if ($userid != 1) {
                 $area_ids = array_unique($area_ids);
                 $area_list = implode(',', $area_ids);
 
-            } else if ($promo_act_area_access == 3) {
+            } else if ($conf_follow_area_access == 3) {
 
                 foreach ($due_followup_lines as $due_foll_lines) {
                     $groupQry = $connect->query("SELECT area_id FROM area_duefollowup_mapping_area WHERE map_id = $due_foll_lines");

@@ -110,27 +110,23 @@ foreach ($result as $row) {
     $sub_array   = array();
 
     $sub_array[] = $sno;
-
     $sub_array[] = date('d-m-Y', strtotime($row['dor']));
-
     $sub_array[] = $row['cus_id'];
     $sub_array[] = $row['autogen_cus_id'];
     $sub_array[] = $row['customer_name'];
-
     $sub_array[] = $row["branch_name"];
     $sub_array[] = $row['group_name'];
     $sub_array[] = $row['line_name'];
     $sub_array[] = $row['mobile1'];
     $sub_array[] = $row['area_name'];
     $sub_array[] = $row["loan_category_creation_name"];
-
     $sub_array[] = moneyFormatIndia($row['loan_amt']);
     $sub_array[] = $row['user_type'];
     $sub_array[] = $row['user_name'];
 
     $ag_id = $row['agent_id'];
+    
     if ($ag_id != '') {
-
         $qry = $connect->query("SELECT * FROM agent_creation where ag_id = $ag_id ");
         $row1 = $qry->fetch();
         $sub_array[] = $row1['ag_name'];

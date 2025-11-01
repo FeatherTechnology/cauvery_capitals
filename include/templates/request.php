@@ -31,15 +31,18 @@ if (isset($_POST['submit_request']) && $_POST['submit_request'] != '') {
 		$id = $_POST['id'];
 		$userObj->updateRequest($mysqli, $id, $userid);
 	?>
-		<script>
-			location.href = '<?php echo $HOSTPATH;  ?>edit_request&msc=2';
-		</script>
+
+	<script>
+		location.href = '<?php echo $HOSTPATH;  ?>edit_request&msc=2';
+	</script>
+
 	<?php	} else {
 		$userObj->addRequest($mysqli, $userid);
 	?>
-		<script>
-			location.href = '<?php echo $HOSTPATH;  ?>edit_request&msc=1';
-		</script>
+
+	<script>
+		location.href = '<?php echo $HOSTPATH;  ?>edit_request&msc=1';
+	</script>
 	<?php
 	}
 }
@@ -82,39 +85,39 @@ if ($idupd > 0) {
 			}
 			$user_name					= $getRequest['user_name'];
 			$agent_id					= $getRequest['agent_id'];
-			$responsible					= $getRequest['responsible'];
+			$responsible				= $getRequest['responsible'];
 			$remarks					= $getRequest['remarks'];
-			$declaration					= $getRequest['declaration'];
+			$declaration				= $getRequest['declaration'];
 			$req_code					= $getRequest['req_code'];
-			$dor1					= $getRequest['dor'];
-			$dor					= date_create_from_format('Y-m-d', $getRequest['dor']);
-			$dor =  date_format($dor, 'd-m-Y');
-			$cus_id					= $getRequest['cus_id'];
+			$dor1						= $getRequest['dor'];
+			$dor						= date_create_from_format('Y-m-d', $getRequest['dor']);
+			$dor 						= date_format($dor, 'd-m-Y');
+			$cus_id						= $getRequest['cus_id'];
 			$cus_data					= $getRequest['cus_data'];
 			$first_name					= $getRequest['first_name'];
 			$last_name					= $getRequest['last_name'];
-			$dob					= $getRequest['dob'];
-			$age					= $getRequest['age'];
-			$gender					= $getRequest['gender'];
-			$state					= $getRequest['state'];
+			$dob						= $getRequest['dob'];
+			$age						= $getRequest['age'];
+			$gender						= $getRequest['gender'];
+			$state						= $getRequest['state'];
 			$district					= $getRequest['district'];
-			$taluk					= $getRequest['taluk'];
-			$area					= $getRequest['area'];
+			$taluk						= $getRequest['taluk'];
+			$area					    = $getRequest['area'];
 			$address					= $getRequest['address'];
 			$mobile1					= $getRequest['mobile1'];
 			$mobile2					= $getRequest['mobile2'];
-			$mobile_whatsapp					= $getRequest['mobile_whatsapp'];
-			$whatsapp_no					= $getRequest['whatsapp_no'];
-			$father_name					= $getRequest['father_name'];
-			$mother_name					= $getRequest['mother_name'];
+			$mobile_whatsapp			= $getRequest['mobile_whatsapp'];
+			$whatsapp_no				= $getRequest['whatsapp_no'];
+			$father_name				= $getRequest['father_name'];
+			$mother_name				= $getRequest['mother_name'];
 			$marital					= $getRequest['marital'];
-			$spouse_name					= $getRequest['spouse_name'];
-			$occupation_type					= $getRequest['occupation_type'];
+			$spouse_name				= $getRequest['spouse_name'];
+			$occupation_type			= $getRequest['occupation_type'];
 			$occupation					= $getRequest['occupation'];
-			$pic					= $getRequest['pic'];
-			$loan_category					= $getRequest['loan_category'];
+			$pic						= $getRequest['pic'];
+			$loan_category				= $getRequest['loan_category'];
 			$tot_value					= $getRequest['tot_value'];
-			$ad_amt					= $getRequest['ad_amt'];
+			$ad_amt						= $getRequest['ad_amt'];
 			$ad_perc					= $getRequest['ad_perc'];
 			$loan_amt					= $getRequest['loan_amt'];
 			$poss_type					= $getRequest['poss_type'];
@@ -171,12 +174,9 @@ if ($idupd > 0) {
 <div class="main-container">
 	<!--form start-->
 	<form id="request" name="request" action="" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="page_view" id="page_view" value="<?php if (isset($pgeView)) {
-																		echo $pgeView;
-																	} else {
-																		echo '2';
-																	} ?>" />
+		<input type="hidden" name="page_view" id="page_view" value="<?php if (isset($pgeView)) { echo $pgeView; } else { echo '2'; } ?>" />
 		<input type="hidden" id="pending_sts"> <input type="hidden" id="od_sts"> <input type="hidden" id="due_nil_sts"> <input type="hidden" id="closed_sts"><input type="hidden" id="bal_amt">
+
 		<?php if ($idupd == 0) { ?>
 			<input type="hidden" class="form-control" value="<?php if (isset($user_id)) echo $user_id; ?>" id="user_id_load" name="user_id_load" aria-describedby="id" placeholder="Enter id">
 			<input type="hidden" class="form-control" value="<?php if (isset($role)) echo $role; ?>" id="role_load" name="role_load" aria-describedby="id" placeholder="Enter id">
@@ -190,6 +190,7 @@ if ($idupd > 0) {
 			<input type="hidden" class="form-control" value="<?php if (isset($agent_id)) echo $agent_id; ?>" id="agent_id_load" name="agent_id_load" aria-describedby="id" placeholder="Enter id">
 			<input type="hidden" class="form-control" value="<?php if (isset($line_id)) echo $line_id; ?>" id="line_id_load" name="line_id_load" aria-describedby="id" placeholder="Enter id">
 			<input type="hidden" class="form-control" value="<?php if (isset($group_id)) echo $group_id; ?>" id="group_id_load" name="group_id_load" aria-describedby="id" placeholder="Enter id">
+
 		<?php } elseif ($idupd > 0) { ?>
 			<input type="hidden" class="form-control" value="<?php if (isset($idupd)) echo $idupd; ?>" id="id" name="id">
 			<input type="hidden" class="form-control" value="<?php if (isset($userid)) echo $userid; ?>" id="userid_upd" name="userid_upd">
@@ -234,6 +235,7 @@ if ($idupd > 0) {
 			<input type="hidden" class="form-control" value="<?php if (isset($cus_status)) echo $cus_status; ?>" id="cus_status_upd" name="cus_status_upd">
 			<input type="hidden" class="form-control" value="<?php if (isset($getCategoryInfo)) echo $getCategoryInfo; ?>" id="getCategoryInfo_upd" name="getCategoryInfo_upd">
 		<?php } ?>
+
 		<!-- Row start -->
 		<div class="row gutters">
 			<!-- General Info -->
@@ -321,7 +323,7 @@ if ($idupd > 0) {
 			</div>
 		</div>
 		<div class="card">
-			<div class="card-header">General Info <!--<input type="button" class="btn btn-outline-secondary text-right" id="cus_status" name="cus_status" value="Customer Status" style="float:right">--></div>
+			<div class="card-header">General Info </div>
 			<div class="card-body">
 				<div class="row">
 					<div class="col-md-12">
@@ -617,7 +619,6 @@ if ($idupd > 0) {
 							<span class="text-danger" style='display:none' id='adamtCheck'>Please Enter Advance Amount</span>
 						</div>
 					</div>
-					<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 advance_yes" style="display:none"></div> -->
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 advance_yes" style="display:none">
 						<div class="form-group">
 							<label for="ad_perc">Advance %</label><span class="required">&nbsp;*</span>
@@ -684,7 +685,7 @@ if ($idupd > 0) {
 			</div>
 		</div>
 		<div class="card ">
-			<div class="card-header">EMI Calculator <!--<span style="margin-left:90em; font-weight:bold" class="icon-chevron-down1"></span>--></div>
+			<div class="card-header">EMI Calculator </div>
 			<div class="card-body emi_calculator">
 				<div class="row">
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
