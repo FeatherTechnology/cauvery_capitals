@@ -569,9 +569,14 @@ class admin
 
 			$insresult = $mysqli->query($loanInsert) or die("Error " . $mysqli->error);
 		} else {
+			if (empty($intrest_rate_min) && empty($intrest_rate_max)) {
+            $deleteQuery = "DELETE FROM loan_calculation WHERE loan_cal_id = '" . strip_tags($loan_cat_id) . "'";
+            $delResult = $mysqli->query($deleteQuery) or die("Error " . $mysqli->error);
+            } else {
 
 			$loanInsert = "UPDATE loan_calculation SET loan_category_id = '" . strip_tags($cat_id) . "',loan_category = '" . strip_tags($loan_category_name) . "',due_method = '" . strip_tags($due_method) . "',due_type = '" . strip_tags($due_type) . "',profit_method = '" . strip_tags($profit_method) . "', calculate_method = '" . strip_tags($calculate_method) . "', intrest_rate_min = '" . strip_tags($intrest_rate_min) . "',intrest_rate_max = '" . strip_tags($intrest_rate_max) . "',due_period_min = '" . strip_tags($due_period_min) . "',due_period_max = '" . strip_tags($due_period_max) . "',doc_charge_type = '" . strip_tags($doc_charge_type) . "',document_charge_min = '" . strip_tags($document_charge_min) . "',document_charge_max = '" . strip_tags($document_charge_max) . "',proc_fee_type = '" . strip_tags($proc_fee_type) . "',processing_fee_min = '" . strip_tags($processing_fee_min) . "',processing_fee_max = '" . strip_tags($processing_fee_max) . "',overdue_type = '" . strip_tags($overdue_type) . "',overdue = '" . strip_tags($overdue) . "',collection_info = '" . strip_tags($collection_info) . "',insert_login_id = '" . strip_tags($userid) . "',updated_date = current_timestamp() WHERE loan_cal_id = '" . strip_tags($loan_cat_id) . "'";
 			$insresult = $mysqli->query($loanInsert) or die("Error " . $mysqli->error);
+			}
 		}
 
 		if (isset($_POST['scheme_name'])) {

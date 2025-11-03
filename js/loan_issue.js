@@ -1799,6 +1799,12 @@ function resetbankInfo() {
       $("#Ifsc_code").val("");
       $("#bank_upload").val("");
       $("#bankID").val("");
+
+      $("#bankNameCheck").hide();
+      $("#branchCheck").hide();
+      $("#accholdCheck").hide();
+      $("#accnoCheck").hide();
+      $("#ifscCheck").hide();
     },
   });
 }

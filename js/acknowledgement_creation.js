@@ -2327,7 +2327,30 @@ $('#docInfoBtn').click(function () {
             }
         })
     } else {
-        $('#documentnameCheck').show(); $('#documentdetailsCheck').show(); $('#documentTypeCheck').show(); $('#docholderCheck').show();
+        if (doc_name == "") {
+        $("#documentnameCheck").show();
+        } else {
+            $("#documentnameCheck").hide();
+        }
+
+        if (doc_details == "") {
+            $("#documentdetailsCheck").show();
+        } else {
+            $("#documentdetailsCheck").hide();
+        }
+
+        if (doc_type == "") {
+            $("#documentTypeCheck").show();
+        } else {
+            $("#documentTypeCheck").hide();
+        }
+
+        if (doc_holder == "") {
+            $("#docholderCheck").show();
+        } else {
+            $("#docholderCheck").hide();
+        }
+        
         if (doc_holder == '2') {
             if (relation_name == "") {
                 $("#docHolderNameCheck").show();

@@ -189,7 +189,7 @@ $query = " SELECT
     GROUP BY c.req_id ) c ON c.req_id = iv.req_id
         WHERE lc.req_id IN ($req_id_list) AND lc.due_type = 'EMI' ";
 
-if(isset($_POST['loan_cat'])){
+if(isset($_POST['loan_cat']) && !empty($_POST['loan_cat'])){
     $loan_cat_str = "'" . implode("','", $_POST['loan_cat']) . "'";
     $query .= " AND lcc.loan_category_creation_id IN ($loan_cat_str)";
 }
