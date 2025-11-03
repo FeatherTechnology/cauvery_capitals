@@ -1153,7 +1153,29 @@ function validation(event) {
     } else {
         $('#loancategoryCheck').hide();
     }
-    
+    if (loan_category) { // loan category has a value
+        if (loan_amt == '') {
+            event.preventDefault();
+            $('#loanamtCheck').show();
+            validation = false;
+        } else {
+            $('#loanamtCheck').hide();
+        }
+        if (tot_value == '' && $('.advance_yes').css('display') != "none") {
+            event.preventDefault();
+            $('#totvalueCheck').show();
+            validation = false;
+        } else {
+            $('#totvalueCheck').hide();
+        }
+        if (ad_amt == '' && $('.advance_yes').css('display') != "none") {
+            event.preventDefault();
+            $('#adamtCheck').show();
+            validation = false;
+        } else {
+            $('#adamtCheck').hide();
+        }
+    }
     if (!poss_type) {
         event.preventDefault();
         $('#posstypeCheck').show();
@@ -1180,5 +1202,24 @@ function validation(event) {
             }
         }
     }
+    if ($('.category_info').is(':visible')) {
+    let empty = false;
+    $('input[name="category_info[]"]').each(function () {
+        if ($(this).val().trim() === '') {
+            empty = true;
+        }
+    });
+
+    if (empty) {
+        event.preventDefault();
+        $('#categoryInfoCheck').show(); // your error message element
+        validation = false;
+    } else {
+        $('#categoryInfoCheck').hide();
+    }
+} else {
+    $('#categoryInfoCheck').hide();
+}
+
 return validation;
 }

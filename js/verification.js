@@ -1460,6 +1460,14 @@ function resetFamInfo() {
       $("#relation_Income").val("");
       $("#relation_Blood").val("");
       $("#famID").val("");
+
+      $("#famFirstnameCheck").hide();
+      $("#famLastnameCheck").hide();
+      $("#famrelationCheck").hide();
+      $("#famremarkCheck").hide();
+      $("#famaddressCheck").hide();
+      $("#famaadharCheck").hide();
+      $("#fammobileCheck").hide();
     },
   });
 }
@@ -1917,6 +1925,10 @@ function propertyHolder() {
 
       // Append to the dropdown
       $("#property_holder").html(htmlString);
+      $("#prtytypeCheck").hide();
+      $("#prtymeasureCheck").hide();
+      $("#prtyvalCheck").hide();
+      $("#prtyholdCheck").hide();
     },
   });
 }
@@ -2224,6 +2236,12 @@ function resetbankInfo() {
       $("#Ifsc_code").val("");
       $("#bank_upload").val("");
       $("#bankID").val("");
+
+      $("#bankNameCheck").hide();
+      $("#branchCheck").hide();
+      $("#accholdCheck").hide();
+      $("#accnoCheck").hide();
+      $("#ifscCheck").hide();
     },
   });
 }
@@ -2934,6 +2952,9 @@ function feedbackList() {
       $("#cus_feedback").val("");
       $("#feedback_remark").val("");
       $("#feedbackID").val("");
+
+      $("#feedbacklabelCheck").hide();
+      $("#feedbackCheck").hide();
     },
   });
 }
@@ -4090,10 +4111,30 @@ $("#docInfoBtn").click(function () {
       },
     });
   } else {
-    $("#documentnameCheck").show();
-    $("#documentdetailsCheck").show();
-    $("#documentTypeCheck").show();
-    $("#docholderCheck").show();
+    if (doc_name == "") {
+        $("#documentnameCheck").show();
+    } else {
+        $("#documentnameCheck").hide();
+    }
+
+    if (doc_details == "") {
+        $("#documentdetailsCheck").show();
+    } else {
+        $("#documentdetailsCheck").hide();
+    }
+
+    if (doc_type == "") {
+        $("#documentTypeCheck").show();
+    } else {
+        $("#documentTypeCheck").hide();
+    }
+
+    if (doc_holder == "") {
+        $("#docholderCheck").show();
+    } else {
+        $("#docholderCheck").hide();
+    }
+    
     if (doc_holder == '2') {
       if (relation_name == "") {
           $("#docHolderNameCheck").show();

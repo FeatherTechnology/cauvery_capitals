@@ -1003,6 +1003,14 @@ function resetFamInfo() {
             $("#relation_Income").val('');
             $("#relation_Blood").val('');
             $("#famID").val('');
+
+            $("#famFirstnameCheck").hide();
+            $("#famLastnameCheck").hide();
+            $("#famrelationCheck").hide();
+            $("#famremarkCheck").hide();
+            $("#famaddressCheck").hide();
+            $("#famaadharCheck").hide();
+            $("#fammobileCheck").hide();
         }
     });
 }
@@ -1495,6 +1503,12 @@ function resetbankInfo() {
             $("#Ifsc_code").val('');
             $("#bank_upload").val('');
             $("#bankID").val('');
+
+            $("#bankNameCheck").hide();
+            $("#branchCheck").hide();
+            $("#accholdCheck").hide();
+            $("#accnoCheck").hide();
+            $("#ifscCheck").hide();
 
         }
     });
@@ -2381,6 +2395,9 @@ function feedbackList() {
             $("#cus_feedback").val('');
             $("#feedback_remark").val('');
             $("#feedbackID").val('');
+
+            $("#feedbacklabelCheck").hide();
+            $("#feedbackCheck").hide();
         }
     });
 }

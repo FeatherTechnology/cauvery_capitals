@@ -607,8 +607,8 @@ if ($idupd > 0) {
 							<input type="text" class="form-control" id="tot_value" name="tot_value" tabindex="36" value='<?php if (isset($tot_value)) {
 																													echo moneyFormatIndia($tot_value);
 																												} ?>' placeholder="Enter Total Value">
+							<span class="text-danger" style='display:none' id='totvalueCheck'>Please Enter Total Value</span>
 						</div>
-						<span class="text-danger" style='display:none' id='totvalueCheck'>Please Enter Total Value</span>
 					</div>
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 advance_yes" style="display:none">
 						<div class="form-group">
@@ -644,6 +644,7 @@ if ($idupd > 0) {
 			<div class="card-body">
 				<div class="row">
 				</div>
+				<span id="categoryInfoCheck" class="text-danger" style="display:none;">Please fill all category info fields</span>
 			</div>
 		</div>
 		<div class="card ">
