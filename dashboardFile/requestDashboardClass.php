@@ -32,7 +32,7 @@ class RequestClass
         $today_new_query = "SELECT count(*) as today_new FROM request_creation WHERE cus_data = 'New' AND date(created_date) = '$today' ";
         $today_existing_query = "SELECT count(*) as today_existing FROM request_creation WHERE cus_data = 'Existing' AND date(created_date) = '$today' ";
 
-        //now i shoud add sub_area IN ($area_list) in where clause to the above queries
+        //now i shoud add area IN ($area_list) in where clause to the above queries
 
         if (!empty($area_list)) {
             //if the sub area list is empty then no need to add it to the query

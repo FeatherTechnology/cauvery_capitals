@@ -1,10 +1,9 @@
 <?php
 session_start();
 include '../ajaxconfig.php';
-
-if (isset($_SESSION["userid"])) {
-    $user_id = $_SESSION["userid"];
-}
+// if (isset($_SESSION["userid"])) {
+//     $user_id = $_SESSION["userid"];
+// }
 
 function moneyFormatIndia($num)
 {
