@@ -83,6 +83,12 @@ function getDetials($connect, $condition, $li_where, $to_date)
     while ($row = $run->fetch()) {
         $req_id_list[] = $row['req_id'];
     }
+    if (empty($req_id_list)) {
+        // No request IDs found — return zero outstanding
+        $response['opening_outstanding'] = moneyFormatIndia(0);
+        echo json_encode($response);
+        return; // stop executing further
+    }
     $req_id_list = implode(',', $req_id_list);
 
     $qry = $connect->query("SELECT alc.due_type, alc.tot_amt_cal, c.due_amt_track, alc.principal_amt_cal, c.princ_amt_track
