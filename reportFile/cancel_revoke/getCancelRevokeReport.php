@@ -43,7 +43,7 @@ $where = "1";
 if (isset($_POST['from_date']) && isset($_POST['to_date']) && $_POST['from_date'] != '' && $_POST['to_date'] != '') {
     $from_date = date('Y-m-d', strtotime($_POST['from_date']));
     $to_date = date('Y-m-d', strtotime($_POST['to_date']));
-    $where  = "(date(req.dor) >= '" . $from_date . "') and (date(req.dor) <= '" . $to_date . "') ";
+    $where  = "(date(req.updated_date) >= '" . $from_date . "') and (date(req.updated_date) <= '" . $to_date . "') ";
 }
 
 $where  .= $user_based;

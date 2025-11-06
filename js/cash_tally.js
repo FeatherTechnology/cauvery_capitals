@@ -574,7 +574,7 @@ function submitCashTally(i) {
         $('#submit_cash_tally').off('click');
         $('#submit_cash_tally').click(function () {
             event.preventDefault();
-            if (getBankCollectionSubmit() == 0 && getIssuedSubmitCheck() == 0) {
+            if (getIssuedSubmitCheck() == 0) {
 
                 if (confirm('Are You sure to close this Day?')) {
 

@@ -97,7 +97,7 @@ if ($runSql->rowCount() > 0) {
     while ($row = $runSql->fetch()) {
         $req_sql = $connect->query("SELECT cr.cus_id, cr.autogen_cus_id, CONCAT(cr.first_name,' ', cr.last_name) AS cus_name, ac.area_name,bc.branch_name,alm.line_name,agm.group_name,cr.mobile1,cr.mobile2 
                     FROM customer_register cr 
-                    LEFT JOIN area_list_creation ac ON cr.area_confirm_area = ac.area_id 
+                    LEFT JOIN area_list_creation ac ON ac.area_id = COALESCE(NULLIF(cr.area_confirm_area, ''), cr.area) 
                     JOIN area_line_mapping_area alma ON alma.area_id = ac.area_id
                     JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
                     JOIN area_group_mapping_area agma ON agma.area_id = ac.area_id

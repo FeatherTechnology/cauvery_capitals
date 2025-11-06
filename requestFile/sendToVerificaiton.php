@@ -38,6 +38,7 @@ SELECT
     created_date, updated_date
 FROM request_creation 
 WHERE req_id = '" . $req_id . "' ");
+$qry = $connect->query("UPDATE in_verification set created_date = current_timestamp where `req_id` = '$req_id' ");
 
 $response = 'Moved to Verification';
 
