@@ -41,6 +41,8 @@
 						<button type="button" class="btn btn-primary"><span class="icon-add"></span>&nbsp; Add Line Mapping</button>
 					</a>
 				</div><br><br>
+
+				<div id="hiddenExport" style="display:none;"></div>
 				
 				<div class="table-responsive">
 					<?php
@@ -98,6 +100,9 @@
 						<button type="button" class="btn btn-primary"><span class="icon-add"></span>&nbsp; Add Group Mapping</button>
 					</a>
 				</div><br><br>
+
+				<div id="hiddenExport" style="display:none;"></div>
+
 				<!-- <div class='form-control' style="background-color:#0c70ab;color:white;text-align:center;font-size:17px;border-radius:3px;">Group List</div><br> -->
 				<div class="table-responsive">
 					<?php
@@ -153,6 +158,9 @@
 						<button type="button" class="btn btn-primary"><span class="icon-add"></span>&nbsp; Add Due Followup Mapping</button>
 					</a>
 				</div><br><br>
+
+				<div id="hiddenExport" style="display:none;"></div>
+				
 				<div class="table-responsive">
 					<?php
 					$mscid=0;

@@ -13,26 +13,26 @@ if ($userid != 1) {
 
     $userQry = $connect->query("SELECT line_id, report_access FROM USER WHERE user_id = $userid ");
     $rowuser = $userQry->fetch();
-        $line_id = $rowuser['line_id'];
-        $report_access = $rowuser['report_access'];
+    $line_id = $rowuser['line_id'];
+    $report_access = $rowuser['report_access'];
 
     if ($report_access == '1') { //Report access individual.
         $line_id = explode(',', $line_id);
-    $area_list_array = []; 
-    foreach ($line_id as $line) {
-        $lineQry = $connect->query("SELECT area_id FROM area_line_mapping_area where line_map_id = $line ");
-        while ($row_sub = $lineQry->fetch(PDO::FETCH_ASSOC)) {
-            $area_list_array[] = $row_sub['area_id']; 
+        $area_list_array = [];
+        foreach ($line_id as $line) {
+            $lineQry = $connect->query("SELECT area_id FROM area_line_mapping_area where line_map_id = $line ");
+            while ($row_sub = $lineQry->fetch(PDO::FETCH_ASSOC)) {
+                $area_list_array[] = $row_sub['area_id'];
+            }
         }
-    }
-    $area_ids = [];
-    foreach ($area_list_array as $subarray) {
-        $area_ids = array_merge($area_ids, explode(',', $subarray));
-    }
+        $area_ids = [];
+        foreach ($area_list_array as $subarray) {
+            $area_ids = array_merge($area_ids, explode(',', $subarray));
+        }
 
-    $area_ids = array_unique($area_ids);
-    $area_list = implode(',', $area_ids);
-        
+        $area_ids = array_unique($area_ids);
+        $area_list = implode(',', $area_ids);
+
         $user_based = " AND (select area_confirm_area from customer_profile where req_id = cp.req_id) IN ($area_list) AND cp.insert_login_id = '$userid' ";
     }
 }
@@ -78,6 +78,7 @@ while ($row = $qry->fetch()) {
 
 
 <table class="table custom-table" id="daily_table">
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <th>S.No</th>
         <th>Customer Name</th>
@@ -171,7 +172,29 @@ while ($row = $qry->fetch()) {
             ],
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Ledger View Report - Daily List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

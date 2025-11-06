@@ -6,14 +6,15 @@ include('../../../ajaxconfig.php');
 
 $bank_id = $_POST['bank_id'];
 
-$i=0;$records = array();
+$i = 0;
+$records = array();
 
 $qry = $connect->query("SELECT bex.*,bc.short_name,bc.acc_no from ct_db_bexchange bex LEFT JOIN bank_creation bc on bc.id = bex.from_acc_id where bex.to_bank_id = '$bank_id' and received = 1 "); //1 means not received and 0 means already received
-while($row = $qry->fetch()){
+while ($row = $qry->fetch()) {
     $records[$i]['id'] = $row['id'];
     $records[$i]['ref_code'] = $row['ref_code'];
     $records[$i]['from_bank_id'] = $row['from_acc_id'];
-    $records[$i]['from_bank_name'] = $row['short_name'] .' - '. substr($row['acc_no'],-5);
+    $records[$i]['from_bank_name'] = $row['short_name'] . ' - ' . substr($row['acc_no'], -5);
     $records[$i]['to_bank_id'] = $row['to_bank_id'];
     $records[$i]['to_user_id'] = $row['to_user_id'];
     $records[$i]['from_user_id'] = $row['insert_login_id'];
@@ -27,6 +28,7 @@ while($row = $qry->fetch()){
 
 
 <table class="table custom-table" id='bexCollectionTable'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="50">S.No</th>
@@ -40,17 +42,17 @@ while($row = $qry->fetch()){
     </thead>
     <tbody>
         <?php
-            for($i=0;$i<sizeof($records);$i++){
+        for ($i = 0; $i < sizeof($records); $i++) {
         ?>
             <tr>
                 <td></td>
-                <td><?php echo $records[$i]['ref_code'];?></td>
-                <td><?php echo $records[$i]['from_bank_name'];?></td>
-                <td><?php echo $records[$i]['trans_id'];?></td>
-                <td><?php echo $records[$i]['remark'];?></td>
-                <td><?php echo moneyFormatIndia($records[$i]['amt']);?></td>
+                <td><?php echo $records[$i]['ref_code']; ?></td>
+                <td><?php echo $records[$i]['from_bank_name']; ?></td>
+                <td><?php echo $records[$i]['trans_id']; ?></td>
+                <td><?php echo $records[$i]['remark']; ?></td>
+                <td><?php echo moneyFormatIndia($records[$i]['amt']); ?></td>
                 <td>
-                    <input type='button' id='' name='' class="btn btn-primary collect_btn" data-value = '<?php echo $records[$i]['id']; ?>' data-toggle="modal" data-target=".bexchange_modal" value='Receive' onclick="bexCollectBtnClick(this)">
+                    <input type='button' id='' name='' class="btn btn-primary collect_btn" data-value='<?php echo $records[$i]['id']; ?>' data-toggle="modal" data-target=".bexchange_modal" value='Receive' onclick="bexCollectBtnClick(this)">
                 </td>
             </tr>
         <?php
@@ -63,7 +65,7 @@ while($row = $qry->fetch()){
 <script type='text/javascript'>
     $(function() {
         $('#bexCollectionTable').DataTable({
-            "title":"Collection List",
+            "title": "Collection List",
             'processing': true,
             'iDisplayLength': 5,
             "lengthMenu": [
@@ -80,7 +82,29 @@ while($row = $qry->fetch()){
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Bank Cash - Exchange List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',
@@ -93,7 +117,8 @@ while($row = $qry->fetch()){
 
 <?php
 //Format number in Indian Format
-function moneyFormatIndia($num) {
+function moneyFormatIndia($num)
+{
     $explrestunits = "";
     if (strlen($num) > 3) {
         $lastthree = substr($num, strlen($num) - 3, strlen($num));

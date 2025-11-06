@@ -13,6 +13,7 @@
 
         <div class="row gutters" id="principal_interest_card">
             <div class="toggle-container col-12">
+                <div id="hiddenExport" style="display:none;"></div>
                 <input type="month" id="from_date" name="from_date" class="toggle-button" value="">
                 <input type="button" id="reset_btn" name="reset_btn" class="toggle-button" style="background-color: #0c70ab; color: white" value="Reload">
             </div>

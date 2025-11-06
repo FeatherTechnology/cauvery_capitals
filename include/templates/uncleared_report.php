@@ -13,6 +13,7 @@
 
 		<div class="row gutters" id="uncleared_card">
 			<div class="toggle-container col-12">
+				<div id="hiddenExport" style="display:none;"></div>
 				<input type="date" id='to_date' name='to_date' class="toggle-button" value=''>
 				<input type="button" id='reset_btn' name='reset_btn' class="toggle-button" style="background-color: #0c70ab;color:white" value='Search'>
 			</div>

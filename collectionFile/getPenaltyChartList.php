@@ -29,6 +29,7 @@ function moneyFormatIndia($num)
 }
 ?>
 <table class="table custom-table" id='penaltyListTable'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width='20'> S.No </th>
@@ -53,18 +54,18 @@ function moneyFormatIndia($num)
         $waiver = 0;
         while ($row = $run->fetch()) {
             $penaltys = ($row['penalty']) ? $row['penalty'] : '0';
-            $penalt = $penalt + $penaltys; 
+            $penalt = $penalt + $penaltys;
             $paid_amount = ($row['paid_amnt']) ? $row['paid_amnt'] : '0';
             $paid = $paid + $paid_amount;
             $waivers = ($row['waiver_amnt']) ? $row['waiver_amnt'] : '0';
-            $waiver = $waiver + $waivers ;
+            $waiver = $waiver + $waivers;
             $bal_amnt = $penalt - $paid - $waiver;
         ?>
             <tr>
                 <td><?php echo $i; ?></td>
-                <td><?php echo $row['penalty_date']!=''?date('d-m-Y',strtotime($row['penalty_date'])):''; ?></td>
+                <td><?php echo $row['penalty_date'] != '' ? date('d-m-Y', strtotime($row['penalty_date'])) : ''; ?></td>
                 <td><?php echo $penaltys; ?></td>
-                <td><?php echo $row['paid_date']!=''?date('d-m-Y',strtotime($row['paid_date'])):''; ?></td>
+                <td><?php echo $row['paid_date'] != '' ? date('d-m-Y', strtotime($row['paid_date'])) : ''; ?></td>
                 <td><?php echo $paid_amount; ?></td>
                 <td><?php echo $bal_amnt; ?></td>
                 <td><?php echo $waivers; ?></td>
@@ -81,16 +82,16 @@ function moneyFormatIndia($num)
 
         ?>
 
-</tbody>
-<tr>
-    <td></td>
-    <td></td>
-    <td><b><?php echo moneyFormatIndia($penalty); ?></b></td>
-    <td></td>
-    <td><b><?php echo moneyFormatIndia($paid_amt); ?></b></td>
-    <td></td>
-    <td><b><?php echo moneyFormatIndia($penalty_waiver); ?></b></td>
-</tr>
+    </tbody>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><b><?php echo moneyFormatIndia($penalty); ?></b></td>
+        <td></td>
+        <td><b><?php echo moneyFormatIndia($paid_amt); ?></b></td>
+        <td></td>
+        <td><b><?php echo moneyFormatIndia($penalty_waiver); ?></b></td>
+    </tr>
 </table>
 
 <script type="text/javascript">
@@ -107,7 +108,29 @@ function moneyFormatIndia($num)
             ],
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Penalty Chart List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

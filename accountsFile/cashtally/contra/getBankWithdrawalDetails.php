@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 include('../../../ajaxconfig.php');
@@ -14,6 +13,7 @@ $qry = $connect->query("SELECT bwed.*,bc.short_name,bc.acc_no from ct_db_cash_wi
 
 
 <table class="table custom-table" id='bwdTable'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width='50'>S.No</th>
@@ -27,18 +27,18 @@ $qry = $connect->query("SELECT bwed.*,bc.short_name,bc.acc_no from ct_db_cash_wi
     </thead>
     <tbody>
         <?php
-            while($row = $qry->fetch()){
-                
+        while ($row = $qry->fetch()) {
+
         ?>
             <tr>
                 <td></td>
                 <td><?php echo $row['ref_code']; ?></td>
                 <td><?php echo $row['trans_id']; ?></td>
-                <td><?php echo $row['short_name'];?></td>
-                <td><?php echo $row['acc_no'];?></td>
-                <td><?php echo moneyFormatIndia($row['amt']);?></td>
+                <td><?php echo $row['short_name']; ?></td>
+                <td><?php echo $row['acc_no']; ?></td>
+                <td><?php echo moneyFormatIndia($row['amt']); ?></td>
                 <td>
-                    <input type='button' id='' name='' class="btn btn-primary receive_bwd" data-value = '<?php echo $row['id']; ?>' data-toggle="modal" data-target=".bwd_modal" value='Receive' onclick="receivebwdBtnClick(this)">
+                    <input type='button' id='' name='' class="btn btn-primary receive_bwd" data-value='<?php echo $row['id']; ?>' data-toggle="modal" data-target=".bwd_modal" value='Receive' onclick="receivebwdBtnClick(this)">
                 </td>
             </tr>
         <?php
@@ -51,7 +51,7 @@ $qry = $connect->query("SELECT bwed.*,bc.short_name,bc.acc_no from ct_db_cash_wi
 <script type='text/javascript'>
     $(function() {
         $('#bwdTable').DataTable({
-            "title":"Cash Withdrawal List",
+            "title": "Cash Withdrawal List",
             'processing': true,
             'iDisplayLength': 5,
             "lengthMenu": [
@@ -68,7 +68,29 @@ $qry = $connect->query("SELECT bwed.*,bc.short_name,bc.acc_no from ct_db_cash_wi
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Contra - Bank Withdrawal List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',
@@ -81,7 +103,8 @@ $qry = $connect->query("SELECT bwed.*,bc.short_name,bc.acc_no from ct_db_cash_wi
 
 <?php
 //Format number in Indian Format
-function moneyFormatIndia($num) {
+function moneyFormatIndia($num)
+{
     $explrestunits = "";
     if (strlen($num) > 3) {
         $lastthree = substr($num, strlen($num) - 3, strlen($num));

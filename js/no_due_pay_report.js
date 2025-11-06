@@ -5,7 +5,7 @@ $(document).ready(function () {
     })
 });
 
-function noDuePayReportTable(){
+function noDuePayReportTable() {
     $('#no_pay_due_report_table').DataTable().destroy();
     $('#no_pay_due_report_table').DataTable({
         "order": [
@@ -24,8 +24,29 @@ function noDuePayReportTable(){
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "No Due Pay Report"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('No Due Pay Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',
@@ -36,7 +57,7 @@ function noDuePayReportTable(){
             [10, 25, 50, -1],
             [10, 25, 50, "All"]
         ],
-        'drawCallback': function() {
+        'drawCallback': function () {
             searchFunction('no_pay_due_report_table');
         }
     });

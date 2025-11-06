@@ -25,6 +25,7 @@ function moneyFormatIndia($num)
 ?>
 
 <table class="table custom-table" id="goldInfo_table_data">
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="15%"> S.No </th>
@@ -66,11 +67,12 @@ function moneyFormatIndia($num)
 
                 <td>
                     <a id="gold_info_edit" value="<?php echo $gold['id']; ?>"> <span class="icon-border_color"></span></a> &nbsp
-                    <?php 
+                    <?php
                     // if ($pages == 1) {  // Verification screen only delete option. 
                     ?>
-                        <a id="gold_info_delete" value="<?php echo $gold['id']; ?>"> <span class='icon-trash-2'></span> </a>
-                    <?php  //} ?>
+                    <a id="gold_info_delete" value="<?php echo $gold['id']; ?>"> <span class='icon-trash-2'></span> </a>
+                    <?php  //} 
+                    ?>
                 </td>
 
             </tr>
@@ -101,7 +103,29 @@ function moneyFormatIndia($num)
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Gold Info List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

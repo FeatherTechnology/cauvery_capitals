@@ -13,6 +13,7 @@
 
         <div class="row gutters" id="closed_card">
             <div class="toggle-container col-12">
+                <div id="hiddenExport" style="display:none;"></div>
                 <input type="date" id='selected_date' name='selected_date' class="toggle-button" value=''>
                 <select type="text" class="toggle-button" id='by_user' name='by_user'>
                     <option value=''>Select User</option>

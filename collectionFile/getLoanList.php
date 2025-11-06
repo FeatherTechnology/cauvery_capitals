@@ -55,6 +55,7 @@ function moneyFormatIndia($num)
 }
 ?>
 <table class="table custom-table" id='loanListTable'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="50">Loan ID</th>
@@ -161,12 +162,12 @@ function moneyFormatIndia($num)
                                 }
                             }
                         }
-                    } 
+                    }
                     //Need to update customer status so updating here with the live status.
                     $balAmnt = $bal_amt[$i - 1];
                     $current_date = date('Y-m-d');
-                    $connect->query("UPDATE `customer_status` SET `cus_id`='$cus_id',`sub_status`='$subStatus',`bal_amnt`='$balAmnt',`insert_login_id`='$user_id',`created_date`='$current_date' WHERE `req_id`='".$row['req_id']."' ");
-                    
+                    $connect->query("UPDATE `customer_status` SET `cus_id`='$cus_id',`sub_status`='$subStatus',`bal_amnt`='$balAmnt',`insert_login_id`='$user_id',`created_date`='$current_date' WHERE `req_id`='" . $row['req_id'] . "' ");
+
                     ?></td>
                 <td><?php echo "<span class='btn btn-success collection-window' style='font-size: 17px;position: relative;top: 0px; background-color:#0c70ab;";
                     if ($row['cus_status'] == '16') {
@@ -189,7 +190,7 @@ function moneyFormatIndia($num)
                 <td>
                     <?php
                     $action = "<div class='dropdown' style='float:right'><button class='btn btn-outline-secondary'><i class='fa'>&#xf107;</i></button><div class='dropdown-content'>";
-                    
+
                     if ($row['collection_access'] == '0') {
                         $action .= "<a href='' class='move-error' value='" . $row['req_id'] . "' > Move To Error</a>
                             <a href='' class='move-legal' value='" . $row['req_id'] . "' > Move To Legal</a>
@@ -223,7 +224,29 @@ function moneyFormatIndia($num)
             ],
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Collection - Loan List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

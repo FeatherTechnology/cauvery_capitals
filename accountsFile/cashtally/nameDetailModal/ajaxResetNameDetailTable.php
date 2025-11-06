@@ -4,6 +4,7 @@ $opt_for = $_POST['opt_for'];
 ?>
 
 <table class="table custom-table" id="nameDetailTable">
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="50">S.No</th>
@@ -23,12 +24,22 @@ $opt_for = $_POST['opt_for'];
         ?>
                 <tr>
                     <td></td>
-                    <td><?php if (isset($ct["name"])) {echo $ct["name"];} ?></td>
-                    <td><?php if (isset($ct["area"])) {echo $ct["area"];} ?></td>
-                    <td><?php if (isset($ct["ident"])) {echo $ct["ident"];} ?></td>
+                    <td><?php if (isset($ct["name"])) {
+                            echo $ct["name"];
+                        } ?></td>
+                    <td><?php if (isset($ct["area"])) {
+                            echo $ct["area"];
+                        } ?></td>
+                    <td><?php if (isset($ct["ident"])) {
+                            echo $ct["ident"];
+                        } ?></td>
                     <td>
-                        <a id="edit_name" value="<?php if (isset($ct["name_id"])) {echo $ct["name_id"];} ?>"><span class="icon-border_color"></span></a> &nbsp;
-                        <a id="delete_name" value="<?php if (isset($ct["name_id"])) {echo $ct["name_id"];} ?>"><span class='icon-trash-2'></span></a>
+                        <a id="edit_name" value="<?php if (isset($ct["name_id"])) {
+                                                        echo $ct["name_id"];
+                                                    } ?>"><span class="icon-border_color"></span></a> &nbsp;
+                        <a id="delete_name" value="<?php if (isset($ct["name_id"])) {
+                                                        echo $ct["name_id"];
+                                                    } ?>"><span class='icon-trash-2'></span></a>
                     </td>
                 </tr>
         <?php }
@@ -55,7 +66,29 @@ $opt_for = $_POST['opt_for'];
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Name Creation List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

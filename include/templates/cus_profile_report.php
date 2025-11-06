@@ -12,6 +12,7 @@
 	<form id="customer_profile_report_form" name="customer_profile_report_form" action="" method="post" enctype="multipart/form-data">
 
 		<div class="row gutters" id="customer_profile_card">
+			<div id="hiddenExport" style="display:none;"></div>
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="card">
 					<div class="card-header">Customer Profile Report</div>

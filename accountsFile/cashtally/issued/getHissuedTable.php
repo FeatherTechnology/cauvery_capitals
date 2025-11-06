@@ -4,10 +4,11 @@ $user_id = $_SESSION['userid'];
 
 include('../../../ajaxconfig.php');
 
-$i=0;$records = array();
+$i = 0;
+$records = array();
 $netcash = 0;
 
-$op_date = date('Y-m-d',strtotime($_POST['op_date']));
+$op_date = date('Y-m-d', strtotime($_POST['op_date']));
 
 
 // $qry = $connect->query("SELECT role,fullname FROM `user` where user_id= '$user_id' ");
@@ -17,10 +18,10 @@ $op_date = date('Y-m-d',strtotime($_POST['op_date']));
 
 
 $qry = $connect->query("SELECT req_id,sum(cash) as cash,issued_to,insert_login_id,created_date FROM `loan_issue` where (agent_id = '' or agent_id = null) and ((issued_mode = 1 and payment_type = '0') or (issued_mode = 0 and cash != '')) and date(created_date) = '$op_date' GROUP BY insert_login_id ");
-while($row = $qry->fetch()){
+while ($row = $qry->fetch()) {
 
-    $dbCheck = $connect->query("SELECT * from ct_db_hissued where date(created_date) = '".date('Y-m-d',strtotime($row['created_date']))."' and li_user_id = '".$row['insert_login_id']."' ");
-    if($dbCheck->rowCount() == 0){ 
+    $dbCheck = $connect->query("SELECT * from ct_db_hissued where date(created_date) = '" . date('Y-m-d', strtotime($row['created_date'])) . "' and li_user_id = '" . $row['insert_login_id'] . "' ");
+    if ($dbCheck->rowCount() == 0) {
         // to check whether created date of loan issue is already entered in hissued table. if done, no need to show bcoz submitted hissued no need to show in table
 
         // $netcash = $netcash + intVal($row['cash']);
@@ -32,7 +33,12 @@ while($row = $qry->fetch()){
 
         $qry1 = $connect->query("SELECT role,fullname FROM `user` where user_id= '$user_id' ");
         $row1 = $qry1->fetch();
-        $role = $row1['role'];if($role == 1){$records[$i]['usertype'] = 'Director';}else if($role==3){$records[$i]['usertype'] = 'Staff';}
+        $role = $row1['role'];
+        if ($role == 1) {
+            $records[$i]['usertype'] = 'Director';
+        } else if ($role == 3) {
+            $records[$i]['usertype'] = 'Staff';
+        }
         $records[$i]['username'] = $row1['fullname'];
         $i++;
     }
@@ -44,6 +50,7 @@ $connect = null;
 
 
 <table class="table custom-table" id='HissuedTable'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="50">S.No</th>
@@ -57,23 +64,23 @@ $connect = null;
     </thead>
     <tbody>
         <?php
-            for($i=0;$i<sizeof($records);$i++){
+        for ($i = 0; $i < sizeof($records); $i++) {
         ?>
             <tr>
                 <td></td>
-                <!-- <td><?php echo $usertype;?></td> -->
-                <td><?php echo $records[$i]['usertype'];?></td>
-                
-                <!-- <td><?php echo $username;?></td> -->
-                <td><?php echo $records[$i]['username'];?></td>
-                
-                <!-- <td><?php echo $records[$i]['issued_to'];?></td> -->
-                
+                <!-- <td><?php echo $usertype; ?></td> -->
+                <td><?php echo $records[$i]['usertype']; ?></td>
+
+                <!-- <td><?php echo $username; ?></td> -->
+                <td><?php echo $records[$i]['username']; ?></td>
+
+                <!-- <td><?php echo $records[$i]['issued_to']; ?></td> -->
+
                 <!-- <td><?php echo moneyFormatIndia($netcash);  ?></td> -->
-                <td><?php echo moneyFormatIndia($records[$i]['netcash']);?></td>
-                <td width='300'><input type='text' class='form-control' readonly value='<?php echo moneyFormatIndia($records[$i]['netcash']);?>'></td>
+                <td><?php echo moneyFormatIndia($records[$i]['netcash']); ?></td>
+                <td width='300'><input type='text' class='form-control' readonly value='<?php echo moneyFormatIndia($records[$i]['netcash']); ?>'></td>
                 <td>
-                    <input type='button' id='' name='' class="btn btn-primary hissued_btn" data-value = '<?php echo $records[$i]['user_id']; ?>' value='Submit' >
+                    <input type='button' id='' name='' class="btn btn-primary hissued_btn" data-value='<?php echo $records[$i]['user_id']; ?>' value='Submit'>
                 </td>
             </tr>
         <?php
@@ -86,7 +93,7 @@ $connect = null;
 <script type='text/javascript'>
     $(function() {
         $('#HissuedTable').DataTable({
-            "title":"Collection List",
+            "title": "Collection List",
             'processing': true,
             'iDisplayLength': 5,
             "lengthMenu": [
@@ -103,7 +110,29 @@ $connect = null;
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Cash Tally - Hand Cash - Loan Issued List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',
@@ -116,10 +145,11 @@ $connect = null;
 
 <?php
 //Format number in Indian Format
-function moneyFormatIndia($num1) {
-    if($num1 < 0){
-        $num = str_replace("-","",$num1);
-    }else{
+function moneyFormatIndia($num1)
+{
+    if ($num1 < 0) {
+        $num = str_replace("-", "", $num1);
+    } else {
         $num = $num1;
     }
     $explrestunits = "";
@@ -140,7 +170,7 @@ function moneyFormatIndia($num1) {
         $thecash = $num;
     }
 
-    if($num1 < 0){
+    if ($num1 < 0) {
         $thecash = "-" . $thecash;
     }
 

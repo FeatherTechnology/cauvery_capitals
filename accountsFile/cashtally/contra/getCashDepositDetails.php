@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 include('../../../ajaxconfig.php');
@@ -15,6 +14,7 @@ $qry = $connect->query("SELECT bdep.*,bc.short_name,bc.acc_no from ct_db_bank_de
 
 
 <table class="table custom-table" id='cdTable'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width='50'>S.No</th>
@@ -30,26 +30,29 @@ $qry = $connect->query("SELECT bdep.*,bc.short_name,bc.acc_no from ct_db_bank_de
     </thead>
     <tbody>
         <?php
-            while($row = $qry->fetch()){
-                $qry1 = $connect->query("SELECT * from ct_cr_cash_deposit where db_ref_id = '".$row['id']."' ");
-                if($qry1->rowCount() > 0){
-                    $row1 = $qry1->fetch();
-                    $ref_id = $row1['ref_code'];
-                    $trans_id = $row1['trans_id'];
-                }else{$ref_id = '';$trans_id = '';}
+        while ($row = $qry->fetch()) {
+            $qry1 = $connect->query("SELECT * from ct_cr_cash_deposit where db_ref_id = '" . $row['id'] . "' ");
+            if ($qry1->rowCount() > 0) {
+                $row1 = $qry1->fetch();
+                $ref_id = $row1['ref_code'];
+                $trans_id = $row1['trans_id'];
+            } else {
+                $ref_id = '';
+                $trans_id = '';
+            }
         ?>
             <tr>
                 <td></td>
-                <td><?php if($ref_id) echo $ref_id; ?></td>
-                <td><?php if($trans_id) echo $trans_id; ?></td>
-                <td><?php echo $row['short_name'];?></td>
-                <td><?php echo $row['acc_no'];?></td>
-                <td><?php echo $row['location'];?></td>
-                <td><?php echo $row['remark'];?></td>
-                <td><?php echo moneyFormatIndia($row['amount']);?></td>
+                <td><?php if ($ref_id) echo $ref_id; ?></td>
+                <td><?php if ($trans_id) echo $trans_id; ?></td>
+                <td><?php echo $row['short_name']; ?></td>
+                <td><?php echo $row['acc_no']; ?></td>
+                <td><?php echo $row['location']; ?></td>
+                <td><?php echo $row['remark']; ?></td>
+                <td><?php echo moneyFormatIndia($row['amount']); ?></td>
                 <td>
-                    <?php if($qry1->rowCount() == 0){ ?>
-                        <input type='button' id='' name='' class="btn btn-primary receive_cd" data-value = '<?php echo $row['id']; ?>' data-toggle="modal" data-target=".cd_modal" value='Receive' onclick="receivecdBtnClick(this)">
+                    <?php if ($qry1->rowCount() == 0) { ?>
+                        <input type='button' id='' name='' class="btn btn-primary receive_cd" data-value='<?php echo $row['id']; ?>' data-toggle="modal" data-target=".cd_modal" value='Receive' onclick="receivecdBtnClick(this)">
                     <?php } ?>
                 </td>
             </tr>
@@ -63,7 +66,7 @@ $qry = $connect->query("SELECT bdep.*,bc.short_name,bc.acc_no from ct_db_bank_de
 <script type='text/javascript'>
     $(function() {
         $('#cdTable').DataTable({
-            "title":"Cash Deposit List",
+            "title": "Cash Deposit List",
             'processing': true,
             'iDisplayLength': 5,
             "lengthMenu": [
@@ -80,7 +83,29 @@ $qry = $connect->query("SELECT bdep.*,bc.short_name,bc.acc_no from ct_db_bank_de
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Cash Deposit List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',
@@ -93,7 +118,8 @@ $qry = $connect->query("SELECT bdep.*,bc.short_name,bc.acc_no from ct_db_bank_de
 
 <?php
 //Format number in Indian Format
-function moneyFormatIndia($num) {
+function moneyFormatIndia($num)
+{
     $explrestunits = "";
     if (strlen($num) > 3) {
         $lastthree = substr($num, strlen($num) - 3, strlen($num));

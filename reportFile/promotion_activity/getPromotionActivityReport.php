@@ -47,7 +47,7 @@ $query = "SELECT
     COALESCE(cp.first_name, ncp.first_name) AS customer_name,
     COALESCE(cp.mobile1, ncp.mobile) AS mobile1,
     COALESCE(al.area_name, ncp.area) AS area_name,
-    bc.branch_name, agm.group_name, alm.line_name, np.follow_date, rc.cus_status
+    bc.branch_name, agm.group_name, alm.line_name, np.follow_date
 FROM 
     new_promotion np
 LEFT JOIN 
@@ -68,7 +68,6 @@ LEFT JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
 
 LEFT JOIN branch_creation bc ON agm.branch_id = bc.branch_id  
 
-LEFT JOIN request_creation rc ON rc.req_id = cp.req_ref_id  
 WHERE 1 $where";
 
 if (isset($_POST['search'])) {

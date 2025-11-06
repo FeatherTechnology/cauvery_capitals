@@ -15,6 +15,7 @@
 <div class="main-container">
     <!--form start-->
     <form id="ledger_report_form" name="ledger_report_form" action="" method="post" enctype="multipart/form-data">
+        <div id="hiddenExport" style="display:none;"></div>
 
         <div class="row gutters">
             <div class="toggle-container col-12">

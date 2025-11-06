@@ -106,7 +106,7 @@ while ($row = $qry->fetch()) {
     $branch_names = implode(',', array_unique(explode(',', $row['branch_name'])));
     $line_names   = implode(',', array_unique(explode(',', $row['line_name'])));
 
-   $records[$i] = [
+    $records[$i] = [
         'branch_id'     => $branches,
         'line_id'       => $line_ids,
         'user_id'       => $row['insert_login_id'],
@@ -116,7 +116,7 @@ while ($row = $qry->fetch()) {
         'user_type'     => $row['role'],
         'branch_name'   => $branch_names,
         'pre_bal'       => $row['pre_bal'],
-        'tot_amt'       => $row['pre_bal'] + $row['coll_amt_today'] - $row['rec_amt_today'] 
+        'tot_amt'       => $row['pre_bal'] + $row['coll_amt_today'] - $row['rec_amt_today']
     ];
     $i++;
 }
@@ -126,6 +126,7 @@ $connect = null;
 ?>
 
 <table class="table custom-table" id='collectionTable'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th>S.No</th>
@@ -185,7 +186,29 @@ $connect = null;
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Cash Tally Collection List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

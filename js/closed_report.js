@@ -1,11 +1,11 @@
 $(document).ready(function () {
-    
-    $('#from_date').change(function(){
+
+    $('#from_date').change(function () {
         const fromDate = $(this).val();
         const toDate = $('#to_date').val();
         $('#to_date').attr('min', fromDate);
 
-         // Check if from_date is greater than to_date
+        // Check if from_date is greater than to_date
         if (toDate && fromDate > toDate) {
             $('#to_date').val(''); // Clear the invalid value
         }
@@ -17,7 +17,7 @@ $(document).ready(function () {
     })
 });
 
-function closedReportTable(){
+function closedReportTable() {
     $('#closed_report_table').DataTable().destroy();
     $('#closed_report_table').DataTable({
         "order": [
@@ -37,8 +37,29 @@ function closedReportTable(){
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "Closed Report List"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Closed Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',
@@ -76,7 +97,7 @@ function closedReportTable(){
                 $(api.column(colIndex).footer()).html(`<b>` + total.toLocaleString() + `</b>`);
             });
         },
-        'drawCallback': function() {
+        'drawCallback': function () {
             searchFunction('closed_report_table');
             paginationFunction('closed_report_table');
         }

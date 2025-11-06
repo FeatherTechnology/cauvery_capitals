@@ -1,11 +1,11 @@
 $(document).ready(function () {
-    
-    $('#from_date').change(function(){
+
+    $('#from_date').change(function () {
         const fromDate = $(this).val();
         const toDate = $('#to_date').val();
         $('#to_date').attr('min', fromDate);
 
-         // Check if from_date is greater than to_date
+        // Check if from_date is greater than to_date
         if (toDate && fromDate > toDate) {
             $('#to_date').val(''); // Clear the invalid value
         }
@@ -17,7 +17,7 @@ $(document).ready(function () {
     })
 });
 
-function confirmationFollowUpReportTable(){
+function confirmationFollowUpReportTable() {
     $('#confirmation_followup_report_table').DataTable().destroy();
     $('#confirmation_followup_report_table').DataTable({
         "order": [
@@ -37,8 +37,29 @@ function confirmationFollowUpReportTable(){
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "Confiramtion Report List"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Confirmation Followup Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',
@@ -49,7 +70,7 @@ function confirmationFollowUpReportTable(){
             [10, 25, 50, -1],
             [10, 25, 50, "All"]
         ],
-        'drawCallback': function() {
+        'drawCallback': function () {
             searchFunction('confirmation_followup_report_table');
             paginationFunction('confirmation_followup_report_table');
         }

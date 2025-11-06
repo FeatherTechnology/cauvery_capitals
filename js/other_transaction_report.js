@@ -11,63 +11,63 @@ $(document).ready(function () {
         }
     });
 
-  $('#other_report_btn').click(function () {
-    const from_date = $('#from_date').val();
-    const to_date = $('#to_date').val();
-    var sheet_type = $('#sheet_type').val();
-    if ((from_date === '' || to_date === '') ) {
-        swalError('Please Fill Dates!', 'Both From and To dates are required.');
-        return false;
-    }
-  if ( sheet_type == '') {
-        swalError('Warning', 'Select Balance Sheet Type');
-        return false;
-    }
-    // Hide all tables and their DataTable wrappers
-    $('#contra_table, #expenses_report_table, #exchange_report_table, #other_income_table,#investment_report_table,#deposit_report_table,#el_report_table,#excess_report_table,#agent_report_table').hide();
-    $('.dataTables_wrapper').hide();
-    // Show the selected table and call its function
-    if (sheet_type === '1') {
-        $('#contra_table').show();
-        contraReportTable();
-        $('#contra_table_wrapper').show();
-    } else if (sheet_type === '2') {
-        $('#exchange_report_table').show();
-        exchangeReportTable();
-        $('#exchange_report_table_wrapper').show();
-    } else if (sheet_type === '3') {
-        $('#other_income_table').show();
-        otherIncomeReportTable();
-        $('#other_income_table_wrapper').show();
-    } else if (sheet_type === '4') {
-        $('#expenses_report_table').show();
-        expensesReportTable();
-        $('#expenses_report_table_wrapper').show();
-    }else if (sheet_type === '5') {
-        $('#investment_report_table').show();
-        investmentReportTable();
-        $('#investment_report_table_wrapper').show();
-    } else if (sheet_type === '6') {
-        $('#deposit_report_table').show();
-        depositReportTable();
-        $('#deposit_report_table_wrapper').show();
-    } else if (sheet_type === '7') {
-        $('#el_report_table').show();
-        elReportTable();
-        $('#el_report_table_wrapper').show();
-    } else if (sheet_type === '8') {
-        $('#excess_report_table').show();
-        excessFundReportTable();
-        $('#excess_report_table_wrapper').show();
-    } else if (sheet_type === '9') {
-        $('#agent_report_table').show();
-        agentReportTable();
-        $('#agent_report_table_wrapper').show();
-    } 
-    else {
-        swalError('Select a Balance Sheet', 'Please select a valid sheet type to view report.');
-    }
-});
+    $('#other_report_btn').click(function () {
+        const from_date = $('#from_date').val();
+        const to_date = $('#to_date').val();
+        var sheet_type = $('#sheet_type').val();
+        if ((from_date === '' || to_date === '')) {
+            swalError('Please Fill Dates!', 'Both From and To dates are required.');
+            return false;
+        }
+        if (sheet_type == '') {
+            swalError('Warning', 'Select Balance Sheet Type');
+            return false;
+        }
+        // Hide all tables and their DataTable wrappers
+        $('#contra_table, #expenses_report_table, #exchange_report_table, #other_income_table,#investment_report_table,#deposit_report_table,#el_report_table,#excess_report_table,#agent_report_table').hide();
+        $('.dataTables_wrapper').hide();
+        // Show the selected table and call its function
+        if (sheet_type === '1') {
+            $('#contra_table').show();
+            contraReportTable();
+            $('#contra_table_wrapper').show();
+        } else if (sheet_type === '2') {
+            $('#exchange_report_table').show();
+            exchangeReportTable();
+            $('#exchange_report_table_wrapper').show();
+        } else if (sheet_type === '3') {
+            $('#other_income_table').show();
+            otherIncomeReportTable();
+            $('#other_income_table_wrapper').show();
+        } else if (sheet_type === '4') {
+            $('#expenses_report_table').show();
+            expensesReportTable();
+            $('#expenses_report_table_wrapper').show();
+        } else if (sheet_type === '5') {
+            $('#investment_report_table').show();
+            investmentReportTable();
+            $('#investment_report_table_wrapper').show();
+        } else if (sheet_type === '6') {
+            $('#deposit_report_table').show();
+            depositReportTable();
+            $('#deposit_report_table_wrapper').show();
+        } else if (sheet_type === '7') {
+            $('#el_report_table').show();
+            elReportTable();
+            $('#el_report_table_wrapper').show();
+        } else if (sheet_type === '8') {
+            $('#excess_report_table').show();
+            excessFundReportTable();
+            $('#excess_report_table_wrapper').show();
+        } else if (sheet_type === '9') {
+            $('#agent_report_table').show();
+            agentReportTable();
+            $('#agent_report_table_wrapper').show();
+        }
+        else {
+            swalError('Select a Balance Sheet', 'Please select a valid sheet type to view report.');
+        }
+    });
 
 });
 
@@ -101,8 +101,29 @@ function contraReportTable() {
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "Contra Report List"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Contra Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',
@@ -125,7 +146,7 @@ function contraReportTable() {
             };
 
             // Array of column indices to sum
-            var columnsToSum = [3,4];
+            var columnsToSum = [3, 4];
 
             // Loop through each column index
             columnsToSum.forEach(function (colIndex) {
@@ -168,8 +189,29 @@ function exchangeReportTable() {
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "Exchange Report List"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Exchange Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',
@@ -192,7 +234,7 @@ function exchangeReportTable() {
             };
 
             // Array of column indices to sum
-            var columnsToSum = [4,5];
+            var columnsToSum = [4, 5];
 
             // Loop through each column index
             columnsToSum.forEach(function (colIndex) {
@@ -234,8 +276,29 @@ function otherIncomeReportTable() {
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "Other Income Report List"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Other Income Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',
@@ -300,8 +363,29 @@ function expensesReportTable() {
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "Expenses Report List"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Expenses Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',
@@ -366,8 +450,29 @@ function investmentReportTable() {
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "Investment Report List"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Investment Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',
@@ -390,7 +495,7 @@ function investmentReportTable() {
             };
 
             // Array of column indices to sum
-            var columnsToSum = [4,5];
+            var columnsToSum = [4, 5];
 
             // Loop through each column index
             columnsToSum.forEach(function (colIndex) {
@@ -432,8 +537,29 @@ function depositReportTable() {
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "Deposit Report List"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Deposit Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',
@@ -456,7 +582,7 @@ function depositReportTable() {
             };
 
             // Array of column indices to sum
-            var columnsToSum = [4,5];
+            var columnsToSum = [4, 5];
 
             // Loop through each column index
             columnsToSum.forEach(function (colIndex) {
@@ -498,8 +624,29 @@ function elReportTable() {
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "EL Report List"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('EL Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',
@@ -522,7 +669,7 @@ function elReportTable() {
             };
 
             // Array of column indices to sum
-            var columnsToSum = [4,5];
+            var columnsToSum = [4, 5];
 
             // Loop through each column index
             columnsToSum.forEach(function (colIndex) {
@@ -565,8 +712,29 @@ function excessFundReportTable() {
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "Excess Fund Report List"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Excess Fund Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',

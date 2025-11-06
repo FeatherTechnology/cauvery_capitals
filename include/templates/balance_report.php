@@ -23,6 +23,8 @@
 
 				<input type="date" id='to_date' name='to_date' class="toggle-button" value='' style="margin-bottom: 25px;">
 				
+				<div id="hiddenExport" style="display:none;"></div>
+				
 				<select type="text" class="form-control" id="loan_category" name="loan_category" multiple >
 					<option value="">Select Loan Category</option>
 				</select>

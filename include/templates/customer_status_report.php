@@ -23,6 +23,7 @@
 		<div class="row gutters">
 
 			<div class="toggle-container col-12">
+				<div id="hiddenExport" style="display:none;"></div>
 				<input type="date" class="toggle-button" name='search_date' id='search_date' value=''>
 				<select class="toggle-button" name='type' id='type'>
 					<option value=''>Select Type</option>

@@ -11,21 +11,23 @@ $sql = $connect->query("SELECT a.*,b.fullname, CASE b.role WHEN 1 then 'Director
 
 //this query will take Confirmation followup data from that table with username and user type according to inserted login id and using switch case in query for output
 
-$ftype = [1=>'Direct',2=>'Mobile'];
-$fstatus = [1=>'Commitment',2=>'Unavailable',3=>'RNR',4=>'Not Reachable',5=>'Switch Off',6=>'Not in Use',7=>'Blocked',8=>'Paid'];
-$per_type_arr = [1=>'Customer',2=>'Garentor',3=>'Family Member'];
+$ftype = [1 => 'Direct', 2 => 'Mobile'];
+$fstatus = [1 => 'Commitment', 2 => 'Unavailable', 3 => 'RNR', 4 => 'Not Reachable', 5 => 'Switch Off', 6 => 'Not in Use', 7 => 'Blocked', 8 => 'Paid'];
+$per_type_arr = [1 => 'Customer', 2 => 'Garentor', 3 => 'Family Member'];
 $sno = 1;
 
-function getCustomer($connect,$cus_id){
+function getCustomer($connect, $cus_id)
+{
     $result = $connect->query("SELECT CONCAT(first_name, ' ', last_name) AS customer_name from customer_register where cus_id = '$cus_id' ");
     $cus_name = $result->fetch()['customer_name'];
     return $cus_name;
 }
-function getGarentor($connect,$cus_id){
+function getGarentor($connect, $cus_id)
+{
     $query = "SELECT cp.guarentor_name, CONCAT(vfi.first_name, ' ', vfi.last_name) AS famname, vfi.relationship FROM customer_profile cp JOIN verification_family_info vfi ON cp.guarentor_name = vfi.id WHERE cp.cus_id = '$cus_id' ORDER BY cp.id DESC LIMIT 1 ";
     $result = $connect->query($query);
     $row = $result->fetch();
-    
+
     $response = [
         "name" => $row['famname'],
         "relationship" => $row['relationship']
@@ -33,8 +35,9 @@ function getGarentor($connect,$cus_id){
     return $response;
 }
 
-function getFamilyMember($connect,$fam_id){
-    
+function getFamilyMember($connect, $fam_id)
+{
+
     $result = $connect->query("SELECT id,CONCAT(first_name, ' ', last_name) AS famname, relationship FROM `verification_family_info` where id='$fam_id'");
 
     $row = $result->fetch();
@@ -48,6 +51,7 @@ function getFamilyMember($connect,$fam_id){
 
 
 <table class="table custom-table" id='commitment_chart'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <th width='20'>S No</th>
         <th>Date</th>
@@ -64,35 +68,55 @@ function getFamilyMember($connect,$fam_id){
         <th>Communication Status</th>
     </thead>
     <tbody>
-        <?php while($row =  $sql->fetch()){?>
+        <?php while ($row =  $sql->fetch()) { ?>
             <tr>
-                <td><?php echo $sno;$sno++; ?></td>
-                <td><?php echo date('d-m-Y',strtotime($row['created_date'])); ?></td>
+                <td><?php echo $sno;
+                    $sno++; ?></td>
+                <td><?php echo date('d-m-Y', strtotime($row['created_date'])); ?></td>
                 <td><?php echo $ftype[$row['ftype']]; ?></td>
                 <td><?php echo $fstatus[$row['fstatus']]; ?></td>
-                <td><?php echo $per_type_arr[$row['person_type']]??''; ?></td>
+                <td><?php echo $per_type_arr[$row['person_type']] ?? ''; ?></td>
                 <td>
-                    <?php 
-                        if($row['person_type'] == 1){$person_name = getCustomer($connect,$cus_id); echo $person_name; }else
-                        if($row['person_type'] == 2){$person_name = getGarentor($connect,$cus_id); echo $person_name['name']; }else
-                        if($row['person_type'] == 3){$person_name = getFamilyMember($connect,$row['person_name']); echo $person_name['name'];}
+                    <?php
+                    if ($row['person_type'] == 1) {
+                        $person_name = getCustomer($connect, $cus_id);
+                        echo $person_name;
+                    } else
+                        if ($row['person_type'] == 2) {
+                        $person_name = getGarentor($connect, $cus_id);
+                        echo $person_name['name'];
+                    } else
+                        if ($row['person_type'] == 3) {
+                        $person_name = getFamilyMember($connect, $row['person_name']);
+                        echo $person_name['name'];
+                    }
                     ?>
                 </td>
                 <td>
-                    <?php 
-                        if($row['person_type'] == 1){echo 'NIL'; }else
-                        if($row['person_type'] == 2){echo $person_name['relationship']; }else
-                        if($row['person_type'] == 3){echo $person_name['relationship']; }
+                    <?php
+                    if ($row['person_type'] == 1) {
+                        echo 'NIL';
+                    } else
+                        if ($row['person_type'] == 2) {
+                        echo $person_name['relationship'];
+                    } else
+                        if ($row['person_type'] == 3) {
+                        echo $person_name['relationship'];
+                    }
                     ?>
                 </td>
-                
+
                 <td><?php echo $row['remark']; ?></td>
-                <td><?php if($row['comm_date'] != '0000-00-00' && !empty($row['comm_date'])){ echo date('d-m-Y',strtotime($row['comm_date'])); }else{ echo ''; } ?></td>
+                <td><?php if ($row['comm_date'] != '0000-00-00' && !empty($row['comm_date'])) {
+                        echo date('d-m-Y', strtotime($row['comm_date']));
+                    } else {
+                        echo '';
+                    } ?></td>
                 <td><?php echo $row['role']; ?></td>
                 <td><?php echo $row['fullname']; ?></td>
                 <td><?php echo $row['hint']; ?></td>
-                <td><?php echo $row['comm_err']=='1'?'Error':($row['comm_err']=='2'?'Clear':''); ?></td>
-                
+                <td><?php echo $row['comm_err'] == '1' ? 'Error' : ($row['comm_err'] == '2' ? 'Clear' : ''); ?></td>
+
             </tr>
         <?php } ?>
 
@@ -109,7 +133,29 @@ function getFamilyMember($connect,$fam_id){
         ],
         dom: 'lBfrtip',
         buttons: [{
-                extend: 'excel',
+                text: 'Excel',
+                action: function(e, dt, node, config) {
+                    // Generate fresh title & filename every click
+                    const {
+                        title,
+                        filename
+                    } = generateReportTitle('Commitment Chart List');
+
+                    // Create a hidden temporary export button
+                    const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                        buttons: [{
+                            extend: 'excelHtml5',
+                            title: title,
+                            filename: filename,
+                        }]
+                    }).container().appendTo($('#hiddenExport'));
+
+                    // Trigger that button’s click programmatically
+                    tmpBtn.find('.buttons-excel').click();
+
+                    // Remove the temporary button after export
+                    tmpBtn.remove();
+                }
             },
             {
                 extend: 'colvis',
@@ -117,11 +163,10 @@ function getFamilyMember($connect,$fam_id){
             }
         ],
     })
-    
 </script>
 <style>
     @media (max-width: 598px) {
-        #commChartDiv{
+        #commChartDiv {
             overflow: auto;
         }
     }

@@ -147,7 +147,29 @@ $(document).ready(function () {
             },
             dom: 'lBfrtip',
             buttons: [{
-                extend: 'excel',
+                text: 'Excel',
+                action: function (e, dt, node, config) {
+                    // Generate fresh title & filename every click
+                    const {
+                        title,
+                        filename
+                    } = generateReportTitle('Loan Category Info List');
+
+                    // Create a hidden temporary export button
+                    const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                        buttons: [{
+                            extend: 'excelHtml5',
+                            title: title,
+                            filename: filename,
+                        }]
+                    }).container().appendTo($('#hiddenExport'));
+
+                    // Trigger that button’s click programmatically
+                    tmpBtn.find('.buttons-excel').click();
+
+                    // Remove the temporary button after export
+                    tmpBtn.remove();
+                }
             },
             {
                 extend: 'colvis',
@@ -205,38 +227,38 @@ $(document).ready(function () {
 
     // Submit Button 
     $('#submitLoanCategory').click(function (event) {
-        
-    if (!checkAllInputs()) {
-        event.preventDefault();
-        swalError('Please fill Loan Calculation or Loan Scheme');
-    }else{
-        if(validation() && validateLoanCategoryTable()){
-        let confirmAction = confirm("Are you sure you want to submit Loan Category?");
-            if (!confirmAction) {
-                event.preventDefault(); // Stop form submission if canceled
+
+        if (!checkAllInputs()) {
+            event.preventDefault();
+            swalError('Please fill Loan Calculation or Loan Scheme');
+        } else {
+            if (validation() && validateLoanCategoryTable()) {
+                let confirmAction = confirm("Are you sure you want to submit Loan Category?");
+                if (!confirmAction) {
+                    event.preventDefault(); // Stop form submission if canceled
+                    return false;
+                }
+            } else {
+                event.preventDefault();
                 return false;
             }
-        }else{
-            event.preventDefault();
-            return false;
+
         }
 
-    }
-   
     });
 
     $('#scheme_name').change(function () {
         getSchemeListTable($(this).val());
     });
     $('#scheme_due_method').change(function () {
-        if($(this).val()=='monthly'){
+        if ($(this).val() == 'monthly') {
             $(".total_due").show();
             $(".advance_div").show();
             $("#advance_yes").prop("checked", true).trigger("change");
             $(".advance_due").show();
-             $('#due_period').prop('readonly', true);
-        }else{
-             $(".total_due").hide();
+            $('#due_period').prop('readonly', true);
+        } else {
+            $(".total_due").hide();
             $(".advance_div").hide();
             $(".advance_due").hide();
             $('#due_period').prop('readonly', false);
@@ -244,62 +266,62 @@ $(document).ready(function () {
     });
     //Validation on submit
     $('#submit_loan_scheme').click(function () {
-   event.preventDefault();
-   var advance_type = $('input[name=advance]:checked').val();
-   let advance_dues ='';
+        event.preventDefault();
+        var advance_type = $('input[name=advance]:checked').val();
+        let advance_dues = '';
         if (advance_type == 'Yes') {
-           advance_dues= $('#advance_due').val();
+            advance_dues = $('#advance_due').val();
         }
-      var dataToSend = {
-        scheme_id: $('#scheme_id').val(),
-        add_scheme_name: $('#add_scheme_name').val(),
-        scheme_short: $('#scheme_short').val(),
-        scheme_due_method: $('#scheme_due_method').val(),
-        profit_methods: $('#profit_methods option:selected').val(),
-        total_due: $('#total_due').val(),
-        advance_type: advance_type,
-        advance_due: advance_dues,
-        due_period: $('#due_period').val(),
-        intreset_type: $('input[name="intreset_type"]:checked').val(),
-        intreset_min: $('#intreset_min').val(),
-        intreset_max: $('#intreset_max').val(),
-        doc_charge_type: $('input[name="doc_charge_type"]:checked').val(),
-        doc_charge_min: $('#doc_charge_min').val(),
-        doc_charge_max: $('#doc_charge_max').val(),
-        proc_fee_type: $('input[name="proc_fee_type"]:checked').val(),
-        proc_fee_min: $('#proc_fee_min').val(),
-        proc_fee_max: $('#proc_fee_max').val(),
-        overdue: $('#overdue').val()
-    };
+        var dataToSend = {
+            scheme_id: $('#scheme_id').val(),
+            add_scheme_name: $('#add_scheme_name').val(),
+            scheme_short: $('#scheme_short').val(),
+            scheme_due_method: $('#scheme_due_method').val(),
+            profit_methods: $('#profit_methods option:selected').val(),
+            total_due: $('#total_due').val(),
+            advance_type: advance_type,
+            advance_due: advance_dues,
+            due_period: $('#due_period').val(),
+            intreset_type: $('input[name="intreset_type"]:checked').val(),
+            intreset_min: $('#intreset_min').val(),
+            intreset_max: $('#intreset_max').val(),
+            doc_charge_type: $('input[name="doc_charge_type"]:checked').val(),
+            doc_charge_min: $('#doc_charge_min').val(),
+            doc_charge_max: $('#doc_charge_max').val(),
+            proc_fee_type: $('input[name="proc_fee_type"]:checked').val(),
+            proc_fee_min: $('#proc_fee_min').val(),
+            proc_fee_max: $('#proc_fee_max').val(),
+            overdue: $('#overdue').val()
+        };
 
-    let scheme_name = dataToSend.add_scheme_name;
-    let scheme_short = dataToSend.scheme_short;
-    let scheme_due_method = dataToSend.scheme_due_method;
-    let profit_method = dataToSend.profit_methods;
-    let total_due = dataToSend.total_due;
-    let advance_due = dataToSend.advance_due;
-    let due_period = dataToSend.due_period;
-    let intreset_type = dataToSend.intreset_type;
-    let intreset_min = dataToSend.intreset_min;
-    let intreset_max = dataToSend.intreset_max;
-    let doc_charge_type = dataToSend.doc_charge_type;
-    let doc_charge_min = dataToSend.doc_charge_min;
-    let doc_charge_max = dataToSend.doc_charge_max;
-    let proc_fee_type = dataToSend.proc_fee_type;
-    let proc_fee_min = dataToSend.proc_fee_min;
-    let proc_fee_max = dataToSend.proc_fee_max;
-    let overdue = dataToSend.overdue;
-    if (
-        scheme_due_method != '' && scheme_short != '' && due_period != '' && scheme_name != '' &&
-        intreset_type != '' && intreset_min != '' && intreset_max != '' &&
-        doc_charge_type != '' && doc_charge_min != '' && doc_charge_max != '' &&
-        proc_fee_type != '' && proc_fee_min != '' && proc_fee_max != '' &&
-        overdue != '' && profit_method != '' && profit_method != null &&
-        (scheme_due_method != 'monthly' || (total_due != ''  && (advance_type == 'No' || advance_due != '')))
-    ) {
-        submitScheme(dataToSend);
-        // return true;
-    } else {
+        let scheme_name = dataToSend.add_scheme_name;
+        let scheme_short = dataToSend.scheme_short;
+        let scheme_due_method = dataToSend.scheme_due_method;
+        let profit_method = dataToSend.profit_methods;
+        let total_due = dataToSend.total_due;
+        let advance_due = dataToSend.advance_due;
+        let due_period = dataToSend.due_period;
+        let intreset_type = dataToSend.intreset_type;
+        let intreset_min = dataToSend.intreset_min;
+        let intreset_max = dataToSend.intreset_max;
+        let doc_charge_type = dataToSend.doc_charge_type;
+        let doc_charge_min = dataToSend.doc_charge_min;
+        let doc_charge_max = dataToSend.doc_charge_max;
+        let proc_fee_type = dataToSend.proc_fee_type;
+        let proc_fee_min = dataToSend.proc_fee_min;
+        let proc_fee_max = dataToSend.proc_fee_max;
+        let overdue = dataToSend.overdue;
+        if (
+            scheme_due_method != '' && scheme_short != '' && due_period != '' && scheme_name != '' &&
+            intreset_type != '' && intreset_min != '' && intreset_max != '' &&
+            doc_charge_type != '' && doc_charge_min != '' && doc_charge_max != '' &&
+            proc_fee_type != '' && proc_fee_min != '' && proc_fee_max != '' &&
+            overdue != '' && profit_method != '' && profit_method != null &&
+            (scheme_due_method != 'monthly' || (total_due != '' && (advance_type == 'No' || advance_due != '')))
+        ) {
+            submitScheme(dataToSend);
+            // return true;
+        } else {
             Swal.fire({
                 timerProgressBar: true,
                 timer: 2000,
@@ -312,13 +334,13 @@ $(document).ready(function () {
         }
 
     });
-       //Due period calculation
+    //Due period calculation
     $('#advance_due ,#total_due').keyup(function () {
         var advance_type = $('input[name=advance]:checked').val();
         var total_due = $('#total_due').val();
-        let advance_due ='';
-        if(advance_type =='Yes'){
-         advance_due = $('#advance_due').val();
+        let advance_due = '';
+        if (advance_type == 'Yes') {
+            advance_due = $('#advance_due').val();
         }
         if (total_due != '' && advance_due == '') {
             $('#due_period').val(total_due);
@@ -331,7 +353,7 @@ $(document).ready(function () {
             $('#due_period').val(advance_due);
         }
     })
-    
+
     // Amount or percentage change on fields
     $('#docamt,#docpercentage').click(function () {
         var doc_charge_type = $('input[name=doc_charge_type]:checked').val();
@@ -365,22 +387,22 @@ $(document).ready(function () {
     $('#advance_yes,#advance_no').click(function () {
         var advance_type = $('input[name=advance]:checked').val();
         if (advance_type == 'Yes') {
-           $(".advance_due").show();
+            $(".advance_due").show();
         }
         if (advance_type == 'No') {
             $(".advance_due").hide();
         }
     })
-   $(document).on('click', '.edit_loan_scheme', function (e) {
-    e.preventDefault(); 
-    var id = $(this).data('id');
-    getSchemeDetails(id);
-});
-   $(document).on('click', '.delete_scheme', function (e) {
-    e.preventDefault(); 
-    var id = $(this).data('id');
-    ChangeSchemStatus(id);
-});
+    $(document).on('click', '.edit_loan_scheme', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        getSchemeDetails(id);
+    });
+    $(document).on('click', '.delete_scheme', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        ChangeSchemStatus(id);
+    });
 
     // $('#monthly_duetype').on('change', function () {
     //     var due_type = $(this).val();
@@ -403,7 +425,7 @@ $(document).ready(function () {
     //     }
     // });
 
-     $('#loan_limit').on('input', function () {
+    $('#loan_limit').on('input', function () {
         let value = $(this).val();
         $(this).val(formatIndianNumber(value));
     });
@@ -411,14 +433,14 @@ $(document).ready(function () {
 });
 
 function validation() {
-     let loancategoryValue = $('#loan_category_name').val(); let loanlimit = $('#loan_limit').val();
-     let agent_loan = $('#agent_loan').val();
-     var validation =  true ;
+    let loancategoryValue = $('#loan_category_name').val(); let loanlimit = $('#loan_limit').val();
+    let agent_loan = $('#agent_loan').val();
+    var validation = true;
 
     if (loancategoryValue.length == '') {
         $('#loanCategoryCheck').show();
         event.preventDefault();
-        validation =  false ;
+        validation = false;
     }
     else {
         $('#loanCategoryCheck').hide();
@@ -427,15 +449,15 @@ function validation() {
     if (loanlimit.length == '') {
         $('#loan_limitCheck').show();
         event.preventDefault();
-        validation =  false ;
+        validation = false;
     }
     else {
         $('#loan_limitCheck').hide();
     }
-    if (agent_loan== '') {
+    if (agent_loan == '') {
         $('#agent_loanCheck').show();
         event.preventDefault();
-        validation =  false ;
+        validation = false;
     }
     else {
         $('#agent_loanCheck').hide();
@@ -456,7 +478,7 @@ function DropDownCourse() {
             var htmlString = "<option value=''>" + 'Select Loan Category' + "</option>";
 
             // Sort the response alphabetically by loan_category_creation_name before appending
-            var sortedResponse = response.slice().sort(function(a, b) {
+            var sortedResponse = response.slice().sort(function (a, b) {
                 return a.loan_category_creation_name.localeCompare(b.loan_category_creation_name);
             });
 
@@ -472,7 +494,7 @@ function DropDownCourse() {
 }
 
 function getSchemeTable() {
-    
+
     var table = $('#loan_scheme_inner_table').DataTable();
     table.destroy();
 
@@ -489,15 +511,35 @@ function getSchemeTable() {
             }
         },
         dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'excel',
-                title: "Loan Scheme List"
-            },
-            {
-                extend: 'colvis',
-                collectionLayout: 'fixed four-column',
+        buttons: [{
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Scheme List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
             }
+        },
+        {
+            extend: 'colvis',
+            collectionLayout: 'fixed four-column',
+        }
         ],
         "lengthMenu": [
             [10, 25, 50, -1],
@@ -511,7 +553,7 @@ function getSchemeTable() {
 }
 function getSchemeDropdown() {
     $.post('loancategoryFile/getSchemeList.php', { action: 'dropdown' }, function (response) {
-        
+
         $('#scheme_id').val('');
         $('#add_scheme_name').val('');
         $('#scheme_short').val('');
@@ -539,7 +581,7 @@ function getSchemeDropdown() {
         // Hide sections
         $('.total_due').hide();
         $('.advance_due').hide();
-        
+
         scheme_choices.clearStore();
         let selectedSchemeId = [];
 
@@ -562,10 +604,10 @@ function getSchemeDropdown() {
             }];
             scheme_choices.setChoices(items);
         });
-if(selectedSchemeId !=''){
-        getSchemeListTable(selectedSchemeId);
+        if (selectedSchemeId != '') {
+            getSchemeListTable(selectedSchemeId);
 
-}
+        }
     }, 'json');
 }
 
@@ -586,20 +628,40 @@ function getSchemeListTable(scheme_id) {
         'ajax': {
             'url': 'loancategoryFile/getSchemeDropDown.php',
             'data': function (data) {
-                data.scheme_id =  scheme_id.length > 0 ? scheme_id : null;; // Send as array
+                data.scheme_id = scheme_id.length > 0 ? scheme_id : null;; // Send as array
                 data.search = $('#search').val(); // Optional: pass manual search text
             }
         },
         dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'excel',
-                title: "Loan Scheme List"
-            },
-            {
-                extend: 'colvis',
-                collectionLayout: 'fixed four-column',
+        buttons: [{
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Loan Scheme List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
             }
+        },
+        {
+            extend: 'colvis',
+            collectionLayout: 'fixed four-column',
+        }
         ],
         "lengthMenu": [
             [10, 25, 50, -1],
@@ -626,104 +688,104 @@ function changePercentinput(docmin, docmax, doc_charge_min, doc_charge_max) {
     $('#' + doc_charge_max).attr('readonly', false);
 }
 function getSchemeDetails(id) {
-   $.ajax({
+    $.ajax({
         url: 'loancategoryFile/ajaxGetSchemeDetails.php',
         type: 'post',
-        data: {id},
+        data: { id },
         dataType: 'json',
         success: function (response) {
-    if (response) {
-        $('#scheme_id').val(response.scheme_id);
-        $('#add_scheme_name').val(response.scheme_name);
-        $('#scheme_short').val(response.short_name);
-        $('#scheme_due_method').val(response.due_method);
-        $('#due_period').val(response.due_period);
-        $('#profit_methods').val(response.profit_method);
-        $('#intreset_min').val(response.intreset_min);
-        $('#intreset_max').val(response.intreset_max);
-        $('#doc_charge_min').val(response.doc_charge_min);
-        $('#doc_charge_max').val(response.doc_charge_max);
-        $('#proc_fee_min').val(response.proc_fee_min);
-        $('#proc_fee_max').val(response.proc_fee_max);
-        $('#overdue').val(response.overdue);
-        $('#advance_due').val(response.advance_due);
-        $("input[name='advance'][value='" + response.advance_type + "']").prop("checked", true);
-        if (response.advance_type === 'Yes') {
-            $(".advance_due").show();
-        } else {
-            $(".advance_due").hide();
+            if (response) {
+                $('#scheme_id').val(response.scheme_id);
+                $('#add_scheme_name').val(response.scheme_name);
+                $('#scheme_short').val(response.short_name);
+                $('#scheme_due_method').val(response.due_method);
+                $('#due_period').val(response.due_period);
+                $('#profit_methods').val(response.profit_method);
+                $('#intreset_min').val(response.intreset_min);
+                $('#intreset_max').val(response.intreset_max);
+                $('#doc_charge_min').val(response.doc_charge_min);
+                $('#doc_charge_max').val(response.doc_charge_max);
+                $('#proc_fee_min').val(response.proc_fee_min);
+                $('#proc_fee_max').val(response.proc_fee_max);
+                $('#overdue').val(response.overdue);
+                $('#advance_due').val(response.advance_due);
+                $("input[name='advance'][value='" + response.advance_type + "']").prop("checked", true);
+                if (response.advance_type === 'Yes') {
+                    $(".advance_due").show();
+                } else {
+                    $(".advance_due").hide();
+                }
+
+                // Set Interest Type radio
+                if (response.intreset_type === 'amt') {
+                    $('#interestamt').prop('checked', true);
+                } else if (response.intreset_type === 'percentage') {
+                    $('#interestpercentage').prop('checked', true);
+                }
+
+                // Set Document Charge Type radio
+                if (response.doc_charge_type === 'amt') {
+                    $('#docamt').prop('checked', true);
+                } else if (response.doc_charge_type === 'percentage') {
+                    $('#docpercentage').prop('checked', true);
+                }
+
+                // Set Processing Fee Type radio
+                if (response.proc_fee_type === 'amt') {
+                    $('#procamt').prop('checked', true);
+                } else if (response.proc_fee_type === 'percentage') {
+                    $('#procpercentage').prop('checked', true);
+                }
+
+                // Handle Due Method visibility logic
+                if (response.due_method === 'monthly') {
+                    $('#total_due').val(response.total_due);
+                    $('#advance_due').val(response.advance_due);
+                    $('.total_due').show();
+                    $(".advance_div").show();
+
+                    $('#due_period').val(response.due_period).prop('readonly', true);
+                } else {
+                    $('.total_due, .advance_due').hide();
+
+                    $('#total_due').val('');
+                    $('#advance_due').val('');
+
+                    $('#due_period').val(response.due_period).prop('readonly', false);
+                }
+            }
         }
-
-        // Set Interest Type radio
-        if (response.intreset_type === 'amt') {
-            $('#interestamt').prop('checked', true);
-        } else if (response.intreset_type === 'percentage') {
-            $('#interestpercentage').prop('checked', true);
-        }
-
-        // Set Document Charge Type radio
-        if (response.doc_charge_type === 'amt') {
-            $('#docamt').prop('checked', true);
-        } else if (response.doc_charge_type === 'percentage') {
-            $('#docpercentage').prop('checked', true);
-        }
-
-        // Set Processing Fee Type radio
-        if (response.proc_fee_type === 'amt') {
-            $('#procamt').prop('checked', true);
-        } else if (response.proc_fee_type === 'percentage') {
-            $('#procpercentage').prop('checked', true);
-        }
-
-        // Handle Due Method visibility logic
-        if (response.due_method === 'monthly') {
-            $('#total_due').val(response.total_due);
-            $('#advance_due').val(response.advance_due);
-            $('.total_due').show();
-            $(".advance_div").show();
-
-            $('#due_period').val(response.due_period).prop('readonly', true);
-        } else {
-            $('.total_due, .advance_due').hide();
-
-            $('#total_due').val('');
-            $('#advance_due').val('');
-
-            $('#due_period').val(response.due_period).prop('readonly', false);
-        }
-    }
-}
 
     });
 }
 function ChangeSchemStatus(id) {
-   $.ajax({
+    $.ajax({
         url: 'loancategoryFile/SchemeStatusChange.php',
         type: 'post',
-        data: {id},
+        data: { id },
         dataType: 'json',
-    success: function (response) {
+        success: function (response) {
             if (response == 0) {
                 Swal.fire({
-                timerProgressBar: true,
-                timer: 2000,
-                title: 'Scheme deleted successfully.',
-                icon: 'success',
-                showConfirmButton: true,
-                confirmButtonColor: '#0c70ab'
+                    timerProgressBar: true,
+                    timer: 2000,
+                    title: 'Scheme deleted successfully.',
+                    icon: 'success',
+                    showConfirmButton: true,
+                    confirmButtonColor: '#0c70ab'
                 });
                 getSchemeTable();
             } else {
                 Swal.fire({
-                timerProgressBar: true,
-                timer: 2000,
-                title: 'Failed to delete scheme.',
-                icon: 'error',
-                showConfirmButton: true,
-                confirmButtonColor: '#0c70ab'
+                    timerProgressBar: true,
+                    timer: 2000,
+                    title: 'Failed to delete scheme.',
+                    icon: 'error',
+                    showConfirmButton: true,
+                    confirmButtonColor: '#0c70ab'
                 });
             }
-            
+
         },
         error: function () {
             alert("AJAX error occurred.");
@@ -739,48 +801,48 @@ function submitScheme(data) {
         data: data,
         dataType: 'json',
         success: function (response) {
-        
 
-        if (response == 1) {
-            swalSuccess('Success',"Scheme Updated !");
-        } else if (response == 2) {
-            swalSuccess('Success',"Scheme Submitted !");
+
+            if (response == 1) {
+                swalSuccess('Success', "Scheme Updated !");
+            } else if (response == 2) {
+                swalSuccess('Success', "Scheme Submitted !");
+            }
+
+            $('#scheme_id').val('');
+            $('#add_scheme_name').val('');
+            $('#scheme_short').val('');
+            $('#total_due').val('');
+            $('#advance_due').val('');
+            $('#due_period').val('');
+            $('#intreset_min').val('');
+            $('#intreset_max').val('');
+            $('#doc_charge_min').val('');
+            $('#doc_charge_max').val('');
+            $('#proc_fee_min').val('');
+            $('#proc_fee_max').val('');
+            $('#overdue').val('');
+            $('#add_scheme_id').val('');
+
+            // Deselect radio buttons by name
+            $('input[name="intreset_type"]').prop('checked', false);
+            $('input[name="doc_charge_type"]').prop('checked', false);
+            $('input[name="proc_fee_type"]').prop('checked', false);
+
+            // Reset select dropdowns and trigger change (for Choices.js or Select2)
+            $('#scheme_due_method').val('').trigger('change');
+            $('#profit_methods').val('').trigger('change');
+
+            // Hide sections
+            $('.total_due').hide();
+            $('.advance_due').hide();
+
+            // Refresh table
+            getSchemeTable();
+        },
+        error: function (xhr, status, error) {
+            alert("AJAX Error: " + error);
         }
-
-        $('#scheme_id').val('');
-        $('#add_scheme_name').val('');
-        $('#scheme_short').val('');
-        $('#total_due').val('');
-        $('#advance_due').val('');
-        $('#due_period').val('');
-        $('#intreset_min').val('');
-        $('#intreset_max').val('');
-        $('#doc_charge_min').val('');
-        $('#doc_charge_max').val('');
-        $('#proc_fee_min').val('');
-        $('#proc_fee_max').val('');
-        $('#overdue').val('');
-        $('#add_scheme_id').val('');
-
-        // Deselect radio buttons by name
-        $('input[name="intreset_type"]').prop('checked', false);
-        $('input[name="doc_charge_type"]').prop('checked', false);
-        $('input[name="proc_fee_type"]').prop('checked', false);
-
-        // Reset select dropdowns and trigger change (for Choices.js or Select2)
-        $('#scheme_due_method').val('').trigger('change');
-        $('#profit_methods').val('').trigger('change');
-
-        // Hide sections
-        $('.total_due').hide();
-        $('.advance_due').hide();
-
-        // Refresh table
-        getSchemeTable();
-    },
-    error: function(xhr, status, error) {
-        alert("AJAX Error: " + error);
-    }
     });
 }
 
@@ -829,14 +891,14 @@ function swalError(title, text) {
 }
 
 function swalSuccess(title, text) {
-	Swal.fire({
-		icon: 'success',
-		title: title,
-		text: text,
-		showConfirmButton: false,
-		timerProgressBar: true,
-		timer: 2000,
-	})
+    Swal.fire({
+        icon: 'success',
+        title: title,
+        text: text,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        timer: 2000,
+    })
 }
 
 function checkAllInputs() {
@@ -855,7 +917,7 @@ function checkAllInputs() {
         );
     } else if (monthly_duetype === "intrest") {
         inputs = $(
-            '#int_profit_method, #calculate_method,'+
+            '#int_profit_method, #calculate_method,' +
             '#monthly_intrests_rate_min, #monthly_intrests_rate_max, ' +
             '#monthly_due_periods_min, #monthly_due_periods_max, ' +
             '#monthly_document_charges_min, #monthly_document_charges_max, ' +
@@ -866,33 +928,33 @@ function checkAllInputs() {
         return false; // nothing selected
     }
 
-// Count filled normal inputs
-let filledInputs = inputs.filter(function () {
-    if ($(this).is('select')) {
-        let val = $(this).val();
-        return val !== null && val.length > 0;
+    // Count filled normal inputs
+    let filledInputs = inputs.filter(function () {
+        if ($(this).is('select')) {
+            let val = $(this).val();
+            return val !== null && val.length > 0;
+        } else {
+            return $(this).val().trim() !== "";
+        }
+    }).length;
+
+    // Count multi-select (scheme_choices)
+    let schemeFilled = scheme_choices.getValue().length > 0;
+    let docradioChecked = $("#monthly_docamt, #monthly_docpercentage").is(":checked");
+    let proradioChecked = $("#monthly_procamt, #monthly_procpercentage").is(":checked");
+
+    // Total inputs including the multi-select
+    let totalInputs = inputs.length + 2;
+
+    let totalFilled = filledInputs + (docradioChecked ? 1 : 0) + (proradioChecked ? 1 : 0);
+
+    // Validation rules
+    if (totalFilled === 0 && !schemeFilled) {
+        return false; // None filled → invalid
+    } else if (totalFilled === totalInputs || (filledInputs === 0 && schemeFilled)) {
+        return true; // All filled OR only multi-select filled → valid
     } else {
-        return $(this).val().trim() !== "";
+        return false; // Partially filled → invalid
     }
-}).length;
-
-// Count multi-select (scheme_choices)
-let schemeFilled = scheme_choices.getValue().length > 0;
-let docradioChecked = $("#monthly_docamt, #monthly_docpercentage").is(":checked");
-let proradioChecked = $("#monthly_procamt, #monthly_procpercentage").is(":checked");
-
-// Total inputs including the multi-select
-let totalInputs = inputs.length +2; 
-
-let totalFilled = filledInputs + (docradioChecked ? 1 : 0)+ (proradioChecked ? 1 : 0);
-
-// Validation rules
-if (totalFilled === 0 && !schemeFilled) {
-    return false; // None filled → invalid
-} else if (totalFilled === totalInputs || (filledInputs === 0 && schemeFilled)) {
-    return true; // All filled OR only multi-select filled → valid
-} else {
-    return false; // Partially filled → invalid
-}
 
 }

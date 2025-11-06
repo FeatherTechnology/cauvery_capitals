@@ -10,6 +10,7 @@ if (isset($_POST['pages'])) {
 ?>
 
 <table class="table custom-table" id="docModalTable">
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="50"> S.No </th>
@@ -58,11 +59,14 @@ if (isset($_POST['pages'])) {
                 <td>
                     <?php //if ($pages == 1) {  // Verification screen only delete option. 
                     ?>
-                        <a id="doc_info_edit" value="<?php echo $row['id']; ?>"> <span class="icon-border_color"></span></a> &nbsp;
-                        <a id="doc_info_delete" value="<?php echo $row['id']; ?>"> <span class='icon-trash-2'></span> </a>
-                    <?php  //} elseif ($pages == 2) { ?>
-                        <!-- <a id="doc_info_edit" value="<?php #echo $row['id']; ?>" style="text-decoration: underline;"> Upload</a> &nbsp; -->
-                    <?php //} ?>
+                    <a id="doc_info_edit" value="<?php echo $row['id']; ?>"> <span class="icon-border_color"></span></a> &nbsp;
+                    <a id="doc_info_delete" value="<?php echo $row['id']; ?>"> <span class='icon-trash-2'></span> </a>
+                    <?php  //} elseif ($pages == 2) { 
+                    ?>
+                    <!-- <a id="doc_info_edit" value="<?php #echo $row['id']; 
+                                                        ?>" style="text-decoration: underline;"> Upload</a> &nbsp; -->
+                    <?php //} 
+                    ?>
                 </td>
 
             </tr>
@@ -93,7 +97,29 @@ if (isset($_POST['pages'])) {
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Document Info List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

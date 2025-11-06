@@ -14,6 +14,7 @@
         <!-- <div class="row gutters" id="collection_card"> -->
         <div class="row gutters">
             <div class="col-12">
+                <div id="hiddenExport" style="display:none;"></div>
                 <div class="row justify-content-center"> <!-- centers the inner row -->
                     <div class="col-md-10"> <!-- set the width of the content -->
                         <div class="row align-items-end justify-content-center"> <!-- center items in inner row -->

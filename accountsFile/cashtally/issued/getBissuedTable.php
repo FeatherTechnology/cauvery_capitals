@@ -7,7 +7,8 @@ include('../../../ajaxconfig.php');
 $bank_id = $_POST['bank_id'];
 $op_date = date('Y-m-d', strtotime($_POST['op_date']));
 
-$i=0;$records = array();
+$i = 0;
+$records = array();
 $netcash = 0;
 
 
@@ -28,41 +29,44 @@ $qry = $connect->query("SELECT id, cheque_no, cheque_value, transaction_id, tran
 //so until this current bank account get closed it should show the amount userwise
 //not used group by and sum for cheque and transaction , bcoz all are getting summed up and giving wrong cheque numbers and trans ids
 //only single entries can be placed in tables 
-while($row = $qry->fetch()){
+while ($row = $qry->fetch()) {
 
     // $dbCheck = $connect->query("SELECT * from ct_db_bissued where li_user_id = '".$row['insert_login_id']."' ");
     // if($dbCheck->rowCount() == 0){ 
-        // to check whether id of loan issue is already entered in bissued table. if done, no need to show bcoz submitted bissued no need to show in table
+    // to check whether id of loan issue is already entered in bissued table. if done, no need to show bcoz submitted bissued no need to show in table
 
-        // $netcash = $netcash + intVal($row['cash']);
-        if($row['cheque_value'] != '' and $row['transaction_value'] == ''){
-            
-            $records[$i]['netcash'] = intVal($row['cheque_value']);
-            $records[$i]['cheque_no'] = $row['cheque_no'];
-            $records[$i]['transaction_id'] = '';
-            
-        }else if($row['transaction_value'] != '' and $row['cheque_value'] == ''){
-            
-            $records[$i]['netcash'] = intVal($row['transaction_value']);
-            $records[$i]['transaction_id'] = $row['transaction_id'];
-            $records[$i]['cheque_no'] = '';
-        
-        }else if($row['cheque_value'] != '' and $row['transaction_value'] != ''){
-            $records[$i]['netcash'] = intVal($row['cheque_value']) + intVal($row['transaction_value']);
-            $records[$i]['cheque_no'] = $row['cheque_no'];
-            $records[$i]['transaction_id'] = $row['transaction_id'];
-        }
+    // $netcash = $netcash + intVal($row['cash']);
+    if ($row['cheque_value'] != '' and $row['transaction_value'] == '') {
 
-        $records[$i]['issued_to'] = $row['issued_to'];
-        $records[$i]['id'] = $row['id'];
-        $records[$i]['user_id'] = $row['insert_login_id'];
-        $user_id = $row['insert_login_id'];
+        $records[$i]['netcash'] = intVal($row['cheque_value']);
+        $records[$i]['cheque_no'] = $row['cheque_no'];
+        $records[$i]['transaction_id'] = '';
+    } else if ($row['transaction_value'] != '' and $row['cheque_value'] == '') {
 
-        $qry1 = $connect->query("SELECT role,fullname FROM `user` where user_id= '$user_id' ");
-        $row1 = $qry1->fetch();
-        $role = $row1['role'];if($role == 1){$records[$i]['usertype'] = 'Director';}else if($role==3){$records[$i]['usertype'] = 'Staff';}
-        $records[$i]['username'] = $row1['fullname'];
-        $i++;
+        $records[$i]['netcash'] = intVal($row['transaction_value']);
+        $records[$i]['transaction_id'] = $row['transaction_id'];
+        $records[$i]['cheque_no'] = '';
+    } else if ($row['cheque_value'] != '' and $row['transaction_value'] != '') {
+        $records[$i]['netcash'] = intVal($row['cheque_value']) + intVal($row['transaction_value']);
+        $records[$i]['cheque_no'] = $row['cheque_no'];
+        $records[$i]['transaction_id'] = $row['transaction_id'];
+    }
+
+    $records[$i]['issued_to'] = $row['issued_to'];
+    $records[$i]['id'] = $row['id'];
+    $records[$i]['user_id'] = $row['insert_login_id'];
+    $user_id = $row['insert_login_id'];
+
+    $qry1 = $connect->query("SELECT role,fullname FROM `user` where user_id= '$user_id' ");
+    $row1 = $qry1->fetch();
+    $role = $row1['role'];
+    if ($role == 1) {
+        $records[$i]['usertype'] = 'Director';
+    } else if ($role == 3) {
+        $records[$i]['usertype'] = 'Staff';
+    }
+    $records[$i]['username'] = $row1['fullname'];
+    $i++;
     // }
 }
 
@@ -72,6 +76,7 @@ $connect = null;
 
 
 <table class="table custom-table" id='BissuedTable'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="50">S.No</th>
@@ -86,21 +91,21 @@ $connect = null;
     </thead>
     <tbody>
         <?php
-            for($i=0;$i<sizeof($records);$i++){
+        for ($i = 0; $i < sizeof($records); $i++) {
         ?>
             <tr>
                 <td></td>
-                <td><?php echo $records[$i]['usertype'];?></td>
-                <td><?php echo $records[$i]['username'];?></td>
-                
-                <!-- <td><?php echo $records[$i]['issued_to'];?></td> -->
-                
-                <td><?php echo $records[$i]['cheque_no'];?></td>
-                <td><?php echo $records[$i]['transaction_id'];?></td>
-                <td><?php echo moneyFormatIndia($records[$i]['netcash']);?></td>
-                
+                <td><?php echo $records[$i]['usertype']; ?></td>
+                <td><?php echo $records[$i]['username']; ?></td>
+
+                <!-- <td><?php echo $records[$i]['issued_to']; ?></td> -->
+
+                <td><?php echo $records[$i]['cheque_no']; ?></td>
+                <td><?php echo $records[$i]['transaction_id']; ?></td>
+                <td><?php echo moneyFormatIndia($records[$i]['netcash']); ?></td>
+
                 <td>
-                    <input type='button' id='' name='' class="btn btn-primary bissued_btn" data-value = '<?php echo $records[$i]['user_id']; ?>' data-id="<?php echo $records[$i]['id']; ?>" data-toggle="modal" data-target='.bissued_modal' value='Enter' > <!-- onclick="bissuedBtnClick(this)"  -->
+                    <input type='button' id='' name='' class="btn btn-primary bissued_btn" data-value='<?php echo $records[$i]['user_id']; ?>' data-id="<?php echo $records[$i]['id']; ?>" data-toggle="modal" data-target='.bissued_modal' value='Enter'> <!-- onclick="bissuedBtnClick(this)"  -->
                 </td>
             </tr>
         <?php
@@ -113,7 +118,7 @@ $connect = null;
 <script type='text/javascript'>
     $(function() {
         $('#BissuedTable').DataTable({
-            "title":"Collection List",
+            "title": "Collection List",
             'processing': true,
             'iDisplayLength': 5,
             "lengthMenu": [
@@ -130,7 +135,29 @@ $connect = null;
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Cash Tally - Bank Cash - Loan Issued List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',
@@ -143,10 +170,11 @@ $connect = null;
 
 <?php
 //Format number in Indian Format
-function moneyFormatIndia($num1) {
-    if($num1 < 0){
-        $num = str_replace("-","",$num1);
-    }else{
+function moneyFormatIndia($num1)
+{
+    if ($num1 < 0) {
+        $num = str_replace("-", "", $num1);
+    } else {
         $num = $num1;
     }
     $explrestunits = "";
@@ -167,7 +195,7 @@ function moneyFormatIndia($num1) {
         $thecash = $num;
     }
 
-    if($num1 < 0){
+    if ($num1 < 0) {
         $thecash = "-" . $thecash;
     }
 

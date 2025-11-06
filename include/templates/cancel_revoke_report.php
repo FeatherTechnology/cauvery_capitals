@@ -12,6 +12,7 @@
     <form id="cancel_revoke_form" name="cancel_revoke_form" action="" method="post" enctype="multipart/form-data">
         <div class="row gutters" id="request_card">
             <div class="toggle-container col-12">
+                <div id="hiddenExport" style="display:none;"></div>
                 <input type="date" id='from_date' name='from_date' class="toggle-button" value=''>
                 <input type="date" id='to_date' name='to_date' class="toggle-button" value=''>
                 <select type="text" class="toggle-button" id='type' name='type'>

@@ -3,6 +3,7 @@ include '../ajaxconfig.php';
 ?>
 
 <table class="table custom-table" id="coll_purpose_data">
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="50"> S.No </th>
@@ -24,7 +25,7 @@ include '../ajaxconfig.php';
 
             <tr>
                 <td><?php echo $i; ?></td>
-                <td><?php echo date('d-m-Y',strtotime($charges["coll_date"])); ?></td>
+                <td><?php echo date('d-m-Y', strtotime($charges["coll_date"])); ?></td>
                 <td><?php echo $charges["coll_purpose"]; ?></td>
                 <td><?php echo $charges["coll_charge"]; ?></td>
                 <!-- <td>
@@ -58,7 +59,29 @@ include '../ajaxconfig.php';
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Fine List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

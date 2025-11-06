@@ -12,21 +12,21 @@ $(document).ready(function () {
         let tid;
         let colArr;
 
-        if(reportType =='1'){//Balance
+        if (reportType == '1') {//Balance
             url = 'reportFile/intrest_loan_report/getInterestBalanceReport.php';
             tid = 'balance_report_table';
             colArr = [11, 12, 14, 15, 16];
             $('#balance_table_div').show();
             $('#princ_intrst_table_div').hide();
 
-        }else if(reportType =='2'){ //Priciple / Interest
+        } else if (reportType == '2') { //Priciple / Interest
             url = 'reportFile/intrest_loan_report/getInterestBalPrincipalinterest.php';
             tid = 'princ_intrst_table';
             colArr = [11, 13, 14, 15, 16, 17];
             $('#balance_table_div').hide();
             $('#princ_intrst_table_div').show();
 
-        }else{
+        } else {
             alert("Kindly select Report type.");
             return;
         }
@@ -35,13 +35,13 @@ $(document).ready(function () {
     })
 });
 
-$(function(){
+$(function () {
     getloancategorylist();
 });
 
-function balanceReportTable(url, tid, columnsToSum){
-    $('#'+tid).DataTable().destroy();
-    $('#'+tid).DataTable({
+function balanceReportTable(url, tid, columnsToSum) {
+    $('#' + tid).DataTable().destroy();
+    $('#' + tid).DataTable({
         "order": [
             [0, "desc"]
         ],
@@ -59,8 +59,29 @@ function balanceReportTable(url, tid, columnsToSum){
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "Balance Report List"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Interest Balance Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',
@@ -98,14 +119,14 @@ function balanceReportTable(url, tid, columnsToSum){
                 $(api.column(colIndex).footer()).html(`<b>` + total.toLocaleString() + `</b>`);
             });
         },
-        'drawCallback': function() {
+        'drawCallback': function () {
             searchFunction(tid);
             paginationFunction(tid);
         }
     });
 }
 
-function getloancategorylist(){
+function getloancategorylist() {
     $.ajax({
         url: 'loancategoryFile/ajaxGetLoanCategory.php',
         data: {},
@@ -119,7 +140,7 @@ function getloancategorylist(){
                 var loan_cat_name = response[i]['loan_category_creation_name'];
                 var items = [{
                     value: loan_cat_id,
-                    label: loan_cat_name                 
+                    label: loan_cat_name
                 }]
                 loanCategory.setChoices(items);
                 loanCategory.init();

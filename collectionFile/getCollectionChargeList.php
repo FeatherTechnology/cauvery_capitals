@@ -28,6 +28,7 @@ function moneyFormatIndia($num)
 }
 ?>
 <table class="table custom-table" id='collectionChargeListTable'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width='5'> S.No </th>
@@ -54,7 +55,7 @@ function moneyFormatIndia($num)
         $bal_amnt = 0;
         while ($row = $run->fetch()) {
             $collCharges = ($row['coll_charge']) ? $row['coll_charge'] : '0';
-            $charge = $charge + $collCharges; 
+            $charge = $charge + $collCharges;
             $paidAmount = ($row['paid_amnt']) ? $row['paid_amnt'] : '0';
             $paid = $paid + $paidAmount;
             $waiverAmount = ($row['waiver_amnt']) ? $row['waiver_amnt'] : '0';
@@ -63,17 +64,17 @@ function moneyFormatIndia($num)
         ?>
             <tr>
                 <td><?php echo $i; ?></td>
-                <td><?php if(isset($row['coll_date'])) echo date('d-m-Y',strtotime($row['coll_date'])); ?></td>
+                <td><?php if (isset($row['coll_date'])) echo date('d-m-Y', strtotime($row['coll_date'])); ?></td>
                 <td><?php echo $collCharges; ?></td>
                 <td><?php echo $row['coll_purpose']; ?></td>
-                <td><?php if(isset($row['paid_date'])) echo date('d-m-Y',strtotime($row['paid_date'])); ?></td>
+                <td><?php if (isset($row['paid_date'])) echo date('d-m-Y', strtotime($row['paid_date'])); ?></td>
                 <td><?php echo $paidAmount; ?></td>
                 <td><?php echo $bal_amnt; ?></td>
                 <td><?php echo $waiverAmount; ?></td>
             </tr>
 
         <?php $i++;
-        } 
+        }
         $sumchargesAmnt = $connect->query("SELECT sum(coll_charge) as charges,sum(paid_amnt) as paidAmnt,sum(waiver_amnt) as charges_waiver FROM `collection_charges` WHERE `req_id`= '$req_id' ");
         $sumAmnt = $sumchargesAmnt->fetch();
         $charges = $sumAmnt['charges'];
@@ -112,7 +113,29 @@ function moneyFormatIndia($num)
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Fine Chart List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',
