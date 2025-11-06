@@ -131,6 +131,7 @@ if ($idupd > 0) {
 <div class="main-container">
 	<!--form start-->
 	<form id="report_creation" name="report_creation" action="" method="post" enctype="multipart/form-data">
+		<div id="hiddenExport" style="display:none;"></div>
 		<input type="hidden" class="form-control" value="<?php if (isset($loan_category_id)) echo $loan_category_id; ?>" id="id" name="id" aria-describedby="id" placeholder="Enter id">
 		<input type="hidden" name="loan_id_upd" id="loan_id_upd" class="form-control" value="<?php if (isset($loan_cal_id)) echo $loan_cal_id; ?>">
 		<input type="hidden" class="form-control" value="<?php if (isset($schemeIds)) echo $schemeIds; ?>" id="scheme_name2" name="scheme_name2" aria-describedby="id" placeholder="Enter id">

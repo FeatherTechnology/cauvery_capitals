@@ -4,9 +4,10 @@ $user_id = $_SESSION['userid'];
 
 include('../../../ajaxconfig.php');
 
-$i=0;$records = array();
+$i = 0;
+$records = array();
 $qry = $connect->query("SELECT hex.*,us.fullname,us.role from ct_db_hexchange hex LEFT JOIN user us on us.user_id = hex.insert_login_id where hex.to_user_id = '$user_id' and received = 1 "); //1 means not received and 0 means already received
-while($row = $qry->fetch()){
+while ($row = $qry->fetch()) {
     $records[$i]['id'] = $row['id'];
     $records[$i]['to_user_id'] = $row['to_user_id'];
     $records[$i]['from_user_id'] = $row['insert_login_id'];
@@ -23,6 +24,7 @@ $connect = null;
 
 
 <table class="table custom-table" id='hexCollectionTable'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="50">S.No</th>
@@ -35,16 +37,20 @@ $connect = null;
     </thead>
     <tbody>
         <?php
-            for($i=0;$i<sizeof($records);$i++){
+        for ($i = 0; $i < sizeof($records); $i++) {
         ?>
             <tr>
                 <td></td>
-                <td><?php echo $records[$i]['fullname'];?></td>
-                <td><?php if($records[$i]['role'] == '1'){echo 'Director';}elseif($records[$i]['role'] == '3'){echo 'Staff';}?></td>
-                <td><?php echo $records[$i]['remark'];?></td>
-                <td><?php echo moneyFormatIndia($records[$i]['amt']);?></td>
+                <td><?php echo $records[$i]['fullname']; ?></td>
+                <td><?php if ($records[$i]['role'] == '1') {
+                        echo 'Director';
+                    } elseif ($records[$i]['role'] == '3') {
+                        echo 'Staff';
+                    } ?></td>
+                <td><?php echo $records[$i]['remark']; ?></td>
+                <td><?php echo moneyFormatIndia($records[$i]['amt']); ?></td>
                 <td>
-                    <input type='button' id='' name='' class="btn btn-primary collect_btn" data-value = '<?php echo $records[$i]['id']; ?>' data-toggle="modal" data-target=".hexchange_modal" value='Receive' onclick="hexCollectBtnClick(this)">
+                    <input type='button' id='' name='' class="btn btn-primary collect_btn" data-value='<?php echo $records[$i]['id']; ?>' data-toggle="modal" data-target=".hexchange_modal" value='Receive' onclick="hexCollectBtnClick(this)">
                 </td>
             </tr>
         <?php
@@ -57,7 +63,7 @@ $connect = null;
 <script type='text/javascript'>
     $(function() {
         $('#hexCollectionTable').DataTable({
-            "title":"Collection List",
+            "title": "Collection List",
             'processing': true,
             'iDisplayLength': 5,
             "lengthMenu": [
@@ -74,7 +80,29 @@ $connect = null;
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Hand Cash - Exchange List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',
@@ -87,7 +115,8 @@ $connect = null;
 
 <?php
 //Format number in Indian Format
-function moneyFormatIndia($num) {
+function moneyFormatIndia($num)
+{
     $explrestunits = "";
     if (strlen($num) > 3) {
         $lastthree = substr($num, strlen($num) - 3, strlen($num));

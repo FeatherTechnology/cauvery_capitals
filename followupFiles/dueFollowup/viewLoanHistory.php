@@ -2,12 +2,13 @@
 session_start();
 include '../../ajaxconfig.php';
 
-if(isset($_SESSION["userid"])){
+if (isset($_SESSION["userid"])) {
     $user_id = $_SESSION["userid"];
 }
 
 
-function moneyFormatIndia($num) {
+function moneyFormatIndia($num)
+{
     $explrestunits = "";
     if (strlen($num) > 3) {
         $lastthree = substr($num, strlen($num) - 3, strlen($num));
@@ -29,6 +30,7 @@ function moneyFormatIndia($num) {
 }
 ?>
 <table class="table custom-table" id='LoanHistTable'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th>Loan ID</th>
@@ -57,52 +59,62 @@ function moneyFormatIndia($num) {
         while ($row = $run->fetch()) {
             //Show NOC button until closed_status submit so we check the count of closed status against the request id.
             $ii_req_id = $row["req_id"];
-            $closedSts = $connect->query("SELECT * FROM `closed_status` WHERE `req_id` ='".strip_tags($ii_req_id)."' ");
+            $closedSts = $connect->query("SELECT * FROM `closed_status` WHERE `req_id` ='" . strip_tags($ii_req_id) . "' ");
             $closed_row = $closedSts->fetch();
             $closed_cnt = $closedSts->rowCount();
-            
+
         ?>
-        <tr>
-            <td><?php echo $row['loan_id']; ?></td> <!-- id -->
-            <td><?php echo $row["loan_catrgory_name"]; ?></td> <!-- Loan Cat -->
-            <td>
-                <?php 
-                    if($row["agent_id"] != '' || $row["agent_id"] != NULL){
-                        $run1 = $connect->query('SELECT ag_name from agent_creation where ag_id = "'.$row['agent_id'].'" ');
+            <tr>
+                <td><?php echo $row['loan_id']; ?></td> <!-- id -->
+                <td><?php echo $row["loan_catrgory_name"]; ?></td> <!-- Loan Cat -->
+                <td>
+                    <?php
+                    if ($row["agent_id"] != '' || $row["agent_id"] != NULL) {
+                        $run1 = $connect->query('SELECT ag_name from agent_creation where ag_id = "' . $row['agent_id'] . '" ');
                         echo $run1->fetch()['ag_name'];
-                    } 
-                ?>
-            </td> <!-- Agent -->
-            <td><?php echo date('d-m-Y',strtotime($row["updated_date"])); ?></td> <!-- Loan date -->
-            <td><?php echo moneyFormatIndia($row["loan_amt_cal"]); ?></td> <!-- Loan Amount -->
+                    }
+                    ?>
+                </td> <!-- Agent -->
+                <td><?php echo date('d-m-Y', strtotime($row["updated_date"])); ?></td> <!-- Loan date -->
+                <td><?php echo moneyFormatIndia($row["loan_amt_cal"]); ?></td> <!-- Loan Amount -->
 
-            <td><!-- Closing Date -->
-                <?php 
-                if($closed_cnt > 0){
-                    echo date('d-m-Y',strtotime(($closed_row["updated_date"]) ? $closed_row["updated_date"] : $closed_row["created_date"]));  
-                } ?>
-            </td>
-            
-            <td><?php if($row['cus_status'] < 20){echo 'Present';}else if($row['cus_status'] >= 20){ echo 'Closed';} ?>
-            </td> <!-- Status -->
-            <td>
-                <?php 
-                if($row['cus_status'] <= 20){
-                    echo $row['sub_status'];
+                <td><!-- Closing Date -->
+                    <?php
+                    if ($closed_cnt > 0) {
+                        echo date('d-m-Y', strtotime(($closed_row["updated_date"]) ? $closed_row["updated_date"] : $closed_row["created_date"]));
+                    } ?>
+                </td>
 
-                }else if($row['cus_status'] > 20){// if status is closed(21) or more than that(22), then show closed status
-                    
-                    $closedSts = $connect->query("SELECT * FROM `closed_status` WHERE `req_id` ='".strip_tags($ii_req_id)."' ");
-                    $rclosed = $closedSts->fetch()['closed_sts'];
-                    if($rclosed == '1'){echo 'Consider';}
-                    if($rclosed == '2'){echo 'Waiting List';}
-                    if($rclosed == '3'){echo 'Block List';}
-                }
-                ?>
-            </td> <!-- Sub status -->
-        </tr>
+                <td><?php if ($row['cus_status'] < 20) {
+                        echo 'Present';
+                    } else if ($row['cus_status'] >= 20) {
+                        echo 'Closed';
+                    } ?>
+                </td> <!-- Status -->
+                <td>
+                    <?php
+                    if ($row['cus_status'] <= 20) {
+                        echo $row['sub_status'];
+                    } else if ($row['cus_status'] > 20) { // if status is closed(21) or more than that(22), then show closed status
 
-        <?php  $i++;} ?>
+                        $closedSts = $connect->query("SELECT * FROM `closed_status` WHERE `req_id` ='" . strip_tags($ii_req_id) . "' ");
+                        $rclosed = $closedSts->fetch()['closed_sts'];
+                        if ($rclosed == '1') {
+                            echo 'Consider';
+                        }
+                        if ($rclosed == '2') {
+                            echo 'Waiting List';
+                        }
+                        if ($rclosed == '3') {
+                            echo 'Block List';
+                        }
+                    }
+                    ?>
+                </td> <!-- Sub status -->
+            </tr>
+
+        <?php $i++;
+        } ?>
     </tbody>
 </table>
 
@@ -117,7 +129,29 @@ function moneyFormatIndia($num) {
         ],
         dom: 'lBfrtip',
         buttons: [{
-                extend: 'excel',
+                text: 'Excel',
+                action: function(e, dt, node, config) {
+                    // Generate fresh title & filename every click
+                    const {
+                        title,
+                        filename
+                    } = generateReportTitle('Loan History List');
+
+                    // Create a hidden temporary export button
+                    const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                        buttons: [{
+                            extend: 'excelHtml5',
+                            title: title,
+                            filename: filename,
+                        }]
+                    }).container().appendTo($('#hiddenExport'));
+
+                    // Trigger that button’s click programmatically
+                    tmpBtn.find('.buttons-excel').click();
+
+                    // Remove the temporary button after export
+                    tmpBtn.remove();
+                }
             },
             {
                 extend: 'colvis',
@@ -131,7 +165,7 @@ function moneyFormatIndia($num) {
         $('.dropdown').not(this).removeClass('active');
         $(this).toggleClass('active');
     });
-    
+
     $(document).click(function(event) {
         var target = $(event.target);
         if (!target.closest('.dropdown').length) {

@@ -30,6 +30,7 @@ if ($role_type == 7) {
 
 
 <table class="table custom-table" id='new_promo_table' data-id='new_promotion'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <th width="10%">Date</th>
         <th>Aadhaar Number</th>
@@ -49,11 +50,11 @@ if ($role_type == 7) {
                 <td><?php echo $row['customer_name']; ?></td>
                 <td><?php echo $row['mobile']; ?></td>
                 <td><?php echo $row['area_name']; ?></td>
-                   <td>
+                <td>
                     <?php
                     $qry = $connect->query("SELECT fullname FROM user WHERE user_id = '" . $row['insert_login_id'] . "'");
-                        $full_name = $qry->fetch()['fullname'];
-                        echo($full_name);
+                    $full_name = $qry->fetch()['fullname'];
+                    echo ($full_name);
                     ?></td>
                 <td>
                     <?php  //for intrest or not intrest choice to make
@@ -106,7 +107,29 @@ if ($role_type == 7) {
         ],
         dom: 'lBfrtip',
         buttons: [{
-                extend: 'excel',
+                text: 'Excel',
+                action: function(e, dt, node, config) {
+                    // Generate fresh title & filename every click
+                    const {
+                        title,
+                        filename
+                    } = generateReportTitle('New Promotion List');
+
+                    // Create a hidden temporary export button
+                    const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                        buttons: [{
+                            extend: 'excelHtml5',
+                            title: title,
+                            filename: filename,
+                        }]
+                    }).container().appendTo($('#hiddenExport'));
+
+                    // Trigger that button’s click programmatically
+                    tmpBtn.find('.buttons-excel').click();
+
+                    // Remove the temporary button after export
+                    tmpBtn.remove();
+                }
             },
             {
                 extend: 'colvis',

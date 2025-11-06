@@ -93,6 +93,7 @@ if (sizeof($getUser) > 0) {
 		<div class="row gutters existing_card" style="display:none">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="card">
+					<div id="hiddenExport" style="display:none;"></div>
 					<div class="card-header">Existing Customer</div>
 					<div class="card-body" style="overflow-x: auto;">
 						<table class="table custom-table" id='expromotion_list' data-id="existing" style="width: 100%;">
@@ -258,6 +259,7 @@ if (sizeof($getUser) > 0) {
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="card">
 					<div class="card-header">Events</div>
+					<div id="hiddenExport" style="display:none;"></div>
 					<div style="display:flex ; align-items: center; justify-content: right; margin-right: 25px;"><button type="button" class="btn btn-primary" id="add_event"><span class="icon-add"></span>&nbsp; Add Events</button></div>
 					<div class="card-body eventsdiv" style="overflow-x: auto;">
 						<table class="table custom-table" id='event_list' data-id="event" style="width: 100%;">

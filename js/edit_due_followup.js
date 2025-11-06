@@ -58,9 +58,35 @@ function OnLoadFunctions(cusSts, comm_date) {
             }
         },
         dom: 'lBfrtip',
-        buttons: [
-            { extend: 'excel', title: "Due Followup List" },
-            { extend: 'colvis', collectionLayout: 'fixed four-column' }
+        buttons: [{
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Due Followup List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
+        },
+        {
+            extend: 'colvis',
+            collectionLayout: 'fixed four-column',
+        }
         ],
         "lengthMenu": [
             [10, 25, 50, -1],

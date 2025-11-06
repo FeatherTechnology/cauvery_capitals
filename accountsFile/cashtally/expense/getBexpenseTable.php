@@ -5,14 +5,15 @@ $user_id = $_SESSION['userid'];
 include('../../../ajaxconfig.php');
 
 $bank_id = $_POST['bank_id'];
-$i=0;$records = array();
+$i = 0;
+$records = array();
 
-$op_date = date('Y-m-d',strtotime($_POST['op_date']));
+$op_date = date('Y-m-d', strtotime($_POST['op_date']));
 
 
 $qry = $connect->query("SELECT bexp.*,excat.category from ct_db_bexpense bexp JOIN expense_category excat ON bexp.cat = excat.id where date(bexp.created_date) = '$op_date' and bexp.bank_id = '$bank_id' and bexp.insert_login_id = '$user_id' ");
 //
-while($row = $qry->fetch()){
+while ($row = $qry->fetch()) {
 
     $records[$i]['id'] = $row['id'];
     $records[$i]['username'] = $row['username'];
@@ -27,7 +28,6 @@ while($row = $qry->fetch()){
     $records[$i]['amt'] = $row['amt'];
     $records[$i]['upload'] = $row['upload'];
     $i++;
-    
 }
 
 // Close the database connection
@@ -36,6 +36,7 @@ $connect = null;
 
 
 <table class="table custom-table" id='BexpenseTable'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="50">S.No</th>
@@ -54,27 +55,27 @@ $connect = null;
     </thead>
     <tbody>
         <?php
-            for($i=0;$i<sizeof($records);$i++){
+        for ($i = 0; $i < sizeof($records); $i++) {
         ?>
             <tr>
                 <td></td>
-                
-                <td><?php echo $records[$i]['usertype'];?></td>
-                <td><?php echo $records[$i]['username'];?></td>
-                <td><?php echo $records[$i]['ref_code'];?></td>
-                <td><?php echo $records[$i]['category'];?></td>
-                <td><?php echo $records[$i]['part'];?></td>
-                <td><?php echo $records[$i]['vou_id'];?></td>
-                <td><?php echo $records[$i]['rec_per'];?></td>
-                <td><?php echo $records[$i]['remark'];?></td>
-                <td><?php echo moneyFormatIndia($records[$i]['amt']);?></td>
+
+                <td><?php echo $records[$i]['usertype']; ?></td>
+                <td><?php echo $records[$i]['username']; ?></td>
+                <td><?php echo $records[$i]['ref_code']; ?></td>
+                <td><?php echo $records[$i]['category']; ?></td>
+                <td><?php echo $records[$i]['part']; ?></td>
+                <td><?php echo $records[$i]['vou_id']; ?></td>
+                <td><?php echo $records[$i]['rec_per']; ?></td>
+                <td><?php echo $records[$i]['remark']; ?></td>
+                <td><?php echo moneyFormatIndia($records[$i]['amt']); ?></td>
                 <!-- <td>
-                    <a target='_blank' href='../../../uploads/expenseBill/'<?php echo $records[$i]['upload'];?>><?php echo $records[$i]['upload'];?></a>
+                    <a target='_blank' href='../../../uploads/expenseBill/'<?php echo $records[$i]['upload']; ?>><?php echo $records[$i]['upload']; ?></a>
                 </td> -->
                 <td>
                     <span data-value='<?php echo $records[$i]['id']; ?>' title='Delete details' class='delete_bexp'><span class='icon-trash-2'></span></span>
                 </td>
-                
+
             </tr>
         <?php
         }
@@ -86,7 +87,7 @@ $connect = null;
 <script type='text/javascript'>
     $(function() {
         $('#BexpenseTable').DataTable({
-            "title":"Collection List",
+            "title": "Collection List",
             'processing': true,
             'iDisplayLength': 5,
             "lengthMenu": [
@@ -103,7 +104,29 @@ $connect = null;
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Cash Tally - Bank Cash - Expense List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',
@@ -116,10 +139,11 @@ $connect = null;
 
 <?php
 //Format number in Indian Format
-function moneyFormatIndia($num1) {
-    if($num1 < 0){
-        $num = str_replace("-","",$num1);
-    }else{
+function moneyFormatIndia($num1)
+{
+    if ($num1 < 0) {
+        $num = str_replace("-", "", $num1);
+    } else {
         $num = $num1;
     }
     $explrestunits = "";
@@ -140,7 +164,7 @@ function moneyFormatIndia($num1) {
         $thecash = $num;
     }
 
-    if($num1 < 0){
+    if ($num1 < 0) {
         $thecash = "-" . $thecash;
     }
 

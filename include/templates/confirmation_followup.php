@@ -39,6 +39,7 @@ if (sizeof($getUser) > 0) {
 		<div class="row gutters conf-list-card">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="card">
+					<div id="hiddenExport" style="display:none;"></div>
 					<div class="card-header">Confirmation Followup</div>
 					<div class="card-body">
 						<div id="confListDiv" class="table-responsive">

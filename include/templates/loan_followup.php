@@ -31,6 +31,7 @@ if (sizeof($getUser) > 0) {
 <div class="main-container">
 	<!--form start-->
 	<form id="loan_followup_form" name="loan_followup_form" action="" method="post" enctype="multipart/form-data">
+		<div id="hiddenExport" style="display:none;"></div>
 		<input type="hidden" name="pending_sts" id="pending_sts" value="" />
 		<input type="hidden" name="od_sts" id="od_sts" value="" />
 		<input type="hidden" name="due_nil_sts" id="due_nil_sts" value="" />

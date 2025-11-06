@@ -142,14 +142,34 @@
 
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Company List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Company List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
                         collectionLayout: 'fixed four-column',
-                    },
-
+                    }
                 ],
                 "lengthMenu": [
                     [10, 25, 50, -1],
@@ -181,14 +201,34 @@
 
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Branch List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Branch List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
                         collectionLayout: 'fixed four-column',
                     }
-
                 ],
                 "lengthMenu": [
                     [10, 25, 50, -1],
@@ -219,14 +259,34 @@
 
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Loan Category List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Loan Category List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
                         collectionLayout: 'fixed four-column',
                     }
-
                 ],
                 "lengthMenu": [
                     [10, 25, 50, -1],
@@ -257,8 +317,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Loan Calculation List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Loan Calculation List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -294,14 +375,34 @@
 
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Area List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Area List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
                         collectionLayout: 'fixed four-column',
                     }
-
                 ],
                 "lengthMenu": [
                     [10, 25, 50, -1],
@@ -331,8 +432,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Director List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Director List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -367,8 +489,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Agent List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Agent List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -402,8 +545,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Staff List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Staff List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -438,8 +602,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "NOC List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Bank Creation List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -474,8 +659,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "User List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('User List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -509,8 +715,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Documentation Mapping List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Documentation Mapping List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -543,8 +770,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Request List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Request List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -581,8 +829,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Verification List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Verification List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -619,8 +888,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Approval List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Approval List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -656,8 +946,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Acknowledgement List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Acknowledgement List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -693,8 +1004,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Loan Issue List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Loan Issue List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -730,8 +1062,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Loan Issue List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Accounts Loan Issue List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -766,8 +1119,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Closed List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Closed List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -803,8 +1177,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "NOC List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('NOC List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -840,8 +1235,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Update List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Update List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -875,8 +1291,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Document Track List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Document Track List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -911,8 +1348,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Concern List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Concern List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -947,8 +1405,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Concern Solution List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Concern Solution List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -982,8 +1461,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Concern Feedback List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Concern Feedback List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -1018,8 +1518,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "NOC List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Customer Birthday List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -1053,8 +1574,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Loan Followup List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Loan Followup List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -1089,8 +1631,29 @@
                 },
                 dom: 'lBfrtip',
                 buttons: [{
-                        extend: 'excel',
-                        title: "Confirmation Followup List"
+                        text: 'Excel',
+                        action: function(e, dt, node, config) {
+                            // Generate fresh title & filename every click
+                            const {
+                                title,
+                                filename
+                            } = generateReportTitle('Confirmation Followup List');
+
+                            // Create a hidden temporary export button
+                            const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    title: title,
+                                    filename: filename,
+                                }]
+                            }).container().appendTo($('#hiddenExport'));
+
+                            // Trigger that button’s click programmatically
+                            tmpBtn.find('.buttons-excel').click();
+
+                            // Remove the temporary button after export
+                            tmpBtn.remove();
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -1126,7 +1689,7 @@
         <script src="js/loan_category.js"></script>
     <?php }
 
-   
+
     if ($current_page == 'area_creation') { ?>
         <script src="js/area_creation.js"></script>
     <?php }
@@ -1817,10 +2380,10 @@
                         cache: false,
                         success: function(response) {
                             swalAlert(response).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location = 'document_track';
-                            }
-                        });
+                                if (result.isConfirmed) {
+                                    window.location = 'document_track';
+                                }
+                            });
                         }
                     });
                 }
@@ -1839,10 +2402,10 @@
                         cache: false,
                         success: function(response) {
                             swalAlert(response).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location = 'document_track';
-                            }
-                        });
+                                if (result.isConfirmed) {
+                                    window.location = 'document_track';
+                                }
+                            });
                         }
                     });
                 }
@@ -1861,17 +2424,17 @@
                         cache: false,
                         success: function(response) {
                             swalAlert(response).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location = 'document_track';
-                            }
-                        });
+                                if (result.isConfirmed) {
+                                    window.location = 'document_track';
+                                }
+                            });
                         }
                     });
                 }
             });
         }
 
- ///////////////////////////////////////////////////////////////////// Pagination  Start //////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////// Pagination  Start ///////////////////////////////////////////////////////////////////////////
 
         function paginationFunction(tableId) {
             const table = $(`#${tableId}`).DataTable();
@@ -1945,7 +2508,7 @@
 
             // Handle jump input
             $(`#${tableId}_jumpToPage`).off('keypress').on('keypress', function(e) {
-                if (e.which === 13 || e.which === 9 ) {
+                if (e.which === 13 || e.which === 9) {
                     const inputPage = parseInt($(this).val(), 10);
                     if (!isNaN(inputPage) && inputPage > 0 && inputPage <= totalPages) {
                         table.page(inputPage - 1).draw('page');
@@ -1965,9 +2528,9 @@
             return savedPage ? parseInt(savedPage) * pageLength : 0;
         }
 
-///////////////////////////////////////////////////////////////////// Pagination  End //////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////// Pagination  End /////////////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////// Session Logout Time Start /////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////// Session Logout Time Start ///////////////////////////////////////////////////////////////////
 
         let warningTimeout, logoutTimeout;
         let swalOpen = false;
@@ -2038,34 +2601,76 @@
             }
         });
 
+        //////////////////////////////////////////////////////////// Session Logut Time End ///////////////////////////////////////////////////////////////////////////////
+
         function formatIndianNumber(num) {
-        num = num.replace(/,/g, ''); // remove existing commas
-        if (num === '') return '';
+            num = num.replace(/,/g, ''); // remove existing commas
+            if (num === '') return '';
 
-        let lastThree = num.slice(-3);
-        let rest = num.slice(0, -3);
+            let lastThree = num.slice(-3);
+            let rest = num.slice(0, -3);
 
-        if (rest !== '') {
-            rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',');
-            num = rest + ',' + lastThree;
-        } else {
-            num = lastThree;
+            if (rest !== '') {
+                rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',');
+                num = rest + ',' + lastThree;
+            } else {
+                num = lastThree;
+            }
+
+            return num;
         }
 
-        return num;
-    }
+        function formatFirstName(input) {
+            let v = input.value.replace(/[^a-zA-Z]/g, ''); // only letters
+            v = v.replace(/\s+/g, ''); // remove spaces
+            input.value = v.charAt(0).toUpperCase() + v.slice(1).toLowerCase(); // First letter caps
+        }
 
-    function formatFirstName(input) {
-        let v = input.value.replace(/[^a-zA-Z]/g, '');  // only letters
-        v = v.replace(/\s+/g, '');                      // remove spaces
-        input.value = v.charAt(0).toUpperCase() + v.slice(1).toLowerCase(); // First letter caps
-    }
+        function formatLastName(input) {
+            let v = input.value.replace(/[^a-zA-Z]/g, ''); // only letters
+            v = v.replace(/\s+/g, ''); // remove spaces
+            input.value = v.toUpperCase(); // all caps
+        }
 
-    function formatLastName(input) {
-        let v = input.value.replace(/[^a-zA-Z]/g, '');  // only letters
-        v = v.replace(/\s+/g, '');                      // remove spaces
-        input.value = v.toUpperCase();                  // all caps
-    }
+        //////////////////////////////////////////// Generate Report Title and Filename and date and time Start /////////////////////////////////////////////////////////
 
-    //////////////////////////////////////////////////////////// Session Logut Time End ////////////////////////////////////////////////////////////////////////////////////
+        function generateReportTitle(baseName) {
+
+            // Get current date and time
+            const now = new Date();
+
+            // Format date as DD-MM-YYYY
+            const formattedDate = new Intl.DateTimeFormat('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            }).format(now).replaceAll('/', '-');
+
+            // Format time as HH-MM-SS AM/PM
+            const time = new Intl.DateTimeFormat('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            }).format(now).replaceAll(':', '-');
+
+            // Combine both
+            const displayDateTime = `${formattedDate} - ${time}`;
+
+            // If no baseName provided → fallback options
+            if (!baseName) {
+                baseName =
+                    document.querySelector('h1')?.innerText ||
+                    document.title || 'Report List';
+            }
+
+            // Return object used in Excel title & filename
+            return {
+                title: `${baseName} - ${displayDateTime}`,
+                filename: `${baseName} - ${displayDateTime}`
+            };
+        }
+
+         //////////////////////////////////////////// Generate Report Title and Filename and date and time End /////////////////////////////////////////////////////////
+
     </script>

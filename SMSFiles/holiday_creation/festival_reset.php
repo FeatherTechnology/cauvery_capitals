@@ -2,7 +2,8 @@
 include '../../ajaxconfig.php';
 ?>
 
-<table class="table custom-table " id="festivaldatatable" >
+<table class="table custom-table " id="festivaldatatable">
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="50">S.No</th>
@@ -14,22 +15,22 @@ include '../../ajaxconfig.php';
     </thead>
     <tbody>
         <?php
-        $festivalInfo = $connect -> query("SELECT * FROM `holiday_creation` where status = 0 order by holiday_id desc");
-            $i = 1;
-            while ($festival = $festivalInfo ->fetch()) {
+        $festivalInfo = $connect->query("SELECT * FROM `holiday_creation` where status = 0 order by holiday_id desc");
+        $i = 1;
+        while ($festival = $festivalInfo->fetch()) {
         ?>
-                <tr>
-                    <td><?php echo $i; ?></td>
-                    <td><?php echo date('d-m-Y',strtotime($festival["holiday_date"])); ?></td>
-                    <td><?php echo $festival["holiday_name"]; ?></td>
-                    <td><?php echo $festival["comments"]; ?></td>
-                    <td>
-                        <a id="festival_edit" value="<?php  echo $festival['holiday_id'];?>" > <span class="icon-border_color"></span></a> &nbsp
-                        <a id="festival_delete" value="<?php echo $festival['holiday_id']; ?>" > <span class='icon-trash-2'></span> </a>
-                    </td>
-                </tr>
+            <tr>
+                <td><?php echo $i; ?></td>
+                <td><?php echo date('d-m-Y', strtotime($festival["holiday_date"])); ?></td>
+                <td><?php echo $festival["holiday_name"]; ?></td>
+                <td><?php echo $festival["comments"]; ?></td>
+                <td>
+                    <a id="festival_edit" value="<?php echo $festival['holiday_id']; ?>"> <span class="icon-border_color"></span></a> &nbsp
+                    <a id="festival_delete" value="<?php echo $festival['holiday_id']; ?>"> <span class='icon-trash-2'></span> </a>
+                </td>
+            </tr>
         <?php $i++;
-            }
+        }
         ?>
     </tbody>
 </table>
@@ -53,7 +54,29 @@ include '../../ajaxconfig.php';
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Festival List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

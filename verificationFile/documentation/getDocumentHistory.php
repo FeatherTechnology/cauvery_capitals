@@ -92,6 +92,7 @@ function moneyFormatIndia($num)
     }
 </style>
 <table class="table custom-table" id='DocListTable'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width='50'>Loan ID</th>
@@ -143,7 +144,7 @@ function moneyFormatIndia($num)
                     }
                     ?>
                 </td> <!-- Agent -->
-                <td><?php if(isset($row["updated_date"])) echo date('d-m-Y', strtotime($row["updated_date"])); ?></td> <!-- Loan date -->
+                <td><?php if (isset($row["updated_date"])) echo date('d-m-Y', strtotime($row["updated_date"])); ?></td> <!-- Loan date -->
                 <td><?php echo moneyFormatIndia($row["loan_amt_cal"]); ?></td> <!-- Loan Amount -->
 
                 <td><?php
@@ -557,8 +558,29 @@ function getDocumentStatus($connect, $req_id, $cus_id)
         ],
         dom: 'lBfrtip',
         buttons: [{
-                extend: 'excel',
-                title: "Document History"
+                text: 'Excel',
+                action: function(e, dt, node, config) {
+                    // Generate fresh title & filename every click
+                    const {
+                        title,
+                        filename
+                    } = generateReportTitle('Document History List');
+
+                    // Create a hidden temporary export button
+                    const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                        buttons: [{
+                            extend: 'excelHtml5',
+                            title: title,
+                            filename: filename,
+                        }]
+                    }).container().appendTo($('#hiddenExport'));
+
+                    // Trigger that button’s click programmatically
+                    tmpBtn.find('.buttons-excel').click();
+
+                    // Remove the temporary button after export
+                    tmpBtn.remove();
+                }
             },
             {
                 extend: 'colvis',

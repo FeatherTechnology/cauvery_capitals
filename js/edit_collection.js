@@ -1,8 +1,8 @@
 $(document).ready(function () {
- 
+
     $('#due_nill_btn').click(function (event) {
         event.preventDefault();
-        let Customer_Status=$(this).data('filter');
+        let Customer_Status = $(this).data('filter');
         getcustomerStatustable(Customer_Status);
         // Change the heading text
         $(".card-title").text("Due Nil List");
@@ -20,16 +20,16 @@ $(document).ready(function () {
         $('#due_nill_btn').show();
         $("#duenill_id").val('');
     })
-   
+
 });
 
-$(function(){
+$(function () {
     getCollectionAccess();
-    let duests=$("#duenill_id").val();
-    if(duests=='due_nill'){
-        $("#due_nill_btn").click();  
+    let duests = $("#duenill_id").val();
+    if (duests == 'due_nill') {
+        $("#due_nill_btn").click();
     }
-    else{
+    else {
         getcustomerStatustable('');
 
     }
@@ -51,22 +51,42 @@ function getcustomerStatustable(Customer_Status) {
         'serverMethod': 'post',
         'ajax': {
             'url': 'ajaxFetch/ajaxCollectionFetch.php',
-            'data': function(data) {
+            'data': function (data) {
                 var search = $('#search').val();
                 data.search = search;
                 data.CustomerStatus = Customer_Status;
             }
         },
         dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'excel',
-                title: "Collection List"
-            },
-            {
-                extend: 'colvis',
-                collectionLayout: 'fixed four-column',
+        buttons: [{
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Collection List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
             }
+        },
+        {
+            extend: 'colvis',
+            collectionLayout: 'fixed four-column',
+        }
         ],
         "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
         "pageLength": 10, // Default 10 rows per page
@@ -80,7 +100,7 @@ function getcustomerStatustable(Customer_Status) {
                 "previous": "Previous"
             }
         },
-        'drawCallback': function() {
+        'drawCallback': function () {
             searchFunction('collection_table');
             paginationFunction('collection_table');
         }
@@ -97,7 +117,7 @@ function getCollectionAccess() {
         type: 'post',
         cache: false,
         success: function (response) {
-            if(response === 1){
+            if (response === 1) {
                 $('#dull_nill_div').hide();
             }
         }

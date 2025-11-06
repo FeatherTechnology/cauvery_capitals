@@ -5,7 +5,7 @@ $(document).ready(function () {
     })
 });
 
-function collectionReportTable(){
+function collectionReportTable() {
     $('#principal_interest_table').DataTable().destroy();
     $('#principal_interest_table').DataTable({
         "order": [
@@ -24,8 +24,29 @@ function collectionReportTable(){
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "Principal/Interest Report List"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Principal - Interest Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',
@@ -48,7 +69,7 @@ function collectionReportTable(){
             };
 
             // Array of column indices to sum
-            var columnsToSum = [13,14,15,16,17,18];
+            var columnsToSum = [13, 14, 15, 16, 17, 18];
 
             // Loop through each column index
             columnsToSum.forEach(function (colIndex) {
@@ -63,7 +84,7 @@ function collectionReportTable(){
                 $(api.column(colIndex).footer()).html(`<b>` + total.toLocaleString() + `</b>`);
             });
         },
-        'drawCallback': function() {
+        'drawCallback': function () {
             searchFunction('principal_interest_table');
             paginationFunction('principal_interest_table');
         }

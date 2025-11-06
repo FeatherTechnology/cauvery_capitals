@@ -33,6 +33,7 @@ if ($result->rowCount() > 0) {
 ?>
 
 <thead>
+    <div id="hiddenExport" style="display:none;"></div>
     <tr>
         <th width="25">S. No</th>
         <th>Loan ID</th>
@@ -72,7 +73,29 @@ if ($result->rowCount() > 0) {
         },
         dom: 'lBfrtip',
         buttons: [{
-                extend: 'excel',
+                text: 'Excel',
+                action: function(e, dt, node, config) {
+                    // Generate fresh title & filename every click
+                    const {
+                        title,
+                        filename
+                    } = generateReportTitle('Loan Summary List');
+
+                    // Create a hidden temporary export button
+                    const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                        buttons: [{
+                            extend: 'excelHtml5',
+                            title: title,
+                            filename: filename,
+                        }]
+                    }).container().appendTo($('#hiddenExport'));
+
+                    // Trigger that button’s click programmatically
+                    tmpBtn.find('.buttons-excel').click();
+
+                    // Remove the temporary button after export
+                    tmpBtn.remove();
+                }
             },
             {
                 extend: 'colvis',

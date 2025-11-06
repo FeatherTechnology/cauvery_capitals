@@ -3,6 +3,7 @@ include '../../ajaxconfig.php';
 ?>
 
 <table class="table custom-table" id="cheque_table">
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="15%"> S.No </th>
@@ -31,22 +32,21 @@ include '../../ajaxconfig.php';
             $id = $cheque["id"];
             $updresult = $connect->query("SELECT upload_cheque_name FROM `cheque_upd` where cheque_table_id = '$id'");
             $a = 1;
-            while($upd = $updresult->fetch()){
-            $docName = $upd['upload_cheque_name'];
+            while ($upd = $updresult->fetch()) {
+                $docName = $upd['upload_cheque_name'];
                 $doc_upd_name .= "<a href=uploads/verification/cheque_upd/";
-                $doc_upd_name .= $docName ;
+                $doc_upd_name .= $docName;
                 $doc_upd_name .= " target='_blank'>";
-                $doc_upd_name .=  $docName. ' ' ;
-                $doc_upd_name .= "</a>" ;
+                $doc_upd_name .=  $docName . ' ';
+                $doc_upd_name .= "</a>";
                 $a++;
             }
-            
-            $cheque_no ='';
-            $updnoresult = $connect->query("SELECT cheque_no FROM `cheque_no_list` where cheque_table_id = '$id'");
-            while($updno = $updnoresult->fetch()){
-            $no = $updno['cheque_no'];
-            $cheque_no .= $no.', ';
 
+            $cheque_no = '';
+            $updnoresult = $connect->query("SELECT cheque_no FROM `cheque_no_list` where cheque_table_id = '$id'");
+            while ($updno = $updnoresult->fetch()) {
+                $no = $updno['cheque_no'];
+                $cheque_no .= $no . ', ';
             }
         ?>
             <tr>
@@ -68,7 +68,7 @@ include '../../ajaxconfig.php';
                 <td><?php echo $cheque["cheque_relation"]; ?></td>
                 <td><?php echo $cheque["chequebank_name"]; ?></td>
                 <td><?php echo $cheque["cheque_count"]; ?></td>
-                <td><?php echo rtrim($cheque_no,','); ?></td>
+                <td><?php echo rtrim($cheque_no, ','); ?></td>
                 <td><?php echo $doc_upd_name; ?></td>
 
             </tr>
@@ -97,7 +97,29 @@ include '../../ajaxconfig.php';
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Concern Solution List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

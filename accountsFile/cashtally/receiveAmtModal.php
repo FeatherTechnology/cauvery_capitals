@@ -21,7 +21,7 @@ if (isset($_POST['op_date'])) {
 }
 
 $records = array();
-$collected_amt =0;
+$collected_amt = 0;
 $qry = $connect->query("SELECT GROUP_CONCAT(DISTINCT c.branch) AS branches, SUM(c.total_paid_track) AS total_paid, c.insert_login_id, GROUP_CONCAT(DISTINCT lm.map_id) AS line_id, GROUP_CONCAT(DISTINCT lm.line_name) AS line_name FROM collection c JOIN area_line_mapping lm ON c.line = lm.map_id WHERE c.branch IN ($branch_id) AND c.insert_login_id = '$user_id' AND date(c.created_date) = '$op_date' AND c.coll_mode = '1' GROUP BY c.insert_login_id");
 while ($row = $qry->fetch()) {
     //get user id and total paid by user by cash
@@ -143,6 +143,7 @@ $tot_amt = $total_collection_amt - $total_rec_amt;
 </form>
 
 <table class="table custom-table" id='receivedTempTable'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width='50'>S.No</th>
@@ -190,7 +191,29 @@ $tot_amt = $total_collection_amt - $total_rec_amt;
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Receive Collection List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

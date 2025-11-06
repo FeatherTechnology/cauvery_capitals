@@ -25,6 +25,7 @@ function moneyFormatIndia($num)
 ?>
 
 <table class="table custom-table" id="goldInfo_table_data">
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="15%"> S.No </th>
@@ -44,10 +45,10 @@ function moneyFormatIndia($num)
         $req_id = $_POST['req_id'];
         $cus_id = $_POST['cus_id'];
         $pages = $_POST['pages'];
-        
+
         $goldInfo = $connect->query("SELECT * FROM `gold_info` where cus_id = '$cus_id' order by id desc");
 
-        if($pages == 2){// for update screen data should be fetched using request id
+        if ($pages == 2) { // for update screen data should be fetched using request id
             $goldInfo = $connect->query("SELECT * FROM `gold_info` where req_id = '$req_id' order by id desc");
         }
 
@@ -57,7 +58,11 @@ function moneyFormatIndia($num)
 
             <tr>
                 <td><?php echo $i; ?></td>
-                <td><?php if($gold["gold_sts"] == '0'){ echo 'Old';}else if($gold["gold_sts"] == '1'){echo 'New'; } ?></td>
+                <td><?php if ($gold["gold_sts"] == '0') {
+                        echo 'Old';
+                    } else if ($gold["gold_sts"] == '1') {
+                        echo 'New';
+                    } ?></td>
                 <td> <?php echo $gold["gold_type"]; ?></td>
                 <td> <?php echo $gold["Purity"]; ?></td>
                 <td><?php echo $gold["gold_Count"]; ?></td>
@@ -67,9 +72,10 @@ function moneyFormatIndia($num)
 
                 <td>
                     <a class="gold_info_edit" value="<?php echo $gold['id']; ?>"> <span class="icon-border_color"></span></a> &nbsp
-                    <?php if($pages == 1){  // Verification screen only delete option. ?>
+                    <?php if ($pages == 1) {  // Verification screen only delete option. 
+                    ?>
                         <a id="gold_info_delete" value="<?php echo $gold['id']; ?>"> <span class='icon-trash-2'></span> </a>
-                <?php  } ?>
+                    <?php  } ?>
                 </td>
 
             </tr>
@@ -100,7 +106,29 @@ function moneyFormatIndia($num)
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Gold Info List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

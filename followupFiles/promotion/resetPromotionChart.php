@@ -13,6 +13,7 @@ $sql = $connect->query("SELECT a.*,b.fullname, CASE b.role WHEN 1 then 'Director
 
 
 <table class="table custom-table" id='promo_chart'>
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <th width='20'>Date</th>
         <th>Status</th>
@@ -23,16 +24,16 @@ $sql = $connect->query("SELECT a.*,b.fullname, CASE b.role WHEN 1 then 'Director
         <th>Follow Date</th>
     </thead>
     <tbody>
-        <?php while($row =  $sql->fetch()){?>
+        <?php while ($row =  $sql->fetch()) { ?>
             <tr>
-                <td><?php echo date('d-m-Y',strtotime($row['created_date'])) ; ?></td>
-                <td><?php echo $row['status'] ; ?></td>
+                <td><?php echo date('d-m-Y', strtotime($row['created_date'])); ?></td>
+                <td><?php echo $row['status']; ?></td>
                 <td><?php echo $row['label']; ?></td>
                 <td><?php echo $row['remark']; ?></td>
                 <td><?php echo $row['role']; ?></td>
                 <td><?php echo $row['fullname']; ?></td>
-                <td><?php echo date('d-m-Y',strtotime($row['follow_date'])); ?></td>
-                
+                <td><?php echo date('d-m-Y', strtotime($row['follow_date'])); ?></td>
+
             </tr>
         <?php } ?>
 
@@ -49,7 +50,29 @@ $sql = $connect->query("SELECT a.*,b.fullname, CASE b.role WHEN 1 then 'Director
         ],
         dom: 'lBfrtip',
         buttons: [{
-                extend: 'excel',
+                text: 'Excel',
+                action: function(e, dt, node, config) {
+                    // Generate fresh title & filename every click
+                    const {
+                        title,
+                        filename
+                    } = generateReportTitle('Promotion Chart List');
+
+                    // Create a hidden temporary export button
+                    const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                        buttons: [{
+                            extend: 'excelHtml5',
+                            title: title,
+                            filename: filename,
+                        }]
+                    }).container().appendTo($('#hiddenExport'));
+
+                    // Trigger that button’s click programmatically
+                    tmpBtn.find('.buttons-excel').click();
+
+                    // Remove the temporary button after export
+                    tmpBtn.remove();
+                }
             },
             {
                 extend: 'colvis',
@@ -57,11 +80,10 @@ $sql = $connect->query("SELECT a.*,b.fullname, CASE b.role WHEN 1 then 'Director
             }
         ],
     })
-    
 </script>
 <style>
     @media (max-width: 598px) {
-        #promoChartDiv{
+        #promoChartDiv {
             overflow: auto;
         }
     }

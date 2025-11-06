@@ -3,13 +3,14 @@ include '../ajaxconfig.php';
 ?>
 
 <table class="table custom-table" id="feedback_table1">
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
-    <tr>
-		<th width="20%"> S.No </th>
-		<th> Feedback Label </th>
-		<th> Feedback </th>
-		<th> Remarks </th>
-	</tr>
+        <tr>
+            <th width="20%"> S.No </th>
+            <th> Feedback Label </th>
+            <th> Feedback </th>
+            <th> Remarks </th>
+        </tr>
     </thead>
     <tbody>
 
@@ -23,7 +24,17 @@ include '../ajaxconfig.php';
             <tr>
                 <td><?php echo $i; ?></td>
                 <td><?php echo $feedback["feedback_label"]; ?></td>
-                <td><?php if($feedback["cus_feedback"] == '1'){ echo 'Bad';}else if($feedback["cus_feedback"] == '2'){ echo 'Poor';}else if($feedback["cus_feedback"] == '3'){ echo 'Average';}else if($feedback["cus_feedback"] == '4'){ echo 'Good';}else if($feedback["cus_feedback"] == '5'){ echo 'Excellent';} ?></td>
+                <td><?php if ($feedback["cus_feedback"] == '1') {
+                        echo 'Bad';
+                    } else if ($feedback["cus_feedback"] == '2') {
+                        echo 'Poor';
+                    } else if ($feedback["cus_feedback"] == '3') {
+                        echo 'Average';
+                    } else if ($feedback["cus_feedback"] == '4') {
+                        echo 'Good';
+                    } else if ($feedback["cus_feedback"] == '5') {
+                        echo 'Excellent';
+                    } ?></td>
                 <td><?php echo $feedback["feedback_remark"]; ?></td>
             </tr>
 
@@ -50,7 +61,29 @@ include '../ajaxconfig.php';
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Loan Summary List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

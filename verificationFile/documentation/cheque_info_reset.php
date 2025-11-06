@@ -3,6 +3,7 @@ include '../../ajaxconfig.php';
 ?>
 
 <table class="table custom-table" id="chequeInfo_table_data">
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="15%"> S.No </th>
@@ -80,7 +81,29 @@ include '../../ajaxconfig.php';
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Cheque Info List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

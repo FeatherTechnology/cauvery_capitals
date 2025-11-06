@@ -62,6 +62,7 @@ if ($result->rowCount() > 0) {
 
 ?>
 <table class="table table-bordered" id="custLoanListTable">
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <th width="10%">S.No</th>
         <th>Date</th>
@@ -80,7 +81,7 @@ if ($result->rowCount() > 0) {
                 <td><?php echo $records[$i]['loan_category']; ?></td>
                 <td><?php echo moneyFormatIndia($records[$i]['loan_amt']); ?></td>
                 <td><?php echo $records[$i]['chart_action']; ?></td>
-                <td><button class="btn btn-primary track-btn" data-req_id='<?php echo $records[$i]['req_id']; ?>'data-loan_id='<?php echo $records[$i]['loan_id']; ?>' onclick="event.preventDefault()">Track</button></td>
+                <td><button class="btn btn-primary track-btn" data-req_id='<?php echo $records[$i]['req_id']; ?>' data-loan_id='<?php echo $records[$i]['loan_id']; ?>' onclick="event.preventDefault()">Track</button></td>
             </tr>
         <?php } ?>
     </tbody>
@@ -116,7 +117,29 @@ if ($result->rowCount() > 0) {
         ],
         dom: 'lBfrtip',
         buttons: [{
-                extend: 'excel',
+                text: 'Excel',
+                action: function(e, dt, node, config) {
+                    // Generate fresh title & filename every click
+                    const {
+                        title,
+                        filename
+                    } = generateReportTitle('Customer Loan List');
+
+                    // Create a hidden temporary export button
+                    const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                        buttons: [{
+                            extend: 'excelHtml5',
+                            title: title,
+                            filename: filename,
+                        }]
+                    }).container().appendTo($('#hiddenExport'));
+
+                    // Trigger that button’s click programmatically
+                    tmpBtn.find('.buttons-excel').click();
+
+                    // Remove the temporary button after export
+                    tmpBtn.remove();
+                }
             },
             {
                 extend: 'colvis',

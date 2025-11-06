@@ -6,6 +6,7 @@ $qry = $connect->query("SELECT * From cus_old_data where cus_id = '" . $_POST['c
 ?>
 
 <table class="table custom-table" id="oldCusData_table">
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="50"> S.No </th>
@@ -59,7 +60,29 @@ $qry = $connect->query("SELECT * From cus_old_data where cus_id = '" . $_POST['c
             ],
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Customer Old Data List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

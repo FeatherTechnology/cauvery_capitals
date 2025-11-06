@@ -22,6 +22,7 @@
 				<div class="card">
 					<div class="card-header">Due List Report</div>
 					<div class="card-body">
+                        <div id="hiddenExport" style="display:none;"></div>
 						<div id="due_list_table_div" class="table-divs" style="overflow-x: auto;">
 							<table id="due_list_report_table" class="table custom-table">
 								<thead>

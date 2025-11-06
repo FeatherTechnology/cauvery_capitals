@@ -1,16 +1,16 @@
 $(document).ready(function () {
-        
-    $('#from_date').change(function(){
+
+    $('#from_date').change(function () {
         const fromDate = $(this).val();
         const toDate = $('#to_date').val();
         $('#to_date').attr('min', fromDate);
 
-         // Check if from_date is greater than to_date
+        // Check if from_date is greater than to_date
         if (toDate && fromDate > toDate) {
             $('#to_date').val(''); // Clear the invalid value
         }
     });
-    
+
     //Agent Report Table
     // var agent_report_table = 
     $('#reset_btn').click(function () {
@@ -19,11 +19,11 @@ $(document).ready(function () {
     })
 });
 
-function agentReportTable(){
+function agentReportTable() {
     $('#agent_report_table').DataTable().destroy();
     $('#agent_report_table').DataTable({
         "order": [
-            [0, "desc"]
+            [0, "asc"]
         ],
         'processing': true,
         'serverSide': true,
@@ -39,8 +39,29 @@ function agentReportTable(){
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "Agent Report List"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Agent Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',
@@ -63,7 +84,7 @@ function agentReportTable(){
             };
 
             // Array of column indices to sum
-            var columnsToSum = [3,4,5,6];
+            var columnsToSum = [3, 4, 5, 6];
 
             // Loop through each column index
             columnsToSum.forEach(function (colIndex) {
@@ -78,7 +99,7 @@ function agentReportTable(){
                 $(api.column(colIndex).footer()).html(`<b>` + total.toLocaleString() + `</b>`);
             });
         },
-        'drawCallback': function() {
+        'drawCallback': function () {
             searchFunction('agent_report_table');
             paginationFunction('agent_report_table');
         }

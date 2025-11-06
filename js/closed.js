@@ -258,17 +258,17 @@ function OnLoadFunctions(req_id, cus_id) {
         })
 
 
-        $.ajax({
-            // To Check Customer Guarentor History.
-            url: 'closedFile/getGuarentorData.php',
-            data: { 'cus_id': cus_id, 'pending_sts': pending_sts, 'od_sts': od_sts, 'due_nil_sts': due_nil_sts, 'closed_sts': closed_sts },
-            type: 'post',
-            cache: false,
-            success: function (response) {
-                $('#guarentor_checkDiv').empty()
-                $('#guarentor_checkDiv').html(response);
-            }
-        })
+        // $.ajax({
+        //     // To Check Customer Guarentor History.
+        //     url: 'closedFile/getGuarentorData.php',
+        //     data: { 'cus_id': cus_id, 'pending_sts': pending_sts, 'od_sts': od_sts, 'due_nil_sts': due_nil_sts, 'closed_sts': closed_sts },
+        //     type: 'post',
+        //     cache: false,
+        //     success: function (response) {
+        //         $('#guarentor_checkDiv').empty()
+        //         $('#guarentor_checkDiv').html(response);
+        //     }
+        // })
 
         getCustomerLoanCounts(); // to get customer summary details
         hideOverlay();//loader stop

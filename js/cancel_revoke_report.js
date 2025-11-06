@@ -1,11 +1,11 @@
 $(document).ready(function () {
-    
-    $('#from_date').change(function(){
+
+    $('#from_date').change(function () {
         const fromDate = $(this).val();
         const toDate = $('#to_date').val();
         $('#to_date').attr('min', fromDate);
 
-         // Check if from_date is greater than to_date
+        // Check if from_date is greater than to_date
         if (toDate && fromDate > toDate) {
             $('#to_date').val(''); // Clear the invalid value
         }
@@ -17,14 +17,14 @@ $(document).ready(function () {
 
     $('#type').change(function () {
         let type = $(this).val();
-        
-        if(type == '1'){ // If Cancel is selected
-            $('#sel_screen .all-options').show(); 
-            $('#sel_screen .cancel-option').show(); 
+
+        if (type == '1') { // If Cancel is selected
+            $('#sel_screen .all-options').show();
+            $('#sel_screen .cancel-option').show();
         } else {
-           
+
             $('#sel_screen .all-options').hide();
-            $('#sel_screen .cancel-option').show(); 
+            $('#sel_screen .cancel-option').show();
         }
     });
     // var cancel_revoke_table = 
@@ -34,11 +34,11 @@ $(document).ready(function () {
         var to_date = $('#to_date').val();
         var type = $('#type').val();
         var sel_screen = $('#sel_screen').val();
-    
+
         // Check if all fields are selected
         if (from_date === '' || to_date === '' || type === '' || sel_screen === '') {
             // If any field is empty, show an alert
-            swalError('Warning','Please select all required fields')
+            swalError('Warning', 'Please select all required fields')
         } else {
             // If all fields are filled, reload the table
             // cancel_revoke_table.ajax.reload();
@@ -50,19 +50,19 @@ $(document).ready(function () {
 });
 //alert message
 function swalError(title, text) {
-	Swal.fire({
-		icon: 'error',
-		title: title,
-		text: text,
+    Swal.fire({
+        icon: 'error',
+        title: title,
+        text: text,
         confirmButtonColor: '#0c70ab',
-	})
+    })
 }
 
-function cancelRevokeTable(){
+function cancelRevokeTable() {
     $('#cancel_revoke_table').DataTable().destroy();
     $('#cancel_revoke_table').DataTable({
         "order": [
-            [0, "desc"]
+            [0, "asc"]
         ],
         'processing': true,
         'serverSide': true,
@@ -80,8 +80,29 @@ function cancelRevokeTable(){
         },
         dom: 'lBfrtip',
         buttons: [{
-            extend: 'excel',
-            title: "Cancel / Revoke Report List"
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Cancel - Revoke Report List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
+            }
         },
         {
             extend: 'colvis',

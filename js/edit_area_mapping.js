@@ -4,15 +4,15 @@ $(document).ready(function () {
     $('#line,#group, #due_followup').click(function () {
         var mapping_type = $('input[name=mapping_type]:checked').val();
         if (mapping_type == 'line') {
-            $('.line_mapping').show(); $('.group_mapping').hide();$('.due_followup_mapping').hide();
+            $('.line_mapping').show(); $('.group_mapping').hide(); $('.due_followup_mapping').hide();
             dT1();
         }
         if (mapping_type == 'group') {
-            $('.line_mapping').hide(); $('.group_mapping').show();$('.due_followup_mapping').hide();
+            $('.line_mapping').hide(); $('.group_mapping').show(); $('.due_followup_mapping').hide();
             dT2();
         }
         if (mapping_type == 'duefollowup') {
-            $('.line_mapping').hide(); $('.group_mapping').hide();$('.due_followup_mapping').show();
+            $('.line_mapping').hide(); $('.group_mapping').hide(); $('.due_followup_mapping').show();
             dT3();
         }
     })
@@ -48,15 +48,35 @@ function dT1() {
             }
         },
         dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'excel',
-                title: "Line List"
-            },
-            {
-                extend: 'colvis',
-                collectionLayout: 'fixed four-column',
+        buttons: [{
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Line List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
             }
+        },
+        {
+            extend: 'colvis',
+            collectionLayout: 'fixed four-column',
+        }
         ],
         "lengthMenu": [
             [10, 25, 50, -1],
@@ -69,7 +89,7 @@ function dT1() {
     });
 }
 
-function dT2(){
+function dT2() {
     $('#area_mapping_group_info').DataTable().destroy();
     $('#area_mapping_group_info').empty();
     $('#area_mapping_group_info').append(`<thead><tr><th width="50">S. No.</th><th>Group Name</th><th>Company Name</th><th>Branch Name</th><th>Area Name</th><th>Status</th><th>Action</th></tr></thead><tbody></tbody>`);
@@ -88,15 +108,35 @@ function dT2(){
         },
 
         dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'excel',
-                title: "Group List"
-            },
-            {
-                extend: 'colvis',
-                collectionLayout: 'fixed four-column',
+        buttons: [{
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Group List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
             }
+        },
+        {
+            extend: 'colvis',
+            collectionLayout: 'fixed four-column',
+        }
         ],
         "lengthMenu": [
             [10, 25, 50, -1],
@@ -128,15 +168,35 @@ function dT3() {
         },
 
         dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'excel',
-                title: "Group List"
-            },
-            {
-                extend: 'colvis',
-                collectionLayout: 'fixed four-column',
+        buttons: [{
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Due Followup List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
             }
+        },
+        {
+            extend: 'colvis',
+            collectionLayout: 'fixed four-column',
+        }
         ],
         "lengthMenu": [
             [10, 25, 50, -1],

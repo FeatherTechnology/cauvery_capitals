@@ -3,6 +3,7 @@ include '../ajaxconfig.php';
 ?>
 
 <table class="table custom-table" id="kyc_dataTable">
+    <div id="hiddenExport" style="display:none;"></div>
     <thead>
         <tr>
             <th width="20%"> S.No </th>
@@ -81,9 +82,9 @@ include '../ajaxconfig.php';
             $relationship = 'NIL';
             if ($kyc['proofOf'] == '2') {
                 $sql = $connect->query("SELECT CONCAT(first_name, ' ', last_name) AS famname, relationship FROM `verification_family_info` where id = '$fam_mem_id'");
-                $rw= $sql->fetch();
-                $fam_mem = $rw['famname']?? '';
-                $relationship = $rw['relationship']?? '';
+                $rw = $sql->fetch();
+                $fam_mem = $rw['famname'] ?? '';
+                $relationship = $rw['relationship'] ?? '';
             } elseif ($kyc['proofOf'] == '1') {
                 $qry = $connect->query("SELECT CONCAT(a.first_name, ' ', a.last_name) AS famname, a.relationship from verification_family_info a 
                 LEFT JOIN customer_profile b ON a.id = b.guarentor_name
@@ -135,7 +136,29 @@ include '../ajaxconfig.php';
             },
             dom: 'lBfrtip',
             buttons: [{
-                    extend: 'excel',
+                    text: 'Excel',
+                    action: function(e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('KYC List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
                 },
                 {
                     extend: 'colvis',

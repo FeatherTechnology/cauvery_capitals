@@ -309,9 +309,35 @@ function currentReportCount(search_date, type, line, selected_user, group_map, d
                 data: data,
                 columns: columns,
                 dom: 'lBfrtip',
-                buttons: [
-                    { extend: 'excel', title: "Current Customer Count Report" },
-                    { extend: 'colvis', collectionLayout: 'fixed four-column' }
+                buttons: [{
+                    text: 'Excel',
+                    action: function (e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Current Report List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
+                },
+                {
+                    extend: 'colvis',
+                    collectionLayout: 'fixed four-column',
+                }
                 ],
                 lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
                 drawCallback: function () {
@@ -387,9 +413,35 @@ function pendingReportCount(search_date, type, line, selected_user, group_map, d
                 data: data,
                 columns: columns,
                 dom: 'lBfrtip',
-                buttons: [
-                    { extend: 'excel', title: "Pending Customer Count Report" },
-                    { extend: 'colvis', collectionLayout: 'fixed four-column' }
+                buttons: [{
+                    text: 'Excel',
+                    action: function (e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('Pending Report List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
+                },
+                {
+                    extend: 'colvis',
+                    collectionLayout: 'fixed four-column',
+                }
                 ],
                 lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
                 drawCallback: function () {
@@ -463,9 +515,35 @@ function odReportCount(search_date, type, line, selected_user, group_map, due_fo
                 data: data,
                 columns: columns,
                 dom: 'lBfrtip',
-                buttons: [
-                    { extend: 'excel', title: "OD Customer Count Report" },
-                    { extend: 'colvis', collectionLayout: 'fixed four-column' }
+                buttons: [{
+                    text: 'Excel',
+                    action: function (e, dt, node, config) {
+                        // Generate fresh title & filename every click
+                        const {
+                            title,
+                            filename
+                        } = generateReportTitle('OD Report List');
+
+                        // Create a hidden temporary export button
+                        const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: title,
+                                filename: filename,
+                            }]
+                        }).container().appendTo($('#hiddenExport'));
+
+                        // Trigger that button’s click programmatically
+                        tmpBtn.find('.buttons-excel').click();
+
+                        // Remove the temporary button after export
+                        tmpBtn.remove();
+                    }
+                },
+                {
+                    extend: 'colvis',
+                    collectionLayout: 'fixed four-column',
+                }
                 ],
                 lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
                 drawCallback: function () {

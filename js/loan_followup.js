@@ -10,7 +10,7 @@ $(document).ready(function () {
 
 });
 
-function resetLoanFollowupTable(){
+function resetLoanFollowupTable() {
     $('#loan_follow_table').DataTable().destroy();
     $('#loan_follow_table').DataTable({
         "order": [
@@ -21,26 +21,47 @@ function resetLoanFollowupTable(){
         'serverMethod': 'post',
         'ajax': {
             'url': 'followupFiles/loanFollowup/resetLoanFollowupTable.php',
-            'data': function(data) {
+            'data': function (data) {
                 var search = $('input[type=search]').val();
                 data.search = search;
             }
         },
         dom: 'lBfrtip',
         buttons: [{
-                extend: 'excel',
-                title: "Loan Followup List"
-            },
-            {
-                extend: 'colvis',
-                collectionLayout: 'fixed four-column',
+            text: 'Excel',
+            action: function (e, dt, node, config) {
+                // Generate fresh title & filename every click
+                const {
+                    title,
+                    filename
+                } = generateReportTitle('Loan Followup List');
+
+                // Create a hidden temporary export button
+                const tmpBtn = new $.fn.dataTable.Buttons(dt, {
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        title: title,
+                        filename: filename,
+                    }]
+                }).container().appendTo($('#hiddenExport'));
+
+                // Trigger that button’s click programmatically
+                tmpBtn.find('.buttons-excel').click();
+
+                // Remove the temporary button after export
+                tmpBtn.remove();
             }
+        },
+        {
+            extend: 'colvis',
+            collectionLayout: 'fixed four-column',
+        }
         ],
         "lengthMenu": [
             [10, 25, 50, -1],
             [10, 25, 50, "All"]
         ],
-        'drawCallback': function() {
+        'drawCallback': function () {
             searchFunction('loan_follow_table');
             paginationFunction('loan_follow_table');
             loanFollowupTableOnclick();
@@ -58,7 +79,7 @@ function submitLoanfollowup() {
         if (response.includes('Error')) {
             swarlErrorAlert(response);
         } else {
-            swarlSuccessAlert(response, function(){
+            swarlSuccessAlert(response, function () {
                 $('#closeAddFollowupModal').trigger('click');
                 resetLoanFollowupTable();
             });
@@ -301,7 +322,7 @@ function swarlSuccessAlert(response, callback) {
         confirmButtonText: 'Ok',
         confirmButtonColor: '#0c70ab'
     }).then((result) => {
-        if(result.isConfirmed && typeof callback === 'function'){
+        if (result.isConfirmed && typeof callback === 'function') {
             callback();
         }
     });
