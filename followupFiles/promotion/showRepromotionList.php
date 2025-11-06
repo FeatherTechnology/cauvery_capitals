@@ -10,14 +10,14 @@ $Obj = new promotionListClass($connect);
 $area_list = $Obj->area_list;
 
 $column = array(
-    'cp.cus_reg_id',                  
-    'cp.cus_id',     
-    'cp.autogen_cus_id',         
-    'CONCAT(cp.first_name, cp.last_name)',           
-    'al.area_name',       
-    'bc.branch_name',         
-    'agm.group_name',                   
-    'alm.line_name',           
+    'cp.cus_reg_id',
+    'cp.cus_id',
+    'cp.autogen_cus_id',
+    'CONCAT(cp.first_name, cp.last_name)',
+    'al.area_name',
+    'bc.branch_name',
+    'agm.group_name',
+    'alm.line_name',
     'cp.mobile1',
     'cp.cus_reg_id',
     'req.cus_status',
@@ -39,7 +39,7 @@ if (isset($_POST['order'])) {
     $order = ' ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
 }
 
-    $qry = "SELECT req.req_id, req.cus_data, req.cus_id, cp.autogen_cus_id, CONCAT(cp.first_name,' ', cp.last_name) AS customer_name, al.area_name, bc.branch_name, agm.group_name, alm.line_name, cp.mobile1, req.cus_status AS consider_level, req.updated_date, np.status AS followup_sts, np.follow_date 
+$qry = "SELECT req.req_id, req.cus_data, req.cus_id, cp.autogen_cus_id, CONCAT(cp.first_name,' ', cp.last_name) AS customer_name, al.area_name, bc.branch_name, agm.group_name, alm.line_name, cp.mobile1, req.cus_status AS consider_level, req.updated_date, np.status AS followup_sts, np.follow_date 
     FROM request_creation req 
     LEFT JOIN customer_register cp ON req.cus_id = cp.cus_id 
     LEFT JOIN (
@@ -58,38 +58,38 @@ if (isset($_POST['order'])) {
     WHERE req.cus_status BETWEEN 4 AND 9 
     AND CASE WHEN req.cus_status IN (6,7) THEN cp.area_confirm_subarea ELSE cp.area END IN  ($area_list) AND rc.cus_id IS NULL ";
 
-    if($_POST['followUpSts']){
-        $follow_up_sts = $_POST['followUpSts'];
-        $qry_sts = ($follow_up_sts =='tofollow') ? "AND np.status IS NULL " : "AND TRIM(REPLACE(np.status,' ','')) = '$follow_up_sts' ";
+if ($_POST['followUpSts']) {
+    $follow_up_sts = $_POST['followUpSts'];
+    $qry_sts = ($follow_up_sts == 'tofollow') ? "AND np.status IS NULL " : "AND TRIM(REPLACE(np.status,' ','')) = '$follow_up_sts' ";
 
-        $qry .= $qry_sts;
-    }
+    $qry .= $qry_sts;
+}
 
-    if($_POST['dateType']){
-        $date_type = $_POST['dateType'];//1=Closed date, 2=Followup date.
-        $qry_date = ($date_type == '1') ? "AND req.updated_date BETWEEN '".$_POST['followUpFromDate']."' AND '".$_POST['followUpToDate']."' " : "AND np.follow_date BETWEEN '".$_POST['followUpFromDate']."' AND '".$_POST['followUpToDate']."' ";
+if ($_POST['dateType']) {
+    $date_type = $_POST['dateType']; //1=Closed date, 2=Followup date.
+    $qry_date = ($date_type == '1') ? "AND req.updated_date BETWEEN '" . $_POST['followUpFromDate'] . "' AND '" . $_POST['followUpToDate'] . "' " : "AND np.follow_date BETWEEN '" . $_POST['followUpFromDate'] . "' AND '" . $_POST['followUpToDate'] . "' ";
 
-        $qry .= $qry_date;
-    }     
-    
-        $qry .= "$search GROUP BY req.cus_id $order ";
+    $qry .= $qry_date;
+}
 
-        // Count query for filtered rows
-        $num_qry = $connect->query($qry);
-        $number_filter_row = $num_qry->rowCount();
+$qry .= "$search GROUP BY req.cus_id $order ";
 
-        
-    $limit = '';
-    if ($_POST['length'] != -1) {
-        $limit = ' LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
-    }
+// Count query for filtered rows
+$num_qry = $connect->query($qry);
+$number_filter_row = $num_qry->rowCount();
 
-    // Main query to fetch customers with specific status and filter those without recent loan requests
-    $sql = $connect->query($qry . $limit);
 
-    $status = [4 => 'Request', 5 => 'Verification', 6 => 'Approval', 7 => 'Acknowledgement', 8 => 'Request', 9 => 'Verification'];
+$limit = '';
+if ($_POST['length'] != -1) {
+    $limit = ' LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+}
 
-    $sub_status = [4 => 'Cancel', 5 => 'Cancel', 6 => 'Cancel', 7 => 'Cancel', 8 => 'Revoke', 9 => 'Revoke'];
+// Main query to fetch customers with specific status and filter those without recent loan requests
+$sql = $connect->query($qry . $limit);
+
+$status = [4 => 'Request', 5 => 'Verification', 6 => 'Approval', 7 => 'Acknowledgement', 8 => 'Request', 9 => 'Verification'];
+
+$sub_status = [4 => 'Cancel', 5 => 'Cancel', 6 => 'Cancel', 7 => 'Cancel', 8 => 'Revoke', 9 => 'Revoke'];
 
 $data = array();
 while ($row = $sql->fetch()) {
@@ -109,7 +109,7 @@ while ($row = $sql->fetch()) {
 
     $sub_array[] = (isset($row['updated_date'])) ? date('d-m-Y', strtotime($row['updated_date'])) : '';
 
-    $sub_array[] = "<div class='dropdown'><button class='btn btn-outline-secondary'><i class='fa'>&#xf107;</i></button><div class='dropdown-content'> <a class='promo-chart' data-id='" . $row['cus_id'] . "' data-toggle='modal' data-target='#promoChartModal'><span>Promotion Chart</span></a><a class='personal-info' data-toggle='modal' data-target='#personalInfoModal' data-cusid='" . $row['cus_id'] . "'><span>Personal Info</span></a></div></div>";
+    $sub_array[] = "<div class='dropdown'><button class='btn btn-outline-secondary'><i class='fa'>&#xf107;</i></button><div class='dropdown-content'> <a class='promo-chart' data-id='" . $row['cus_id'] . "' data-toggle='modal' data-target='#promoChartModal'><span>Promotion Chart</span></a><a class='personal-info' data-toggle='modal' data-target='#personalInfoModal' data-cusid='" . $row['cus_id'] . "'><span>Personal Info</span></a><a class='customer-status' data-reqid='" . $row['req_id'] . "' data-cusid='" . $row['cus_id'] . "'><span>Customer Status</span></a></div></div>";
 
     //for intrest or not intrest choice to make
     $sub_array[] = "<div class='dropdown'><button class='btn btn-outline-secondary'><i class='fa'>&#xf107;</i></button><div class='dropdown-content'> <a class='intrest' data-toggle='modal' data-target='#addPromotion' data-id='" . $row['cus_id'] . "'><span>Interested</span></a><a class='not-intrest' data-toggle='modal' data-target='#addPromotion' data-id='" . $row['cus_id'] . "'><span>Not Interested</span></a></div></div>";

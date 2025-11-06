@@ -15,7 +15,7 @@ $(document).ready(function () {
         $(this).addClass("active");
 
         var typevalue = this.value;
-        $('.existing_card, .new_card, .new_promo_card, .loan-history-card, .doc-history-card, #close_history_card, .repromotion_card, .filter_card').hide();
+        $('.existing_card, .new_card, .new_promo_card, .loan-history-card, .customer-status-card, .doc-history-card, #close_history_card, .repromotion_card, .filter_card').hide();
         // $('#follow_up_sts, #date_type, #follow_up_fromdate, #follow_up_todate').val('');
         if (typevalue == 'New') {
             $('.new_card, .new_promo_card').show()
@@ -787,7 +787,7 @@ function showPromotionList(url, tableid, colNo) {
                     reportName = 'Existing List';
                 } else if (tableid == 'repromotion_list') {
                     reportName = 'Repromotion List';
-                } 
+                }
 
                 const { title, filename } = generateReportTitle(reportName);
 
@@ -836,11 +836,17 @@ function promotionListOnclick() {
 
     })
 
-    $('.loan-history, .doc-history').off('click').click(function () {
-        let req_id = $(this).data('reqid');
+    $('.customer-status, .loan-history, .doc-history').off('click').click(function () {
         let cus_id = $(this).data('cusid');
         let type = $(this).attr('class');
-        historyTableContents(req_id, cus_id, type)
+        let url;
+        if (type == 'customer-status') {
+            url = 'collectionFile/resetCustomerStatus.php';
+        } else {
+            url = 'closedFile/resetCustomerStsForClosed.php';
+        }
+
+        historyTableContents(cus_id, type, url)
     });
 
     $('.personal-info').off('click').click(function () {
@@ -890,7 +896,7 @@ function promotionChartColor(tableid, colNo) {
 }
 
 //Code snippet from c:\xampp\htdocs\marudham\js\due_followup.js
-function historyTableContents(req_id, cus_id, type) {
+function historyTableContents(cus_id, type, url) {
     //To get loan sub Status
     var pending_arr = [];
     var od_arr = [];
@@ -898,15 +904,15 @@ function historyTableContents(req_id, cus_id, type) {
     var closed_arr = [];
     var balAmnt = [];
     $.ajax({
-        url: 'closedFile/resetCustomerStsForClosed.php',
+        url: url,
         data: { 'cus_id': cus_id },
         dataType: 'json',
         type: 'post',
         cache: false,
         success: function (response) {
             if (response.length != 0) {
-
-                for (var i = 0; i < response['pending_customer'].length; i++) {
+                let pendingCnt = (response['pending_customer']) ? response['pending_customer'].length : 0;
+                for (var i = 0; i < pendingCnt; i++) {
                     pending_arr[i] = response['pending_customer'][i]
                     od_arr[i] = response['od_customer'][i]
                     due_nil_arr[i] = response['due_nil_customer'][i]
@@ -934,15 +940,46 @@ function historyTableContents(req_id, cus_id, type) {
         var closed_sts = $('#closed_sts').val()
         var bal_amt = balAmnt;
 
-        if (type == 'loan-history') {
+        $('#close_history_card').show();
+        $('.filter_card').hide();
+        $('.existing_card').hide();
+        $('.repromotion_card').hide();
+
+        if (type == 'customer-status') {
+
+            //for customer status
+            $('.customer-status-card').show();
+            $('.loan-history-card').hide();
+            $('.doc-history-card').hide();
+
+            $.ajax({
+                url: 'requestFile/getCustomerStatus.php',
+                data: { cus_id, pending_sts, od_sts, due_nil_sts, closed_sts, bal_amt },
+                type: 'post',
+                cache: false,
+                success: function (response) {
+                    // Clearing and updating the Customer status div with the response
+                    $('#cusHistoryTable').empty().html(response);
+                    $('#cusHistoryTable tbody tr').each(function () {
+                        var val = $(this).find('td:nth-child(5)').text().trim();
+
+                        if (['Request', 'Verification', 'Approval', 'Acknowledgement', 'Issue'].includes(val)) {
+                            $(this).find('td:nth-child(5)').css({ 'backgroundColor': 'rgba(240, 0, 0, 0.8)', 'color': 'white', 'fontWeight': 'Bolder' });
+                        } else if (val === 'Present') {
+                            $(this).find('td:nth-child(5)').css({ 'backgroundColor': 'rgba(0, 160, 0, 0.8)', 'color': 'white', 'fontWeight': 'Bolder' });
+                        } else if (val === 'Closed') {
+                            $(this).find('td:nth-child(5)').css({ 'backgroundColor': 'rgba(0, 0, 255, 0.8)', 'color': 'white', 'fontWeight': 'Bolder' });
+                        }
+                    });
+                }
+            });
+
+        } else if (type == 'loan-history') {
 
             //for loan history
             $('.loan-history-card').show();
-            $('#close_history_card').show();
+            $('.customer-status-card').hide();
             $('.doc-history-card').hide();
-            $('.existing_card').hide();
-            $('.filter_card').hide();
-            $('.repromotion_card').hide();
 
             $.ajax({
                 // Fetching details by customer ID instead of req ID because we need all loans from the customer
@@ -961,15 +998,13 @@ function historyTableContents(req_id, cus_id, type) {
                     $('#loanHistoryDiv').empty().html(response);
                 }
             });
+
         } else {
 
             //for Document history
             $('.doc-history-card').show();
-            $('#close_history_card').show();
+            $('.customer-status-card').hide();
             $('.loan-history-card').hide();
-            $('.existing_card').hide();
-            $('.filter_card').hide();
-            $('.repromotion_card').hide();
 
             $.ajax({
                 // Fetching details by customer ID instead of req ID because we need all loans from the customer
@@ -996,10 +1031,9 @@ function historyTableContents(req_id, cus_id, type) {
             if (typevalue == 'Existing') { $('.existing_card').show(); } else { $('.repromotion_card').show(); }
 
             $('.filter_card').show();
-            $('.loan-history-card').hide();//hides loan history card
-            $('.doc-history-card').hide();//hides document history card
-            $('#close_history_card').hide();// Hides the close button
-        })
+            $('.customer-status-card, .loan-history-card, .doc-history-card, #close_history_card').hide();
+        });
+
         hideOverlay();//loader stop
     }, 2000)
 
