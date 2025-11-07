@@ -50,6 +50,7 @@
                                     <th>Agent</th>
                                     <th>Responsible</th>
                                     <th>Cust. Data</th>
+                                    <th>Cancel Date</th>
                                     <th>Cust. Status</th>
                                     <th>Remarks</th>
                                 </thead>

@@ -138,7 +138,8 @@ $column = array(
     'req.responsible',
     'req.cus_data',
     'req.req_id',
-    'req.prompt_remark'
+    'req.prompt_remark',
+    'req.updated_date'
 );
 $query = "SELECT 
     req.*,
@@ -225,6 +226,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['ag_name'];
     $sub_array[] = ($row['responsible'] == '0') ? 'Yes' : 'No';
     $sub_array[] = $row['cus_data'];
+    $sub_array[] = $row['updated_date'];
     $sub_array[] = $statusLabels[$row['cus_status']];
     $sub_array[] = $row['prompt_remark'];
 
