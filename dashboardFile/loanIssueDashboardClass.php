@@ -15,25 +15,26 @@ class LoanIssueClass
         $today = date('Y-m-d');
         $month = (isset($_POST['month']) && $_POST['month'] != '') ? date('Y-m-01', strtotime($_POST['month'])) : date('Y-m-01');
         $area_list = $_POST['area_list'];
+        $loan_category = $_POST['loan_category'];
 
-        $tot_li = "SELECT COUNT(*) as tot_li FROM request_creation where cus_status >= 13 and month(updated_date) = month('$month') and year(updated_date) = year('$month') ";
+        $tot_li = "SELECT COUNT(*) as tot_li FROM request_creation req JOIN in_issue ii ON ii.req_id = req.req_id where req.cus_status >= 13 and month(ii.inserted_date) = month('$month') and year(ii.inserted_date) = year('$month') ";
         $today_li = "SELECT COUNT(*) as today_li FROM request_creation where cus_status = 13 and date(updated_date) = '$today' ";
-        $tot_li_issue = "SELECT COUNT(*) as tot_li_issue FROM request_creation req JOIN acknowlegement_customer_profile cp ON cp.req_id = req.req_id WHERE req.cus_status >= 14 and month(req.updated_date) = month('$month') and year(req.updated_date) = year('$month')";
-        $today_li_issue = "SELECT COUNT(*) as today_li_issue FROM request_creation req JOIN customer_profile cp ON cp.req_id = req.req_id WHERE req.cus_status >= 14 and date(req.updated_date) = '$today' ";
+        $tot_li_issue = "SELECT COUNT(*) as tot_li_issue FROM request_creation req JOIN customer_profile cp ON cp.req_id = req.req_id JOIN in_issue ii ON req.req_id = ii.req_id WHERE ii.cus_status >= 14 AND month(ii.updated_date) = month('$month') and year(ii.updated_date) = year('$month')";
+        $today_li_issue = "SELECT COUNT(*) as today_li_issue FROM request_creation req JOIN customer_profile cp ON cp.req_id = req.req_id JOIN in_issue ii ON req.req_id = ii.req_id WHERE ii.cus_status >= 14 AND date(ii.updated_date) = '$today' ";
         $tot_li_bal = "SELECT COUNT(*) as tot_li_bal FROM request_creation where cus_status = 13 and month(updated_date) = month('$month') and year(updated_date) = year('$month')";
         $today_li_bal = "SELECT COUNT(*) as today_li_bal FROM request_creation where cus_status = 13 and date(updated_date) = '$today' ";
-        $tot_cash = "SELECT SUM(li.cash) as tot_cash from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id where li.cash IS NOT NULL and month(li.created_date) = month('$month') and year(li.created_date) = year('$month')";
-        $today_cash = "SELECT SUM(li.cash) as today_cash from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id where li.cash IS NOT NULL and date(li.created_date) = '$today' ";
-        $tot_cheque = "SELECT SUM(li.cheque_value) as tot_cheque from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id where li.cheque_value IS NOT NULL and month(li.created_date) = month('$month') and year(li.created_date) = year('$month')";
-        $today_cheque = "SELECT SUM(li.cheque_value) as today_cheque from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id where li.cheque_value IS NOT NULL and date(li.created_date) = '$today' ";
-        $tot_transaction = "SELECT SUM(li.transaction_value) as tot_transaction from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id where li.transaction_value IS NOT NULL and month(li.created_date) = month('$month') and year(li.created_date) = year('$month')";
-        $today_transaction = "SELECT SUM(li.transaction_value) as today_transaction from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id where li.transaction_value IS NOT NULL and date(li.created_date) = '$today' ";
-        $tot_new = "SELECT COUNT(*) as tot_new from request_creation where cus_status = 13 and cus_data = 'New' and month(updated_date) = month('$month') and year(updated_date) = year('$month')";
+        $tot_cash = "SELECT SUM(li.cash) as tot_cash from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id  JOIN acknowlegement_loan_calculation alc  ON alc.req_id = li.req_id where li.cash IS NOT NULL and month(li.created_date) = month('$month') and year(li.created_date) = year('$month')";
+        $today_cash = "SELECT SUM(li.cash) as today_cash from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id JOIN acknowlegement_loan_calculation alc  ON alc.req_id = li.req_id where li.cash IS NOT NULL and date(li.created_date) = '$today' ";
+        $tot_cheque = "SELECT SUM(li.cheque_value) as tot_cheque from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id JOIN acknowlegement_loan_calculation alc  ON alc.req_id = li.req_id where li.cheque_value IS NOT NULL and month(li.created_date) = month('$month') and year(li.created_date) = year('$month')";
+        $today_cheque = "SELECT SUM(li.cheque_value) as today_cheque from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id JOIN acknowlegement_loan_calculation alc  ON alc.req_id = li.req_id where li.cheque_value IS NOT NULL and date(li.created_date) = '$today' ";
+        $tot_transaction = "SELECT SUM(li.transaction_value) as tot_transaction from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id JOIN acknowlegement_loan_calculation alc  ON alc.req_id = li.req_id where li.transaction_value IS NOT NULL and month(li.created_date) = month('$month') and year(li.created_date) = year('$month')";
+        $today_transaction = "SELECT SUM(li.transaction_value) as today_transaction from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id JOIN acknowlegement_loan_calculation alc  ON alc.req_id = li.req_id where li.transaction_value IS NOT NULL and date(li.created_date) = '$today' ";
+        $tot_new = "SELECT COUNT(*) as tot_new from request_creation req JOIN in_issue ii ON ii.req_id = req.req_id where req.cus_status >= 13 and  req.cus_data = 'New' and month(ii.inserted_date) = month('$month') and year(ii.inserted_date) = year('$month') ";
         $today_new = "SELECT COUNT(*) as today_new from request_creation where cus_status = 13 and cus_data = 'New' and date(updated_date) = '$today' ";
-        $tot_existing = "SELECT COUNT(*) as tot_existing from request_creation where cus_status = 13 and cus_data = 'Existing' and month(updated_date) = month('$month') and year(updated_date) = year('$month')";
+        $tot_existing = "SELECT COUNT(*) as tot_existing from request_creation req JOIN in_issue ii ON ii.req_id = req.req_id where req.cus_status >= 13 and  req.cus_data = 'Existing' and month(ii.inserted_date) = month('$month') and year(ii.inserted_date) = year('$month')";
         $today_existing = "SELECT COUNT(*) as today_existing from request_creation where cus_status = 13 and cus_data = 'Existing' and date(updated_date) = '$today' ";
         $today_li_amt = "SELECT COALESCE(SUM(lc.net_cash_cal),0) as today_li_amt FROM request_creation req JOIN acknowlegement_loan_calculation lc ON lc.req_id = req.req_id LEFT JOIN acknowlegement_customer_profile cp ON cp.req_id = req.req_id WHERE req.cus_status = 13 and date(req.updated_date) = '$today' ";
-        $today_issued_amt = "SELECT COALESCE(SUM(li.cash + li.cheque_value + li.transaction_value),0) as today_issued_amt from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id where date(li.created_date) = '$today' ";
+        $today_issued_amt = "SELECT COALESCE(SUM(li.cash + li.cheque_value + li.transaction_value),0) as today_issued_amt from loan_issue li JOIN acknowlegement_customer_profile cp ON cp.req_id = li.req_id JOIN acknowlegement_loan_calculation alc ON alc.req_id = li.req_id where date(li.created_date) = '$today' ";
 
         if (empty($area_list)) {
             $area_list = $this->getUserGroupBasedSubArea($connect, $this->user_id);
@@ -45,7 +46,7 @@ class LoanIssueClass
         $today_li_issue .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
         $tot_li_bal .= " AND area IN ($area_list) ";
         $today_li_bal .= " AND area IN ($area_list) ";
-        $tot_new .= " AND area IN ($area_list) ";
+        $tot_new .= " AND req.area IN ($area_list) ";
         $tot_cash .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
         $today_cash .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
         $tot_cheque .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
@@ -53,11 +54,31 @@ class LoanIssueClass
         $tot_transaction .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
         $today_transaction .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
         $today_new .= " AND area IN ($area_list) ";
-        $tot_existing .= " AND area IN ($area_list) ";
+        $tot_existing .= " AND req.area IN ($area_list) ";
         $today_existing .= " AND area IN ($area_list) ";
         $today_li_amt .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
         $today_issued_amt .= " AND ( CASE WHEN cp.area_confirm_area IS NOT NULL THEN cp.area_confirm_area IN ($area_list) ELSE TRUE END )";
 
+        if (!empty($loan_category) && $loan_category != 0) {
+            $tot_li .= " AND req.loan_category = '$loan_category'";
+            $today_li .= " AND loan_category = '$loan_category'";
+            $tot_li_issue .= " AND loan_category = '$loan_category'";
+            $today_li_issue .= "AND loan_category = '$loan_category'";
+            $tot_li_bal .= "  AND loan_category = '$loan_category' ";
+            $today_li_bal .= "  AND loan_category = '$loan_category' ";
+            $tot_new .= "  AND req.loan_category = '$loan_category' ";
+            $tot_cash .= " AND alc.loan_category = '$loan_category'";
+            $today_cash .= " AND alc.loan_category = '$loan_category'";
+            $tot_cheque .= " AND alc.loan_category = '$loan_category'";
+            $today_cheque .= " AND alc.loan_category = '$loan_category'";
+            $tot_transaction .= " AND alc.loan_category = '$loan_category'";
+            $today_transaction .= " AND alc.loan_category = '$loan_category'";
+            $today_new .= " AND loan_category = '$loan_category' ";
+            $tot_existing .= " AND req.loan_category = '$loan_category' ";
+            $today_existing .= " AND loan_category = '$loan_category' ";
+            $today_li_amt .= "  AND lc.loan_category = '$loan_category'";
+            $today_issued_amt .= "  AND alc.loan_category = '$loan_category'";
+        }
 
         $tot_liQry = $connect->query($tot_li);
         $today_liQry = $connect->query($today_li);
@@ -103,38 +124,36 @@ class LoanIssueClass
 
 
         return $response;
-    }function getUserGroupBasedSubArea($connect, $user_id)
-{
-    $area_ids = [];
-
-    // Get group_id from USER table
-    $userQry = $connect->query("SELECT group_id FROM USER WHERE user_id = $user_id");
-    if ($userQry && $rowuser = $userQry->fetch()) {
-        $group_ids = explode(',', $rowuser['group_id']);
-    } else {
-        // No user or failed query
-        return '';
     }
+    function getUserGroupBasedSubArea($connect, $user_id)
+    {
+        $area_ids = [];
 
-    // Loop through group IDs to fetch area IDs
-    foreach ($group_ids as $group) {
-        $group = intval($group); // safety cast
+        // Step 1: Get group_id from USER table
+        $userQry = $connect->query("SELECT group_id FROM USER WHERE user_id = $user_id");
+        if ($userQry && $rowuser = $userQry->fetch()) {
+            $group_ids = explode(',', $rowuser['group_id']);
+        } else {
+            // If user not found or query fails, return empty
+            return '';
+        }
 
-        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping_area WHERE group_map_id = $group");
-        if ($groupQry && $row_sub = $groupQry->fetch()) {
-            if (!empty($row_sub['area_id'])) {
-                $area_list = explode(',', $row_sub['area_id']);
-                $area_ids = array_merge($area_ids, $area_list);
+        // Step 2: Loop through each group ID to get area_id from area_group_mapping
+        foreach ($group_ids as $group) {
+            $groupQry = $connect->query(" SELECT area_id FROM area_group_mapping_area WHERE group_map_id = $group ");
+
+            if ($groupQry) {
+                while ($row_sub = $groupQry->fetch()) {
+                    // Row-wise area_id, so directly append
+                    $area_ids[] = $row_sub['area_id'];
+                }
             }
         }
-        // if query fails or no area_id found, skip silently
+
+        // Step 3: Remove duplicates and re-index
+        $area_ids = array_unique($area_ids);
+
+        // Step 4: Return as comma-separated string
+        return implode(',', $area_ids);
     }
-
-    // Remove duplicates and sanitize
-    $area_ids = array_unique(array_map('intval', $area_ids));
-
-    // Return as comma-separated string
-    return implode(',', $area_ids);
-}
-
 }
