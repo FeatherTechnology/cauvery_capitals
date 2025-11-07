@@ -30,14 +30,14 @@ async function detectMFSURI() {
     }
 
     // No device found
-    Swal.fire({
-        icon: 'error',
-        title: 'Device Not Found',
-        text: 'No Mantra fingerprint device detected.\nPlease connect your device and restart the application.',
-        confirmButtonColor: '#0c70ab'
-    });
+    // Swal.fire({
+    //     icon: 'error',
+    //     title: 'Device Not Found',
+    //     text: 'No Mantra fingerprint device detected.\nPlease connect your device and restart the application.',
+    //     confirmButtonColor: '#0c70ab'
+    // });
 
-    throw new Error('No Mantra device service found.');
+    // throw new Error('No Mantra device service found.');
 }
 
 // 🔹 Global variable to store the detected Mantra service URI

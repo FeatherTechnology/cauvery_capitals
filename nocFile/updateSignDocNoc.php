@@ -103,6 +103,107 @@ function updateNOCgiven($connect, $user_id)
             $qry = $connect->query("UPDATE `document_info` SET `doc_info_upload_noc`='1',update_login_id = $user_id, updated_date = now() WHERE id= '" . $doc_checklist_arr[$i] . "'  ");
         }
     }
+    
+    $statusArr = [];
+
+    $tables = [
+        'signed_doc_info' => ['prefix' => 'sign', 'field' => 'noc_given'],
+        'cheque_no_list' => ['prefix' => 'cheque', 'field' => 'noc_given'],
+        'document_info' => ['prefix' => 'doc', 'field' => 'doc_info_upload_noc'],
+        'gold_info' => ['prefix' => 'gold', 'field' => 'noc_given']
+    ];
+
+    foreach ($tables as $table => $info) {
+        $totalQry = $connect->query("SELECT COUNT(*) AS cnt FROM $table WHERE req_id = '$req_id'");
+        $total = $totalQry ? $totalQry->fetch()['cnt'] : 0;
+
+        $givenQry = $connect->query("SELECT COUNT(*) AS cnt FROM $table WHERE req_id = '$req_id' AND {$info['field']} = '1'");
+        $given = $givenQry ? $givenQry->fetch()['cnt'] : 0;
+
+
+        if ($given == $total) {
+            $statusArr[$info['prefix']] = 2; // All NOC given
+        } elseif ($given > 0 && $given < $total) {
+            $statusArr[$info['prefix']] = 1; // Partial NOC given
+        } else {
+            $statusArr[$info['prefix']] = 0; // No NOC given
+        }
+    }
+
+    // --- Mortgage & Endorsement from acknowlegement_documentation ---
+    $ackQry = $connect->query("
+    SELECT 
+        mortgage_process,
+        mortgage_process_noc, 
+        mortgage_document_noc, 
+        endorsement_process,
+        endorsement_process_noc, 
+        en_RC_noc, 
+        en_Key_noc 
+    FROM acknowlegement_documentation 
+    WHERE req_id = '$req_id'
+");
+    $ack = $ackQry ? $ackQry->fetch() : [];
+
+    // --- Mortgage ---
+    $mort_given = 0;
+    $mort_total = 2;
+    $mort_status = 0;
+
+    if (!empty($ack)) {
+        // ✅ If mortgage_process itself is done, set status directly
+        if ($ack['mortgage_process'] == '1') {
+            $mort_status = 2;
+        } else {
+            // Otherwise check NOC fields
+            $mort_given = ($ack['mortgage_process_noc'] == '1' ? 1 : 0)
+                + ($ack['mortgage_document_noc'] == '1' ? 1 : 0);
+            $mort_status = ($mort_given == $mort_total) ? 2 : (($mort_given > 0) ? 1 : 0);
+        }
+    }
+
+    // --- Endorsement ---
+    $endorse_given = 0;
+    $endorse_total = 3;
+    $endorse_status = 0;
+
+    if (!empty($ack)) {
+        // ✅ If endorsement_process itself is done, set status directly
+        if ($ack['endorsement_process'] == '1') {
+            $endorse_status = 2;
+        } else {
+            // Otherwise check NOC fields
+            $endorse_given = ($ack['endorsement_process_noc'] == '1' ? 1 : 0)
+                + ($ack['en_RC_noc'] == '1' ? 1 : 0)
+                + ($ack['en_Key_noc'] == '1' ? 1 : 0);
+            $endorse_status = ($endorse_given == $endorse_total) ? 2 : (($endorse_given > 0) ? 1 : 0);
+        }
+    }
+
+    // --- Final Status Update ---
+    if (
+        $statusArr['sign'] == 2 &&
+        $statusArr['cheque'] == 2 &&
+        $mort_status == 2 &&
+        $endorse_status == 2 &&
+        $statusArr['doc'] == 2 &&
+        $statusArr['gold'] == 2
+    ) {
+        $updateQueries = [
+            "UPDATE request_creation SET cus_status = 22, update_login_id = '$user_id',updated_date = NOW() WHERE req_id = '$req_id'",
+            "UPDATE customer_register SET cus_status = 22 WHERE req_ref_id = '$req_id'",
+            "UPDATE in_verification SET cus_status = 22, update_login_id = '$user_id' WHERE req_id = '$req_id'",
+            "UPDATE in_approval SET cus_status = 22, update_login_id = '$user_id' WHERE req_id = '$req_id'",
+            "UPDATE in_acknowledgement SET cus_status = 22, update_login_id = '$user_id' WHERE req_id = '$req_id'",
+            "UPDATE in_issue SET cus_status = 22, update_login_id = '$user_id' WHERE req_id = '$req_id'",
+            "UPDATE closed_status SET cus_sts = 22, update_login_id = '$user_id', updated_date = NOW() WHERE req_id = '$req_id'",
+            "UPDATE noc SET cus_status = 22, update_login_id = '$user_id', updated_date = NOW() WHERE req_id = '$req_id'"
+        ];
+
+        foreach ($updateQueries as $q) {
+            $connect->query($q);
+        }
+    }
 }
 
 // Close the database connection

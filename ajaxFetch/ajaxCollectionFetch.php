@@ -49,12 +49,12 @@ $column = array(
 if ($userid == 1) {
     $query = "SELECT cp.cus_id AS cp_cus_id, cr.autogen_cus_id, CONCAT(cp.first_name,' ', cp.last_name) AS customer_name, alc.area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
     FROM acknowlegement_customer_profile cp 
-    JOIN in_issue ii ON cp.cus_id = ii.cus_id 
-    JOIN customer_status cs ON cp.req_id = cs.req_id 
-    JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id
-    JOIN area_line_mapping_area alma ON alma.area_id = alc.area_id
-    JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
-    JOIN branch_creation b ON b.branch_id = alm.branch_id
+    INNER JOIN in_issue ii ON cp.cus_id = ii.cus_id 
+    INNER JOIN customer_status cs ON cp.req_id = cs.req_id 
+    INNER JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id
+    INNER JOIN area_line_mapping_area alma ON alma.area_id = alc.area_id
+    INNER JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+    INNER JOIN branch_creation b ON b.branch_id = alm.branch_id
     WHERE ii.status = 0 AND (ii.cus_status >= 14 AND ii.cus_status <= 17)"; // Only Issued and all lines not relying on sub area// 14 and 17 means collection entries, 17 removed from issue list
 
 } else {
@@ -63,26 +63,26 @@ if ($userid == 1) {
         //show only issued customers within the same lines of user. // 14 and 17 means collection entries, 17 removed from issue list
         $query = "SELECT cp.cus_id AS cp_cus_id, cr.autogen_cus_id, CONCAT(cp.first_name,' ', cp.last_name) AS customer_name, alc.area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
         FROM acknowlegement_customer_profile cp 
-        JOIN customer_register cr ON cp.cus_id = cr.cus_id
-        JOIN in_issue ii ON cp.cus_id = ii.cus_id 
-        JOIN customer_status cs ON cp.req_id = cs.req_id 
-        JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id
-        JOIN area_line_mapping_area alma ON alma.area_id = alc.area_id
-        JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
-        JOIN branch_creation b ON b.branch_id = alm.branch_id
-        left JOIN request_creation rc ON ii.req_id = rc.req_id 
+        INNER JOIN customer_register cr ON cp.cus_id = cr.cus_id
+        INNER JOIN in_issue ii ON cp.cus_id = ii.cus_id 
+        INNER JOIN customer_status cs ON cp.req_id = cs.req_id 
+        INNER JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id
+        INNER JOIN area_line_mapping_area alma ON alma.area_id = alc.area_id
+        INNER JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+        INNER JOIN branch_creation b ON b.branch_id = alm.branch_id
+        left INNER JOIN request_creation rc ON ii.req_id = rc.req_id 
         WHERE ii.status = 0 AND (ii.cus_status >= 14 AND ii.cus_status <= 17) AND cp.area_confirm_area IN ($area_list) ";
     } else { // if agent then check the possibilities
         $query = "SELECT cp.cus_id AS cp_cus_id, cr.autogen_cus_id, CONCAT(cp.first_name,' ', cp.last_name) AS customer_name, alc.area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 
         FROM acknowlegement_customer_profile cp 
-        JOIN customer_register cr ON cp.cus_id = cr.cus_id
-        JOIN in_issue ii ON cp.cus_id = ii.cus_id 
-        JOIN request_creation rc ON ii.req_id = rc.req_id 
-        JOIN customer_status cs ON cp.req_id = cs.req_id 
-        JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id
-        JOIN area_line_mapping_area alma ON alma.area_id = alc.area_id
-        JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
-        JOIN branch_creation b ON b.branch_id = alm.branch_id
+        INNER JOIN customer_register cr ON cp.cus_id = cr.cus_id
+        INNER JOIN in_issue ii ON cp.cus_id = ii.cus_id 
+        INNER JOIN request_creation rc ON ii.req_id = rc.req_id 
+        INNER JOIN customer_status cs ON cp.req_id = cs.req_id 
+        INNER JOIN area_list_creation alc ON cp.area_confirm_area = alc.area_id
+        INNER JOIN area_line_mapping_area alma ON alma.area_id = alc.area_id
+        INNER JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+        INNER JOIN branch_creation b ON b.branch_id = alm.branch_id
         WHERE ii.status = 0 AND (ii.cus_status >= 14 AND ii.cus_status <= 17) AND (rc.user_type = 'Agent' OR (rc.agent_id != '' OR rc.agent_id != null)  OR rc.insert_login_id = '$userid' ) AND cp.area_confirm_area IN ($area_list) and rc.agent_id = $ag_id "; // 14 and 17 means collection entries, 17 removed from issue list
 
     }
@@ -162,7 +162,7 @@ if($_POST["CustomerStatus"]!=''){
 function count_all_data($connect)
 {
     $query = "SELECT cp.cus_id AS cp_cus_id FROM 
-    acknowlegement_customer_profile cp JOIN in_issue ii ON cp.cus_id = ii.cus_id
+    acknowlegement_customer_profile cp INNER JOIN in_issue ii ON cp.cus_id = ii.cus_id
     where ii.status = 0 and (ii.cus_status >= 14 and ii.cus_status <= 17) GROUP BY ii.cus_id ";
     $statement = $connect->prepare($query);
     $statement->execute();

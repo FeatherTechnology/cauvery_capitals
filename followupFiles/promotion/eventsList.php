@@ -7,12 +7,25 @@ $rows = []; // Initialize array
 
 if ($user_id != '') {
     // Step 1: Fetch role type and access details of the user
-    $userRes = $connect->query("SELECT role_type FROM user WHERE user_id = $user_id");
+    $userRes = $connect->query("SELECT line_id , group_id , due_followup_lines , promo_act_area_access, role_type FROM user WHERE user_id = $user_id");
     $userRow = $userRes->fetch(PDO::FETCH_ASSOC);
     $role_type = $userRow['role_type'];
+    $group_id = $userRow['group_id'];
+    $line_id = $userRow['line_id'];
+    $due_followup_lines = $userRow['due_followup_lines'];
+    $promo_act_area_access = $userRow['promo_act_area_access'];
 
-    // Step 2: Set up base query condition based on role_type
-    if ($role_type == 7 || $role_type == 3) {
+    if ($promo_act_area_access == 1) {
+        $condition = "ag.map_id IN ($group_id)";
+    } elseif ($promo_act_area_access == 2) {
+        $condition = "alm.map_id IN ($line_id)";
+    } elseif ($promo_act_area_access == 3) {
+        $condition = "adfm.map_id IN ($due_followup_lines)";
+    }
+
+// Step 2: Apply logic for fetching data
+if ($role_type == 4 || $role_type == 2) {
+        // Role 2 (Admin) and 4(Manager)→ See all records
         $sql = $connect->query("
         SELECT 
             e.event_name,
@@ -38,7 +51,13 @@ if ($user_id != '') {
         JOIN event_promotion ep ON ep.event_id = e.id
         JOIN event_areas ea ON ea.event_id = e.id
         JOIN area_list_creation al ON al.area_id = ea.event_area
-        WHERE e.insert_login_id = '$user_id'
+        JOIN area_group_mapping_area agma ON agma.area_id = al.area_id
+        JOIN area_group_mapping ag ON ag.map_id = agma.group_map_id
+        JOIN area_line_mapping_area alma ON alma.area_id = al.area_id
+        JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
+        JOIN area_duefollowup_mapping_area adfma ON adfma.area_id = al.area_id
+        JOIN area_duefollowup_mapping adfm ON adfm.map_id = adfma.map_id
+        WHERE  $condition 
         GROUP BY e.id
         ORDER BY e.id DESC; 
     ");
