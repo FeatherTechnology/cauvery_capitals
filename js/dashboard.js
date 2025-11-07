@@ -3,9 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initializeCounterAnimation();
     getBranchList();
+    getLoanCategoryList();
     localStorage.clear();//clear localstorage before fetching data for prevent conflict
 
-    $('#branch_id, #filter_month').change(function () {
+    $('#branch_id, #filter_month , #loan_cat').change(function () {
         let opened = $('.card-body:visible').prev('.card-header').attr('id');
         $('#' + opened).trigger('click');
         showOverlay();
@@ -121,6 +122,17 @@ function getBranchList() {
     }, 'json')
 }
 
+function getLoanCategoryList() {
+    $.post('reportFile/customer_status_report/ajaxGetUserLoanCategory.php', function (data) {
+        $('#loan_cat').empty();
+        $('#loan_cat').append('<option value="">Loan Category</option>');
+        $('#loan_cat').append('<option value="0">All Category</option>');
+        for (let i = 0; i < data.length; i++) {
+            $('#loan_cat').append('<option value="' + data[i].loan_category_creation_id + '">' + data[i].loan_category_creation_name + '</option>');
+        }
+    }, 'json')
+}
+
 function getAreaList(branch_id) {
 
     return new Promise((resolve, reject) => {
@@ -163,11 +175,12 @@ function getAreaList(branch_id) {
 function getRequestDashboard() {
 
     let branch_id = $('#branch_id').val();
+    let loan_category = $('#loan_cat').val();
     let month = $('#filter_month').val();
     localStorage.clear();//clear localstorage before fetching data for prevent conflict
     getAreaList(branch_id).then(area_list => {
 
-        $.post('dashboardFile/getRequestDashboard.php', { area_list, month }, function (data) {
+        $.post('dashboardFile/getRequestDashboard.php', { loan_category,area_list, month }, function (data) {
 
             $('#tot_req').text(data.tot_req)
             $('#tot_req_issue').text(data.tot_issue)
@@ -224,10 +237,11 @@ function getRequestDashboard() {
 function getVerificationDashboard() {
     let branch_id = $('#branch_id').val();
     let month = $('#filter_month').val();
+    let loan_category = $('#loan_cat').val();
     localStorage.clear();//clear localstorage before fetching data for prevent conflict
     getAreaList(branch_id).then(area_list => {
 
-        $.post('dashboardFile/getVerificationDashboard.php', { area_list, month }, function (data) {
+        $.post('dashboardFile/getVerificationDashboard.php', { area_list, month ,loan_category}, function (data) {
 
             $('#tot_in_ver').text(data.tot_in_ver)
             $('#tot_ver_issue').text(data.tot_issue)
@@ -283,10 +297,11 @@ function getVerificationDashboard() {
 function getApprovalDashboard() {
     let branch_id = $('#branch_id').val();
     let month = $('#filter_month').val();
+    let loan_category = $('#loan_cat').val();
     localStorage.clear();//clear localstorage before fetching data for prevent conflict
     getAreaList(branch_id).then(area_list => {
 
-        $.post('dashboardFile/getApprovalDashboard.php', { area_list, month }, function (data) {
+        $.post('dashboardFile/getApprovalDashboard.php', { loan_category , area_list, month }, function (data) {
 
             $('#tot_in_app').text(data.tot_in_app)
             $('#tot_app_issue').text(data.tot_issue)
@@ -342,10 +357,11 @@ function getApprovalDashboard() {
 function getAcknowledgmentDashboard() {
     let branch_id = $('#branch_id').val();
     let month = $('#filter_month').val();
+    let loan_category = $('#loan_cat').val();
     localStorage.clear();//clear localstorage before fetching data for prevent conflict
     getAreaList(branch_id).then(area_list => {
 
-        $.post('dashboardFile/getAcknowledgmentDashboard.php', { area_list, month }, function (data) {
+        $.post('dashboardFile/getAcknowledgmentDashboard.php', { loan_category , area_list, month }, function (data) {
 
             $('#tot_in_ack').text(data.tot_in_ack)
             $('#tot_ack_issue').text(data.tot_issue)
@@ -401,10 +417,11 @@ function getAcknowledgmentDashboard() {
 function getLoanIssueDashboard() {
     let branch_id = $('#branch_id').val();
     let month = $('#filter_month').val();
+    let loan_category = $('#loan_cat').val();
     localStorage.clear();//clear localstorage before fetching data for prevent conflict
     getAreaList(branch_id).then(area_list => {
 
-        $.post('dashboardFile/getLoanIssueDashboard.php', { area_list, month }, function (data) {
+        $.post('dashboardFile/getLoanIssueDashboard.php', { loan_category , area_list, month }, function (data) {
 
             $('#tot_li').text(data.tot_li)
             $('#tot_li_issue').text(data.tot_li_issue)

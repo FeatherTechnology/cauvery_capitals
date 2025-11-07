@@ -15,8 +15,8 @@ class ClosedDashboardClass
         $area_list = $_POST['area_list'];
 
         $tot_in_cl = "SELECT COUNT(*) as tot_in_cl FROM request_creation req JOIN acknowlegement_customer_profile cp ON cp.req_id = req.req_id WHERE req.cus_status >= 20 ";
-        $month_in_cl = "SELECT COUNT(*) as month_in_cl FROM request_creation req JOIN acknowlegement_customer_profile cp ON cp.req_id = req.req_id WHERE req.cus_status = 20 and month(req.updated_date) = month('$month') and year(req.updated_date) = year('$month') ";
-        $month_cl_status = "SELECT COUNT(*) as month_cl_status FROM request_creation req JOIN acknowlegement_customer_profile cp ON cp.req_id = req.req_id JOIN closed_status cls ON cls.req_id = req.req_id WHERE req.cus_status >= 20 and month(cls.created_date) = month('$month') and year(cls.created_date) = year('$month') ";
+        $month_in_cl = "SELECT COUNT(*) as month_in_cl FROM request_creation req JOIN acknowlegement_customer_profile cp ON cp.req_id = req.req_id JOIN closing_customer cc ON cc.req_id = req.req_id WHERE month(cc.closing_date) = month('$month') and year(cc.closing_date) = year('$month') ";
+        $month_cl_status = "SELECT COUNT(*) as month_cl_status FROM closed_status cls JOIN acknowlegement_customer_profile cp ON cp.req_id = cls.req_id WHERE cls.cus_sts = 21 and month(cls.created_date) = month('$month') and year(cls.created_date) = year('$month') ";
         $month_cl_bal = "SELECT COUNT(*) as month_cl_bal FROM request_creation req JOIN acknowlegement_customer_profile cp ON cp.req_id = req.req_id WHERE req.cus_status = 20 and month(req.updated_date) = month('$month') and year(req.updated_date) = year('$month') ";
         $today_in_cl = "SELECT COUNT(*) as today_in_cl FROM request_creation req JOIN acknowlegement_customer_profile cp ON cp.req_id = req.req_id WHERE req.cus_status = 20 and date(req.updated_date) = date('$month') ";
         $today_cl_status = "SELECT COUNT(*) as today_cl_status FROM request_creation req JOIN acknowlegement_customer_profile cp ON cp.req_id = req.req_id JOIN closed_status cls ON cls.req_id = req.req_id WHERE req.cus_status >= 20 and date(cls.created_date) = date('$month') ";
@@ -82,37 +82,35 @@ class ClosedDashboardClass
         return $response;
     }
 
-   function getUserGroupBasedSubArea($connect, $user_id)
-{
-    $area_ids = [];
+    function getUserGroupBasedSubArea($connect, $user_id)
+    {
+        $area_ids = [];
 
-    // Step 1: Get group_id from USER table
-    $userQry = $connect->query("SELECT group_id FROM USER WHERE user_id = $user_id");
-    if ($userQry && $rowuser = $userQry->fetch()) {
-        $group_ids = explode(',', $rowuser['group_id']);
-    } else {
-        // No group IDs found or query failed
-        return '';
-    }
+        // Step 1: Get group_id from USER table
+        $userQry = $connect->query("SELECT group_id FROM USER WHERE user_id = $user_id");
+        if ($userQry && $rowuser = $userQry->fetch()) {
+            $group_ids = explode(',', $rowuser['group_id']);
+        } else {
+            // If user not found or query fails, return empty
+            return '';
+        }
 
-    // Step 2: For each group_id, get corresponding area_id(s)
-    foreach ($group_ids as $group) {
-        $group = intval($group); // sanitize
+        // Step 2: Loop through each group ID to get area_id from area_group_mapping
+        foreach ($group_ids as $group) {
+            $groupQry = $connect->query(" SELECT area_id FROM area_group_mapping_area WHERE group_map_id = $group ");
 
-        $groupQry = $connect->query("SELECT area_id FROM area_group_mapping_area WHERE group_map_id = $group");
-        if ($groupQry && $row_sub = $groupQry->fetch()) {
-            if (!empty($row_sub['area_id'])) {
-                $areas = explode(',', $row_sub['area_id']);
-                $area_ids = array_merge($area_ids, $areas);
+            if ($groupQry) {
+                while ($row_sub = $groupQry->fetch()) {
+                    // Row-wise area_id, so directly append
+                    $area_ids[] = $row_sub['area_id'];
+                }
             }
         }
-        // Skip group if query failed or result is empty
+
+        // Step 3: Remove duplicates and re-index
+        $area_ids = array_unique($area_ids);
+
+        // Step 4: Return as comma-separated string
+        return implode(',', $area_ids);
     }
-
-    // Step 3: Remove duplicates and return as comma-separated string
-    $area_ids = array_unique(array_map('intval', $area_ids));
-
-    return implode(',', $area_ids);
-}
-
 }
