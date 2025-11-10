@@ -2685,5 +2685,28 @@
             $(e).val(val);
         }
 
+            // To download Excel file
+    function exportToExcel(tableId, data, reportName) {
+    // ✅ Get table headers dynamically from the given table ID
+    const table = document.getElementById(tableId);
+
+    const headers = Array.from(table.querySelectorAll("thead th"))
+        .map(th => th.textContent.trim());
+
+    // ✅ Combine headers + data
+    const wsData = [headers, ...data];
+
+    // ✅ Create worksheet & workbook
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, reportName || "Sheet1");
+
+    const { filename } = generateReportTitle(reportName || 'Report');
+    const fileName = filename + '.xlsx';
+
+    // ✅ Save file
+    XLSX.writeFile(wb, fileName);
+}
+
         ////////////////// to validate input and enter only number/ moneyformat works only text type so validating here instead of number type End /////////////////////
     </script>

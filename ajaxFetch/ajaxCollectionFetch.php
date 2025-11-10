@@ -70,7 +70,7 @@ if ($userid == 1) {
         INNER JOIN area_line_mapping_area alma ON alma.area_id = alc.area_id
         INNER JOIN area_line_mapping alm ON alm.map_id = alma.line_map_id
         INNER JOIN branch_creation b ON b.branch_id = alm.branch_id
-        left INNER JOIN request_creation rc ON ii.req_id = rc.req_id 
+        INNER JOIN request_creation rc ON ii.req_id = rc.req_id 
         WHERE ii.status = 0 AND (ii.cus_status >= 14 AND ii.cus_status <= 17) AND cp.area_confirm_area IN ($area_list) ";
     } else { // if agent then check the possibilities
         $query = "SELECT cp.cus_id AS cp_cus_id, cr.autogen_cus_id, CONCAT(cp.first_name,' ', cp.last_name) AS customer_name, alc.area_name, alm.line_name AS area_line, cp.mobile1, b.branch_name, cp.req_id 

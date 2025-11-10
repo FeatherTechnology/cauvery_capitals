@@ -95,7 +95,7 @@ $column = array(
 $qry = " SELECT req.req_id FROM request_creation req JOIN acknowlegement_customer_profile cp ON req.req_id = cp.req_id
         JOIN customer_status cs ON req.req_id = cs.req_id
         LEFT JOIN ( SELECT req_id, MAX(created_date) AS last_collection_date FROM collection GROUP BY req_id ) coll ON req.req_id = coll.req_id
-        JOIN loan_issue li ON req.req_id = li.req_id  AND DATE(li.created_date) <= DATE('$to_date')  AND balance_amount = '0'
+        JOIN loan_issue li ON req.req_id = li.req_id  AND DATE(li.created_date) < DATE('$to_date')  AND balance_amount = '0'
         WHERE req.cus_status BETWEEN 14 AND 18  AND ( cs.sub_status != 'Due Nil' OR (cs.sub_status = 'Due Nil' AND coll.last_collection_date > '$to_date') )
 
         UNION 
