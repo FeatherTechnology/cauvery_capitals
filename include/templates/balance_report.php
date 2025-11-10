@@ -36,6 +36,8 @@
 				</select>
 
 				<input type="button" id='reset_btn' name='reset_btn' class="toggle-button" style="background-color: #0c70ab;color:white; margin-bottom:25px" value='Reload'>
+				<?php if (DACC != 1) { ?><input type="button" id="download_btn" name="download_btn" class="toggle-button" style="background-color: #0c70ab; color:white; margin-bottom:25px" value="Download">
+					<?php } ?>
 			</div>
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="card">

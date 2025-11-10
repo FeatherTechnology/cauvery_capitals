@@ -34,6 +34,63 @@ $(document).ready(function () {
 
         balanceReportTable(url, tid, colArr);
     })
+        $('#download_btn').click(function () {
+        const to_date = $('#to_date').val();
+        const reportType = $('#report_type').val();
+        let url = '', tableId = '', reportName = '';
+        if (!to_date) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Missing Dates',
+                text: 'Please select To dates before downloading.',
+                confirmButtonColor: '#0c70ab'
+            });
+            return;
+        }
+        if (reportType === '1') { // Balance Report
+            url = 'reportFile/balance/getBalanceReport.php';
+            tableId = "balance_report_table"; // your table id
+            reportName = "Balance_Report";
+        } else if (reportType === '2') { // Principal / Interest Report
+            url = 'reportFile/principal_interest/getBalPrincipalinterest.php';
+            tableId = "princ_intrst_table"; // your table id
+            reportName = "Principal_Interest_Report";
+        } else {
+            alert("Kindly select Report type.");
+            return;
+        }
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                to_date: to_date,
+                download: 1
+            },
+            success: function (response) {
+                if (response && response.data && response.data.length > 0) {
+                    exportToExcel(tableId, response.data, reportName);
+                } else {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'No Data Found',
+                        text: 'No records found for the selected date range.',
+                        confirmButtonColor: '#0c70ab'
+                    });
+                }
+            },
+            error: function (xhr) {
+                console.error("AJAX Error:", xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Response Error',
+                    text: 'The server returned invalid data. Please check PHP output.',
+                    confirmButtonColor: '#d33'
+                });
+            }
+        });
+    });
 });
 
 $(function () {

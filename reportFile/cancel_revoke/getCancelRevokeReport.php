@@ -226,7 +226,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['ag_name'];
     $sub_array[] = ($row['responsible'] == '0') ? 'Yes' : 'No';
     $sub_array[] = $row['cus_data'];
-    $sub_array[] = $row['updated_date'];
+    $sub_array[] = date('d-m-Y', strtotime($row['updated_date']));
     $sub_array[] = $statusLabels[$row['cus_status']];
     $sub_array[] = $row['prompt_remark'];
 

@@ -359,79 +359,107 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
         $tabBodyEnd = '';
     }
 } else if ($sheet_type == 5 and $IDEtype == 1 and $IDEview_type == 1 and $IDE_name_id == '') { //5 Means IDE Balance Sheet, 1 Means Investment Balance Sheet, 1 Means Overall Balance sheet
-
-    $tableHeaders = "<th width='50'>S.No</th><th>Date</th><th>Name</th><th>Cash Type</th><th>Credit</th><th>Debit</th>";
-
-    $qry = $connect->query("SELECT cdh.created_date AS tdate, 'Hand Cash' AS ctype, '' AS Credit, cdh.amt AS Debit, cdh.amt AS Amount, ndc.name 
-    FROM ct_db_hinvest cdh
-    JOIN name_detail_creation ndc ON cdh.name_id = ndc.name_id
-    WHERE MONTH(cdh.created_date) = MONTH(CURRENT_DATE()) AND YEAR(cdh.created_date) = YEAR(CURRENT_DATE())
-    
-    UNION ALL 
-    
-    SELECT cdb.created_date AS tdate, cdb.bank_id AS ctype, '' AS Credit, cdb.amt AS Debit, cdb.amt AS Amount, ndc.name 
-    FROM ct_db_binvest cdb
-    JOIN name_detail_creation ndc ON cdb.name_id = ndc.name_id
-    WHERE MONTH(cdb.created_date) = MONTH(CURRENT_DATE()) AND YEAR(cdb.created_date) = YEAR(CURRENT_DATE())
-    
-    UNION ALL 
-    
-    SELECT cch.created_date AS tdate, 'Hand Cash' AS ctype, cch.amt AS Credit, '' AS Debit, cch.amt AS Amount, ndc.name 
-    FROM ct_cr_hinvest cch
-    JOIN name_detail_creation ndc ON cch.name_id = ndc.name_id
-    WHERE MONTH(cch.created_date) = MONTH(CURRENT_DATE()) AND YEAR(cch.created_date) = YEAR(CURRENT_DATE())
-    
-    UNION ALL 
-    
-    SELECT ccb.created_date AS tdate, ccb.bank_id AS ctype, ccb.amt AS Credit, '' AS Debit, ccb.amt AS Amount, ndc.name 
-    FROM ct_cr_binvest ccb
-    JOIN name_detail_creation ndc ON ccb.name_id = ndc.name_id
-    WHERE MONTH(ccb.created_date) = MONTH(CURRENT_DATE()) AND YEAR(ccb.created_date) = YEAR(CURRENT_DATE())
-    
-    ORDER BY 1 ");
-
-    $i = 1;
-    $creditSum = 0;
-    $debitSum = 0;
-
-    $tabBody = '<tr>';
-
-    if ($qry->rowCount() > 0) { //check wheather query returning values or not
-
-        while ($row = $qry->fetch()) {
-            $tabBody .= "<td>$i</td>";
-            $tabBody .= "<td>" . date('d-m-Y', strtotime($row['tdate'])) . "</td>";
-            $tabBody .= "<td>" . $row['name'] . "</td>";
-
-            if ($row['ctype'] != 'Hand Cash') {
-                $bnameqry = $connect->query("SELECT short_name,acc_no from bank_creation where id = '" . $row['ctype'] . "' ");
-                $bnamerun = $bnameqry->fetch();
-                $bname = $bnamerun['short_name'] . ' - ' . substr($bnamerun['acc_no'], -5);
-
-                $tabBody .= "<td>" . $bname . "</td>";
-            } else {
-                $tabBody .= "<td>" . $row['ctype'] . "</td>";
-            }
-
-            $tabBody .= "<td>" . moneyFormatIndia($row['Credit']) . "</td>";
-            $tabBody .= "<td>" . moneyFormatIndia($row['Debit']) . "</td>";
-            $tabBody .= '</tr>';
-
-            //Store credit and debit for total
-            $creditSum = $creditSum + intVal($row['Credit']);
-            $debitSum = $debitSum + intVal($row['Debit']);
-            $i++;
-        }
-        $difference = $creditSum - $debitSum;
-    } else {
-        //if query not returning any values, set table body and footer empty. by default its not working
-        $tabBody = '';
-        $tabBodyEnd = '';
-        $difference = 0;
+     
+    $qry = $connect->query("SELECT `name_id` FROM `name_detail_creation` WHERE opt_for = 'inv' GROUP by name"); 
+    $inv_name = [];
+    while ($rww = $qry->fetch()) {
+        $inv_name[] = $rww["name_id"];
     }
 
-    $tabBodyEnd = "<tr><td colspan='4'><b>Total</b></td><td>" . moneyFormatIndia($creditSum) . "</td><td>" . moneyFormatIndia($debitSum) . "</td></tr>";
-    $tabBodyEnd .= "<tr><td colspan='4'><b>Difference</b></td><td colspan='2'>" . moneyFormatIndia($difference) . "</td></tr>";
+    $tableHeaders = "<th width='50'>S.No</th><th>Name</th><th>Closing Balance</th>";
+
+    $i = 1;
+    $difference1 = 0;
+    $c_bal = 0;
+
+    $tabBody = '';
+
+    foreach ($inv_name as $id) {
+
+        $name_id = $id ?? ''; {
+            $opening_qry = $connect->query("SELECT 
+             IFNULL(SUM(CASE WHEN grp = 'ct_tables' THEN Credit - Debit END), 0) 
+            AS opening_balance
+            FROM (
+                -- ct_db_hinvest → Debit
+                SELECT 0 AS Credit, amt AS Debit, 'ct_tables' AS grp
+                FROM ct_db_hinvest
+                WHERE created_date < CURDATE() AND name_id = '$name_id'
+
+                UNION ALL
+                -- ct_cr_hinvest → Credit
+                SELECT amt AS Credit, 0 AS Debit, 'ct_tables' AS grp
+                FROM ct_cr_hinvest
+                WHERE created_date < CURDATE() AND name_id = '$name_id'
+
+                UNION ALL
+                -- ct_db_binvest → Debit
+                SELECT 0 AS Credit, amt AS Debit, 'ct_tables' AS grp
+                FROM ct_db_binvest
+                WHERE created_date < CURDATE() AND name_id = '$name_id'
+
+                UNION ALL
+                -- ct_cr_binvest → Credit
+                SELECT amt AS Credit, 0 AS Debit, 'ct_tables' AS grp
+                FROM ct_cr_binvest
+                WHERE created_date < CURDATE() AND name_id = '$name_id'
+            ) AS opening; ");
+
+            $op_bal = $opening_qry->fetch()['opening_balance'];
+        }
+
+        $qry = $connect->query("SELECT name_id, SUM(Credit) AS Credit, SUM(Debit) AS Debit FROM ( 
+
+
+        SELECT name_id, created_date AS tdate,'' AS Credit, SUM(amt) AS Debit
+        FROM ct_db_hinvest 
+        WHERE created_date = CURDATE()   AND name_id = '$name_id'
+        
+        UNION ALL 
+        
+        SELECT name_id, created_date AS tdate,'' AS Credit, SUM(amt) AS Debit
+        FROM ct_db_binvest
+        WHERE created_date = CURDATE()  AND name_id = '$name_id'
+        
+        UNION ALL 
+        
+        SELECT name_id, created_date AS tdate, SUM(amt) AS Credit, '' AS Debit
+        FROM ct_cr_hinvest
+        WHERE created_date = CURDATE()  AND name_id = '$name_id'
+        
+        UNION ALL 
+        
+        SELECT name_id, created_date AS tdate, SUM(amt) AS Credit, '' AS Debit
+        FROM ct_cr_binvest
+        WHERE created_date = CURDATE()  AND name_id = '$name_id'
+        
+        ORDER BY tdate ) AS combined ");
+
+        $closing_bal = 0; // define default value
+
+        if ($qry->rowCount() > 0) { 
+            while ($row = $qry->fetch()) {
+                $agqry = $connect->query("SELECT name from name_detail_creation where name_id = '$name_id'");
+                $ag_name = $agqry->fetch()['name'] ?? '';
+
+                $difference1 = intVal($row['Credit']) - intVal($row['Debit']);
+                $closing_bal = $difference1 + $op_bal;
+                $c_bal += $closing_bal;
+
+                if ($closing_bal != 0) { // show only if balance not zero
+                    $tabBody .= "<tr>";
+                    $tabBody .= "<td>$i</td>";
+                    $tabBody .= "<td>$ag_name</td>";
+                    $tabBody .= "<td>" . moneyFormatIndia($closing_bal) . "</td>";
+                    $tabBody .= "</tr>";
+                    $i++;
+                }
+            }
+        }
+    }
+
+    $tabBodyEnd = "<tr><td colspan='2'><b>Total</b></td><td><b>" . moneyFormatIndia($c_bal) . "</b></td></tr>";
+
 } else if ($sheet_type == 5 and $IDEtype == 1 and $IDEview_type == 2 and $IDE_name_id != '') { //5 Means IDE Balance Sheet, 1 Means Investment Balance Sheet, 2 Means Individual Balance sheet
 
     $tableHeaders = "<th width='50'>S.No</th><th>Date</th><th>Name</th><th>Cash Type</th><th>Credit</th><th>Debit</th>";
@@ -507,201 +535,107 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
     $tabBodyEnd = "<tr><td colspan='4'><b>Total</b></td><td>" . moneyFormatIndia($creditSum) . "</td><td>" . moneyFormatIndia($debitSum) . "</td></tr>";
     $tabBodyEnd .= "<tr><td colspan='4'><b>Difference</b></td><td colspan='2'>" . moneyFormatIndia($difference) . "</td></tr>";
 } else if ($sheet_type == 5 and $IDEtype == 2 and $IDEview_type == 1 and $IDE_name_id == '') { //5 Means IDE Balance Sheet, 2 Means Deposit Balance Sheet, 1 Means Overall Balance sheet
-    {
-        $opening_qry = $connect->query("SELECT
-        IFNULL(SUM(Credit), 0) - IFNULL(SUM(Debit), 0) AS opening_balance
-        FROM (
-            SELECT
-                '' AS Credit,
-                amt AS Debit
-            FROM ct_db_hdeposit
-            WHERE
-                created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
-
-            UNION ALL
-
-            SELECT
-                amt AS Credit,
-                '' AS Debit
-            FROM ct_cr_hdeposit
-            WHERE
-                created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
-
-            UNION ALL
-
-            SELECT
-                '' AS Credit,
-                amt AS Debit
-            FROM ct_db_bdeposit
-            WHERE
-                created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
-
-            UNION ALL
-
-            SELECT
-                amt AS Credit,
-                '' AS Debit
-            FROM ct_cr_bdeposit
-            WHERE
-                created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
-        ) AS opening ");
-
-        $opening_bal = $opening_qry->fetch()['opening_balance'];
-
-        $closing_qry = $connect->query("SELECT
-            IFNULL(SUM(Credit), 0) - IFNULL(SUM(Debit), 0) AS closing_balance
-            FROM (
-                SELECT
-                    '' AS Credit,
-                    amt AS Debit
-                FROM ct_db_hdeposit
-                WHERE
-                    created_date <= LAST_DAY(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
-
-                UNION ALL
-
-                SELECT
-                    amt AS Credit,
-                    '' AS Debit
-                FROM ct_cr_hdeposit
-                WHERE
-                    created_date <= LAST_DAY(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
-                
-                UNION ALL
-                
-                SELECT
-                    '' AS Credit,
-                    amt AS Debit
-                FROM ct_db_bdeposit
-                WHERE
-                    created_date <= LAST_DAY(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
-
-                UNION ALL
-
-                SELECT
-                    amt AS Credit,
-                    '' AS Debit
-                FROM ct_cr_bdeposit
-                WHERE
-                    created_date <= LAST_DAY(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
-
-                UNION ALL
-
-                SELECT
-                    '' AS Credit,
-                    amt AS Debit
-                FROM ct_db_hdeposit
-                WHERE
-                    MONTH(created_date) = MONTH(CURRENT_DATE())
-                    AND YEAR(created_date) = YEAR(CURRENT_DATE())
-
-                UNION ALL
-
-                SELECT
-                    amt AS Credit,
-                    '' AS Debit
-                FROM ct_cr_hdeposit
-                WHERE
-                    MONTH(created_date) = MONTH(CURRENT_DATE())
-                    AND YEAR(created_date) = YEAR(CURRENT_DATE())
-                
-                UNION ALL
-
-                SELECT
-                    '' AS Credit,
-                    amt AS Debit
-                FROM ct_db_bdeposit
-                WHERE
-                    MONTH(created_date) = MONTH(CURRENT_DATE())
-                    AND YEAR(created_date) = YEAR(CURRENT_DATE())
-
-                UNION ALL
-
-                SELECT
-                    amt AS Credit,
-                    '' AS Debit
-                FROM ct_cr_bdeposit
-                WHERE
-                    MONTH(created_date) = MONTH(CURRENT_DATE())
-                    AND YEAR(created_date) = YEAR(CURRENT_DATE())
-            ) AS closing ");
-
-        $closing_bal = $closing_qry->fetch()['closing_balance'];
+  
+    $qry = $connect->query("SELECT `name_id` FROM `name_detail_creation` WHERE opt_for = 'dep' GROUP by name"); 
+    $inv_name = [];
+    while ($rww = $qry->fetch()) {
+        $inv_name[] = $rww["name_id"];
     }
-    $tableHeaders = "<th width='50'>S.No</th><th>Date</th><th>Name</th><th>Cash Type</th><th>Credit</th><th>Debit</th>";
 
-
-    $qry = $connect->query("SELECT cdh.created_date AS tdate, 'Hand Cash' AS ctype, '' AS Credit, cdh.amt AS Debit, cdh.amt AS Amount, ndc.name 
-    FROM ct_db_hdeposit cdh
-    JOIN name_detail_creation ndc ON cdh.name_id = ndc.name_id
-    WHERE MONTH(cdh.created_date) = MONTH(CURRENT_DATE()) AND YEAR(cdh.created_date) = YEAR(CURRENT_DATE()) 
-    
-    UNION ALL 
-    
-    SELECT cdb.created_date AS tdate, cdb.bank_id AS ctype, '' AS Credit, cdb.amt AS Debit, cdb.amt AS Amount, ndc.name 
-    FROM ct_db_bdeposit cdb 
-    JOIN name_detail_creation ndc ON cdb.name_id = ndc.name_id
-    WHERE MONTH(cdb.created_date) = MONTH(CURRENT_DATE()) AND YEAR(cdb.created_date) = YEAR(CURRENT_DATE()) 
-    
-    UNION ALL 
-    
-    SELECT cch.created_date AS tdate, 'Hand Cash' AS ctype, cch.amt AS Credit, '' AS Debit, cch.amt AS Amount, ndc.name 
-    FROM ct_cr_hdeposit cch 
-    JOIN name_detail_creation ndc ON cch.name_id = ndc.name_id
-    WHERE MONTH(cch.created_date) = MONTH(CURRENT_DATE()) AND YEAR(cch.created_date) = YEAR(CURRENT_DATE()) 
-    
-    UNION ALL 
-    
-    SELECT ccb.created_date AS tdate, ccb.bank_id AS ctype, ccb.amt AS Credit, '' AS Debit, ccb.amt AS Amount, ndc.name 
-    FROM ct_cr_bdeposit ccb
-    JOIN name_detail_creation ndc ON ccb.name_id = ndc.name_id
-    WHERE MONTH(ccb.created_date) = MONTH(CURRENT_DATE()) AND YEAR(ccb.created_date) = YEAR(CURRENT_DATE()) 
-    
-    ORDER BY 1 ");
+    $tableHeaders = "<th width='50'>S.No</th><th>Name</th><th>Closing Balance</th>";
 
     $i = 1;
-    $creditSum = 0;
-    $debitSum = 0;
+    $difference1 = 0;
+    $c_bal = 0;
 
-    $tabBody = '<tr>';
+    $tabBody = '';
 
-    if ($qry->rowCount() > 0) { //check wheather query returning values or not
+    foreach ($inv_name as $id) {
 
-        while ($row = $qry->fetch()) {
-            $tabBody .= "<td>$i</td>";
-            $tabBody .= "<td>" . date('d-m-Y', strtotime($row['tdate'])) . "</td>";
-            $tabBody .= "<td>" . $row['name'] . "</td>";
+        $name_id = $id ?? ''; {
+            $opening_qry = $connect->query("SELECT 
+             IFNULL(SUM(CASE WHEN grp = 'ct_tables' THEN Credit - Debit END), 0) 
+            AS opening_balance
+            FROM (
+                -- ct_db_hdeposit → Debit
+                SELECT 0 AS Credit, amt AS Debit, 'ct_tables' AS grp
+                FROM ct_db_hdeposit
+                WHERE created_date < CURDATE() AND name_id = '$name_id'
 
-            if ($row['ctype'] != 'Hand Cash') {
-                $bnameqry = $connect->query("SELECT short_name,acc_no from bank_creation where id = '" . $row['ctype'] . "' ");
-                $bnamerun = $bnameqry->fetch();
-                $bname = $bnamerun['short_name'] . ' - ' . substr($bnamerun['acc_no'], -5);
+                UNION ALL
+                -- ct_cr_hdeposit → Credit
+                SELECT amt AS Credit, 0 AS Debit, 'ct_tables' AS grp
+                FROM ct_cr_hdeposit
+                WHERE created_date < CURDATE() AND name_id = '$name_id'
 
-                $tabBody .= "<td>" . $bname . "</td>";
-            } else {
-                $tabBody .= "<td>" . $row['ctype'] . "</td>";
-            }
+                UNION ALL
+                -- ct_db_bdeposit → Debit
+                SELECT 0 AS Credit, amt AS Debit, 'ct_tables' AS grp
+                FROM ct_db_bdeposit
+                WHERE created_date < CURDATE() AND name_id = '$name_id'
 
-            $tabBody .= "<td>" . moneyFormatIndia($row['Credit']) . "</td>";
-            $tabBody .= "<td>" . moneyFormatIndia($row['Debit']) . "</td>";
-            $tabBody .= '</tr>';
+                UNION ALL
+                -- ct_cr_binvest → Credit
+                SELECT amt AS Credit, 0 AS Debit, 'ct_tables' AS grp
+                FROM ct_cr_bdeposit
+                WHERE created_date < CURDATE() AND name_id = '$name_id'
+            ) AS opening; ");
 
-            //Store credit and debit for total
-            $creditSum = $creditSum + intVal($row['Credit']);
-            $debitSum = $debitSum + intVal($row['Debit']);
-            $i++;
+            $op_bal = $opening_qry->fetch()['opening_balance'];
         }
-        $difference = $creditSum - $debitSum;
-    } else {
-        //if query not returning any values, set table body and footer empty. by default its not working
-        $tabBody = '';
-        $tabBodyEnd = '';
-        $difference = 0;
+
+        $qry = $connect->query("SELECT name_id, SUM(Credit) AS Credit, SUM(Debit) AS Debit FROM ( 
+
+
+        SELECT name_id, created_date AS tdate,'' AS Credit, SUM(amt) AS Debit
+        FROM ct_db_hdeposit 
+        WHERE created_date = CURDATE()  AND name_id = '$name_id'
+        
+        UNION ALL 
+        
+        SELECT name_id, created_date AS tdate,'' AS Credit, SUM(amt) AS Debit
+        FROM ct_db_bdeposit
+        WHERE created_date = CURDATE()  AND name_id = '$name_id'
+        
+        UNION ALL 
+        
+        SELECT name_id, created_date AS tdate, SUM(amt) AS Credit, '' AS Debit
+        FROM ct_cr_hdeposit
+        WHERE created_date = CURDATE()  AND name_id = '$name_id'
+        
+        UNION ALL 
+        
+        SELECT name_id, created_date AS tdate, SUM(amt) AS Credit, '' AS Debit
+        FROM ct_cr_bdeposit
+        WHERE created_date = CURDATE()  AND name_id = '$name_id'
+        
+        ORDER BY tdate ) AS combined ");
+
+        $closing_bal = 0; // define default value
+
+        if ($qry->rowCount() > 0) { 
+            while ($row = $qry->fetch()) {
+                $agqry = $connect->query("SELECT name from name_detail_creation where name_id = '$name_id'");
+                $ag_name = $agqry->fetch()['name'] ?? '';
+
+                $difference1 = intVal($row['Credit']) - intVal($row['Debit']);
+                $closing_bal = $difference1 + $op_bal;
+                $c_bal += $closing_bal;
+
+                if ($closing_bal != 0) { // show only if balance not zero
+                    $tabBody .= "<tr>";
+                    $tabBody .= "<td>$i</td>";
+                    $tabBody .= "<td>$ag_name</td>";
+                    $tabBody .= "<td>" . moneyFormatIndia($closing_bal) . "</td>";
+                    $tabBody .= "</tr>";
+                    $i++;
+                }
+            }
+        }
     }
 
-    $tabBodyEnd = "<tr><td colspan='4'><b>Total</b></td><td>" . moneyFormatIndia($creditSum) . "</td><td>" . moneyFormatIndia($debitSum) . "</td></tr>";
-    $tabBodyEnd .= "<tr><td colspan='4'><b>Difference</b></td><td colspan='2'>" . moneyFormatIndia($difference) . "</td></tr>";
-    $tabBodyEnd .= "<tr><td colspan='4'><b>Closing Balance</b></td><td colspan='2'>" . moneyFormatIndia($closing_bal) . "</td></tr>";
+    $tabBodyEnd = "<tr><td colspan='2'><b>Total</b></td><td><b>" . moneyFormatIndia($c_bal) . "</b></td></tr>";
+
 } else if ($sheet_type == 5 and $IDEtype == 2 and $IDEview_type == 2 and $IDE_name_id != '') { //5 Means IDE Balance Sheet, 2 Means Deposit Balance Sheet, 2 Means Individual Balance sheet
     {
         $opening_qry = $connect->query("SELECT
@@ -911,201 +845,106 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
     $tabBodyEnd .= "<tr><td colspan='4'><b>Difference</b></td><td colspan='2'>" . moneyFormatIndia($difference) . "</td></tr>";
     $tabBodyEnd .= "<tr><td colspan='4'><b>Closing Balance</b></td><td colspan='2'>" . moneyFormatIndia($closing_bal) . "</td></tr>";
 } else if ($sheet_type == 5 and $IDEtype == 3 and $IDEview_type == 1 and $IDE_name_id == '') { //5 Means IDE Balance Sheet, 3 Means EL Balance Sheet, 1 Means Overall Balance sheet
-    {
-        $opening_qry = $connect->query("SELECT
-            IFNULL(SUM(Credit), 0) - IFNULL(SUM(Debit), 0) AS opening_balance
-            FROM (
-                SELECT
-                    '' AS Credit,
-                    amt AS Debit
-                FROM ct_db_hel
-                WHERE
-                    created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
     
-                UNION ALL
-    
-                SELECT
-                    amt AS Credit,
-                    '' AS Debit
-                FROM ct_cr_hel
-                WHERE
-                    created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
-    
-                UNION ALL
-    
-                SELECT
-                    '' AS Credit,
-                    amt AS Debit
-                FROM ct_db_bel
-                WHERE
-                    created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
-    
-                UNION ALL
-    
-                SELECT
-                    amt AS Credit,
-                    '' AS Debit
-                FROM ct_cr_bel
-                WHERE
-                    created_date < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
-            ) AS opening
-        ");
-        $opening_bal = $opening_qry->fetch()['opening_balance'];
-
-        $closing_qry = $connect->query("SELECT
-            IFNULL(SUM(Credit), 0) - IFNULL(SUM(Debit), 0) AS closing_balance
-            FROM (
-                SELECT
-                    '' AS Credit,
-                    amt AS Debit
-                FROM ct_db_hel
-                WHERE
-                    created_date <= LAST_DAY(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
-    
-                UNION ALL
-    
-                SELECT
-                    amt AS Credit,
-                    '' AS Debit
-                FROM ct_cr_hel
-                WHERE
-                    created_date <= LAST_DAY(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
-                
-                UNION ALL
-                
-                SELECT
-                    '' AS Credit,
-                    amt AS Debit
-                FROM ct_db_bel
-                WHERE
-                    created_date <= LAST_DAY(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
-    
-                UNION ALL
-    
-                SELECT
-                    amt AS Credit,
-                    '' AS Debit
-                FROM ct_cr_bel
-                WHERE
-                    created_date <= LAST_DAY(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
-    
-                UNION ALL
-    
-                SELECT
-                    '' AS Credit,
-                    amt AS Debit
-                FROM ct_db_hel
-                WHERE
-                    MONTH(created_date) = MONTH(CURRENT_DATE())
-                    AND YEAR(created_date) = YEAR(CURRENT_DATE())
-    
-                UNION ALL
-    
-                SELECT
-                    amt AS Credit,
-                    '' AS Debit
-                FROM ct_cr_hel
-                WHERE
-                    MONTH(created_date) = MONTH(CURRENT_DATE())
-                    AND YEAR(created_date) = YEAR(CURRENT_DATE())
-                
-                UNION ALL
-    
-                SELECT
-                    '' AS Credit,
-                    amt AS Debit
-                FROM ct_db_bel
-                WHERE
-                    MONTH(created_date) = MONTH(CURRENT_DATE())
-                    AND YEAR(created_date) = YEAR(CURRENT_DATE())
-    
-                UNION ALL
-    
-                SELECT
-                    amt AS Credit,
-                    '' AS Debit
-                FROM ct_cr_bel
-                WHERE
-                    MONTH(created_date) = MONTH(CURRENT_DATE())
-                    AND YEAR(created_date) = YEAR(CURRENT_DATE())
-            ) AS closing
-        ");
-        $closing_bal = $closing_qry->fetch()['closing_balance'];
+    $qry = $connect->query("SELECT `name_id` FROM `name_detail_creation` WHERE opt_for = 'el' GROUP by name"); 
+    $inv_name = [];
+    while ($rww = $qry->fetch()) {
+        $inv_name[] = $rww["name_id"];
     }
 
-    $tableHeaders = "<th width='50'>S.No</th><th>Date</th><th>Name</th><th>Cash Type</th><th>Credit</th><th>Debit</th>";
-
-    $qry = $connect->query("SELECT cdh.created_date AS tdate, 'Hand Cash' AS ctype, '' AS Credit, cdh.amt AS Debit, cdh.amt AS Amount, ndc.name 
-    FROM ct_db_hel cdh
-    JOIN name_detail_creation ndc ON cdh.name_id = ndc.name_id
-    WHERE MONTH(cdh.created_date) = MONTH(CURRENT_DATE()) AND YEAR(cdh.created_date) = YEAR(CURRENT_DATE())
-    
-    UNION ALL 
-    
-    SELECT cdb.created_date AS tdate, cdb.bank_id AS ctype, '' AS Credit, cdb.amt AS Debit, cdb.amt AS Amount, ndc.name 
-    FROM ct_db_bel cdb 
-    JOIN name_detail_creation ndc ON cdb.name_id = ndc.name_id
-    WHERE MONTH(cdb.created_date) = MONTH(CURRENT_DATE()) AND YEAR(cdb.created_date) = YEAR(CURRENT_DATE())
-    
-    UNION ALL 
-    
-    SELECT cch.created_date AS tdate, 'Hand Cash' AS ctype, cch.amt AS Credit, '' AS Debit, cch.amt AS Amount, ndc.name 
-    FROM ct_cr_hel cch
-    JOIN name_detail_creation ndc ON cch.name_id = ndc.name_id
-    WHERE MONTH(cch.created_date) = MONTH(CURRENT_DATE()) AND YEAR(cch.created_date) = YEAR(CURRENT_DATE())
-    
-    UNION ALL 
-    
-    SELECT ccb.created_date AS tdate, ccb.bank_id AS ctype, ccb.amt AS Credit, '' AS Debit, ccb.amt AS Amount, ndc.name 
-    FROM ct_cr_bel ccb
-    JOIN name_detail_creation ndc ON ccb.name_id = ndc.name_id
-    WHERE MONTH(ccb.created_date) = MONTH(CURRENT_DATE()) AND YEAR(ccb.created_date) = YEAR(CURRENT_DATE())
-    
-    ORDER BY 1 ");
+    $tableHeaders = "<th width='50'>S.No</th><th>Name</th><th>Closing Balance</th>";
 
     $i = 1;
-    $creditSum = 0;
-    $debitSum = 0;
+    $difference1 = 0;
+    $c_bal = 0;
 
-    $tabBody = '<tr>';
+    $tabBody = '';
 
-    if ($qry->rowCount() > 0) { //check wheather query returning values or not
+    foreach ($inv_name as $id) {
 
-        while ($row = $qry->fetch()) {
-            $tabBody .= "<td>$i</td>";
-            $tabBody .= "<td>" . date('d-m-Y', strtotime($row['tdate'])) . "</td>";
-            $tabBody .= "<td>" . $row['name'] . "</td>";
+        $name_id = $id ?? ''; {
+            $opening_qry = $connect->query("SELECT 
+             IFNULL(SUM(CASE WHEN grp = 'ct_tables' THEN Credit - Debit END), 0) 
+            AS opening_balance
+            FROM (
+                -- ct_db_hel → Debit
+                SELECT 0 AS Credit, amt AS Debit, 'ct_tables' AS grp
+                FROM ct_db_hel
+                WHERE created_date < CURDATE() AND name_id = '$name_id'
 
-            if ($row['ctype'] != 'Hand Cash') {
-                $bnameqry = $connect->query("SELECT short_name,acc_no from bank_creation where id = '" . $row['ctype'] . "' ");
-                $bnamerun = $bnameqry->fetch();
-                $bname = $bnamerun['short_name'] . ' - ' . substr($bnamerun['acc_no'], -5);
+                UNION ALL
+                -- ct_cr_hel → Credit
+                SELECT amt AS Credit, 0 AS Debit, 'ct_tables' AS grp
+                FROM ct_cr_hel
+                WHERE created_date < CURDATE() AND name_id = '$name_id'
 
-                $tabBody .= "<td>" . $bname . "</td>";
-            } else {
-                $tabBody .= "<td>" . $row['ctype'] . "</td>";
-            }
+                UNION ALL
+                -- ct_db_bel → Debit
+                SELECT 0 AS Credit, amt AS Debit, 'ct_tables' AS grp
+                FROM ct_db_bel
+                WHERE created_date < CURDATE() AND name_id = '$name_id'
 
-            $tabBody .= "<td>" . moneyFormatIndia($row['Credit']) . "</td>";
-            $tabBody .= "<td>" . moneyFormatIndia($row['Debit']) . "</td>";
-            $tabBody .= '</tr>';
+                UNION ALL
+                -- ct_cr_bel → Credit
+                SELECT amt AS Credit, 0 AS Debit, 'ct_tables' AS grp
+                FROM ct_cr_bel
+                WHERE created_date < CURDATE() AND name_id = '$name_id'
+            ) AS opening; ");
 
-            //Store credit and debit for total
-            $creditSum = $creditSum + intVal($row['Credit']);
-            $debitSum = $debitSum + intVal($row['Debit']);
-            $i++;
+            $op_bal = $opening_qry->fetch()['opening_balance'];
         }
-        $difference = $creditSum - $debitSum;
-    } else {
-        //if query not returning any values, set table body and footer empty. by default its not working
-        $tabBody = '';
-        $tabBodyEnd = '';
-        $difference = 0;
+
+        $qry = $connect->query("SELECT name_id, SUM(Credit) AS Credit, SUM(Debit) AS Debit FROM ( 
+
+
+        SELECT name_id, created_date AS tdate,'' AS Credit, SUM(amt) AS Debit
+        FROM ct_db_hel 
+        WHERE created_date = CURDATE()  AND name_id = '$name_id'
+        
+        UNION ALL 
+        
+        SELECT name_id, created_date AS tdate,'' AS Credit, SUM(amt) AS Debit
+        FROM ct_db_bel
+        WHERE created_date = CURDATE()  AND name_id = '$name_id'
+        
+        UNION ALL 
+        
+        SELECT name_id, created_date AS tdate, SUM(amt) AS Credit, '' AS Debit
+        FROM ct_cr_hel
+        WHERE created_date = CURDATE()  AND name_id = '$name_id'
+        
+        UNION ALL 
+        
+        SELECT name_id, created_date AS tdate, SUM(amt) AS Credit, '' AS Debit
+        FROM ct_cr_bel
+        WHERE created_date = CURDATE()  AND name_id = '$name_id'
+        
+        ORDER BY tdate ) AS combined ");
+
+        $closing_bal = 0; // define default value
+
+        if ($qry->rowCount() > 0) { 
+            while ($row = $qry->fetch()) {
+                $agqry = $connect->query("SELECT name from name_detail_creation where name_id = '$name_id'");
+                $ag_name = $agqry->fetch()['name'] ?? '';
+
+                $difference1 = intVal($row['Credit']) - intVal($row['Debit']);
+                $closing_bal = $difference1 + $op_bal;
+                $c_bal += $closing_bal;
+
+                if ($closing_bal != 0) { // show only if balance not zero
+                    $tabBody .= "<tr>";
+                    $tabBody .= "<td>$i</td>";
+                    $tabBody .= "<td>$ag_name</td>";
+                    $tabBody .= "<td>" . moneyFormatIndia($closing_bal) . "</td>";
+                    $tabBody .= "</tr>";
+                    $i++;
+                }
+            }
+        }
     }
 
-    $tabBodyEnd = "<tr><td colspan='4'><b>Total</b></td><td>" . moneyFormatIndia($creditSum) . "</td><td>" . moneyFormatIndia($debitSum) . "</td></tr>";
-    $tabBodyEnd .= "<tr><td colspan='4'><b>Difference</b></td><td colspan='2'>" . moneyFormatIndia($difference) . "</td></tr>";
-    $tabBodyEnd .= "<tr><td colspan='4'><b>Closing Balance</b></td><td colspan='2'>" . moneyFormatIndia($closing_bal) . "</td></tr>";
+    $tabBodyEnd = "<tr><td colspan='2'><b>Total</b></td><td><b>" . moneyFormatIndia($c_bal) . "</b></td></tr>";
 } else if ($sheet_type == 5 and $IDEtype == 3 and $IDEview_type == 2 and $IDE_name_id != '') { //5 Means IDE Balance Sheet, 3 Means EL Balance Sheet, 2 Means Individual Balance sheet
     {
         $opening_qry = $connect->query("SELECT
@@ -1486,16 +1325,12 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
         
         ORDER BY tdate ) AS combined ");
 
-        if ($qry->rowCount() > 0) { //check wheather query returning values or not
+        $closing_bal = 0; // define default value
 
+        if ($qry->rowCount() > 0) { 
             while ($row = $qry->fetch()) {
-                $tabBody .= '<tr>';
-                $tabBody .= "<td>$i</td>";
-
                 $agqry = $connect->query("SELECT ag_name from agent_creation where ag_id = '$ag_id' ");
                 $ag_name = $agqry->fetch()['ag_name'] ?? '';
-
-                $tabBody .= "<td>" . $ag_name . "</td>";
 
                 //Store credit and debit for total
                 $difference1 = intVal($row['coll_amt']) - intVal($row['netcash']);
@@ -1503,10 +1338,15 @@ if ($sheet_type == 1) { //1 Means contra balance sheet
                 $closing_bal = $difference1 + $difference2 + $op_bal;
                 $c_bal      += $closing_bal;
 
-                $tabBody .= "<td>" . moneyFormatIndia($closing_bal) . "</td>";
-                $tabBody .= '</tr>';
+                if ($closing_bal != 0) { // show only if balance not zero
+                    $tabBody .= '<tr>';
+                    $tabBody .= "<td>$i</td>";
+                    $tabBody .= "<td>" . $ag_name . "</td>";
+                    $tabBody .= "<td>" . moneyFormatIndia($closing_bal) . "</td>";
+                    $tabBody .= '</tr>';
 
-                $i++;
+                    $i++;
+                }
             }
         }
     }
