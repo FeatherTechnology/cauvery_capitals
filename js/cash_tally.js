@@ -616,8 +616,12 @@ function submitCashTally(i) {
                                     icon: 'success',
                                     showConfirmButton: true,
                                     confirmButtonColor: '#0c70ab'
-                                })
-                                getOpeningDate();
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload(); // 🔄 Reloads the page
+                                    }
+                                });
+                                // getOpeningDate();
                             } else if (response.includes('Error')) {
                                 Swal.fire({
                                     title: response,
