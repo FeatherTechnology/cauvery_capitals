@@ -50,7 +50,7 @@
                                     <th>Agent</th>
                                     <th>Responsible</th>
                                     <th>Cust. Data</th>
-                                    <th>Cancel Date</th>
+                                    <th>Cancel / Revoke Date</th>
                                     <th>Cust. Status</th>
                                     <th>Remarks</th>
                                 </thead>
@@ -61,7 +61,7 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td colspan="5"></td>
+                                        <td colspan="6"></td>
                                     </tr>
                                 </tfoot>
                             </table>

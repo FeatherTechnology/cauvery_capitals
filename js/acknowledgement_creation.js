@@ -2451,6 +2451,7 @@ function resetdocInfo() {
             $("#relation_name").val('');
             $("#doc_relation").val('');
             $("#document_info_upd").val('');
+            $("#doc_info_id").val('');
 
             $("#documentnameCheck").hide();
             $("#documentdetailsCheck").hide();
@@ -2480,6 +2481,7 @@ function docinfoList() {
             $("#docholder_relationship_name").val('');
             $("#doc_relation").val('');
             $("#document_info_upd").val('');
+            $("#doc_info_id").val('');
             
             let hasRecords = ($('#document_table').DataTable().rows().count() > 0);
             if(hasRecords){

@@ -22,6 +22,7 @@ if (isset($_POST['op_date'])) {
 
 $records = array();
 $collected_amt = 0;
+// echo "SELECT GROUP_CONCAT(DISTINCT c.branch) AS branches, SUM(c.total_paid_track) AS total_paid, c.insert_login_id, GROUP_CONCAT(DISTINCT lm.map_id) AS line_id, GROUP_CONCAT(DISTINCT lm.line_name) AS line_name FROM collection c JOIN area_line_mapping lm ON c.line = lm.map_id WHERE c.branch IN ($branch_id) AND c.insert_login_id = '$user_id' AND date(c.created_date) = '$op_date' AND c.coll_mode = '1' GROUP BY c.insert_login_id";die;
 $qry = $connect->query("SELECT GROUP_CONCAT(DISTINCT c.branch) AS branches, SUM(c.total_paid_track) AS total_paid, c.insert_login_id, GROUP_CONCAT(DISTINCT lm.map_id) AS line_id, GROUP_CONCAT(DISTINCT lm.line_name) AS line_name FROM collection c JOIN area_line_mapping lm ON c.line = lm.map_id WHERE c.branch IN ($branch_id) AND c.insert_login_id = '$user_id' AND date(c.created_date) = '$op_date' AND c.coll_mode = '1' GROUP BY c.insert_login_id");
 while ($row = $qry->fetch()) {
     //get user id and total paid by user by cash

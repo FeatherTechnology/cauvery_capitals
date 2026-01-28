@@ -215,27 +215,98 @@ foreach ($result as $row) {
         $end = strtotime($row['maturity_date']);
         $start = strtotime($row['due_start_from']);
         $search_date = strtotime($full_date);
-        $months = (date('Y', $end) - date('Y', $start)) * 12 + (date('m', $end) - date('m', $start)) + 1;
-        $pending = $months;
-         if (($row['due_method_calc'] == 'Monthly' || $row['due_method_scheme'] == '1')  ) {
-            if(date('m', $search_date) == date('m', $end) && date('Y', $search_date) == date('Y', $end) ){
-            $pending -= 1;
-            }
-        }
-        $pending_month = $pending;
-        
-    } else {
-        $end = strtotime($full_date);
-        $start = strtotime($row['due_start_from']);
-        $months = (date('Y', $end) - date('Y', $start)) * 12 + (date('m', $end) - date('m', $start)) + 1;
-    
-        if (($row['due_method_calc'] != 'Monthly' && $row['due_method_scheme'] != '1')  ) {
-            if((date('d', $start) < date('d', $end)) && (date('m', $start) <= date('m', $end)) && (date('Y', $start) <= date('Y', $end)) ){
-                $months += 1;
-            }
-        }
-        $pending_month = $months - 1;
 
+        $start_date = new DateTime($row['due_start_from']);
+        $to_dt      = new DateTime($full_date);
+        $maturity_dt = new DateTime($row['maturity_date']);
+
+        if (($row['due_method_calc'] == 'Monthly') || ($row['due_method_scheme'] == '1')) {
+            // PENDING
+            $months = (date('Y', $end) - date('Y', $start)) * 12 + (date('m', $end) - date('m', $start))  + 1;
+
+            if ( date('m', $search_date) == date('m', $end) && date('Y', $search_date) == date('Y', $end) ) {
+                $months -= 1;
+            }
+
+            $pending_month = $months;
+                    
+            $od_months = (($to_dt->format('Y') - $maturity_dt->format('Y')) * 12) + ($to_dt->format('m') - $maturity_dt->format('m'));
+            // No negative values
+            if ($od_months < 0) { 
+                $od_months = 0; 
+            }
+        } 
+        else if (($row['due_method_calc'] != 'Monthly') && ($row['due_method_scheme'] != '1') && ($row['due_method_scheme'] != '3') ) { // -- WEEKLY LOGIC -- //
+
+            // Weekly Pending
+            $diff_days  = $start_date->diff($maturity_dt)->days;
+            $months = floor($diff_days / 7) + 1;
+            $pending_month = $months;
+
+            // WEEKLY OD (your custom rule)
+            $maturity_week = (int)$maturity_dt->format("W");
+            $search_week   = (int)$to_dt->format("W");
+            $maturity_year = (int)$maturity_dt->format("o"); // ISO year
+            $search_year   = (int)$to_dt->format("o");
+
+            // Week difference across years
+            $week_diff = (($search_year - $maturity_year) * 52) + ($search_week - $maturity_week);
+
+            // Same-week = OD 0
+            if ($week_diff <= 0) {
+                $od_months = 0;
+            } else {
+                // From the NEXT week onward
+                $od_months = $week_diff;
+            }
+
+        }
+        else {                                  // -- DAILY LOGIC -- //
+            // PENDING 
+            $months = $start_date->diff($maturity_dt)->days + 1;
+            $pending_month = $months;
+
+            // DAILY OD
+            $od_months = $maturity_dt->diff($to_dt)->days;
+            if ($od_months < 0) { 
+                $od_months = 0; 
+            }
+        }
+    } else {
+        
+        $end   = strtotime($full_date);
+        $start = strtotime($row['due_start_from']);
+
+        $start_date = new DateTime($row['due_start_from']);
+        $end_date   = new DateTime($full_date);
+
+        $months = 0;
+        $diff_days = 0;
+        $diff_weeks = 0;
+        if (($row['due_method_calc'] == 'Monthly') || ($row['due_method_scheme'] == '1')) {
+
+            $months = (date('Y', $end) - date('Y', $start)) * 12 + (date('m', $end) - date('m', $start)) + 1;
+            $pending_month = $months - 1;
+        }
+        else if (($row['due_method_calc'] != 'Monthly') && ($row['due_method_scheme'] != '1') && ($row['due_method_scheme'] != '3')) {      // -- WEEKLY LOGIC -- //
+            $start = new DateTime($row['due_start_from']);
+            $end   = new DateTime($full_date);
+
+            // difference in days
+            $diff_days = $start->diff($end)->days;
+
+            // each week is a 7-day block
+            // +1 because first week counts immediately (start_date <= end_date)
+            $count = floor($diff_days / 7) + 1;
+
+            $months = $count;
+            $pending_month = max(0, $count - 1);
+        }
+        else {       //-- DAILY LOGIC -- //
+            $months = $start_date->diff($end_date)->days;
+            $months += 1;
+            $pending_month = $months - 1;
+        }
     }
     
     $balance_amount = $row['tot_amt_cal'] - $row['total_due_amt'];

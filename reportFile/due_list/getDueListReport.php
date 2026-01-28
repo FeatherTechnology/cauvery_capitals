@@ -2,65 +2,14 @@
 session_start();
 include '../../ajaxconfig.php';
 
-if (isset($_SESSION["userid"])) {
-    $userid = $_SESSION["userid"];
-    $report_access = '2'; //Report Access Overall
-}
-
-$user_based = '';
-if ($userid != 1) {
-
-    $userQry = $connect->query("SELECT line_id, report_access FROM USER WHERE user_id = $userid ");
-    $rowuser = $userQry->fetch();
-    $line_id = $rowuser['line_id'];
-    $report_access = $rowuser['report_access'];
-
-    if ($report_access == '1') { //Report access individual.
-        $line_ids = explode(',', $line_id);
-        $area_list_array = [];
-        foreach ($line_ids as $line) {
-            $lineQry = $connect->query("SELECT area_id FROM area_line_mapping_area where line_map_id = $line ");
-            while ($row_sub = $lineQry->fetch(PDO::FETCH_ASSOC)) {
-                $area_list_array[] = $row_sub['area_id'];
-            }
-        }
-        $area_ids = [];
-        foreach ($area_list_array as $subarray) {
-            $area_ids = array_merge($area_ids, explode(',', $subarray));
-        }
-
-        $area_ids = array_unique($area_ids);
-        $area_list = implode(',', $area_ids);
-
-        $user_based = " AND cp.area_confirm_area IN ($area_list) AND coll.insert_login_id = '$userid' ";
-    }
-}
-
-$where = "1";
-
 if (isset($_POST['to_date']) && $_POST['to_date'] != '') {
     $to_date = date('Y-m-d', strtotime($_POST['to_date']));
-    $where  = "(date(coll.coll_date) <= '" . $to_date . "') ";
-    $li_where  = "AND date(li.created_date) <= date('$to_date') AND balance_amount = '0' ";
 } else {
     $to_date = date('Y-m-d');
-    $where  = "(date(coll.coll_date) <= '" . $to_date . "') ";
-    $li_where  = "AND date(li.created_date) <= date('$to_date') AND balance_amount = '0' ";
 }
-
-$where  .= $user_based;
-$consider_lvl_arr = [1 => 'Bronze', 2 => 'Silver', 3 => 'Gold', 4 => 'Platinum', 5 => 'Diamond'];
-$statusObj = [
-    '14' => 'Current',
-    '15' => 'Error',
-    '16' => 'Legal',
-    '17' => 'Current',
-    '20' => 'In Closed',
-    '21' => 'Closed',
-];
 $column = array(
     'ii.loan_id',
-       'ag.group_name',
+    'ag.group_name',
     'alm.line_name',
     'adm.duefollowup_name',
     'ii.loan_id',
@@ -92,7 +41,7 @@ $column = array(
     'ii.loan_id'
 );
 
-$qry = " SELECT req.req_id FROM request_creation req JOIN acknowlegement_customer_profile cp ON req.req_id = cp.req_id
+$qry = "SELECT req.req_id FROM request_creation req
         JOIN customer_status cs ON req.req_id = cs.req_id
         LEFT JOIN ( SELECT req_id, MAX(created_date) AS last_collection_date FROM collection GROUP BY req_id ) coll ON req.req_id = coll.req_id
         JOIN loan_issue li ON req.req_id = li.req_id  AND DATE(li.created_date) < DATE('$to_date')  AND balance_amount = '0'
@@ -252,26 +201,97 @@ foreach ($result as $row) {
         $end = strtotime($row['maturity_date']);
         $start = strtotime($row['due_start_from']);
         $search_date = strtotime($to_date);
-        $months = (date('Y', $end) - date('Y', $start)) * 12 + (date('m', $end) - date('m', $start)) + 1;
-        $pending = $months;
-        if (($row['due_method_calc'] == 'Monthly' || $row['due_method_scheme'] == '1')) {
-            if (date('m', $search_date) == date('m', $end) && date('Y', $search_date) == date('Y', $end)) {
-                $pending -= 1;
+
+        $start_date = new DateTime($row['due_start_from']);
+        $to_dt      = new DateTime($to_date);
+        $maturity_dt = new DateTime($row['maturity_date']);
+
+        if (($row['due_method_calc'] == 'Monthly') || ($row['due_method_scheme'] == '1')) {
+            // PENDING
+            $months = (date('Y', $end) - date('Y', $start)) * 12 + (date('m', $end) - date('m', $start))  + 1;
+
+            if ( date('m', $search_date) == date('m', $end) && date('Y', $search_date) == date('Y', $end) ) {
+                $months -= 1;
+            }
+
+            $pending_month = $months;
+                    
+            $od_months = (($to_dt->format('Y') - $maturity_dt->format('Y')) * 12) + ($to_dt->format('m') - $maturity_dt->format('m'));
+            // No negative values
+            if ($od_months < 0) { 
+                $od_months = 0; 
+            }
+        } 
+        else if (($row['due_method_calc'] != 'Monthly') && ($row['due_method_scheme'] != '1') && ($row['due_method_scheme'] != '3') ) { // -- WEEKLY LOGIC -- //
+
+            // Weekly Pending
+            $diff_days  = $start_date->diff($maturity_dt)->days;
+            $months = floor($diff_days / 7) + 1;
+            $pending_month = $months;
+
+            // WEEKLY OD (your custom rule)
+            $maturity_week = (int)$maturity_dt->format("W");
+            $search_week   = (int)$to_dt->format("W");
+            $maturity_year = (int)$maturity_dt->format("o"); // ISO year
+            $search_year   = (int)$to_dt->format("o");
+
+            // Week difference across years
+            $week_diff = (($search_year - $maturity_year) * 52) + ($search_week - $maturity_week);
+
+            // Same-week = OD 0
+            if ($week_diff <= 0) {
+                $od_months = 0;
+            } else {
+                // From the NEXT week onward
+                $od_months = $week_diff;
             }
         }
-        $pending_month = $pending;
+        else {                                  // -- DAILY LOGIC -- //
+            // PENDING 
+            $months = $start_date->diff($maturity_dt)->days + 1;
+            $pending_month = $months;
+
+            // DAILY OD
+            $od_months = $maturity_dt->diff($to_dt)->days;
+            if ($od_months < 0) { 
+                $od_months = 0; 
+            }
+        }
     } else {
-        $end = strtotime($to_date);
+        
+        $end   = strtotime($to_date);
         $start = strtotime($row['due_start_from']);
-        $months = (date('Y', $end) - date('Y', $start)) * 12 + (date('m', $end) - date('m', $start)) + 1;
 
-        if (($row['due_method_calc'] != 'Monthly' && $row['due_method_scheme'] != '1')) {
-            if ((date('d', $start) < date('d', $end)) && (date('m', $start) <= date('m', $end)) && (date('Y', $start) <= date('Y', $end))) {
-                $months += 1;
-            }
+        $start_date = new DateTime($row['due_start_from']);
+        $end_date   = new DateTime($to_date);
+
+        $months = 0;
+        $diff_days = 0;
+        $diff_weeks = 0;
+        if (($row['due_method_calc'] == 'Monthly') || ($row['due_method_scheme'] == '1')) {
+
+            $months = (date('Y', $end) - date('Y', $start)) * 12 + (date('m', $end) - date('m', $start)) + 1;
+            $pending_month = $months - 1;
         }
+        else if (($row['due_method_calc'] != 'Monthly') && ($row['due_method_scheme'] != '1') && ($row['due_method_scheme'] != '3')) {      // -- WEEKLY LOGIC -- //
+            $start = new DateTime($row['due_start_from']);
+            $end   = new DateTime($to_date);
 
-        $pending_month = $months - 1;
+            // difference in days
+            $diff_days = $start->diff($end)->days;
+
+            // each week is a 7-day block
+            // +1 because first week counts immediately (start_date <= end_date)
+            $count = floor($diff_days / 7) + 1;
+
+            $months = $count;
+            $pending_month = max(0, $count - 1);
+        }
+        else {       //-- DAILY LOGIC -- //
+            $months = $start_date->diff($end_date)->days;
+            $months += 1;
+            $pending_month = $months - 1;
+        }
     }
 
     $balance_amount = $row['tot_amt_cal'] - $row['total_due_amt'];

@@ -574,7 +574,7 @@ function submitCashTally(i) {
         $('#submit_cash_tally').off('click');
         $('#submit_cash_tally').click(function () {
             event.preventDefault();
-            if (getIssuedSubmitCheck() == 0) {
+            if (getBankCollectionSubmit() == 0 && getIssuedSubmitCheck() == 0) {
 
                 if (confirm('Are You sure to close this Day?')) {
 
@@ -616,8 +616,12 @@ function submitCashTally(i) {
                                     icon: 'success',
                                     showConfirmButton: true,
                                     confirmButtonColor: '#0c70ab'
-                                })
-                                getOpeningDate();
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload(); // 🔄 Reloads the page
+                                    }
+                                });
+                                // getOpeningDate();
                             } else if (response.includes('Error')) {
                                 Swal.fire({
                                     title: response,
@@ -5096,11 +5100,11 @@ function validateBankCash(amt) {
         var bank_closing_label = label.text().replace(/,/g, '');
         var bank_closing = parseInt(bank_closing_label) || 0;
 
-        var untrkdLabel = $('#untrkd' + cash_type);
-        var bank_closing_untrkd_label = untrkdLabel.text().replace(/\D/g, '');
-        var untrkd_label = parseInt(bank_closing_untrkd_label) || 0;
+        // var untrkdLabel = $('#untrkd' + cash_type);
+        // var bank_closing_untrkd_label = untrkdLabel.text().replace(/\D/g, '');
+        // var untrkd_label = parseInt(bank_closing_untrkd_label) || 0;
 
-        let bankClosing = bank_closing + untrkd_label; 
+        let bankClosing = bank_closing ; 
 
         if (entered_amt > bankClosing) {
             alert('Enter Lesser Amount !');
